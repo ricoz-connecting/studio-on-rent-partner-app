@@ -7,7 +7,7 @@ class CustomTextButton extends StatelessWidget {
       this.bgColor,
       required this.text,
       this.textColor,
-      this.borderRadius=20,
+      this.borderRadius = 20,
       required this.ontap});
 
   final Color? bgColor;
@@ -23,7 +23,8 @@ class CustomTextButton extends StatelessWidget {
       // width: double.maxFinite,
       padding: EdgeInsets.symmetric(horizontal: 30, vertical: 8),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(borderRadius), color: colorScheme.primary),
+          borderRadius: BorderRadius.circular(borderRadius),
+          color: bgColor ?? colorScheme.primary),
       child: Center(
         child: Text(
           text,

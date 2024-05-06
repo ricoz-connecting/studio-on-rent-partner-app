@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rive/rive.dart';
 import 'package:studio_partner_app/src/commons/views/widgets/simple_app_bar.dart';
+import 'package:studio_partner_app/src/features/home/presentation/tabs/bookings.dart';
 import 'package:studio_partner_app/src/features/home/presentation/tabs/earning_page.dart';
 import 'package:studio_partner_app/src/features/home/presentation/tabs/chat_tab.dart';
 import 'package:studio_partner_app/src/features/home/presentation/tabs/stores_page.dart';
@@ -27,7 +28,7 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
       appBar: [
         SimpleAppBar(
-          title: 'Chat',
+          title: 'Bookings',
           centerTitle: false,
           bgColor: color.secondary,
           actions: [
@@ -64,7 +65,7 @@ class _HomeViewState extends State<HomeView> {
       ][selectedIndex],
       backgroundColor: color.surface,
       body: [
-        ChatTab(),
+        BookingPage(),
         ChatTab(),
         ChatTab(),
         StoresPage(),

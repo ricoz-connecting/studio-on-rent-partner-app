@@ -92,9 +92,10 @@ class _AddStorePageState extends State<AddStorePage> {
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 14,
-                              color: sealectedCategoryIndex == index
-                                  ? color.primary
-                                  : color.onSecondary,
+                              color:
+                                  selectedCategories.contains(categories[index])
+                                      ? color.primary
+                                      : color.onSecondary,
                             ),
                           ),
                         ),

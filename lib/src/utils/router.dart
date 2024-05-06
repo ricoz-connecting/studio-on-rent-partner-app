@@ -12,6 +12,7 @@ import 'package:studio_partner_app/src/features/help/presentation/pages/raise_ti
 import 'package:studio_partner_app/src/features/home/presentation/tabs/earning_page.dart';
 import 'package:studio_partner_app/src/features/earnings/presentation/tabs/review_page.dart';
 import 'package:studio_partner_app/src/features/home/presentation/pages/home_view.dart';
+import 'package:studio_partner_app/src/features/home/presentation/widgets/booking_details.dart';
 import 'package:studio_partner_app/src/features/profile/widgets/add_bank_details.dart';
 import 'package:studio_partner_app/src/features/profile/widgets/bank_details.dart';
 import 'package:studio_partner_app/src/features/profile/widgets/edit_profile_info.dart';
@@ -24,6 +25,10 @@ import 'package:studio_partner_app/src/features/stores/presentation/pages/add_st
 final GoRouter router = GoRouter(
   initialLocation: _cachedUser(),
   routes: [
+    GoRoute(
+      path: BookingDetails.routePath,
+      builder: (context, state) => const BookingDetails(),
+    ),
     GoRoute(
       path: RaiseTicketPage.routePath,
       builder: (context, state) => const RaiseTicketPage(),
