@@ -7,16 +7,17 @@ class CustomCheckBox extends StatefulWidget {
       {super.key,
       required this.handleCheckBox,
       required this.data,
-      this.minimumsize = MainAxisSize.min});
+      this.minimumsize = MainAxisSize.min,
+      required this.value});
   VoidCallback handleCheckBox;
   String data;
   MainAxisSize minimumsize;
+  bool value;
   @override
   State<CustomCheckBox> createState() => _CustomCheckBoxState();
 }
 
 class _CustomCheckBoxState extends State<CustomCheckBox> {
-  bool value = false;
   @override
   Widget build(BuildContext context) {
     ColorScheme color = Theme.of(context).colorScheme;
@@ -30,10 +31,10 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
         mainAxisSize: widget.minimumsize,
         children: [
           Checkbox(
-              value: value,
+              value: widget.value,
               onChanged: (val) {
                 setState(() {
-                  value = val!;
+                  widget.value = val!;
                 });
                 widget.handleCheckBox();
               }),

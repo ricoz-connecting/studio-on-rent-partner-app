@@ -1,18 +1,27 @@
+import 'dart:developer';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:rive/rive.dart';
+import 'package:studio_partner_app/src/commons/globals/register_dict.dart';
 import 'package:studio_partner_app/src/res/assets.dart';
 import 'package:studio_partner_app/src/utils/widgets/custom_extension_methods.dart';
 import 'package:studio_partner_app/src/utils/widgets/custom_text_field.dart';
 
+// ignore: must_be_immutable
 class Register4 extends StatefulWidget {
-  const Register4({super.key});
-
+   Register4({super.key, required this.textEditingController,this.backs,this.front});
+  final TextEditingController textEditingController ;
+Uint8List? front;
+  Uint8List? backs;
   @override
   State<Register4> createState() => _Register4State();
 }
 
 class _Register4State extends State<Register4> {
-  TextEditingController textEditingController = TextEditingController();
+  
+  
   @override
   Widget build(BuildContext context) {
     ColorScheme color = Theme.of(context).colorScheme;
@@ -37,25 +46,83 @@ class _Register4State extends State<Register4> {
               ),
               items: const [
                 DropdownMenuItem(
-                  value: 'adhaar',
+                  value: 'AdhaarCard',
                   child: Text('Adhaar Card'),
                 ),
                 DropdownMenuItem(
-                  value: 'pan',
+                  value: 'PANCard',
                   child: Text('PAN Card'),
                 ),
               ],
-              onChanged: (val) {}),
+              onChanged: (val) {
+                log(val.toString());
+                registerDict
+                    .addAll({"documentType": val} as Map<String, dynamic>);
+              }),
         ),
         CustomTextField(
-            validator: (val) => null,
+            validator: (val) {
+              if (val!.isEmpty) {
+                return 'Document No. can\'t be empty';
+              }
+              registerDict.addAll({
+                "documentNumber": val.trim(),
+              } as Map<String, dynamic>);
+              return null;
+            },
             hintText: 'Document No.',
-            controller: textEditingController,
+            controller: widget.textEditingController,
             icon: const Icon(Icons.edit_document)),
         Row(
           children: [
-            CustomImagePick(color: color, type: 'front'),
-            CustomImagePick(color: color, type: 'back')
+            Container(
+                    margin: widget.front != null ? EdgeInsets.all(9) : null,
+                    height: widget.front != null ? 100 : null,
+                    width: widget.front != null ? 100 : null,
+                    decoration: widget.front != null
+                        ? BoxDecoration(
+                            image: DecorationImage(
+                                image: MemoryImage(widget.front!), fit: BoxFit.cover))
+                        : null,
+                    child: widget.front != null
+                        ? null
+                        : CustomImagePick(color: color, type: 'front'))
+                .onTap(() async {
+              final file =
+                  await ImagePicker().pickImage(source: ImageSource.gallery);
+              if (file != null) {
+                final image = await file.readAsBytes();
+                setState(() {
+                  widget.front = image;
+                });
+                registerDict
+                    .addAll({"documentFront": image} as Map<String, dynamic>);
+              }
+            }),
+            Container(
+                    margin: widget.backs != null ? EdgeInsets.all(9) : null,
+                    height: widget.backs != null ? 100 : null,
+                    width: widget.backs != null ? 100 : null,
+                    decoration:widget. backs != null
+                        ? BoxDecoration(
+                            image: DecorationImage(
+                                image: MemoryImage(widget.backs!), fit: BoxFit.cover))
+                        : null,
+                    child: widget.backs != null
+                        ? null
+                        : CustomImagePick(color: color, type: 'back'))
+                .onTap(() async {
+              final file =
+                  await ImagePicker().pickImage(source: ImageSource.gallery);
+              if (file != null) {
+                final image = await file.readAsBytes();
+                setState(() {
+                  widget.backs = image;
+                });
+                registerDict
+                    .addAll({"documentFront": image} as Map<String, dynamic>);
+              }
+            })
           ],
         )
       ],

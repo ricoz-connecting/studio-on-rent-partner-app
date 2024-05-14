@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rive/rive.dart';
@@ -99,6 +100,7 @@ class _HomeViewState extends State<HomeView> {
       floatingActionButton: selectedIndex == 3
           ? FloatingActionButton(
               onPressed: () {
+                
                 context.push(AddStorePage.routePath);
               },
               shape: CircleBorder(),

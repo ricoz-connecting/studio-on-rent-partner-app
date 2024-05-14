@@ -19,11 +19,11 @@ class LoadingState extends AuthState {}
 //   LogginUserState({required this.response});
 // }
 
-// class AuthFailure extends AuthState {
-//   final String message;
+class AuthFailure extends AuthState {
+  final String message;
 
-//   AuthFailure({required this.message});
-// }
+  AuthFailure({required this.message});
+}
 
 // class AuthSuccess extends AuthState {
 //   final User user;
@@ -60,8 +60,14 @@ class LoadingState extends AuthState {}
 //   ManualLocationSuccessState({required this.models});
 // }
 
-// class OtpSuccessState extends AuthState {
-//   final String otp;
+class OtpSuccessState extends AuthState {
+  final String otp;
 
-//   OtpSuccessState({required this.otp});
-// }
+  OtpSuccessState({required this.otp});
+}
+
+class VerificationSuccess extends AuthState {
+  final String status;
+
+  VerificationSuccess({required this.status});
+}

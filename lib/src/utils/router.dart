@@ -1,10 +1,17 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:jwt_decode/jwt_decode.dart';
+import 'package:studio_partner_app/src/commons/globals/agent_details.dart';
 import 'package:studio_partner_app/src/commons/views/location_access/location_access_page.dart';
 import 'package:studio_partner_app/src/commons/views/splash_view/splash_view.dart';
+import 'package:studio_partner_app/src/features/auth/data/datasource/remote_data_source.dart';
+import 'package:studio_partner_app/src/features/auth/data/repository/auth_repository_impl.dart';
+import 'package:studio_partner_app/src/features/auth/domain/usecase/get_otp.dart';
 import 'package:studio_partner_app/src/features/auth/presentation/pages/login_page.dart';
+import 'package:studio_partner_app/src/features/auth/presentation/pages/otp/login_otp.dart';
 import 'package:studio_partner_app/src/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:studio_partner_app/src/features/chat/presentation/pages/chat_page.dart';
 import 'package:studio_partner_app/src/features/help/presentation/pages/help_page.dart';
@@ -20,11 +27,20 @@ import 'package:studio_partner_app/src/features/profile/widgets/complete_profile
 import 'package:studio_partner_app/src/features/profile/views/profile_page.dart';
 import 'package:studio_partner_app/src/features/register/presentation/pages/register.dart';
 import 'package:studio_partner_app/src/features/home/presentation/tabs/stores_page.dart';
+import 'package:studio_partner_app/src/features/register/presentation/tabs/verification_pending_page.dart';
 import 'package:studio_partner_app/src/features/stores/presentation/pages/add_store_page.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: _cachedUser(),
   routes: [
+    GoRoute(
+      path: VerificationRequestPage.routePath,
+      builder: (context, state) => const VerificationRequestPage(),
+    ),
+    GoRoute(
+      path: LoginOtp.routePath,
+      builder: (context, state) => const LoginOtp(),
+    ),
     GoRoute(
       path: BookingDetails.routePath,
       builder: (context, state) => const BookingDetails(),
@@ -118,17 +134,11 @@ final GoRouter router = GoRouter(
 _cachedUser() {
   final box = Hive.box('USER');
   if (box.isNotEmpty) {
-    final token = box.get('token');
-    if (token != null) {
-      final bool val = Jwt.isExpired(token);
-
-      if (val) {
-        return SplashView.routePath;
-      } else {
-        final userDetails = Jwt.parseJwt(token);
-        // user = User.fromMap(userDetails);
-        // return HomeView.routePath;
-      }
+    final agentId = box.get('agentId');
+    log(agentId.toString());
+    if (agentId != null) {
+      globalAgentId = agentId;
+      return VerificationRequestPage.routePath;
     } else {
       return SplashView.routePath;
     }

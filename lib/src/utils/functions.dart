@@ -1,5 +1,7 @@
+import 'dart:developer';
 
-
+import 'package:geocoding/geocoding.dart';
+import 'package:studio_partner_app/src/commons/params/register_params.dart';
 // locationFromAdd(String location) async {
 //   try {
 //     final localLocation =
@@ -16,10 +18,17 @@
 
 // locationFromAddforStudio(String location) async {
 //   final localLocation =
-//       await GeocodingPlatform.instance!.locationFromAddress(location);
+//       await GeocodingPlatform.instance!.placemarkFromCoordinates(location);
 //   final latitude = localLocation.first.latitude;
 //   final longitude = localLocation.first.longitude;
 //   print(latitude);
 //   print(longitude);
 //   return [latitude, longitude];
 // }
+
+DocumentType stringToEnum(String value) {
+  log(value);
+  return DocumentType.values.firstWhere(
+    (e) => e.toString().split('.')[1] == value,
+  );
+}

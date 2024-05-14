@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart';
 // ignore: depend_on_referenced_packages
 import 'package:meta/meta.dart';
+import 'package:studio_partner_app/src/features/auth/domain/usecase/get_otp.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -13,21 +14,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   // final LoginUserWithEmailAndPassword _loginUserWithEmailAndPassword;
   // final GetLocation _getLocation;
   // final LoginWithOtp _loginWithOtp;
-  // final SendOtp _sendOtp;
-
-  AuthBloc():
-      // {required ManualLocation manualLocation,
-      // required LoginWithOtp loginWithOtp,
-      // required SendOtp sendOtp,
-      // required CreateUserWithEmailAndPassword createUserWithEmailAndPassword,
-      // required LoginUserWithEmailAndPassword loginUserWithEmailAndPassword,
-      // required GetLocation getLocation})
-      // : _manualLocation = manualLocation,
-      //   _sendOtp = sendOtp,
-      //   _loginWithOtp = loginWithOtp,
-      //   _createUserWithEmailAndPassword = createUserWithEmailAndPassword,
-      //   _loginUserWithEmailAndPassword = loginUserWithEmailAndPassword,
-      //   _getLocation = getLocation,
+  final GetOtp _getOtp;
+  final IsVerified _isVerified;
+  AuthBloc({required GetOtp getOtp, required IsVerified isVerified})
+      : _getOtp = getOtp,
+        _isVerified = isVerified,
         super(AuthInitial()) {
     on<AuthEvent>((event, emit) {
       emit(LoadingState());
@@ -55,7 +46,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 // // Fetching User Location Automatically
 //     on<FetchUserLocation>(
 //       (event, emit) async {
-      
+
 //         final res = await _getLocation.call(event.params);
 
 //         res.fold((l) => emit(LocationFailure(message: l.message)),
@@ -79,12 +70,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 //       },
 //     );
 
-//     on<SendOtpEvent>(
-//       (event, emit) async {
-//         final res = await _sendOtp.call(event.emailOrPhone);
-//         res.fold((l) => emit(AuthFailure(message: l.message)),
-//             (r) => emit(OtpSuccessState(otp: r)));
-//       },
-//     );
+    on<GetOTP>(
+      (event, emit) async {
+        final res = await _getOtp.call(event.emailOrPhone);
+        res.fold((l) => emit(AuthFailure(message: l.message)),
+            (r) => emit(OtpSuccessState(otp: r)));
+      },
+    );
+    on<Verification>(
+      (event, emit) async {
+        emit(LoadingState());
+        final res = await isVerified.call(event.agentId);
+        res.fold((l) => emit(AuthFailure(message: l.message)),
+            (r) => emit(VerificationSuccess(status: r)));
+      },
+    );
   }
 }

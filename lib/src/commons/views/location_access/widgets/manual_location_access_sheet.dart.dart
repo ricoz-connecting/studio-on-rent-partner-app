@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:studio_partner_app/src/core/models/location_model.dart';
 import 'package:studio_partner_app/src/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:studio_partner_app/src/features/stores/data/model/location_model.dart';
 import 'package:studio_partner_app/src/utils/widgets/custom_extension_methods.dart';
 import 'package:studio_partner_app/src/utils/widgets/form_text_field.dart';
 
@@ -50,7 +50,7 @@ class _LoactionSearchingWidgetState extends State<LoactionSearchingWidget> {
     setState(() {
       filteredLocations = allLocations
           .where((location) =>
-              location.name.toLowerCase().contains(query.toLowerCase()))
+              location.location.toLowerCase().contains(query.toLowerCase()))
           .toList();
     });
   }
@@ -111,7 +111,7 @@ class _LoactionSearchingWidgetState extends State<LoactionSearchingWidget> {
                             //   context.push(HomeView.routePath);
                             // }
                           },
-                          child: Text(filteredLocations[index].name)),
+                          child: Text(filteredLocations[index].location)),
                     ),
                   ),
                 ),

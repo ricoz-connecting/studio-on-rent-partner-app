@@ -1,5 +1,3 @@
-
-
 import 'dart:async';
 
 import 'package:alt_sms_autofill/alt_sms_autofill.dart';
@@ -7,9 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:otp_fields/otp_fields.dart';
+import 'package:studio_partner_app/src/commons/globals/register_dict.dart';
+import 'package:studio_partner_app/src/commons/views/location_access/location_access_page.dart';
+import 'package:studio_partner_app/src/commons/views/onboarding/widgets/page1.dart';
+import 'package:studio_partner_app/src/commons/views/onboarding/widgets/page2.dart';
 import 'package:studio_partner_app/src/commons/views/widgets/simple_app_bar.dart';
 import 'package:studio_partner_app/src/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:studio_partner_app/src/features/home/presentation/pages/home_view.dart';
+import 'package:studio_partner_app/src/features/register/presentation/pages/register.dart';
 import 'package:studio_partner_app/src/res/assets.dart';
 import 'package:timer_button/timer_button.dart';
 
@@ -83,14 +88,11 @@ class _LoginOtpState extends State<LoginOtp> {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           // TODO: implement listener
-          // if (state is AuthFailure) {
-          //   ScaffoldMessenger.of(context).removeCurrentSnackBar();
-          //   ScaffoldMessenger.of(context)
-          //       .showSnackBar(SnackBar(content: Text(state.message)));
-          // } else if (state is AuthSuccess) {
-          //   user = state.user;
-          //   context.go(HomeView.routePath);
-          // }
+          if (state is AuthFailure) {
+            ScaffoldMessenger.of(context).removeCurrentSnackBar();
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(state.message)));
+          }
         },
         builder: (context, state) {
           return Form(
@@ -156,52 +158,48 @@ class _LoginOtpState extends State<LoginOtp> {
                             height: 60,
                             width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
-                                gradient: const LinearGradient(colors: [
-                                  Color.fromARGB(255, 70, 155, 225),
-                                  Color.fromARGB(255, 38, 127, 201),
-                                  Colors.blue
-                                ]),
+                                color: color.primary,
                                 borderRadius: BorderRadius.circular(20)),
                             child: TextButton(
                                 onPressed: () async {
-                                  // // final value = _controller.text.trim();
-                                  // // if (_formKey.currentState!.validate()) {
-                                  // //   requestedOtp = !requestedOtp;
-                                  // //   editable = true;
-                                  // //   context
-                                  // //       .read<AuthBloc>()
-                                  // //       .add(SendOtpEvent(emailOrPhone: value));
+                                  final value = _controller.text.trim();
+                                  if (_formKey.currentState!.validate()) {
+                                    requestedOtp = !requestedOtp;
+                                    editable = true;
+                                    context
+                                        .read<AuthBloc>()
+                                        .add(GetOTP(emailOrPhone: value));
 
-                                  // //   setState(() {});
-                                  // //   await initSmsListener();
-                                  // } else {
-                                  //   showDialog(
-                                  //       context: context,
-                                  //       builder: (context) => Dialog(
-                                  //             child: Container(
-                                  //               height: 100,
-                                  //               child: Column(
-                                  //                 children: [
-                                  //                   Padding(
-                                  //                     padding:
-                                  //                         const EdgeInsets.all(
-                                  //                             8.0),
-                                  //                     child: Text(
-                                  //                       'Error',
-                                  //                       style: TextStyle(
-                                  //                           fontSize: 20,
-                                  //                           color: color.error),
-                                  //                     ),
-                                  //                   ),
-                                  //                   SizedBox(
-                                  //                     height: 20,
-                                  //                   ),
-                                  //                   Text('Invalid Number')
-                                  //                 ],
-                                  //               ),
-                                  //             ),
-                                  //           ));
-                                  // }
+                                    setState(() {});
+                                    await initSmsListener();
+                                  } else {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) => Dialog(
+                                              child: SizedBox(
+                                                height: 100,
+                                                child: Column(
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Text(
+                                                        'Error',
+                                                        style: TextStyle(
+                                                            fontSize: 20,
+                                                            color: color.error),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                    const Text('Invalid Number')
+                                                  ],
+                                                ),
+                                              ),
+                                            ));
+                                  }
                                 },
                                 child: const Text(
                                   'Send Otp',
@@ -220,18 +218,12 @@ class _LoginOtpState extends State<LoginOtp> {
                             context: context,
                             numberOfFields: 6,
                             onCodeChanged: (otp) {
-                              // if (state is OtpSuccessState) {
-                              //   if (otp == state.otp) {
-                              //     userDetails.addAll(
-                              //         {'phoneNumber': _controller.text.trim()});
-                              //     newUser
-                              //         ? context.go(LocationAccessPage.routePath)
-                              //         : context.read<AuthBloc>().add(
-                              //             LoginWithOtpEvent(
-                              //                 emailOrPhone:
-                              //                     _controller.text.trim()));
-                              //   }
-                              // }
+                              if (state is OtpSuccessState &&
+                                  otp == state.otp) {
+                                registerDict.addAll(
+                                    {"phoneNumber": _controller.text.trim()});
+                                context.push(Register.routePath);
+                              }
                             })
                         : const SizedBox(),
                     requestedOtp
@@ -246,17 +238,21 @@ class _LoginOtpState extends State<LoginOtp> {
                                 label: 'Resend Otp',
                                 onPressed: () {
                                   final value = _controller.text.trim();
-                                  // context
-                                  //     .read<AuthBloc>()
-                                  //     .add(SendOtpEvent(emailOrPhone: value));
+                                  context
+                                      .read<AuthBloc>()
+                                      .add(GetOTP(emailOrPhone: value));
 
                                   setState(() {});
                                 },
-                                timeOutInSeconds: 25))
+                                timeOutInSeconds: 60))
                         : const SizedBox.shrink(),
                     SizedBox(
                       height: 500,
-                     
+                      child: PageView(
+                        controller: _pageController,
+                        allowImplicitScrolling: true,
+                        children: [Page1(), Page2()],
+                      ),
                     )
                   ],
                 ),

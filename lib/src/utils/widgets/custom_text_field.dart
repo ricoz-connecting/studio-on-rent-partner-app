@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-class CustomTextField extends StatelessWidget {
+class CustomTextField extends StatefulWidget {
   final TextEditingController controller;
   final String? Function(String?) validator;
   final String hintText;
@@ -14,11 +14,13 @@ class CustomTextField extends StatelessWidget {
   final double? borderRadius;
   final TextInputType textInputType;
   final int? length;
+  final Function(String)? onchanged;
   const CustomTextField(
       {super.key,
       required this.validator,
       required this.hintText,
       required this.controller,
+      this.onchanged,
       this.icon,
       this.minlines,
       this.maxlines,
@@ -30,23 +32,30 @@ class CustomTextField extends StatelessWidget {
       this.borderRadius});
 
   @override
+  State<CustomTextField> createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<CustomTextField> {
+  @override
   Widget build(BuildContext context) {
     ColorScheme color = Theme.of(context).colorScheme;
 
     return Container(
-      width: width,
-      padding: EdgeInsets.only(left: left, right: right, top: 18),
+      width: widget.width,
+      padding: EdgeInsets.only(left: widget.left, right: widget.right, top: 18),
       child: TextFormField(
-        maxLength: length,
-        controller: controller,
-        validator: validator,
-        minLines: minlines,
-        maxLines: maxlines,
+        onChanged: widget.onchanged,
+        maxLength: widget.length,
+        controller: widget.controller,
+        validator: widget.validator,
+        minLines: widget.minlines,
+        maxLines: widget.maxlines,
+        keyboardType: widget.textInputType,
         decoration: InputDecoration(
-            prefixIcon: icon,
-            hintText: hintText,
+            prefixIcon: widget.icon,
+            hintText: widget.hintText,
             border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(borderRadius ?? 15),
+                borderRadius: BorderRadius.circular(widget.borderRadius ?? 15),
                 borderSide: BorderSide(
                   color: color.secondary,
                 ))),

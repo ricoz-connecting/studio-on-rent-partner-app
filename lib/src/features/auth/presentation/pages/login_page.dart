@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/src/commons/views/location_access/location_access_page.dart';
-import 'package:studio_partner_app/src/commons/views/otp/login_otp.dart';
+import 'package:studio_partner_app/src/features/auth/presentation/pages/otp/login_otp.dart';
 import 'package:studio_partner_app/src/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:studio_partner_app/src/features/auth/presentation/pages/login_page.dart';
 import 'package:studio_partner_app/src/features/auth/presentation/pages/sign_up_page.dart';

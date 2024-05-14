@@ -33,8 +33,15 @@ sealed class AuthEvent {}
 //   LoginWithOtpEvent({required this.emailOrPhone});
 // }
 
-// class SendOtpEvent extends AuthEvent {
-//   final String emailOrPhone;
+class GetOTP extends AuthEvent {
+  final String emailOrPhone;
 
-//   SendOtpEvent({required this.emailOrPhone});
-// }
+  GetOTP({required this.emailOrPhone});
+}
+
+class Verification extends AuthEvent {
+  final String agentId;
+
+  Verification({required this.agentId});
+
+}

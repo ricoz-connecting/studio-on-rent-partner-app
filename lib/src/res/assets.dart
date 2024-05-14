@@ -20,6 +20,7 @@ class ImageAssets {
   static const sampleImagePath = "$_base/image.png";
 
   static const profileImageJpeg = "$_base/profile.jpeg";
+  static const profileImagepng = "$_base/profile.png";
 
   // images
 
