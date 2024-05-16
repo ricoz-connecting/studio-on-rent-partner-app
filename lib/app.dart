@@ -6,6 +6,11 @@ import 'package:studio_partner_app/src/features/auth/data/datasource/remote_data
 import 'package:studio_partner_app/src/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:studio_partner_app/src/features/auth/domain/usecase/get_otp.dart';
 import 'package:studio_partner_app/src/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:studio_partner_app/src/features/home/data/datasource/home_remote_data_source.dart';
+import 'package:studio_partner_app/src/features/home/data/repository/booking_repository_impl.dart';
+import 'package:studio_partner_app/src/features/home/domain/usecase/get_schedules.dart';
+import 'package:studio_partner_app/src/features/home/domain/usecase/update_schedule.dart';
+import 'package:studio_partner_app/src/features/home/presentation/bloc/schedule_bloc/schedules_bloc.dart';
 import 'package:studio_partner_app/src/features/register/data/datasource/remote_data_source.dart';
 import 'package:studio_partner_app/src/features/register/data/repository/register_repository_impl.dart';
 import 'package:studio_partner_app/src/features/register/domain/usecase/resgister_usecase.dart';
@@ -14,10 +19,14 @@ import 'package:studio_partner_app/src/features/settings/provider/theme_provider
 import 'package:studio_partner_app/src/features/stores/data/datasource/remote_data_source.dart';
 import 'package:studio_partner_app/src/features/stores/data/repository/add_studio_repository_impl.dart';
 import 'package:studio_partner_app/src/features/stores/domain/usecase/get_category_data.dart';
+import 'package:studio_partner_app/src/features/stores/domain/usecase/get_studio_details.dart';
 import 'package:studio_partner_app/src/features/stores/domain/usecase/get_user_location.dart';
+import 'package:studio_partner_app/src/features/stores/domain/usecase/post_studio_request.dart';
 import 'package:studio_partner_app/src/features/stores/presentation/bloc/category_bloc/category_bloc.dart';
 import 'package:studio_partner_app/src/features/stores/presentation/bloc/location_bloc/location_bloc.dart';
 import 'package:studio_partner_app/src/features/stores/presentation/bloc/map_bloc/map_bloc.dart';
+import 'package:studio_partner_app/src/features/stores/presentation/bloc/request_bloc/request_bloc.dart';
+import 'package:studio_partner_app/src/features/stores/presentation/bloc/studio_bloc/studio_bloc.dart';
 import 'package:studio_partner_app/src/utils/router.dart';
 
 class App extends ConsumerWidget {
@@ -28,6 +37,24 @@ class App extends ConsumerWidget {
     final themeModeState = ref.watch(themeProvider);
     return MultiBlocProvider(
       providers: [
+        BlocProvider(
+            create: (context) => StudioBloc(
+                getStudioDetails: GetStudioDetails(
+                    addStudioRepository: AddStudioRepositoryImpl(
+                        remoteDataSource: StoreRemoteDataSourceImpl())))),
+        BlocProvider(
+            create: (context) => SchedulesBloc(
+                updateSchedule: UpdateSchedule(
+                    bookingsRepository: BookingsRepositoryImpl(
+                        homeRemoteDataSource: HomeRemoteDataSourceImpl())),
+                getSchedules: GetSchedules(
+                    bookingsRepository: BookingsRepositoryImpl(
+                        homeRemoteDataSource: HomeRemoteDataSourceImpl())))),
+        BlocProvider(
+            create: (context) => RequestBloc(
+                postStudioRequest: PostStudioRequest(
+                    addStudioRepository: AddStudioRepositoryImpl(
+                        remoteDataSource: StoreRemoteDataSourceImpl())))),
         BlocProvider(
             create: (context) => LocationBloc(
                 getUserLocation: GetUserLocation(

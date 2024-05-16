@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:studio_partner_app/src/commons/globals/agent_details.dart';
 import 'package:studio_partner_app/src/commons/views/widgets/simple_app_bar.dart';
 import 'package:studio_partner_app/src/features/help/presentation/pages/help_page.dart';
 import 'package:studio_partner_app/src/features/profile/widgets/bank_details.dart';
@@ -39,6 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     SizedBox(
                         child: CircleAvatar(
                       radius: 50,
+                      backgroundImage: MemoryImage(globalAgentModel!.photoUrl),
                       backgroundColor: color.tertiary,
                     )),
                     Align(
@@ -52,7 +54,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
             ),
-            const InfoBoxes(
+            InfoBoxes(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -60,8 +62,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   Row(
                     children: [
                       Text(
-                        "Hi,John",
-                        style: TextStyle(
+                        "Hi,${globalAgentModel!.name}",
+                        style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 14),
                       ),
                     ],
@@ -79,14 +81,14 @@ class _ProfilePageState extends State<ProfilePage> {
                         width: 10,
                       ),
                       Text(
-                        "+91 XXXXXXXXX",
+                        globalAgentModel!.phoneNumber,
                       ),
                     ],
                   ),
                 ],
               ),
             ),
-            const InfoBoxes(
+            InfoBoxes(
               child: Row(
                 children: [
                   Column(
@@ -99,7 +101,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             fontWeight: FontWeight.w400, fontSize: 10),
                       ),
                       Text(
-                        "ABC XYZ Restaurant",
+                        globalAgentModel!.businessname ?? 'Not Provided',
                         style: TextStyle(
                             fontWeight: FontWeight.w400, fontSize: 13),
                       ),
@@ -109,7 +111,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             fontWeight: FontWeight.w400, fontSize: 10),
                       ),
                       Text(
-                        "111, ABC Apartments, XYZ Road,New Delhi, Delhi",
+                        globalAgentModel!.address,
                         style: TextStyle(
                             fontWeight: FontWeight.w400, fontSize: 13),
                       ),
@@ -118,26 +120,12 @@ class _ProfilePageState extends State<ProfilePage> {
                         style: TextStyle(
                             fontWeight: FontWeight.w400, fontSize: 10),
                       ),
-                      Text(
-                        "Chef Service (One Time, Occasion)",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400, fontSize: 13),
-                      ),
-                      Text(
-                        "Add Ons (Bartenders, Waiters)",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400, fontSize: 13),
-                      ),
-                      Text(
-                        "Tiffin Services",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400, fontSize: 13),
-                      ),
-                      Text(
-                        "Homemaker Services",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400, fontSize: 13),
-                      ),
+                      for (var i in globalAgentModel!.service)
+                        Text(
+                          i,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w400, fontSize: 13),
+                        ),
                     ],
                   ),
                 ],

@@ -8,6 +8,7 @@ class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool centerTitle;
   final Widget? titleWidget;
   final PreferredSizeWidget? bottom;
+  final bool showBackButton;
   final Color? bgColor;
   const SimpleAppBar(
       {Key? key,
@@ -17,7 +18,8 @@ class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.titleWidget,
       this.bottom,
       this.bgColor,
-      this.centerTitle = true})
+      this.centerTitle = true,
+      this.showBackButton = false})
       : super(key: key);
 
   @override
@@ -36,30 +38,32 @@ class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
               fontSize: 18,
             ),
           ),
-      leading: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: GestureDetector(
-          onTap: leadingCallback ?? () => Navigator.pop(context),
-          child: CircleAvatar(
-            backgroundColor: color.secondary,
-            // width: 20,
-            // height: 20,
-            // decoration: BoxDecoration(
-            //   shape: BoxShape.circle,
-            //   boxShadow: [
-            //     BoxShadow(
-            //       color: ColorAssets.lightGray.withOpacity(0.5),
-            //       blurRadius: 1,
-            //     ),
-            //   ],
-            // ),
-            child: const Icon(
-              Icons.arrow_back,
-              size: 20,
-            ),
-          ),
-        ),
-      ),
+      leading: showBackButton
+          ? Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: GestureDetector(
+                onTap: leadingCallback ?? () => Navigator.pop(context),
+                child: CircleAvatar(
+                  backgroundColor: color.secondary,
+                  // width: 20,
+                  // height: 20,
+                  // decoration: BoxDecoration(
+                  //   shape: BoxShape.circle,
+                  //   boxShadow: [
+                  //     BoxShadow(
+                  //       color: ColorAssets.lightGray.withOpacity(0.5),
+                  //       blurRadius: 1,
+                  //     ),
+                  //   ],
+                  // ),
+                  child: const Icon(
+                    Icons.arrow_back,
+                    size: 20,
+                  ),
+                ),
+              ),
+            )
+          : null,
       bottom: bottom,
       actions: actions,
     );

@@ -1,41 +1,54 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 
 class AgentModel {
   final String name;
-  final String uuid;
+  final String agentId;
   final String phoneNumber;
-  final bool verified;
+  final String isVerified;
   final String? businessname;
   final String address;
   final String city;
   final String pincode;
   final String state;
   final List<String> service;
-  final List<String> addons;
+
   final Uint8List photoUrl;
-  AgentModel({
-    required this.name,
-    required this.uuid,
-    required this.phoneNumber,
-    required this.verified,
-    this.businessname,
-    required this.address,
-    required this.city,
-    required this.pincode,
-    required this.state,
-    required this.service,
-    required this.addons,
-    required this.photoUrl,
-  });
+  final String status;
+  AgentModel(
+      {required this.name,
+      required this.agentId,
+      required this.phoneNumber,
+      required this.isVerified,
+      this.businessname,
+      required this.address,
+      required this.city,
+      required this.pincode,
+      required this.state,
+      required this.service,
+      required this.photoUrl,
+      this.status = 'owner'});
+
+  static empty() => AgentModel(
+      name: 'name',
+      agentId: 'agentId',
+      phoneNumber: 'phoneNumber',
+      isVerified: 'isVerified',
+      address: 'address',
+      city: 'city',
+      pincode: 'pincode',
+      state: 'state',
+      service: ['service'],
+      photoUrl: Uint8List.fromList([]));
 
   AgentModel copyWith({
     String? name,
-    String? uuid,
+    String? agentId,
     String? phoneNumber,
-    bool? verified,
+    String? isVerified,
     String? businessname,
     String? address,
     String? city,
@@ -47,57 +60,49 @@ class AgentModel {
   }) {
     return AgentModel(
       name: name ?? this.name,
-      uuid: uuid ?? this.uuid,
+      agentId: agentId ?? this.agentId,
       phoneNumber: phoneNumber ?? this.phoneNumber,
-      verified: verified ?? this.verified,
+      isVerified: isVerified ?? this.isVerified,
       businessname: businessname ?? this.businessname,
       address: address ?? this.address,
       city: city ?? this.city,
       pincode: pincode ?? this.pincode,
       state: state ?? this.state,
       service: service ?? this.service,
-      addons: addons ?? this.addons,
       photoUrl: photoUrl ?? this.photoUrl,
     );
   }
 
-
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'name': name,
-      'uuid': uuid,
+      'agentId': agentId,
       'phoneNumber': phoneNumber,
-      'verified': verified,
+      'isVerified': isVerified,
       'businessname': businessname,
       'address': address,
       'city': city,
       'pincode': pincode,
       'state': state,
       'service': service,
-      'addons': addons,
       'photoUrl': photoUrl.toString(),
     };
   }
 
   factory AgentModel.fromMap(Map<String, dynamic> map) {
+    log(map['photoUrl'].toString());
     return AgentModel(
       name: map['name'] as String,
-      uuid: map['uuid'] as String,
-      phoneNumber: map['phoneNumber'] as String,
-      verified: map['verified'] as bool,
-      businessname:
-          map['businessname'] != null ? map['businessname'] as String : null,
+      agentId: map['agentId'] as String,
+      phoneNumber: map['number'] as String,
+      isVerified: map['isVerified'] as String,
+      businessname: map['businessName'],
       address: map['address'] as String,
       city: map['city'] as String,
       pincode: map['pincode'] as String,
       state: map['state'] as String,
-      service: List<String>.from(
-        (map['service'] as List<String>),
-      ),
-      addons: List<String>.from(
-        (map['addons'] as List<String>),
-      ),
-      photoUrl: Uint8List.fromList(map['photoUrl']),
+      service: List<String>.from(map['services']),
+      photoUrl: Uint8List.fromList(List<int>.from(map['photoUrl']['data'])),
     );
   }
 
@@ -108,29 +113,21 @@ class AgentModel {
 
   @override
   String toString() {
-    return 'AgentModel(name: $name, uuid: $uuid, phoneNumber: $phoneNumber, verified: $verified, businessname: $businessname, address: $address, city: $city, pincode: $pincode, state: $state, service: $service, addons: $addons, photoUrl: $photoUrl)';
-  }
-
-  @override
-  bool operator ==(covariant AgentModel other) {
-    if (identical(this, other)) return true;
-
-    return other.uuid == uuid;
+    return 'AgentModel(name: $name, agentId: $agentId, phoneNumber: $phoneNumber, isVerified: $isVerified, businessname: $businessname, address: $address, city: $city, pincode: $pincode, state: $state, service: $service, photoUrl: $photoUrl)';
   }
 
   @override
   int get hashCode {
     return name.hashCode ^
-        uuid.hashCode ^
+        agentId.hashCode ^
         phoneNumber.hashCode ^
-        verified.hashCode ^
+        isVerified.hashCode ^
         businessname.hashCode ^
         address.hashCode ^
         city.hashCode ^
         pincode.hashCode ^
         state.hashCode ^
         service.hashCode ^
-        addons.hashCode ^
         photoUrl.hashCode;
   }
 }

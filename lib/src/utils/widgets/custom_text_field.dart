@@ -14,6 +14,7 @@ class CustomTextField extends StatefulWidget {
   final double? borderRadius;
   final TextInputType textInputType;
   final int? length;
+  final Widget? suffix;
   final Function(String)? onchanged;
   const CustomTextField(
       {super.key,
@@ -21,6 +22,7 @@ class CustomTextField extends StatefulWidget {
       required this.hintText,
       required this.controller,
       this.onchanged,
+      this.suffix,
       this.icon,
       this.minlines,
       this.maxlines,
@@ -52,6 +54,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         maxLines: widget.maxlines,
         keyboardType: widget.textInputType,
         decoration: InputDecoration(
+          suffix: widget.suffix,
             prefixIcon: widget.icon,
             hintText: widget.hintText,
             border: OutlineInputBorder(

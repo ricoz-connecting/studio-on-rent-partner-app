@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rive/rive.dart';
+import 'package:studio_partner_app/src/commons/globals/agent_details.dart';
 import 'package:studio_partner_app/src/commons/views/widgets/simple_app_bar.dart';
+import 'package:studio_partner_app/src/features/home/presentation/bloc/schedule_bloc/schedules_bloc.dart';
 import 'package:studio_partner_app/src/features/home/presentation/tabs/bookings.dart';
 import 'package:studio_partner_app/src/features/home/presentation/tabs/earning_page.dart';
 import 'package:studio_partner_app/src/features/home/presentation/tabs/chat_tab.dart';
@@ -23,6 +25,14 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   int selectedIndex = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<SchedulesBloc>().add(GetScheduleEvent(agentId: globalAgentId));
+  }
+
   @override
   Widget build(BuildContext context) {
     ColorScheme color = Theme.of(context).colorScheme;
@@ -39,7 +49,11 @@ class _HomeViewState extends State<HomeView> {
                   onTap: () {
                     context.push(ProfilePage.routePath);
                   },
-                  child: CircleAvatar()),
+                  child: CircleAvatar(
+                    backgroundImage: MemoryImage(
+                      globalAgentModel!.photoUrl,
+                    ),
+                  )),
             )
           ],
         ),
@@ -49,12 +63,7 @@ class _HomeViewState extends State<HomeView> {
           bgColor: color.secondary,
         ),
         SimpleAppBar(
-          title: 'Chat',
-          centerTitle: false,
-          bgColor: color.secondary,
-        ),
-        SimpleAppBar(
-          title: 'Chat',
+          title: 'Stores',
           centerTitle: false,
           bgColor: color.secondary,
         ),
@@ -67,7 +76,6 @@ class _HomeViewState extends State<HomeView> {
       backgroundColor: color.surface,
       body: [
         BookingPage(),
-        ChatTab(),
         ChatTab(),
         StoresPage(),
         EarningPage()
@@ -87,9 +95,6 @@ class _HomeViewState extends State<HomeView> {
           BottomNavigationBarItem(
               icon: SvgPicture.asset(ImageAssets.home), label: "Bookings"),
           BottomNavigationBarItem(
-              icon: SvgPicture.asset(ImageAssets.createStudio),
-              label: "Create Studio"),
-          BottomNavigationBarItem(
               icon: SvgPicture.asset(ImageAssets.chat), label: "Chat"),
           BottomNavigationBarItem(
               icon: SvgPicture.asset(ImageAssets.stores), label: "Stores"),
@@ -97,10 +102,9 @@ class _HomeViewState extends State<HomeView> {
               icon: SvgPicture.asset(ImageAssets.wallet), label: "Earnings"),
         ],
       ),
-      floatingActionButton: selectedIndex == 3
+      floatingActionButton: selectedIndex == 2
           ? FloatingActionButton(
               onPressed: () {
-                
                 context.push(AddStorePage.routePath);
               },
               shape: CircleBorder(),

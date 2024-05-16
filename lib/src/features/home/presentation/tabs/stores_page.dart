@@ -11,7 +11,7 @@ class StoresPage extends StatefulWidget {
 }
 
 class _StoresPageState extends State<StoresPage> {
-  List<String> categories = ["All", "Photo", "Misc"];
+  List<String> categories = ["All", "Verified", "Pending"];
   int sealectedCategoryIndex = 0;
   @override
   Widget build(BuildContext context) {

@@ -80,7 +80,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<Verification>(
       (event, emit) async {
         emit(LoadingState());
-        final res = await isVerified.call(event.agentId);
+        final res = await _isVerified.call(event.agentId);
         res.fold((l) => emit(AuthFailure(message: l.message)),
             (r) => emit(VerificationSuccess(status: r)));
       },

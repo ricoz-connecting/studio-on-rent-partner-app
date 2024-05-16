@@ -29,10 +29,19 @@ import 'package:studio_partner_app/src/features/register/presentation/pages/regi
 import 'package:studio_partner_app/src/features/home/presentation/tabs/stores_page.dart';
 import 'package:studio_partner_app/src/features/register/presentation/tabs/verification_pending_page.dart';
 import 'package:studio_partner_app/src/features/stores/presentation/pages/add_store_page.dart';
+import 'package:studio_partner_app/src/features/stores/presentation/pages/studio_page.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: _cachedUser(),
   routes: [
+    GoRoute(
+        path: BookingView.routePath,
+        builder: (context, state) {
+         final extra = state.extra as Map;
+          return  BookingView(
+            id: extra['id']??'2345422',
+          );
+        }),
     GoRoute(
       path: VerificationRequestPage.routePath,
       builder: (context, state) => const VerificationRequestPage(),

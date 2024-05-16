@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rive/rive.dart';
 import 'package:studio_partner_app/src/core/themes/theme.dart';
+import 'package:studio_partner_app/src/features/auth/presentation/pages/otp/login_otp.dart';
 import 'package:studio_partner_app/src/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:studio_partner_app/src/res/assets.dart';
 
@@ -20,7 +21,7 @@ class _SplashViewState extends State<SplashView> {
     super.initState();
     Future.delayed(const Duration(seconds: 2)).then((value) {
       // context.go(HomeView.routePath);
-      context.go(SignUpPage.routePath);
+      context.go(LoginOtp.routePath);
     });
   }
 

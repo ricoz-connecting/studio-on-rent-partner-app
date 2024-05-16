@@ -1,5 +1,5 @@
 class AppUrls {
-  static const baseUrl = "https://3be0-103-24-84-14.ngrok-free.app";
+  static const baseUrl = "https://e620-103-24-84-14.ngrok-free.app";
   static const otpEndPoint = '/api/otp';
   static const categoryEndpoint = '/api/agent/category';
   static const locationEndPoint = '/api/agent/city';
@@ -20,10 +20,19 @@ class AppUrls {
   static const delete = '/api/agent/delete';
   static const help = '/api/agent/help';
   // AGENT
+  static const studioRequestEndPoint = '/api/agent/studio';
   static const registerEndpoint = '/api/agent/register';
   static const isVerified = '/api/agent/verification';
+  static const schedulesUpdateEndPoint = "/api/agent/schedulesUpdate";
 }
 
 class AppFailures {
   static const String apiFailure = "API EXCEPTION PLEASE TRY AGAIN";
+}
+
+class ScheduleStatus {
+  static const accepted = "accepted";
+  static const pending = "pending";
+  static const delivered = "delivered";
+  static const rejected = "rejected";
 }

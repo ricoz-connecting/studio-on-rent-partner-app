@@ -9,11 +9,14 @@ class StudioParams {
   final String category;
   final String location;
   final String address;
-  final String tags;
+  final List<String> tags;
   final String description;
   final double latitude;
   final double longitude;
   final List<String> agents;
+  final List<Uint8List> gallary;
+  final List<Uint8List> frontImage;
+  final Uint8List cover;
   StudioParams({
     required this.name,
     required this.rent,
@@ -25,7 +28,12 @@ class StudioParams {
     required this.latitude,
     required this.longitude,
     required this.agents,
+    required this.gallary,
+    required this.frontImage,
+    required this.cover,
   });
+
+
 
   StudioParams copyWith({
     String? name,
@@ -33,11 +41,14 @@ class StudioParams {
     String? category,
     String? location,
     String? address,
-    String? tags,
+    List<String>? tags,
     String? description,
     double? latitude,
     double? longitude,
     List<String>? agents,
+    List<Uint8List>? gallary,
+    List<Uint8List>? frontImage,
+    Uint8List? cover,
   }) {
     return StudioParams(
       name: name ?? this.name,
@@ -50,6 +61,9 @@ class StudioParams {
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
       agents: agents ?? this.agents,
+      gallary: gallary ?? this.gallary,
+      frontImage: frontImage ?? this.frontImage,
+      cover: cover ?? this.cover,
     );
   }
 
@@ -65,31 +79,35 @@ class StudioParams {
       'latitude': latitude,
       'longitude': longitude,
       'agents': agents,
+      
     };
   }
 
-  factory StudioParams.fromMap(Map<String, dynamic> map) {
-    return StudioParams(
-      name: map['name'] as String,
-      rent: map['rent'] as double,
-      category: map['category'] as String,
-      location: map['location'] as String,
-      address: map['address'] as String,
-      tags: map['tags'] as String,
-      description: map['description'] as String,
-      latitude: map['latitude'] as double,
-      longitude: map['longitude'] as double,
-      agents: List<String>.from((map['agents'] as List<String>),)
-    );
-  }
+  // factory StudioParams.fromMap(Map<String, dynamic> map) {
+  //   return StudioParams(
+  //     name: map['name'] as String,
+  //     rent: map['rent'] as double,
+  //     category: map['category'] as String,
+  //     location: map['location'] as String,
+  //     address: map['address'] as String,
+  //     tags: map['tags'] as String,
+  //     description: map['description'] as String,
+  //     latitude: map['latitude'] as double,
+  //     longitude: map['longitude'] as double,
+  //     agents: List<String>.from((map['agents'] as List<String>),),
+  //     gallary: List<Uint8List>.from(map['gallary'] as List<List<int>>),
+  //     frontImage: List<Uint8List>.from((map['frontImage'] as List<int>)),
+  //     cover: Uint8List.fromList(map['cover'] as List<int>)
+  //   );
+  // }
 
-  String toJson() => json.encode(toMap());
+  // String toJson() => json.encode(toMap());
 
-  factory StudioParams.fromJson(String source) => StudioParams.fromMap(json.decode(source) as Map<String, dynamic>);
+  // factory StudioParams.fromJson(String source) => StudioParams.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'StudioParams(name: $name, rent: $rent, category: $category, location: $location, address: $address, tags: $tags, description: $description, latitude: $latitude, longitude: $longitude, agents: $agents)';
+    return 'StudioParams(name: $name, rent: $rent, category: $category, location: $location, address: $address, tags: $tags, description: $description, latitude: $latitude, longitude: $longitude, agents: $agents, gallary: $gallary, frontImage: $frontImage, cover: $cover)';
   }
 
   @override
@@ -106,7 +124,10 @@ class StudioParams {
       other.description == description &&
       other.latitude == latitude &&
       other.longitude == longitude &&
-      listEquals(other.agents, agents);
+      listEquals(other.agents, agents) &&
+      listEquals(other.gallary, gallary) &&
+      listEquals(other.frontImage, frontImage) &&
+      other.cover == cover;
   }
 
   @override
@@ -120,6 +141,9 @@ class StudioParams {
       description.hashCode ^
       latitude.hashCode ^
       longitude.hashCode ^
-      agents.hashCode;
+      agents.hashCode ^
+      gallary.hashCode ^
+      frontImage.hashCode ^
+      cover.hashCode;
   }
 }

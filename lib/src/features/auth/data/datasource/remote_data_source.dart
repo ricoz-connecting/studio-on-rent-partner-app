@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:fpdart/fpdart.dart';
 import 'package:studio_partner_app/src/commons/exceptions/api_exception.dart';
 import 'package:studio_partner_app/src/commons/exceptions/failure.dart';
+import 'package:studio_partner_app/src/commons/globals/agent_details.dart';
+import 'package:studio_partner_app/src/core/models/agent_model.dart';
 
 import 'package:studio_partner_app/src/res/strings.dart';
 import 'package:studio_partner_app/src/res/typedefs.dart';
@@ -46,6 +48,7 @@ class AuthDataSourceImpl implements AuthDataSource {
       if (response.statusCode == 200) {
         final body = jsonDecode(response.body);
         final isVerified = body['isVerified'];
+        globalAgentModel = AgentModel.fromMap(body['agent_details']);
         return Right(isVerified);
       } else {
         throw ApiException();
@@ -53,7 +56,7 @@ class AuthDataSourceImpl implements AuthDataSource {
     } on ApiException catch (e) {
       return Left(ApiFailure(messages: e.message));
     } catch (e) {
-      return Left(ApiFailure(messages: e.toString()));  
+      return Left(ApiFailure(messages: e.toString()));
     }
   }
 }
