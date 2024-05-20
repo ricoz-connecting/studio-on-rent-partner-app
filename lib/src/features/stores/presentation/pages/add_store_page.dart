@@ -99,7 +99,7 @@ class _AddStorePageState extends State<AddStorePage> {
               child: BlocConsumer<CategoryBloc, CategoryState>(
                   listener: (context, state) {
             if (state is CategoryFailureState) {
-              CustomErrorBox.showErrorBox(context, state.message, () {
+              showErrorBox(context, state.message, () {
                 context.go(HomeView.routePath);
               });
             }
@@ -692,21 +692,21 @@ class _AddStorePageState extends State<AddStorePage> {
                           text: "Post Add Studio Request",
                           ontap: () {
                             if (selectedCategories == null) {
-                              CustomErrorBox.showErrorBox(
+                              showErrorBox(
                                   context, 'Select a Category for FrontImage',
                                   () {
                                 context.pop();
                                 return;
                               });
                             } else if (frontImages < 2) {
-                              CustomErrorBox.showErrorBox(
+                              showErrorBox(
                                   context, 'Atleast 2 Images for FrontImage',
                                   () {
                                 context.pop();
                                 return;
                               });
                             } else if (gallaryImages < 5) {
-                              CustomErrorBox.showErrorBox(
+                              showErrorBox(
                                   context, 'Atleast 5 Images for FrontImage',
                                   () {
                                 context.pop();

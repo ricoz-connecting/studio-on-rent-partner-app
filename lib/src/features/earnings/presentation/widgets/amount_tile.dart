@@ -1,8 +1,15 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+
 import 'package:studio_partner_app/src/core/themes/theme.dart';
+import 'package:studio_partner_app/src/features/earnings/domain/entity/payment_entity.dart';
 
 class AmountTile extends StatefulWidget {
-  const AmountTile({super.key});
+  const AmountTile({
+    Key? key,
+    required this.transactions,
+  }) : super(key: key);
+  final Transactions transactions;
 
   @override
   State<AmountTile> createState() => _AmountTileState();
@@ -26,16 +33,16 @@ class _AmountTileState extends State<AmountTile> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "ID:12345",
+                    widget.transactions.id,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  Text("TRANSFER TO XXXX34")
+                  Text(widget.transactions.account)
                 ],
               )),
           Align(
               alignment: Alignment.centerRight,
               child: Text(
-                "+3000",
+                widget.transactions.amount,
                 style: TextStyle(
                     color: Colors.green,
                     fontWeight: FontWeight.bold,

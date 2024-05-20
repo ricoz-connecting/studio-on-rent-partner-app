@@ -151,7 +151,7 @@ class ReviewModel {
   final String name;
   final String reviewId;
   final String uuid;
-  final String photoUrl;
+  final Uint8List photoUrl;
   String review;
   num rating;
   final DateTime time;
@@ -169,7 +169,7 @@ class ReviewModel {
     String? name,
     String? reviewId,
     String? uuid,
-    String? photoUrl,
+    Uint8List? photoUrl,
     String? review,
     double? rating,
     DateTime? time,
@@ -190,7 +190,7 @@ class ReviewModel {
         name: 'name',
         reviewId: 'reviewId',
         uuid: 'uuid',
-        photoUrl: 'photoUrl',
+        photoUrl: Uint8List.fromList([]),
         review: 'review',
         rating: 2,
         time: DateTime.now());
@@ -213,7 +213,7 @@ class ReviewModel {
       name: map['name'].toString(),
       reviewId: map['reviewId'].toString(),
       uuid: map['uuid'].toString(),
-      photoUrl: map['photoUrl'].toString(),
+      photoUrl: Uint8List.fromList(map['photoUrl']['data'] as List<int>),
       review: map['review'].toString(),
       rating: map['rating'] as num,
       time: DateTime.parse(map['time']),

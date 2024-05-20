@@ -30,6 +30,8 @@ import 'package:studio_partner_app/src/features/home/presentation/tabs/stores_pa
 import 'package:studio_partner_app/src/features/register/presentation/tabs/verification_pending_page.dart';
 import 'package:studio_partner_app/src/features/stores/presentation/pages/add_store_page.dart';
 import 'package:studio_partner_app/src/features/stores/presentation/pages/studio_page.dart';
+import 'package:studio_partner_app/src/res/strings.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: _cachedUser(),
@@ -37,9 +39,9 @@ final GoRouter router = GoRouter(
     GoRoute(
         path: BookingView.routePath,
         builder: (context, state) {
-         final extra = state.extra as Map;
-          return  BookingView(
-            id: extra['id']??'2345422',
+          final extra = state.extra as Map;
+          return BookingView(
+            id: extra['id'] ?? '2345422',
           );
         }),
     GoRoute(

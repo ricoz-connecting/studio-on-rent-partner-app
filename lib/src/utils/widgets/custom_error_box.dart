@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CustomErrorBox {
-  static  showErrorBox(
+  showErrorBox(
       BuildContext context, String message, VoidCallback onPressed) {
     showDialog(
         context: context,
@@ -31,4 +30,4 @@ class CustomErrorBox {
               ),
             ));
   }
-}
+

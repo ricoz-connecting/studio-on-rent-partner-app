@@ -140,7 +140,7 @@ class _ReviewTabState extends State<ReviewTab> {
             backgroundColor: color.secondary,
             radius: 15,
             child: FadeInImage(
-              image: NetworkImage(review[index].photoUrl),
+              image: MemoryImage(review[index].photoUrl),
               placeholder: MemoryImage(Uint8List.fromList([])),
               imageErrorBuilder: (context, error, stackTrace) =>
                   Image.memory(Uint8List.fromList([])),

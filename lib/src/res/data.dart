@@ -1,10 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
 
+import 'dart:typed_data';
 import 'package:studio_partner_app/src/commons/globals/studio_details.dart';
-import 'package:studio_partner_app/src/core/models/agent_model.dart';
 import 'package:studio_partner_app/src/features/stores/data/model/studio_model.dart';
-import 'package:studio_partner_app/src/res/assets.dart';
 
 class AppData {
   // static List<NotificationModel> notifications = [
@@ -255,7 +253,7 @@ class AppData {
     ReviewModel(uuid: '1',
         reviewId: '3',
         name: "Dale Thiel",
-        photoUrl: ImageAssets.profileImageJpeg,
+        photoUrl: Uint8List.fromList([]),
         review:
             "Discover our state-of-the-art Photography Studio, a haven for photographers and creatives a like. ",
         rating: 4.0,
@@ -263,7 +261,7 @@ class AppData {
     ReviewModel(uuid: '1',
         reviewId: '2',
         name: "John Doe",
-        photoUrl: ImageAssets.profileImageJpeg,
+        photoUrl: Uint8List.fromList([]),
         review:
             "Discover our state-of-the-art Photography Studio, a haven for photographers and creatives a like. ",
         rating: 4.0,
@@ -271,7 +269,7 @@ class AppData {
     ReviewModel(uuid: '1',
         reviewId: '1',
         name: "John Doe",
-        photoUrl: '',
+        photoUrl: Uint8List.fromList([]),
         review:
             "Discover our state-of-the-art Photography Studio, a haven for photographers and creatives a like. ",
         rating: 4.0,

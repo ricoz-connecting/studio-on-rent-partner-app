@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rive/rive.dart';
+import 'package:studio_partner_app/src/commons/globals/agent_details.dart';
 import 'package:studio_partner_app/src/commons/views/widgets/simple_app_bar.dart';
 import 'package:studio_partner_app/src/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:studio_partner_app/src/res/assets.dart';
@@ -28,11 +29,20 @@ class EditProfileInfoView extends StatefulWidget {
 
 class _EditProfileInfoViewState extends State<EditProfileInfoView> {
   // UpdateParams updateParams = UpdateParams();
-  final TextEditingController nameController = TextEditingController();
+  final TextEditingController nameController =
+      TextEditingController(text: globalAgentModel!.name);
   final TextEditingController phoneController =
-      TextEditingController(text: 'user.phoneNumber');
+      TextEditingController(text: globalAgentModel!.phoneNumber);
   final TextEditingController emailController =
-      TextEditingController(text: 'user.email');
+      TextEditingController(text: globalAgentModel!.email);
+  final TextEditingController addressController =
+      TextEditingController(text: globalAgentModel!.address);
+  final TextEditingController businessaController = TextEditingController(
+      text: globalAgentModel!.businessname ?? 'Not Provided');
+  final TextEditingController stateController =
+      TextEditingController(text: globalAgentModel!.state);
+  final TextEditingController cityController =
+      TextEditingController(text: globalAgentModel!.city);
   Uint8List? pickedImage;
 
   @override
@@ -118,7 +128,7 @@ class _EditProfileInfoViewState extends State<EditProfileInfoView> {
               right: 10,
               validator: (validator) {},
               hintText: "ABC XYZ Place",
-              controller: emailController,
+              controller: addressController,
               icon: Icon(Icons.house),
             ),
             CustomTextField(
@@ -126,7 +136,7 @@ class _EditProfileInfoViewState extends State<EditProfileInfoView> {
               right: 10,
               validator: (validator) {},
               hintText: "City",
-              controller: emailController,
+              controller: stateController,
               icon: Icon(Icons.house),
             ),
             CustomTextField(
@@ -134,7 +144,7 @@ class _EditProfileInfoViewState extends State<EditProfileInfoView> {
               right: 10,
               validator: (validator) {},
               hintText: "State",
-              controller: emailController,
+              controller: cityController,
               icon: Icon(Icons.house),
             ),
             // button
@@ -171,10 +181,10 @@ class _EditProfileInfoViewState extends State<EditProfileInfoView> {
             child: CircleAvatar(
               radius: 50,
               backgroundColor: color.tertiary,
-              // backgroundImage: MemoryImage(),
+              backgroundImage: MemoryImage(globalAgentModel!.photoUrl),
               child: Center(
                 child: ImageIcon(
-                  AssetImage(ImageAssets.editIcon),
+                  const AssetImage(ImageAssets.editIcon),
                   color: color.secondary,
                 ),
               ),
@@ -187,15 +197,25 @@ class _EditProfileInfoViewState extends State<EditProfileInfoView> {
                     color: color.tertiary,
                   ),
                   scale: 0.5),
-              validator: (Va) {},
+              validator: (val) {},
               hintText: "John Doe",
-              controller: emailController),
+              controller: nameController),
           CustomTextField(
+              enable: false,
               icon: Icon(
                 Icons.call,
                 color: color.tertiary,
               ),
-              validator: (Va) {},
+              validator: (val) {},
+              hintText: "John Doe",
+              controller: phoneController),
+          CustomTextField(
+              enable: false,
+              icon: Icon(
+                Icons.call,
+                color: color.tertiary,
+              ),
+              validator: (val) {},
               hintText: "John Doe",
               controller: emailController)
         ],

@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 
 class AgentModel {
+  final String email;
   final String name;
   final String agentId;
   final String phoneNumber;
@@ -20,6 +21,7 @@ class AgentModel {
   final String status;
   AgentModel(
       {required this.name,
+      required this.email,
       required this.agentId,
       required this.phoneNumber,
       required this.isVerified,
@@ -33,6 +35,7 @@ class AgentModel {
       this.status = 'owner'});
 
   static empty() => AgentModel(
+      email: 'sasdsa@gmail.com',
       name: 'name',
       agentId: 'agentId',
       phoneNumber: 'phoneNumber',
@@ -44,21 +47,22 @@ class AgentModel {
       service: ['service'],
       photoUrl: Uint8List.fromList([]));
 
-  AgentModel copyWith({
-    String? name,
-    String? agentId,
-    String? phoneNumber,
-    String? isVerified,
-    String? businessname,
-    String? address,
-    String? city,
-    String? pincode,
-    String? state,
-    List<String>? service,
-    List<String>? addons,
-    Uint8List? photoUrl,
-  }) {
+  AgentModel copyWith(
+      {String? name,
+      String? agentId,
+      String? phoneNumber,
+      String? isVerified,
+      String? businessname,
+      String? address,
+      String? city,
+      String? pincode,
+      String? state,
+      List<String>? service,
+      List<String>? addons,
+      Uint8List? photoUrl,
+      String? email}) {
     return AgentModel(
+      email: email ?? this.email,
       name: name ?? this.name,
       agentId: agentId ?? this.agentId,
       phoneNumber: phoneNumber ?? this.phoneNumber,
@@ -90,8 +94,9 @@ class AgentModel {
   }
 
   factory AgentModel.fromMap(Map<String, dynamic> map) {
-    log(map['photoUrl'].toString());
+    // log(map['photoUrl'].toString());
     return AgentModel(
+      email: map['email'].toString(),
       name: map['name'] as String,
       agentId: map['agentId'] as String,
       phoneNumber: map['number'] as String,

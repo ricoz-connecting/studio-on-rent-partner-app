@@ -1,7 +1,16 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+import 'package:studio_partner_app/src/features/home/domain/entity/chat_entity.dart';
 
 class CustomListTile extends StatefulWidget {
-  const CustomListTile({super.key, required this.onTap});
+  const CustomListTile({
+    Key? key,
+    required this.chatEntity,
+    required this.onTap,
+  }) : super(key: key);
+  final ChatEntity chatEntity;
   final VoidCallback onTap;
 
   @override
@@ -24,18 +33,18 @@ class _CustomListTileState extends State<CustomListTile> {
           child: Row(
             children: [
               const Expanded(flex: 1, child: CircleAvatar()),
-              const Expanded(
+               Expanded(
                 flex: 4,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "ID:12345",
+                     widget.chatEntity.name ,
                       textAlign: TextAlign.left,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    Text("hello")
+                    // Text("hello")
                   ],
                 ),
               ),
@@ -43,7 +52,7 @@ class _CustomListTileState extends State<CustomListTile> {
                 flex: 1,
                 child: Column(
                   children: [
-                    const Text("16:30"),
+                     Text(Intl().date(DateFormat.HOUR24_MINUTE).format(widget.chatEntity.time)),
                     Container(
                       width: 50,
                       decoration: BoxDecoration(
@@ -52,7 +61,7 @@ class _CustomListTileState extends State<CustomListTile> {
                       ),
                       child: Center(
                           child: Text(
-                        "2",
+                        '',
                         style: TextStyle(color: color.surface),
                       )),
                     )

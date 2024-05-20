@@ -8,6 +8,7 @@ import 'package:studio_partner_app/src/utils/widgets/custom_extension_methods.da
 class BookingDetails extends StatefulWidget {
   static const routePath = '/booking-details';
   const BookingDetails({super.key});
+  
 
   @override
   State<BookingDetails> createState() => _BookingDetailsState();

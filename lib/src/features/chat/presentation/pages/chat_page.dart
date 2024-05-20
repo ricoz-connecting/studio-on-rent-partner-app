@@ -5,6 +5,7 @@ import 'package:studio_partner_app/src/features/chat/presentation/widgets/messag
 
 class ChatPage extends StatefulWidget {
   static const routePath = '/chat-page';
+
   const ChatPage({super.key});
 
   @override

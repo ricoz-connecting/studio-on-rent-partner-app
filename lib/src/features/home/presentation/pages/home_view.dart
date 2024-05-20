@@ -5,7 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:rive/rive.dart';
 import 'package:studio_partner_app/src/commons/globals/agent_details.dart';
 import 'package:studio_partner_app/src/commons/views/widgets/simple_app_bar.dart';
+import 'package:studio_partner_app/src/features/earnings/presentation/bloc/earning_bloc/earning_bloc.dart';
 import 'package:studio_partner_app/src/features/home/presentation/bloc/schedule_bloc/schedules_bloc.dart';
+import 'package:studio_partner_app/src/features/home/presentation/bloc/store_bloc/store_bloc.dart';
 import 'package:studio_partner_app/src/features/home/presentation/tabs/bookings.dart';
 import 'package:studio_partner_app/src/features/home/presentation/tabs/earning_page.dart';
 import 'package:studio_partner_app/src/features/home/presentation/tabs/chat_tab.dart';
@@ -31,6 +33,8 @@ class _HomeViewState extends State<HomeView> {
     // TODO: implement initState
     super.initState();
     context.read<SchedulesBloc>().add(GetScheduleEvent(agentId: globalAgentId));
+    context.read<StoreBloc>().add(GetStoreEvent(agentId: globalAgentId));
+    context.read<EarningBloc>().add(GetEarningEvent(agentId: globalAgentId));
   }
 
   @override

@@ -2,15 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studio_partner_app/colors_scheme.g.dart';
+import 'package:studio_partner_app/src/commons/globals/agent_details.dart';
 import 'package:studio_partner_app/src/features/auth/data/datasource/remote_data_source.dart';
 import 'package:studio_partner_app/src/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:studio_partner_app/src/features/auth/domain/usecase/get_otp.dart';
 import 'package:studio_partner_app/src/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:studio_partner_app/src/features/earnings/data/datasource/earning_data_source.dart';
+import 'package:studio_partner_app/src/features/earnings/data/repository/earning_repository_impl.dart';
+import 'package:studio_partner_app/src/features/earnings/domain/usecase/earnings_usecase.dart';
+import 'package:studio_partner_app/src/features/earnings/presentation/bloc/earning_bloc/earning_bloc.dart';
 import 'package:studio_partner_app/src/features/home/data/datasource/home_remote_data_source.dart';
 import 'package:studio_partner_app/src/features/home/data/repository/booking_repository_impl.dart';
+import 'package:studio_partner_app/src/features/home/domain/usecase/get_chat.dart';
 import 'package:studio_partner_app/src/features/home/domain/usecase/get_schedules.dart';
+import 'package:studio_partner_app/src/features/home/domain/usecase/get_stores.dart';
 import 'package:studio_partner_app/src/features/home/domain/usecase/update_schedule.dart';
+import 'package:studio_partner_app/src/features/home/presentation/bloc/chat_bloc/chat_bloc.dart';
 import 'package:studio_partner_app/src/features/home/presentation/bloc/schedule_bloc/schedules_bloc.dart';
+import 'package:studio_partner_app/src/features/home/presentation/bloc/store_bloc/store_bloc.dart';
 import 'package:studio_partner_app/src/features/register/data/datasource/remote_data_source.dart';
 import 'package:studio_partner_app/src/features/register/data/repository/register_repository_impl.dart';
 import 'package:studio_partner_app/src/features/register/domain/usecase/resgister_usecase.dart';
@@ -31,12 +40,28 @@ import 'package:studio_partner_app/src/utils/router.dart';
 
 class App extends ConsumerWidget {
   const App({super.key});
+  
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeModeState = ref.watch(themeProvider);
     return MultiBlocProvider(
       providers: [
+        BlocProvider(
+            create: (context) => EarningBloc(
+                earningsUsecase: EarningsUsecase(
+                    earningRepository: EarningRepositoryImpl(
+                        earningDataSource: EarningDataSourceImpl())))),
+        BlocProvider(
+            create: (context) => StoreBloc(
+                getStores: GetStores(
+                    bookingsRepository: BookingsRepositoryImpl(
+                        homeRemoteDataSource: HomeRemoteDataSourceImpl())))),
+        BlocProvider(
+            create: (context) => ChatBloc(
+                getChat: GetChat(
+                    bookingsRepository: BookingsRepositoryImpl(
+                        homeRemoteDataSource: HomeRemoteDataSourceImpl())))),
         BlocProvider(
             create: (context) => StudioBloc(
                 getStudioDetails: GetStudioDetails(

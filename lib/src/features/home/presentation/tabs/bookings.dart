@@ -24,7 +24,7 @@ class BookingPage extends StatefulWidget {
 }
 
 class _BookingPageState extends State<BookingPage> {
-  List<String> categories = ['Active', 'Delivered', 'New Request'];
+  List<String> categories = ['Active', 'New Request', 'Delivered'];
   int selectedIndex = 1;
   PageController controller = PageController(initialPage: 1);
 
@@ -90,62 +90,25 @@ class _BookingPageState extends State<BookingPage> {
                   children: [
                     SingleChildScrollView(
                         child: Column(
-                      children: state.schedules
-                              .map((E) => E.status == 'accepted'
-                                  ? NewRequests(scheduleEntity: E)
-                                  :null)
-                              .toList()
-                              .isEmpty
-                          ? const [
-                              Center(
-                                child: Text("No Data To Show"),
-                              )
-                            ]
-                          : state.schedules
-                              .map((E) => E.status == 'accepted'
+                            children: state.schedules
+                                .map((E) => E.status == 'accepted'
+                                    ? NewRequests(scheduleEntity: E)
+                                    : SizedBox())
+                                .toList())),
+                    SingleChildScrollView(
+                        child: Column(
+                            children: state.schedules
+                                .map((E) => E.status == 'pending'
+                                    ? NewRequests(scheduleEntity: E)
+                                    : SizedBox())
+                                .toList())),
+                    SingleChildScrollView(
+                      child: Column(
+                          children: state.schedules
+                              .map((E) => E.status == 'delivered'
                                   ? NewRequests(scheduleEntity: E)
                                   : SizedBox())
-                              .toList(),
-                    )),
-                    SingleChildScrollView(
-                      child: Column(
-                        children: state.schedules
-                                .map((E) => E.status == 'pending'
-                                    ? NewRequests(scheduleEntity: E)
-                                    : [])
-                                .toList()
-                                .isEmpty
-                            ? const [
-                                Center(
-                                  child: Text("No Data To Show"),
-                                )
-                              ]
-                            : state.schedules
-                                .map((E) => E.status == 'pending'
-                                    ? NewRequests(scheduleEntity: E)
-                                    : SizedBox())
-                                .toList(),
-                      ),
-                    ),
-                    SingleChildScrollView(
-                      child: Column(
-                        children: state.schedules
-                                .map((E) => E.status == 'delivered'
-                                    ? NewRequests(scheduleEntity: E)
-                                    : [])
-                                .toList()
-                                .isEmpty
-                            ? const [
-                                Center(
-                                  child: Text("No Data To Show"),
-                                )
-                              ]
-                            : state.schedules
-                                .map((E) => E.status == 'delivered'
-                                    ? NewRequests(scheduleEntity: E)
-                                    : SizedBox())
-                                .toList(),
-                      ),
+                              .toList()),
                     )
                   ],
                 ),

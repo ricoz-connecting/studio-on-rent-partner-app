@@ -1,5 +1,5 @@
 class AppUrls {
-  static const baseUrl = "https://e620-103-24-84-14.ngrok-free.app";
+  static const baseUrl = "https://8532-103-24-84-14.ngrok-free.app";
   static const otpEndPoint = '/api/otp';
   static const categoryEndpoint = '/api/agent/category';
   static const locationEndPoint = '/api/agent/city';
@@ -11,6 +11,7 @@ class AppUrls {
   static const search = '/api/agent/search';
   static const chat = '/api/agent/chat';
   static const agent = '/api/agent/agent';
+  static const earningRequestEndPoint = "/api/agent/earning";
   static const requestEndPoint = '/api/agent/request';
   static const loginOtpEndPoint = '/api/agent/otp/login';
   static const payment = '/api/agent/payment';

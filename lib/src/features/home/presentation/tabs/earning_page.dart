@@ -24,6 +24,7 @@ class _EarningPageState extends State<EarningPage> {
     return Stack(
       children: [
         PageView(
+         
           controller: controller,
           children: [
             EarningPages(

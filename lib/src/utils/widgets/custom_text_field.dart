@@ -16,6 +16,7 @@ class CustomTextField extends StatefulWidget {
   final int? length;
   final Widget? suffix;
   final Function(String)? onchanged;
+  final bool enable;
   const CustomTextField(
       {super.key,
       required this.validator,
@@ -31,7 +32,8 @@ class CustomTextField extends StatefulWidget {
       this.right = 22,
       this.textInputType = TextInputType.text,
       this.length,
-      this.borderRadius});
+      this.borderRadius,
+      this.enable = true});
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -46,6 +48,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       width: widget.width,
       padding: EdgeInsets.only(left: widget.left, right: widget.right, top: 18),
       child: TextFormField(
+        enabled: widget.enable,
         onChanged: widget.onchanged,
         maxLength: widget.length,
         controller: widget.controller,
@@ -54,7 +57,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         maxLines: widget.maxlines,
         keyboardType: widget.textInputType,
         decoration: InputDecoration(
-          suffix: widget.suffix,
+            suffix: widget.suffix,
             prefixIcon: widget.icon,
             hintText: widget.hintText,
             border: OutlineInputBorder(

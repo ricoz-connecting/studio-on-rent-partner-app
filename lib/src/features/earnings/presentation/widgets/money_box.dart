@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:studio_partner_app/src/core/themes/theme.dart';
 
 class MoneyBox extends StatefulWidget {
-  const MoneyBox({super.key});
-
+  const MoneyBox({super.key, required this.text});
+  final String text;
   @override
   State<MoneyBox> createState() => _MoneyBoxState();
 }
@@ -38,7 +38,7 @@ class _MoneyBoxState extends State<MoneyBox> {
                 color: ColorAssets.black),
           ),
           Text(
-            "data",
+            widget.text,
             style: TextStyle(color: ColorAssets.lightGray),
           )
         ],
