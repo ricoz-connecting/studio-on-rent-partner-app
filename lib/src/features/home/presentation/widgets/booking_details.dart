@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/src/commons/views/widgets/simple_app_bar.dart';
 import 'package:studio_partner_app/src/features/help/presentation/pages/help_page.dart';
-import 'package:studio_partner_app/src/features/profile/views/profile_page.dart';
+import 'package:studio_partner_app/src/features/profile/prsesntation/views/profile_page.dart';
 import 'package:studio_partner_app/src/utils/widgets/custom_extension_methods.dart';
 
 class BookingDetails extends StatefulWidget {

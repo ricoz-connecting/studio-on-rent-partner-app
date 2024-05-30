@@ -86,3 +86,15 @@ extension CustomRow on Row {
     );
   }
 }
+extension StringSlicing on String {
+  String slice(int start, [int? end]) {
+    int endIndex = end ?? this.length;
+    if (start < 0) {
+      start = this.length + start;
+    }
+    if (endIndex < 0) {
+      endIndex = this.length + endIndex;
+    }
+    return this.substring(start, endIndex);
+  }
+}

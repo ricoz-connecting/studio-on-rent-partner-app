@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -6,17 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:rive/rive.dart';
 import 'package:studio_partner_app/src/commons/globals/agent_details.dart';
+import 'package:studio_partner_app/src/commons/params/update_params.dart';
 import 'package:studio_partner_app/src/commons/views/widgets/simple_app_bar.dart';
-import 'package:studio_partner_app/src/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:studio_partner_app/src/features/profile/prsesntation/bloc/update_bloc/update_bloc.dart';
 import 'package:studio_partner_app/src/res/assets.dart';
-import 'package:studio_partner_app/src/utils/widgets/custom_extension_methods.dart';
+import 'package:studio_partner_app/src/utils/widgets/custom_error_box.dart';
 import 'package:studio_partner_app/src/utils/widgets/custom_text_button.dart';
 import 'package:studio_partner_app/src/utils/widgets/custom_text_field.dart';
-import 'package:studio_partner_app/src/utils/widgets/form_text_field.dart';
 
 class EditProfileInfoView extends StatefulWidget {
   static String routePath = '/edit-profile-info';
@@ -43,7 +40,20 @@ class _EditProfileInfoViewState extends State<EditProfileInfoView> {
       TextEditingController(text: globalAgentModel!.state);
   final TextEditingController cityController =
       TextEditingController(text: globalAgentModel!.city);
-  Uint8List? pickedImage;
+  final TextEditingController pincodeController =
+      TextEditingController(text: globalAgentModel!.pincode);
+  final TextEditingController serviceController = TextEditingController(
+      text: globalAgentModel!.service
+          .toString()
+          .replaceAll('[', '')
+          .replaceAll(']', ''));
+  late Uint8List pickedImage;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    pickedImage = globalAgentModel!.photoUrl;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,34 +67,60 @@ class _EditProfileInfoViewState extends State<EditProfileInfoView> {
       backgroundColor: color.surface,
       body: Padding(
         padding: const EdgeInsets.all(14),
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    _profilePickBuilder(context),
-                    _buildFormFields(context),
-                  ],
-                ),
-              ),
-            ),
-            //
-            Container(
-              child: CustomTextButton(
-                  borderRadius: 10,
-                  text: "Save",
-                  ontap: () {
-                    // final updateParams = UpdateParams(
-                    //   photoUrl: pickedImage,
-                    //     gender: user.gender,
-                    //     name: nameController.text.trim(),
-                    //     email: emailController.text.trim(),
-                    //     phoneNumber: phoneController.text.trim());
-                  }),
-            )
-          ],
+        child: BlocConsumer<UpdateBloc, UpdateState>(
+          listener: (context, state) {
+            // TODO: implement listener
+            if (state is UpdateFailureState) {
+              showErrorBox(context, state.message, () {
+                context.pop();
+              });
+            } else if (state is UpdateSuccessState) {
+              showErrorBox(context, "Successfully Updated", () {
+                context.pop();
+              });
+            }
+          },
+          builder: (context, state) {
+            if (state is UpdateLoadingState) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              return Column(
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          _profilePickBuilder(context),
+                          _buildFormFields(context),
+                        ],
+                      ),
+                    ),
+                  ),
+                  //
+                  CustomTextButton(
+                      borderRadius: 10,
+                      text: "Save",
+                      ontap: () {
+                        final updateParams = AgentUpdateParams(
+                            name: nameController.text.trim(),
+                            businessname: businessaController.text.trim(),
+                            address: addressController.text.trim(),
+                            city: cityController.text.trim(),
+                            pincode: pincodeController.text.trim(),
+                            state: stateController.text.trim(),
+                            service: serviceController.text.split(','),
+                            photoUrl: pickedImage);
+
+                        context.read<UpdateBloc>().add(
+                            UpdateAgentEvent(agentUpdateParams: updateParams));
+                      })
+                ],
+              );
+            }
+          },
         ),
       ),
     );
@@ -101,8 +137,8 @@ class _EditProfileInfoViewState extends State<EditProfileInfoView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 15.0),
+            const Padding(
+              padding: EdgeInsets.only(left: 15.0),
               child: Text(
                 "Restaurant/Business name",
                 style: TextStyle(fontWeight: FontWeight.bold),
@@ -111,13 +147,15 @@ class _EditProfileInfoViewState extends State<EditProfileInfoView> {
             CustomTextField(
               left: 10,
               right: 10,
-              validator: (validator) {},
+              validator: (validator) {
+                return null;
+              },
               hintText: "ABC XYZ Restaurant",
               controller: emailController,
-              icon: Icon(Icons.restaurant),
+              icon: const Icon(Icons.restaurant),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 15.0),
+            const Padding(
+              padding: EdgeInsets.only(left: 15.0),
               child: Text(
                 "Address",
                 style: TextStyle(fontWeight: FontWeight.bold),
@@ -126,26 +164,42 @@ class _EditProfileInfoViewState extends State<EditProfileInfoView> {
             CustomTextField(
               left: 10,
               right: 10,
-              validator: (validator) {},
+              validator: (validator) {
+                return null;
+              },
               hintText: "ABC XYZ Place",
               controller: addressController,
-              icon: Icon(Icons.house),
+              icon: const Icon(Icons.house),
             ),
             CustomTextField(
               left: 10,
               right: 10,
-              validator: (validator) {},
+              validator: (validator) {
+                return null;
+              },
               hintText: "City",
               controller: stateController,
-              icon: Icon(Icons.house),
+              icon: const Icon(Icons.house),
             ),
             CustomTextField(
               left: 10,
               right: 10,
-              validator: (validator) {},
+              validator: (validator) {
+                return null;
+              },
               hintText: "State",
               controller: cityController,
-              icon: Icon(Icons.house),
+              icon: const Icon(Icons.house),
+            ),
+            CustomTextField(
+              left: 10,
+              right: 10,
+              validator: (validator) {
+                return null;
+              },
+              hintText: "pincode",
+              controller: pincodeController,
+              icon: const Icon(Icons.house),
             ),
             // button
           ],
@@ -159,6 +213,7 @@ class _EditProfileInfoViewState extends State<EditProfileInfoView> {
 
       setState(() {
         pickedImage = _pickedImage;
+        globalAgentModel!.copyWith(photoUrl: _pickedImage);
       });
     }
   }
@@ -167,7 +222,7 @@ class _EditProfileInfoViewState extends State<EditProfileInfoView> {
     final color = Theme.of(context).colorScheme;
 
     return Container(
-      padding: EdgeInsets.fromLTRB(0, 30, 0, 30),
+      padding: const EdgeInsets.fromLTRB(0, 30, 0, 30),
       decoration: BoxDecoration(
           color: color.secondary, borderRadius: BorderRadius.circular(15)),
       margin: const EdgeInsets.symmetric(vertical: 30),
@@ -181,7 +236,7 @@ class _EditProfileInfoViewState extends State<EditProfileInfoView> {
             child: CircleAvatar(
               radius: 50,
               backgroundColor: color.tertiary,
-              backgroundImage: MemoryImage(globalAgentModel!.photoUrl),
+              backgroundImage: MemoryImage(pickedImage),
               child: Center(
                 child: ImageIcon(
                   const AssetImage(ImageAssets.editIcon),
@@ -192,12 +247,14 @@ class _EditProfileInfoViewState extends State<EditProfileInfoView> {
           ),
           CustomTextField(
               icon: Transform.scale(
+                  scale: 0.5,
                   child: SvgPicture.asset(
                     ImageAssets.user1,
                     color: color.tertiary,
-                  ),
-                  scale: 0.5),
-              validator: (val) {},
+                  )),
+              validator: (val) {
+                return null;
+              },
               hintText: "John Doe",
               controller: nameController),
           CustomTextField(
@@ -206,7 +263,9 @@ class _EditProfileInfoViewState extends State<EditProfileInfoView> {
                 Icons.call,
                 color: color.tertiary,
               ),
-              validator: (val) {},
+              validator: (val) {
+                return null;
+              },
               hintText: "John Doe",
               controller: phoneController),
           CustomTextField(
@@ -215,9 +274,17 @@ class _EditProfileInfoViewState extends State<EditProfileInfoView> {
                 Icons.call,
                 color: color.tertiary,
               ),
-              validator: (val) {},
+              validator: (val) {
+                return null;
+              },
               hintText: "John Doe",
-              controller: emailController)
+              controller: emailController),
+          CustomTextField(
+              validator: (validator) {
+                return null;
+              },
+              hintText: 'services',
+              controller: serviceController)
         ],
       ),
     );

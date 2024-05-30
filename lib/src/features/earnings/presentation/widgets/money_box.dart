@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:studio_partner_app/src/core/themes/theme.dart';
 
 class MoneyBox extends StatefulWidget {
-  const MoneyBox({super.key, required this.text});
+  const MoneyBox({super.key, required this.text, required this.nums});
   final String text;
+  final num nums;
   @override
   State<MoneyBox> createState() => _MoneyBoxState();
 }
@@ -31,7 +32,7 @@ class _MoneyBoxState extends State<MoneyBox> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "2",
+            widget.nums.toString(),
             style: TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 30,

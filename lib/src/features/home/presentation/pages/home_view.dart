@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -6,16 +9,19 @@ import 'package:rive/rive.dart';
 import 'package:studio_partner_app/src/commons/globals/agent_details.dart';
 import 'package:studio_partner_app/src/commons/views/widgets/simple_app_bar.dart';
 import 'package:studio_partner_app/src/features/earnings/presentation/bloc/earning_bloc/earning_bloc.dart';
+import 'package:studio_partner_app/src/features/earnings/presentation/bloc/review_bloc/review_bloc.dart';
 import 'package:studio_partner_app/src/features/home/presentation/bloc/schedule_bloc/schedules_bloc.dart';
 import 'package:studio_partner_app/src/features/home/presentation/bloc/store_bloc/store_bloc.dart';
 import 'package:studio_partner_app/src/features/home/presentation/tabs/bookings.dart';
 import 'package:studio_partner_app/src/features/home/presentation/tabs/earning_page.dart';
 import 'package:studio_partner_app/src/features/home/presentation/tabs/chat_tab.dart';
 import 'package:studio_partner_app/src/features/home/presentation/tabs/stores_page.dart';
-import 'package:studio_partner_app/src/features/profile/views/profile_page.dart';
-import 'package:studio_partner_app/src/features/profile/widgets/complete_profile_info.dart';
+import 'package:studio_partner_app/src/features/profile/prsesntation/views/profile_page.dart';
+import 'package:studio_partner_app/src/features/profile/prsesntation/widgets/complete_profile_info.dart';
 import 'package:studio_partner_app/src/features/stores/presentation/pages/add_store_page.dart';
 import 'package:studio_partner_app/src/res/assets.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:studio_partner_app/src/res/strings.dart';
 
 class HomeView extends StatefulWidget {
   static const routePath = "/";
@@ -27,6 +33,7 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   int selectedIndex = 0;
+  late IO.Socket socket;
 
   @override
   void initState() {
@@ -35,6 +42,21 @@ class _HomeViewState extends State<HomeView> {
     context.read<SchedulesBloc>().add(GetScheduleEvent(agentId: globalAgentId));
     context.read<StoreBloc>().add(GetStoreEvent(agentId: globalAgentId));
     context.read<EarningBloc>().add(GetEarningEvent(agentId: globalAgentId));
+    context.read<ReviewBloc>().add(GetReviewEvent(agentId: globalAgentId));
+    socket = connect();
+  }
+
+  IO.Socket connect() {
+    log('connecting');
+    final socket = IO.io(AppUrls.baseUrl, {
+      'transports': ['websocket'],
+      'autoConnect': false
+    });
+    socket.connect();
+    socket.onConnect((data) => log('connected'));
+    socket.emit('agent', globalAgentId);
+    socket.emit('chat_data', globalAgentId);
+    return socket;
   }
 
   @override
@@ -78,12 +100,32 @@ class _HomeViewState extends State<HomeView> {
         ),
       ][selectedIndex],
       backgroundColor: color.surface,
-      body: [
-        BookingPage(),
-        ChatTab(),
-        StoresPage(),
-        EarningPage()
-      ][selectedIndex],
+      body: RefreshIndicator(
+        onRefresh: () async {
+          socket.disconnect();
+          context
+              .read<SchedulesBloc>()
+              .add(GetScheduleEvent(agentId: globalAgentId));
+          context.read<StoreBloc>().add(GetStoreEvent(agentId: globalAgentId));
+          context
+              .read<EarningBloc>()
+              .add(GetEarningEvent(agentId: globalAgentId));
+          context
+              .read<ReviewBloc>()
+              .add(GetReviewEvent(agentId: globalAgentId));
+          connect();
+        },
+        child: [
+          BookingPage(
+            socket: socket,
+          ),
+          ChatTab(
+            socket: socket,
+          ),
+          StoresPage(),
+          EarningPage()
+        ][selectedIndex],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         unselectedItemColor: color.onSecondary,
         unselectedLabelStyle: TextStyle(color: color.primary),

@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'package:studio_partner_app/src/core/themes/theme.dart';
 import 'package:studio_partner_app/src/features/earnings/domain/entity/payment_entity.dart';
@@ -33,20 +34,31 @@ class _AmountTileState extends State<AmountTile> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.transactions.id,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    widget.transactions.id.contains('pout')
+                        ? "Taken Out"
+                        : "Added",
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  Text(widget.transactions.account)
+                  Text(Intl()
+                      .date(DateFormat.ABBR_MONTH_WEEKDAY_DAY)
+                      .format(widget.transactions.created_at))
                 ],
               )),
           Align(
               alignment: Alignment.centerRight,
               child: Text(
-                widget.transactions.amount,
-                style: TextStyle(
-                    color: Colors.green,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16),
+                widget.transactions.id.contains('pout')
+                    ? "-${widget.transactions.amount}"
+                    : "+${widget.transactions.amount}",
+                style: widget.transactions.id.contains('pout')
+                    ? TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16)
+                    : TextStyle(
+                        color: Colors.green,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
               ))
         ],
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 import 'package:studio_partner_app/src/commons/globals/agent_details.dart';
 
 import 'package:studio_partner_app/src/commons/views/widgets/simple_app_bar.dart';
@@ -11,7 +12,8 @@ import 'package:studio_partner_app/src/res/colors.dart';
 import 'package:studio_partner_app/src/utils/widgets/custom_list_tile.dart';
 
 class ChatTab extends StatefulWidget {
-  const ChatTab({super.key});
+  final Socket socket;
+  const ChatTab({super.key, required this.socket});
 
   @override
   State<ChatTab> createState() => _ChatTabState();
@@ -42,9 +44,13 @@ class _ChatTabState extends State<ChatTab> {
               );
             }
             return ListView.builder(
+                itemCount: state.chats.length,
                 itemBuilder: (context, index) => CustomListTile(
                       onTap: () {
-                        context.push(ChatPage.routePath);
+                        context.push(ChatPage.routePath, extra: {
+                          'socket': widget.socket,
+                          'uuid': state.chats[index].userId
+                        });
                       },
                       chatEntity: state.chats[index],
                     ));

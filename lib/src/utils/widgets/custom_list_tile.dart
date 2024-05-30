@@ -32,15 +32,19 @@ class _CustomListTileState extends State<CustomListTile> {
           ], color: color.secondary, borderRadius: BorderRadius.circular(15)),
           child: Row(
             children: [
-              const Expanded(flex: 1, child: CircleAvatar()),
-               Expanded(
+              Expanded(
+                  flex: 1,
+                  child: CircleAvatar(
+                    backgroundImage: MemoryImage(widget.chatEntity.photoUrl),
+                  )),
+              Expanded(
                 flex: 4,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                     widget.chatEntity.name ,
+                      widget.chatEntity.name,
                       textAlign: TextAlign.left,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
@@ -52,19 +56,21 @@ class _CustomListTileState extends State<CustomListTile> {
                 flex: 1,
                 child: Column(
                   children: [
-                     Text(Intl().date(DateFormat.HOUR24_MINUTE).format(widget.chatEntity.time)),
-                    Container(
-                      width: 50,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: color.primary,
-                      ),
-                      child: Center(
-                          child: Text(
-                        '',
-                        style: TextStyle(color: color.surface),
-                      )),
-                    )
+                    Text(Intl()
+                        .date(DateFormat.HOUR24_MINUTE)
+                        .format(widget.chatEntity.time)),
+                    // Container(
+                    //   width: 50,
+                    //   decoration: BoxDecoration(
+                    //     shape: BoxShape.circle,
+                    //     color: color.primary,
+                    //   ),
+                    //   child: Center(
+                    //       child: Text(
+                    //     '',
+                    //     style: TextStyle(color: color.surface),
+                    //   )),
+                    // )
                   ],
                 ),
               ),

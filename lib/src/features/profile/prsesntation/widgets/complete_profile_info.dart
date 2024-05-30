@@ -7,7 +7,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:studio_partner_app/src/core/themes/theme.dart';
-import 'package:studio_partner_app/src/features/profile/widgets/profile_form_fields.dart';
+import 'package:studio_partner_app/src/features/profile/prsesntation/widgets/profile_form_fields.dart';
 import 'package:studio_partner_app/src/res/assets.dart';
 import 'package:studio_partner_app/src/utils/widgets/custom_extension_methods.dart';
 

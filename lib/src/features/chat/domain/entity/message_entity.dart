@@ -2,7 +2,7 @@
 import 'dart:convert';
 
 class MessageEntity {
-    String id;
+  String id;
   bool isMe;
   String agentID;
   String uuid;
@@ -42,7 +42,7 @@ class MessageEntity {
       'agentID': agentID,
       'uuid': uuid,
       'message': message,
-      'timestamp': timestamp.millisecondsSinceEpoch,
+      'timestamp': timestamp.toIso8601String(),
     };
   }
 
@@ -53,13 +53,14 @@ class MessageEntity {
       agentID: map['agentID'] as String,
       uuid: map['uuid'] as String,
       message: map['message'] as String,
-      timestamp: DateTime.fromMillisecondsSinceEpoch(map['timestamp'] as int),
+      timestamp: DateTime.parse(map['timestamp'] as String),
     );
   }
 
-  String toJson() => json.encode(toMap());
+  String toJson() => jsonEncode(toMap());
 
-  factory MessageEntity.fromJson(String source) => MessageEntity.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory MessageEntity.fromJson(String source) =>
+      MessageEntity.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -69,23 +70,22 @@ class MessageEntity {
   @override
   bool operator ==(covariant MessageEntity other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.id == id &&
-      other.isMe == isMe &&
-      other.agentID == agentID &&
-      other.uuid == uuid &&
-      other.message == message &&
-      other.timestamp == timestamp;
+
+    return other.id == id &&
+        other.isMe == isMe &&
+        other.agentID == agentID &&
+        other.uuid == uuid &&
+        other.message == message &&
+        other.timestamp == timestamp;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-      isMe.hashCode ^
-      agentID.hashCode ^
-      uuid.hashCode ^
-      message.hashCode ^
-      timestamp.hashCode;
+        isMe.hashCode ^
+        agentID.hashCode ^
+        uuid.hashCode ^
+        message.hashCode ^
+        timestamp.hashCode;
   }
 }

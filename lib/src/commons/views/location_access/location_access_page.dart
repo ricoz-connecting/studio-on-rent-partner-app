@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/src/commons/views/location_access/widgets/manual_location_access_sheet.dart.dart';
 import 'package:studio_partner_app/src/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:studio_partner_app/src/features/profile/widgets/complete_profile_info.dart';
+import 'package:studio_partner_app/src/features/profile/prsesntation/widgets/complete_profile_info.dart';
 import 'package:studio_partner_app/src/utils/widgets/custom_extension_methods.dart';
 import 'package:studio_partner_app/src/utils/widgets/custom_text_button.dart';
 

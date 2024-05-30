@@ -1,8 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:studio_partner_app/src/commons/globals/agent_details.dart';
 import 'package:studio_partner_app/src/commons/views/widgets/simple_app_bar.dart';
-import 'package:studio_partner_app/src/features/profile/views/profile_page.dart';
-import 'package:studio_partner_app/src/features/profile/widgets/add_bank_details.dart';
+import 'package:studio_partner_app/src/features/profile/domain/entity/bank_entity.dart';
+import 'package:studio_partner_app/src/features/profile/prsesntation/bloc/bank_details/bank_details_bloc.dart';
+import 'package:studio_partner_app/src/features/profile/prsesntation/views/profile_page.dart';
+import 'package:studio_partner_app/src/features/profile/prsesntation/widgets/add_bank_details.dart';
+import 'package:studio_partner_app/src/utils/widgets/custom_extension_methods.dart';
 
 class BankDetails extends StatefulWidget {
   static const routePath = '/bank-details';
@@ -13,6 +20,15 @@ class BankDetails extends StatefulWidget {
 }
 
 class _BankDetailsState extends State<BankDetails> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context
+        .read<BankDetailsBloc>()
+        .add(GetBankDetailsEvent(agentId: globalAgentId));
+  }
+
   @override
   Widget build(BuildContext context) {
     ColorScheme color = Theme.of(context).colorScheme;
@@ -36,13 +52,27 @@ class _BankDetailsState extends State<BankDetails> {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
               ),
             ),
-            BankTile(),
-            BankTile(),
-            BankTile(),
-            BankTile(),
+            BlocConsumer<BankDetailsBloc, BankDetailsState>(
+              listener: (context, state) {
+                // TODO: implement listener
+              },
+              builder: (context, state) {
+                if (state is BankDetailsSuccessState) {
+                  return Expanded(
+                    child: ListView.builder(
+                      itemCount: state.banks.length,
+                      itemBuilder: (context, index) =>
+                          BankTile(bankEntity: state.banks[index]),
+                    ),
+                  );
+                } else {
+                  return SizedBox();
+                }
+              },
+            ),
             GestureDetector(
               onTap: () {
-                context.push(AddBankDetails.routrPath);
+                context.push(AddBankDetails.routePath);
               },
               child: InfoBoxes(
                 child: Center(
@@ -58,8 +88,10 @@ class _BankDetailsState extends State<BankDetails> {
 }
 
 class BankTile extends StatelessWidget {
+  final BankEntity bankEntity;
   const BankTile({
     super.key,
+    required this.bankEntity,
   });
 
   @override
@@ -77,8 +109,8 @@ class BankTile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Bank Of Baroda"),
-              Text("A/c No. XXXXX1912"),
+              Text(bankEntity.bankName),
+              Text("A/c No. ${bankEntity.accountNo.toString().slice(-4)}"),
             ],
           )),
           Icon(Icons.verified_outlined)

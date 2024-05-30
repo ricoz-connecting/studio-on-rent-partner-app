@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:studio_partner_app/src/commons/globals/agent_details.dart';
 import 'package:studio_partner_app/src/commons/views/widgets/simple_app_bar.dart';
+import 'package:studio_partner_app/src/features/auth/presentation/pages/otp/login_otp.dart';
+import 'package:studio_partner_app/src/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:studio_partner_app/src/features/help/presentation/pages/help_page.dart';
-import 'package:studio_partner_app/src/features/profile/widgets/bank_details.dart';
-import 'package:studio_partner_app/src/features/profile/widgets/edit_profile_info.dart';
+import 'package:studio_partner_app/src/features/profile/prsesntation/widgets/bank_details.dart';
+import 'package:studio_partner_app/src/features/profile/prsesntation/widgets/edit_profile_info.dart';
 
 class ProfilePage extends StatefulWidget {
   static const routePath = '/profile-page';
@@ -68,16 +71,16 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.call,
                         size: 15,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Text(
@@ -95,27 +98,27 @@ class _ProfilePageState extends State<ProfilePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         "Business/Restaurant Name",
                         style: TextStyle(
                             fontWeight: FontWeight.w400, fontSize: 10),
                       ),
                       Text(
                         globalAgentModel!.businessname ?? 'Not Provided',
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontWeight: FontWeight.w400, fontSize: 13),
                       ),
-                      Text(
+                      const Text(
                         "Address",
                         style: TextStyle(
                             fontWeight: FontWeight.w400, fontSize: 10),
                       ),
                       Text(
                         globalAgentModel!.address,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontWeight: FontWeight.w400, fontSize: 13),
                       ),
-                      Text(
+                      const Text(
                         "Services",
                         style: TextStyle(
                             fontWeight: FontWeight.w400, fontSize: 10),
@@ -123,7 +126,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       for (var i in globalAgentModel!.service)
                         Text(
                           i,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontWeight: FontWeight.w400, fontSize: 13),
                         ),
                     ],
@@ -167,7 +170,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 ),
-                InfoBoxes(
+                const InfoBoxes(
                   width: 170,
                   child: Row(
                     children: [
@@ -183,7 +186,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   onTap: () {
                     context.push(BankDetails.routePath);
                   },
-                  child: InfoBoxes(
+                  child: const InfoBoxes(
                     width: 170,
                     child: Row(
                       children: [
@@ -198,19 +201,25 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ],
             ),
-            InfoBoxes(
-              child: Row(
-                children: [
-                  const Expanded(child: Icon(Icons.logout)),
-                  Expanded(
-                    flex: 6,
-                    child: Text(
-                      "LogOut",
-                      style: TextStyle(color: color.error),
+            GestureDetector(
+              onTap: () {
+                Hive.box("USER").clear();
+                context.go(LoginOtp.routePath);
+              },
+              child: InfoBoxes(
+                child: Row(
+                  children: [
+                    const Expanded(child: Icon(Icons.logout)),
+                    Expanded(
+                      flex: 6,
+                      child: Text(
+                        "LogOut",
+                        style: TextStyle(color: color.error),
+                      ),
                     ),
-                  ),
-                  const Expanded(child: Icon(Icons.arrow_right))
-                ],
+                    const Expanded(child: Icon(Icons.arrow_right))
+                  ],
+                ),
               ),
             ),
             InfoBoxes(

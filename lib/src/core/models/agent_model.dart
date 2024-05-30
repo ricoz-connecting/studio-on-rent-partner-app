@@ -16,7 +16,7 @@ class AgentModel {
   final String pincode;
   final String state;
   final List<String> service;
-
+  final num amount;
   final Uint8List photoUrl;
   final String status;
   AgentModel(
@@ -32,6 +32,7 @@ class AgentModel {
       required this.state,
       required this.service,
       required this.photoUrl,
+      this.amount=0,
       this.status = 'owner'});
 
   static empty() => AgentModel(
@@ -108,6 +109,7 @@ class AgentModel {
       state: map['state'] as String,
       service: List<String>.from(map['services']),
       photoUrl: Uint8List.fromList(List<int>.from(map['photoUrl']['data'])),
+      amount:map['amount'] as num,
     );
   }
 

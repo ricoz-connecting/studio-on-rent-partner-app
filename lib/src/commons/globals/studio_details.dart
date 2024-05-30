@@ -213,7 +213,7 @@ class ReviewModel {
       name: map['name'].toString(),
       reviewId: map['reviewId'].toString(),
       uuid: map['uuid'].toString(),
-      photoUrl: Uint8List.fromList(map['photoUrl']['data'] as List<int>),
+      photoUrl: Uint8List.fromList(List<int>.from(map['photoUrl']['data'])),
       review: map['review'].toString(),
       rating: map['rating'] as num,
       time: DateTime.parse(map['time']),

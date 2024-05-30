@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 import 'package:studio_partner_app/src/commons/params/update_params.dart';
 import 'package:studio_partner_app/src/core/themes/theme.dart';
 import 'package:studio_partner_app/src/features/chat/presentation/pages/chat_page.dart';
@@ -17,8 +18,8 @@ import 'package:studio_partner_app/src/utils/widgets/custom_extension_methods.da
 import 'package:studio_partner_app/src/utils/widgets/custom_text_button.dart';
 
 class BookingPage extends StatefulWidget {
-  const BookingPage({super.key});
-
+  const BookingPage({super.key, required this.socket});
+  final Socket socket;
   @override
   State<BookingPage> createState() => _BookingPageState();
 }
@@ -88,27 +89,58 @@ class _BookingPageState extends State<BookingPage> {
                     });
                   },
                   children: [
-                    SingleChildScrollView(
-                        child: Column(
-                            children: state.schedules
-                                .map((E) => E.status == 'accepted'
-                                    ? NewRequests(scheduleEntity: E)
-                                    : SizedBox())
-                                .toList())),
-                    SingleChildScrollView(
-                        child: Column(
-                            children: state.schedules
-                                .map((E) => E.status == 'pending'
-                                    ? NewRequests(scheduleEntity: E)
-                                    : SizedBox())
-                                .toList())),
-                    SingleChildScrollView(
-                      child: Column(
-                          children: state.schedules
-                              .map((E) => E.status == 'delivered'
-                                  ? NewRequests(scheduleEntity: E)
-                                  : SizedBox())
-                              .toList()),
+                    RefreshIndicator(
+                      onRefresh: () async {},
+                      child: ListView.builder(
+                        itemCount: state.schedules.where((e) {
+                          return e.status == 'accepted';
+                        }).length,
+                        itemBuilder: (context, index) {
+                          final accepted = state.schedules.where((e) {
+                            return e.status == 'accepted';
+                          }).toList();
+                          return NewRequests(scheduleEntity: accepted[index]);
+                        },
+                      ),
+                    ),
+
+                    // SingleChildScrollView(
+                    //     child: Column(
+                    //         children: state.schedules
+                    //             .map((E) => E.status == 'accepted'
+                    //                 ? NewRequests(
+                    //                     scheduleEntity: E,
+                    //                     socket: widget.socket,
+                    //                   )
+                    //                 : SizedBox())
+                    //             .toList())),
+                    RefreshIndicator(
+                      onRefresh: () async {},
+                      child: ListView.builder(
+                        itemCount: state.schedules.where((e) {
+                          return e.status == 'pending';
+                        }).length,
+                        itemBuilder: (context, index) {
+                          final accepted = state.schedules.where((e) {
+                            return e.status == 'pending';
+                          }).toList();
+                          return NewRequests(scheduleEntity: accepted[index]);
+                        },
+                      ),
+                    ),
+                    RefreshIndicator(
+                      onRefresh: () async {},
+                      child: ListView.builder(
+                        itemCount: state.schedules.where((e) {
+                          return e.status == 'delivered';
+                        }).length,
+                        itemBuilder: (context, index) {
+                          final accepted = state.schedules.where((e) {
+                            return e.status == 'delivered';
+                          }).toList();
+                          return NewRequests(scheduleEntity: accepted[index]);
+                        },
+                      ),
                     )
                   ],
                 ),
@@ -221,8 +253,14 @@ class _BookingPageState extends State<BookingPage> {
 // }
 
 class NewRequests extends StatelessWidget {
-  const NewRequests({super.key, required this.scheduleEntity});
+  const NewRequests({
+    super.key,
+    required this.scheduleEntity,
+    this.socket,
+  });
   final ScheduleEntity scheduleEntity;
+  final Socket? socket;
+
   @override
   Widget build(BuildContext context) {
     ColorScheme color = Theme.of(context).colorScheme;
@@ -357,7 +395,10 @@ class NewRequests extends StatelessWidget {
                           borderRadius: 15,
                           text: 'Chat with Customer',
                           ontap: () {
-                            context.push(ChatPage.routePath);
+                            context.push(ChatPage.routePath, extra: {
+                              'socket': socket!,
+                              'uuid': scheduleEntity.userId
+                            });
                           }))
         ],
       ).addSpacingBetweenElements(10),

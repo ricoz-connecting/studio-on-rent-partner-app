@@ -79,6 +79,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
         final body = List<Map<String, dynamic>>.from(jsonDecode(response.body));
         final listofSchedules =
             body.map<ChatModel>((e) => ChatModel.fromMap(e)).toList();
+        log(listofSchedules.toString());
         return Right(listofSchedules);
       } else {
         throw ApiException();
