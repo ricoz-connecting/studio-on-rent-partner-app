@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:studio_partner_app/src/commons/globals/agent_details.dart';
 import 'package:studio_partner_app/src/commons/views/widgets/simple_app_bar.dart';
 import 'package:studio_partner_app/src/core/themes/theme.dart';
 import 'package:studio_partner_app/src/features/auth/presentation/bloc/auth_bloc.dart';
@@ -22,9 +23,8 @@ class _VerificationRequestPageState extends State<VerificationRequestPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    final agentId = Hive.box('USER').get('agentId');
-    if (agentId != null) {
-      context.read<AuthBloc>().add(Verification(agentId: agentId));
+    if (globalAgentId != '') {
+      context.read<AuthBloc>().add(Verification(agentId: globalAgentId));
     }
   }
 

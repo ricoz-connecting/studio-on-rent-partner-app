@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:alt_sms_autofill/alt_sms_autofill.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:otp_fields/otp_fields.dart';
+import 'package:studio_partner_app/src/commons/globals/agent_details.dart';
 import 'package:studio_partner_app/src/commons/globals/register_dict.dart';
 import 'package:studio_partner_app/src/commons/views/location_access/location_access_page.dart';
 import 'package:studio_partner_app/src/commons/views/onboarding/widgets/page1.dart';
@@ -15,6 +17,7 @@ import 'package:studio_partner_app/src/commons/views/widgets/simple_app_bar.dart
 import 'package:studio_partner_app/src/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:studio_partner_app/src/features/home/presentation/pages/home_view.dart';
 import 'package:studio_partner_app/src/features/register/presentation/pages/register.dart';
+import 'package:studio_partner_app/src/features/register/presentation/tabs/verification_pending_page.dart';
 import 'package:studio_partner_app/src/res/assets.dart';
 import 'package:timer_button/timer_button.dart';
 
@@ -166,6 +169,7 @@ class _LoginOtpState extends State<LoginOtp> {
                                   if (_formKey.currentState!.validate()) {
                                     requestedOtp = !requestedOtp;
                                     editable = true;
+                                    log(value);
                                     context
                                         .read<AuthBloc>()
                                         .add(GetOTP(emailOrPhone: value));
@@ -220,6 +224,11 @@ class _LoginOtpState extends State<LoginOtp> {
                             onCodeChanged: (otp) {
                               if (state is OtpSuccessState &&
                                   otp == state.otp) {
+                                if (globalAgentId != '') {
+                                  context
+                                      .push(VerificationRequestPage.routePath);
+                                  return;
+                                }
                                 registerDict.addAll(
                                     {"phoneNumber": _controller.text.trim()});
                                 context.push(Register.routePath);
@@ -238,6 +247,7 @@ class _LoginOtpState extends State<LoginOtp> {
                                 label: 'Resend Otp',
                                 onPressed: () {
                                   final value = _controller.text.trim();
+                                  log(value);
                                   context
                                       .read<AuthBloc>()
                                       .add(GetOTP(emailOrPhone: value));

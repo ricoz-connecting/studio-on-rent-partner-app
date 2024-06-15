@@ -1,5 +1,6 @@
 class AppUrls {
-  static const baseUrl = "https://booking-studio-node-apis.vercel.app";
+  static const baseUrl = "http://192.168.0.106:3000";
+  // static const baseUrl = "https://booking-studio-node-apis.vercel.app";
   static const otpEndPoint = '/api/otp';
   static const categoryEndpoint = '/api/agent/category';
   static const locationEndPoint = '/api/agent/city';

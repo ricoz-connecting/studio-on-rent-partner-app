@@ -17,7 +17,7 @@ import 'package:studio_partner_app/src/res/data.dart';
 import 'package:studio_partner_app/src/res/strings.dart';
 import 'package:studio_partner_app/src/res/typedefs.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:uuid/uuid.dart';
+
 
 abstract class StoreRemoteDataSource {
   FutureEitherFailure<LocationModel> getUserLocation();

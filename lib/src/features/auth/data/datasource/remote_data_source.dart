@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:fpdart/fpdart.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:studio_partner_app/src/commons/exceptions/api_exception.dart';
 import 'package:studio_partner_app/src/commons/exceptions/failure.dart';
 import 'package:studio_partner_app/src/commons/globals/agent_details.dart';
@@ -18,14 +19,21 @@ abstract interface class AuthDataSource {
 class AuthDataSourceImpl implements AuthDataSource {
   @override
   FutureEitherFailure<String> getOtp(String params) async {
-    // TODO: implement getOtpString
+    log(params);
+
     try {
       final response = await http.get(
           Uri.parse("${AppUrls.baseUrl}${AppUrls.otpEndPoint}?params=$params"));
       if (response.statusCode == 200) {
+        log(response.body);
         final data = jsonDecode(response.body);
         final otp = data["otp"];
         // newUser = data["newUser"];
+        final newAgent = data['newAgent'];
+        if (!newAgent) {
+          globalAgentId = data['agentId'];
+          await Hive.box('USER').put('agentId', globalAgentId);
+        }
         return Right(otp);
       } else {
         throw ApiException(message: response.body);
@@ -43,9 +51,11 @@ class AuthDataSourceImpl implements AuthDataSource {
   @override
   FutureEitherFailure<String> isVerified(String params) async {
     try {
-      final response = await http
-          .get(Uri.parse("${AppUrls.baseUrl}${AppUrls.isVerified}/$params"));
+      final response = await http.get(
+          Uri.parse("${AppUrls.baseUrl}${AppUrls.isVerified}/$globalAgentId"));
       if (response.statusCode == 200) {
+        log(response.body);
+
         final body = jsonDecode(response.body);
         final isVerified = body['isVerified'];
         globalAgentModel = AgentModel.fromMap(body['agent_details']);
