@@ -1,4 +1,4 @@
-import 'package:studio_partner_app/src/feature/auth/pages/signup.dart';
+import 'package:studio_partner_app/src/feature/auth/views/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/res/strings.dart';
@@ -50,13 +50,10 @@ class _SplashscreenState extends State<Splashscreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      width: 100,
-                      height: 100,
                       child: Image.asset(
                         'assets/images/home.png',
                       ),
                     ),
-                    const SizedBox(height: 30),
                     Text(
                       AppString.splashTitleName,
                       textAlign: TextAlign.center,

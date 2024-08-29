@@ -1,13 +1,20 @@
-import 'package:studio_partner_app/src/feature/auth/pages/login_screen.dart';
-import 'package:studio_partner_app/src/feature/profile/views/complete_profile.dart';
+import 'package:studio_partner_app/src/feature/auth/views/login_screen.dart';
+import 'package:studio_partner_app/src/feature/auth/views/register_one.dart';
 import 'package:studio_partner_app/src/res/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
-class Signup extends StatelessWidget {
+class Signup extends StatefulWidget {
   const Signup({super.key});
 
+  @override
+  State<Signup> createState() => _SignupState();
+}
+
+class _SignupState extends State<Signup> {
+  bool _obscureText = true;
+  bool _obscureTextConfirm = true;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -99,7 +106,7 @@ class Signup extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 TextField(
-                  obscureText: true,
+                  obscureText: _obscureText,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(
                       vertical: 14,
@@ -111,7 +118,15 @@ class Signup extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide.none,
                     ),
-                    suffixIcon: const Icon(Icons.visibility_off),
+                    suffixIcon: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _obscureText = !_obscureText;
+                          });
+                        },
+                        child: _obscureText
+                            ? const Icon(Icons.visibility_off)
+                            : const Icon(Icons.visibility)),
                     hintText: '********',
                   ),
                 ),
@@ -125,7 +140,7 @@ class Signup extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 TextField(
-                  obscureText: true,
+                  obscureText: _obscureTextConfirm,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(
                       vertical: 14,
@@ -137,7 +152,15 @@ class Signup extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide.none,
                     ),
-                    suffixIcon: const Icon(Icons.visibility_off),
+                    suffixIcon: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _obscureTextConfirm = !_obscureTextConfirm;
+                          });
+                        },
+                        child: _obscureTextConfirm
+                            ? const Icon(Icons.visibility_off)
+                            : const Icon(Icons.visibility)),
                     hintText: '********',
                   ),
                 ),
@@ -157,7 +180,7 @@ class Signup extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const CompleteProfileScreen(),
+                            builder: (context) => const RegisterScreen(),
                           ),
                         );
                       },
@@ -189,16 +212,15 @@ class Signup extends StatelessWidget {
                       onPressed: () {},
                       icon: Image.asset(ImageAssets.googleimage),
                     ),
-                    const SizedBox(width: 20),
+                    const SizedBox(width: 10),
                     IconButton(
                       onPressed: () {},
                       icon: Image.asset(
                         ImageAssets.facebook,
-                        height: 40,
-                        width: 40,
+                        height: 70,
+                        width: 70,
                       ),
                     ),
-                    const SizedBox(width: 20),
                     IconButton(
                       onPressed: () {},
                       icon: Image.asset(
@@ -225,7 +247,7 @@ class Signup extends StatelessWidget {
                         style: TextStyle(color: Colors.black),
                         children: [
                           TextSpan(
-                            text: 'Sign In',
+                            text: 'Login',
                             style: TextStyle(
                                 color: AppColors.primaryBackgroundColor),
                           ),

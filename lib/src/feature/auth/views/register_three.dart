@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:studio_partner_app/src/feature/auth/pages/register_four.dart';
-import 'package:studio_partner_app/src/feature/auth/widgets/custom_checkbox.dart';
+import 'package:studio_partner_app/src/feature/auth/views/register_four.dart';
+import 'package:studio_partner_app/src/feature/auth/views/widgets/custom_checkbox.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
 class RegisterThree extends StatefulWidget {

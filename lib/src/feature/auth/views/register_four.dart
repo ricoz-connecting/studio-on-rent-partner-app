@@ -1,5 +1,5 @@
-import 'package:studio_partner_app/src/feature/auth/pages/verification.dart';
-import 'package:studio_partner_app/src/feature/auth/widgets/upload_button.dart';
+import 'package:studio_partner_app/src/feature/auth/views/verification.dart';
+import 'package:studio_partner_app/src/feature/auth/views/widgets/upload_button.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/res/colors.dart';

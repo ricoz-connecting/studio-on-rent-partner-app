@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:studio_partner_app/src/feature/auth/pages/register_three.dart';
+import 'package:studio_partner_app/src/feature/auth/views/register_three.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
 class Register extends StatelessWidget {
