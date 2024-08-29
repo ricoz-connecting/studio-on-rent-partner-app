@@ -1,3 +1,4 @@
+import 'package:studio_partner_app/src/feature/auth/views/forgot_password.dart';
 import 'package:studio_partner_app/src/feature/auth/views/signup.dart';
 import 'package:studio_partner_app/src/feature/navigation/navigation_page.dart';
 import 'package:flutter/material.dart';
@@ -116,7 +117,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const Spacer(),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ForgotPassword()));
+                    },
                     child: const Text(
                       'Forgot Password',
                       style: TextStyle(
