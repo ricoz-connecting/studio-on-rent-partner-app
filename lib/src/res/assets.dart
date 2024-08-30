@@ -8,6 +8,7 @@ class ImageAssets {
   static const home = "assets/images/home.png";
   static const facebook = "assets/images/facebook.png";
   static const iconCheckMark = 'assets/images/icon_checkmark.png';
+  static const profile = 'assets/images/profile.png';
 
   //example
   static const sampleImagePath = "$_base/image.png";

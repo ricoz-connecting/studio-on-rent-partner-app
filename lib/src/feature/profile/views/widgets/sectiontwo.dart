@@ -31,8 +31,6 @@ class SectionTwo extends StatelessWidget {
             '111, ABC Apartments, XYZ Road, New Delhi, Delhi',
             style: GoogleFonts.lato(
               fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
             ),
           ),
         ],

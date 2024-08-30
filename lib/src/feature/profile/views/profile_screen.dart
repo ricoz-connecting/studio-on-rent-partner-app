@@ -1,4 +1,5 @@
 import 'package:studio_partner_app/src/feature/profile/views/widgets/bank_details.dart';
+import 'package:studio_partner_app/src/feature/profile/views/widgets/custom_edit_profile.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/edit_profile.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/help.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/history_screen.dart';
@@ -87,7 +88,7 @@ class ProfileScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.phone, color: Colors.black54),
+                  const Icon(Icons.phone_outlined, color: Colors.black54),
                   const SizedBox(width: 8),
                   Text(
                     '+91 XXXXX XXXXX',
@@ -98,20 +99,22 @@ class ProfileScreen extends StatelessWidget {
               const SizedBox(height: 20),
               const SectionOne(),
               const SizedBox(height: 20),
-              // Container for Address
               const SectionTwo(),
+              const SizedBox(height: 20),
+              CustomEditProfile(
+                  label: "Customer Reviews",
+                  icon: Icons.reviews_outlined,
+                  onTap: () {}),
               const SizedBox(height: 20),
               Wrap(
                 spacing: 20,
                 runSpacing: 20,
-                alignment: WrapAlignment.center,
                 children: [
                   _buildProfileButton(
                     context,
-                    Icons.help,
+                    Icons.help_outline_outlined,
                     'Help',
                     onTap: () {
-                      // Navigate to Help Page
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -121,10 +124,9 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   _buildProfileButton(
                     context,
-                    Icons.edit,
+                    Icons.edit_outlined,
                     'Edit Profile',
                     onTap: () {
-                      // Navigate to Edit Profile Page
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -137,7 +139,6 @@ class ProfileScreen extends StatelessWidget {
                     Icons.history,
                     'History',
                     onTap: () {
-                      // Navigate to History Page
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -147,10 +148,9 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   _buildProfileButton(
                     context,
-                    Icons.account_balance_wallet,
+                    Icons.account_balance_wallet_outlined,
                     'Bank Details',
                     onTap: () {
-                      // Navigate to Bank Details Page
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -161,34 +161,39 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 20),
-              ListTile(
-                leading: const Icon(Icons.logout, color: Colors.black),
-                title: Text(
-                  'Logout',
-                  style: GoogleFonts.lato(fontWeight: FontWeight.w600),
-                ),
-                onTap: () {
-                  // Handle logout action
-                },
-                trailing:
-                    const Icon(Icons.arrow_forward_ios, color: Colors.black),
+              CustomEditProfile(
+                label: 'KYC',
+                icon: Icons.event_note_outlined,
+                onTap: () {},
               ),
               const SizedBox(height: 15),
-              TextButton.icon(
-                icon: const Icon(Icons.delete_forever, color: Colors.red),
-                label: Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Text(
-                    'Delete Account',
-                    style: GoogleFonts.lato(
-                        color: Colors.red, fontWeight: FontWeight.w600),
-                  ),
-                ),
-                onPressed: () {
-                  // Handle delete account action
-                },
+              CustomEditProfile(
+                label: 'Logout',
+                icon: Icons.logout,
+                onTap: () {},
               ),
-              const SizedBox(height: 20), // Added extra space at the bottom
+              // Container(
+              //   width: double.infinity,
+              //   decoration: BoxDecoration(
+              //     color: Colors.grey.shade100,
+              //     borderRadius: BorderRadius.circular(10),
+              //     border: Border.all(color: Colors.grey.shade300),
+              //   ),
+              //   child: TextButton.icon(
+              //     icon: const Icon(Icons.delete_forever_outlined,
+              //         color: Colors.red),
+              //     label: Align(
+              //       alignment: Alignment.bottomLeft,
+              //       child: Text(
+              //         'Delete Account',
+              //         style: GoogleFonts.lato(
+              //             color: Colors.red, fontWeight: FontWeight.w600),
+              //       ),
+              //     ),
+              //     onPressed: () {},
+              //   ),
+              // ),
+              const SizedBox(height: 20),
             ],
           ),
         ),
@@ -208,26 +213,26 @@ class ProfileScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: Colors.grey.shade300),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: 29, color: Colors.black),
-            const SizedBox(height: 9),
-            Text(
-              label,
-              style: GoogleFonts.lato(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: Colors.black,
+        child: Padding(
+          padding: const EdgeInsets.all(5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Icon(
+                icon,
+                size: 29,
               ),
-            ),
-          ],
+              const SizedBox(width: 10),
+              Text(
+                label,
+                style: GoogleFonts.lato(
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
-}
-
-void main() {
-  runApp(const MaterialApp(home: ProfileScreen()));
 }

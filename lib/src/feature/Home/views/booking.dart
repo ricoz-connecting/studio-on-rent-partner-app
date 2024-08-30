@@ -1,46 +1,17 @@
-import 'package:studio_partner_app/src/feature/Home/pages/service_card.dart';
+import 'package:studio_partner_app/src/feature/Home/views/service_card.dart';
 import 'package:studio_partner_app/src/feature/profile/views/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+import '../../../../commons/views/appbar.dart';
+
+class Bookings extends StatelessWidget {
+  const Bookings({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: const Text(
-          '',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10.0),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ProfileScreen(),
-                  ),
-                );
-              },
-              child: const CircleAvatar(
-                backgroundImage: AssetImage('assets/images/profile.png'),
-                radius: 20,
-              ),
-            ),
-          ),
-        ],
-      ),
+      appBar: Appbar.buildAppBar(context),
       body: SafeArea(
         child: Column(
           children: [
@@ -148,8 +119,4 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-void main() {
-  runApp(const MaterialApp(home: HomeScreen()));
 }

@@ -1,6 +1,7 @@
 import 'package:studio_partner_app/src/feature/auth/views/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:studio_partner_app/src/res/assets.dart';
 import 'package:studio_partner_app/src/res/strings.dart';
 
 class Splashscreen extends StatefulWidget {
@@ -51,7 +52,7 @@ class _SplashscreenState extends State<Splashscreen> {
                   children: [
                     SizedBox(
                       child: Image.asset(
-                        'assets/images/home.png',
+                        ImageAssets.home,
                       ),
                     ),
                     Text(

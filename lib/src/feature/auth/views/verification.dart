@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:studio_partner_app/commons/views/appbar.dart';
 import 'package:studio_partner_app/src/feature/navigation/navigation_page.dart';
 
 class Verification extends StatelessWidget {
@@ -7,6 +8,7 @@ class Verification extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: Appbar.buildAppBar(context),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

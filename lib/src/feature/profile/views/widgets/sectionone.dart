@@ -32,8 +32,6 @@ class SectionOne extends StatelessWidget {
             'ABC XYZ Restaurant',
             style: GoogleFonts.lato(
               fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
             ),
           ),
         ],

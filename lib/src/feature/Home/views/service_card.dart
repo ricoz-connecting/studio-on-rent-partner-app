@@ -1,4 +1,4 @@
-import 'package:studio_partner_app/src/feature/Home/pages/chat_screen.dart';
+import 'package:studio_partner_app/src/feature/Home/views/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
