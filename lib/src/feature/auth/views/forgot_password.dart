@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/feature/auth/views/recover_pass_email.dart';
+import 'package:studio_partner_app/src/feature/auth/views/reset_pass_sms.dart';
 import 'package:studio_partner_app/src/feature/auth/views/widgets/reset_button.dart';
 
 class ForgotPassword extends StatefulWidget {
@@ -59,7 +60,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             ResetButton(
               resetText: 'Reset via SMS',
               icon: Icons.smartphone,
-              onTap: null,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ResetPassSms(),
+                  ),
+                );
+              },
             )
           ],
         ),

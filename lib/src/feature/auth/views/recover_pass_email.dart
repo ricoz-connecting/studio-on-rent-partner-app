@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:studio_partner_app/src/res/assets.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
 import 'widgets/reset_dialog.dart';
