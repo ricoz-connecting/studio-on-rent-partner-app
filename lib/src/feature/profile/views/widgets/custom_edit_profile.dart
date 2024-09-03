@@ -14,24 +14,28 @@ class CustomEditProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: Colors.grey.shade100,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.grey.shade300),
-      ),
-      child: ListTile(
-        leading: Icon(
-          icon,
+    return GestureDetector(
+      onTap: () {
+        onTap();
+      },
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: Colors.grey.shade100,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.grey.shade300),
         ),
-        title: Text(
-          label,
-          style: GoogleFonts.lato(),
-        ),
-        onTap: onTap(),
-        trailing: const Icon(
-          Icons.arrow_forward_ios,
+        child: ListTile(
+          leading: Icon(
+            icon,
+          ),
+          title: Text(
+            label,
+            style: GoogleFonts.lato(),
+          ),
+          trailing: const Icon(
+            Icons.arrow_forward_ios,
+          ),
         ),
       ),
     );

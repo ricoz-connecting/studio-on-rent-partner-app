@@ -1,3 +1,4 @@
+import 'package:studio_partner_app/src/feature/auth/controllers/signin.dart';
 import 'package:studio_partner_app/src/feature/auth/views/forgot_password.dart';
 import 'package:studio_partner_app/src/feature/auth/views/signup.dart';
 import 'package:studio_partner_app/src/feature/navigation/navigation_page.dart';
@@ -16,6 +17,9 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool _obscureText = true;
   bool _rememberMe = false;
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -53,6 +57,10 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 10),
               TextField(
+                controller: emailController,
+                onChanged: (value) => setState(() {
+                  emailController.text = value;
+                }),
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.symmetric(
                     vertical: 14,
@@ -77,6 +85,10 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 10),
               TextField(
+                controller: passwordController,
+                onChanged: (value) => setState(() {
+                  passwordController.text = value;
+                }),
                 obscureText: _obscureText,
                 decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(
@@ -144,12 +156,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const BottomNavBar(),
-                      ),
-                    );
+                    Signin(
+                            context: context,
+                            email: emailController.text,
+                            password: passwordController.text)
+                        .signInEmail();
                   },
                   child: const Text(
                     'Sign In',

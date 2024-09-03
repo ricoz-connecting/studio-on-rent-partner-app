@@ -1,3 +1,5 @@
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:studio_partner_app/src/feature/auth/views/signup.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/bank_details.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/custom_edit_profile.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/edit_profile.dart';
@@ -11,6 +13,15 @@ import 'package:studio_partner_app/src/res/colors.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
+
+  Future<void> logout(BuildContext context) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('token');
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const Signup()),
+        (route) => false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -170,7 +181,9 @@ class ProfileScreen extends StatelessWidget {
               CustomEditProfile(
                 label: 'Logout',
                 icon: Icons.logout,
-                onTap: () {},
+                onTap: () {
+                  logout(context);
+                },
               ),
               // Container(
               //   width: double.infinity,

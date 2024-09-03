@@ -1,5 +1,5 @@
+import 'package:studio_partner_app/src/feature/auth/controllers/signup.dart';
 import 'package:studio_partner_app/src/feature/auth/views/login_screen.dart';
-import 'package:studio_partner_app/src/feature/auth/views/register_one.dart';
 import 'package:studio_partner_app/src/res/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,8 +13,13 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   bool _obscureText = true;
   bool _obscureTextConfirm = true;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -58,6 +63,7 @@ class _SignupState extends State<Signup> {
                 ),
                 const SizedBox(height: 10),
                 TextField(
+                  onTapOutside: (event) => FocusScope.of(context).unfocus(),
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(
                       vertical: 14,
@@ -82,6 +88,13 @@ class _SignupState extends State<Signup> {
                 ),
                 const SizedBox(height: 10),
                 TextField(
+                  controller: _emailController,
+                  onChanged: (value) {
+                    setState(() {
+                      _emailController.text = value;
+                    });
+                  },
+                  onTapOutside: (event) => FocusScope.of(context).unfocus(),
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(
                       vertical: 14,
@@ -106,6 +119,11 @@ class _SignupState extends State<Signup> {
                 ),
                 const SizedBox(height: 10),
                 TextField(
+                  controller: _passwordController,
+                  onChanged: (value) => setState(() {
+                    _passwordController.text = value;
+                  }),
+                  onTapOutside: (event) => FocusScope.of(context).unfocus(),
                   obscureText: _obscureText,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(
@@ -140,6 +158,11 @@ class _SignupState extends State<Signup> {
                 ),
                 const SizedBox(height: 10),
                 TextField(
+                  controller: _confirmPasswordController,
+                  onChanged: (value) => setState(() {
+                    _confirmPasswordController.text = value;
+                  }),
+                  onTapOutside: (event) => FocusScope.of(context).unfocus(),
                   obscureText: _obscureTextConfirm,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(
@@ -177,12 +200,13 @@ class _SignupState extends State<Signup> {
                         ),
                       ),
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const RegisterScreen(),
-                          ),
-                        );
+                        SignupEmail(
+                                context: context,
+                                email: _emailController.text,
+                                password: _passwordController.text,
+                                confirmPassword:
+                                    _confirmPasswordController.text)
+                            .signUpEmail();
                       },
                       child: const Text(
                         'Sign Up',

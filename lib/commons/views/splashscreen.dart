@@ -1,26 +1,49 @@
+import 'dart:developer';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:studio_partner_app/src/feature/auth/views/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:studio_partner_app/src/feature/navigation/navigation_page.dart';
 import 'package:studio_partner_app/src/res/assets.dart';
 import 'package:studio_partner_app/src/res/strings.dart';
+import 'package:studio_partner_app/utils/authprovider.dart';
 
-class Splashscreen extends StatefulWidget {
+class Splashscreen extends ConsumerStatefulWidget {
   const Splashscreen({super.key});
 
   @override
-  State<Splashscreen> createState() => _SplashscreenState();
+  ConsumerState<Splashscreen> createState() => _SplashscreenState();
 }
 
-class _SplashscreenState extends State<Splashscreen> {
+class _SplashscreenState extends ConsumerState<Splashscreen> {
+  Future<String> checkAuth() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString('token');
+    ref.read(authprovider.notifier).auth(token ?? '');
+    return token ?? '';
+  }
+
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-        // ignore: use_build_context_synchronously
-        context,
-        MaterialPageRoute(builder: (context) => const Signup()),
-      );
+    Future.delayed(const Duration(seconds: 3), () async {
+      String token = await checkAuth();
+      log(token.toString());
+      if (token != '') {
+        Navigator.pushReplacement(
+          // ignore: use_build_context_synchronously
+          context,
+          MaterialPageRoute(builder: (context) => const BottomNavBar()),
+        );
+      } else {
+        Navigator.pushReplacement(
+          // ignore: use_build_context_synchronously
+          context,
+          MaterialPageRoute(builder: (context) => const Signup()),
+        );
+      }
     });
   }
 

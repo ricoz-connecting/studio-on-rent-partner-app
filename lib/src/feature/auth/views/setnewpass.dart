@@ -135,7 +135,7 @@ class _SetnewpassState extends State<Setnewpass> {
                     password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
                   return 1;
                 }
-                return password.length / 10;
+                return 0;
               },
             ),
             const SizedBox(height: 10),
