@@ -1,10 +1,10 @@
 class AppUrls {
-  static const baseUrl = "http://192.168.0.106:3000";
+  static const baseUrl = "http://192.168.1.5:3000";
   // static const baseUrl = "https://booking-studio-node-apis.vercel.app";
-  static const otpEndPoint = '/api/otp';
+  static const otpEndPoint = '/api/v1/agent/otp';
   static const categoryEndpoint = '/api/agent/category';
   static const locationEndPoint = '/api/agent/city';
-  static const loginEndPoint = '/api/agent/login';
+  static const loginEndPoint = '/api/v1/user/agent/login';
   static const signupEndPoint = '/api/agent/signup';
   static const homeViewEndPoint = '/api/agent/homeview';
   static const descriptionEndpoint = '/api/agent/description';
@@ -14,7 +14,7 @@ class AppUrls {
   static const agent = '/api/agent/agent';
   static const earningRequestEndPoint = "/api/agent/earning";
   static const requestEndPoint = '/api/agent/request';
-  static const loginOtpEndPoint = '/api/agent/otp/login';
+  static const loginOtpEndPoint = '/api/v1/user/otp/login';
   static const filter = '/api/agent/filter';
   static const update = '/api/agent/update';
   static const favourites = '/api/agent/favourites';
