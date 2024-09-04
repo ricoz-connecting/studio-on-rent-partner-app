@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studio_partner_app/commons/views/appbar.dart';
 import 'package:studio_partner_app/src/feature/navigation/navigation_page.dart';
 
-class Verification extends StatelessWidget {
+class Verification extends ConsumerWidget {
   const Verification({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: Appbar.buildAppBar(context),
+      appBar: Appbar.buildAppBar(context, ref),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

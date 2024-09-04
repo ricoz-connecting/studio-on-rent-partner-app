@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/commons/views/appbar.dart';
 
-class EmptyEarning extends StatelessWidget {
+class EmptyEarning extends ConsumerWidget {
   const EmptyEarning({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SafeArea(
       child: Scaffold(
-        appBar: Appbar.buildAppBar(context),
+        appBar: Appbar.buildAppBar(context, ref),
         body: Padding(
           padding: const EdgeInsets.all(30),
           child: Column(

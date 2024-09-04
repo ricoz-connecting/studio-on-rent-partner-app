@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SectionTwo extends StatelessWidget {
+  final String address;
+  final String city;
+  final String state;
   const SectionTwo({
+    required this.state,
+    required this.city,
+    required this.address,
     super.key,
   });
 
@@ -28,8 +34,9 @@ class SectionTwo extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            '111, ABC Apartments, XYZ Road, New Delhi, Delhi',
+            '$address, $city, $state',
             style: GoogleFonts.lato(
+              fontWeight: FontWeight.w600,
               fontSize: 16,
             ),
           ),

@@ -1,9 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:studio_partner_app/src/feature/profile/controllers/editprofile.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
-class EditProfile extends StatelessWidget {
+class EditProfile extends ConsumerStatefulWidget {
   const EditProfile({super.key});
+
+  @override
+  ConsumerState<EditProfile> createState() => _EditProfileState();
+}
+
+class _EditProfileState extends ConsumerState<EditProfile> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _restaurantNameController =
+      TextEditingController();
+  final TextEditingController _restaurantAddressController =
+      TextEditingController();
+  final TextEditingController _restaurantAddressLine2Controller =
+      TextEditingController();
+  final TextEditingController _restaurantCityController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -50,33 +68,69 @@ class EditProfile extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     _buildTextField(
+                      controller: _nameController,
+                      onChanged: (value) {
+                        setState(() {
+                          _nameController.text = value;
+                        });
+                      },
                       hintText: 'John Doe',
                       prefixIcon: Icons.person,
                     ),
                     const SizedBox(height: 20),
                     _buildTextField(
+                      controller: _phoneController,
+                      onChanged: (value) {
+                        setState(() {
+                          _phoneController.text = value;
+                        });
+                      },
                       hintText: '+91 XXXXXX XXXXX',
                       prefixIcon: Icons.phone,
                     ),
                     const SizedBox(height: 20),
                     _buildTextField(
+                      controller: _restaurantNameController,
+                      onChanged: (value) {
+                        setState(() {
+                          _restaurantNameController.text = value;
+                        });
+                      },
                       label: 'Restaurant Name',
                       hintText: 'ABC XYZ Restaurant',
                       prefixIcon: Icons.restaurant,
                     ),
                     const SizedBox(height: 20),
                     _buildTextField(
+                      controller: _restaurantAddressController,
+                      onChanged: (value) {
+                        setState(() {
+                          _restaurantAddressController.text = value;
+                        });
+                      },
                       label: 'Restaurant Address',
                       hintText: '111, ABC Apartments',
                       prefixIcon: Icons.location_city,
                     ),
                     const SizedBox(height: 20),
                     _buildTextField(
+                      controller: _restaurantAddressLine2Controller,
+                      onChanged: (value) {
+                        setState(() {
+                          _restaurantAddressLine2Controller.text = value;
+                        });
+                      },
                       hintText: 'XYZ Road, New Delhi',
                       prefixIcon: Icons.location_on,
                     ),
                     const SizedBox(height: 20),
                     _buildTextField(
+                      controller: _restaurantCityController,
+                      onChanged: (value) {
+                        setState(() {
+                          _restaurantCityController.text = value;
+                        });
+                      },
                       hintText: 'Delhi',
                       prefixIcon: Icons.map,
                     ),
@@ -91,14 +145,14 @@ class EditProfile extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor:  AppColors.primaryBackgroundColor,
+                    backgroundColor: AppColors.primaryBackgroundColor,
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                   onPressed: () {
-                    // Add save logic here
+                    Editprofile(name: _nameController.text).editProfile(ref, context);
                   },
                   child: const Text(
                     'SAVE',
@@ -121,6 +175,8 @@ class EditProfile extends StatelessWidget {
     String? label,
     required String hintText,
     IconData? prefixIcon,
+    required void Function(String) onChanged,
+    required TextEditingController controller,
     int maxLines = 1,
   }) {
     return Column(
@@ -139,6 +195,8 @@ class EditProfile extends StatelessWidget {
             ),
           ),
         TextField(
+          controller: controller,
+          onChanged: onChanged,
           maxLines: maxLines,
           decoration: InputDecoration(
             prefixIcon: prefixIcon != null
@@ -158,8 +216,4 @@ class EditProfile extends StatelessWidget {
       ],
     );
   }
-}
-
-void main() {
-  runApp(const MaterialApp(home: EditProfile()));
 }

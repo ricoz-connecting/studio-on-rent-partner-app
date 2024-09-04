@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-// ignore: camel_case_types
 class SectionOne extends StatelessWidget {
+  final String businessName;
   const SectionOne({
+    required this.businessName,
     super.key,
   });
 
@@ -29,8 +30,9 @@ class SectionOne extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            'ABC XYZ Restaurant',
+            businessName,
             style: GoogleFonts.lato(
+              fontWeight: FontWeight.w600,
               fontSize: 16,
             ),
           ),

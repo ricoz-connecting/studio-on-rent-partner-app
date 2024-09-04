@@ -1,7 +1,6 @@
 import 'package:studio_partner_app/src/feature/auth/controllers/signin.dart';
 import 'package:studio_partner_app/src/feature/auth/views/forgot_password.dart';
 import 'package:studio_partner_app/src/feature/auth/views/signup.dart';
-import 'package:studio_partner_app/src/feature/navigation/navigation_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/res/assets.dart';
@@ -24,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomInset: false,
         body: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(

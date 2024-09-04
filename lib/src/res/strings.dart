@@ -39,6 +39,7 @@ class LogLabel {
   static const httpPost = "HTTP/POST";
   static const httpPut = "HTTP/PUT";
   static const httpDelete = "HTTP/DELETE";
+  static const httpPatch = "HTTP/PATCH";
   static const sharedPrefs = "SHARED_PREFERENCES";
 }
 

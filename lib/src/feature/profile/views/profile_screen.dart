@@ -1,5 +1,4 @@
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:studio_partner_app/src/feature/auth/views/signup.dart';
+import 'package:studio_partner_app/src/feature/profile/models/profile.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/bank_details.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/custom_edit_profile.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/edit_profile.dart';
@@ -11,17 +10,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+import '../controllers/logout.dart';
 
-  Future<void> logout(BuildContext context) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove('token');
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const Signup()),
-        (route) => false);
-  }
+class ProfileScreen extends StatelessWidget {
+  final Profile profile;
+
+  const ProfileScreen({super.key, required this.profile});
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +82,7 @@ class ProfileScreen extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               Text(
-                'Hi, John',
+                'Hi, ${profile.name}',
                 style: GoogleFonts.lato(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -102,15 +96,21 @@ class ProfileScreen extends StatelessWidget {
                   const Icon(Icons.phone_outlined, color: Colors.black54),
                   const SizedBox(width: 8),
                   Text(
-                    '+91 XXXXX XXXXX',
+                    profile.phone,
                     style: GoogleFonts.lato(color: Colors.black54),
                   ),
                 ],
               ),
               const SizedBox(height: 20),
-              const SectionOne(),
+              SectionOne(
+                businessName: profile.businessName,
+              ),
               const SizedBox(height: 20),
-              const SectionTwo(),
+              SectionTwo(
+                city: profile.city,
+                state: profile.state,
+                address: profile.address,
+              ),
               const SizedBox(height: 20),
               CustomEditProfile(
                   label: "Customer Reviews",
@@ -182,7 +182,7 @@ class ProfileScreen extends StatelessWidget {
                 label: 'Logout',
                 icon: Icons.logout,
                 onTap: () {
-                  logout(context);
+                  Logout.logout(context);
                 },
               ),
               // Container(

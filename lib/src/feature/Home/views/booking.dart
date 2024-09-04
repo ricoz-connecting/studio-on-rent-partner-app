@@ -1,17 +1,17 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studio_partner_app/src/feature/Home/views/service_card.dart';
-import 'package:studio_partner_app/src/feature/profile/views/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
 import '../../../../commons/views/appbar.dart';
 
-class Bookings extends StatelessWidget {
+class Bookings extends ConsumerWidget {
   const Bookings({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: Appbar.buildAppBar(context),
+      appBar: Appbar.buildAppBar(context, ref),
       body: SafeArea(
         child: Column(
           children: [
