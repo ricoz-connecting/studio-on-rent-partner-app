@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/feature/profile/controllers/editprofile.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
+import '../../models/profile.dart';
+
 class EditProfile extends ConsumerStatefulWidget {
   const EditProfile({super.key});
 
@@ -12,16 +14,11 @@ class EditProfile extends ConsumerStatefulWidget {
 }
 
 class _EditProfileState extends ConsumerState<EditProfile> {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _restaurantNameController =
-      TextEditingController();
-  final TextEditingController _restaurantAddressController =
-      TextEditingController();
-  final TextEditingController _restaurantAddressLine2Controller =
-      TextEditingController();
-  final TextEditingController _restaurantCityController =
-      TextEditingController();
+  String? _name,
+      _restaurantName,
+      _restaurantAddress,
+      _restaurantAddressLine2,
+      _restaurantCity;
 
   @override
   Widget build(BuildContext context) {
@@ -68,10 +65,9 @@ class _EditProfileState extends ConsumerState<EditProfile> {
                     ),
                     const SizedBox(height: 20),
                     _buildTextField(
-                      controller: _nameController,
                       onChanged: (value) {
                         setState(() {
-                          _nameController.text = value;
+                          _name = value;
                         });
                       },
                       hintText: 'John Doe',
@@ -79,21 +75,17 @@ class _EditProfileState extends ConsumerState<EditProfile> {
                     ),
                     const SizedBox(height: 20),
                     _buildTextField(
-                      controller: _phoneController,
                       onChanged: (value) {
-                        setState(() {
-                          _phoneController.text = value;
-                        });
+                        setState(() {});
                       },
                       hintText: '+91 XXXXXX XXXXX',
                       prefixIcon: Icons.phone,
                     ),
                     const SizedBox(height: 20),
                     _buildTextField(
-                      controller: _restaurantNameController,
                       onChanged: (value) {
                         setState(() {
-                          _restaurantNameController.text = value;
+                          _restaurantName = value;
                         });
                       },
                       label: 'Restaurant Name',
@@ -102,10 +94,9 @@ class _EditProfileState extends ConsumerState<EditProfile> {
                     ),
                     const SizedBox(height: 20),
                     _buildTextField(
-                      controller: _restaurantAddressController,
                       onChanged: (value) {
                         setState(() {
-                          _restaurantAddressController.text = value;
+                          _restaurantAddress = value;
                         });
                       },
                       label: 'Restaurant Address',
@@ -114,10 +105,9 @@ class _EditProfileState extends ConsumerState<EditProfile> {
                     ),
                     const SizedBox(height: 20),
                     _buildTextField(
-                      controller: _restaurantAddressLine2Controller,
                       onChanged: (value) {
                         setState(() {
-                          _restaurantAddressLine2Controller.text = value;
+                          _restaurantAddressLine2 = value;
                         });
                       },
                       hintText: 'XYZ Road, New Delhi',
@@ -125,10 +115,9 @@ class _EditProfileState extends ConsumerState<EditProfile> {
                     ),
                     const SizedBox(height: 20),
                     _buildTextField(
-                      controller: _restaurantCityController,
                       onChanged: (value) {
                         setState(() {
-                          _restaurantCityController.text = value;
+                          _restaurantCity = value;
                         });
                       },
                       hintText: 'Delhi',
@@ -152,7 +141,16 @@ class _EditProfileState extends ConsumerState<EditProfile> {
                     ),
                   ),
                   onPressed: () {
-                    Editprofile(name: _nameController.text).editProfile(ref, context);
+                    
+                    Editprofile(
+                      profile: Profile(
+                        name: _name,
+                        businessName: _restaurantName,
+                        address: _restaurantAddress,
+                        city: _restaurantCity,
+                        pincode: _restaurantAddressLine2,
+                      ),
+                    ).editProfile(ref, context);
                   },
                   child: const Text(
                     'SAVE',
@@ -176,7 +174,6 @@ class _EditProfileState extends ConsumerState<EditProfile> {
     required String hintText,
     IconData? prefixIcon,
     required void Function(String) onChanged,
-    required TextEditingController controller,
     int maxLines = 1,
   }) {
     return Column(
@@ -195,7 +192,6 @@ class _EditProfileState extends ConsumerState<EditProfile> {
             ),
           ),
         TextField(
-          controller: controller,
           onChanged: onChanged,
           maxLines: maxLines,
           decoration: InputDecoration(

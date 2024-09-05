@@ -1,32 +1,34 @@
 class Profile {
-  final String phone;
-  final String email;
-  final String username;
-  final String name;
-  final String address;
-  final String city;
-  final String pincode;
-  final String state;
-  final String country;
-  final String avatar;
-  final String businessName;
-  final String latitude;
-  final String longitude;
+  String? phone;
+  String? gender;
+  String? email;
+  String? username;
+  String? name;
+  String? address;
+  String? city;
+  String? pincode;
+  String? state;
+  String? country;
+  String? avatar;
+  String? businessName;
+  String? latitude;
+  String? longitude;
 
   Profile({
-    required this.phone,
-    required this.email,
-    required this.username,
-    required this.name,
-    required this.address,
-    required this.city,
-    required this.pincode,
-    required this.state,
-    required this.country,
-    required this.avatar,
-    required this.businessName,
-    required this.latitude,
-    required this.longitude,
+    this.phone,
+    this.email,
+    this.gender,
+    this.username,
+    this.name,
+    this.address,
+    this.city,
+    this.pincode,
+    this.state,
+    this.country,
+    this.avatar,
+    this.businessName,
+    this.latitude,
+    this.longitude,
   });
 
   factory Profile.fromJson(Map<String, dynamic> json) {
@@ -45,5 +47,24 @@ class Profile {
       latitude: json['latitude'],
       longitude: json['longitude'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      if (phone != null) 'phone': phone,
+      if (email != null) 'email': email,
+      if (username != null) 'username': username,
+      if (name != null) 'name': name,
+      if(gender!=null) 'gender' : gender,
+      if (address != null) 'address': address,
+      if (city != null) 'city': city,
+      if (pincode != null) 'pincode': pincode,
+      if (state != null) 'state': state,
+      if (country != null) 'country': country,
+      if (avatar != null) 'avatar': avatar,
+      if (businessName != null) 'businessName': businessName,
+      if (latitude != null) 'latitude': latitude,
+      if (longitude != null) 'longitude': longitude,
+    };
   }
 }

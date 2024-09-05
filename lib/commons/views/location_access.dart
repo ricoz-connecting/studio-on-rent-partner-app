@@ -52,7 +52,7 @@ class LocationAccess extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const CompleteProfileScreen(),
+                      builder: (context) => CompleteProfileScreen(),
                     ),
                   );
                 },

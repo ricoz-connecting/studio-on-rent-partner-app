@@ -8,7 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/feature/navigation/navigation_page.dart';
 import 'package:studio_partner_app/src/res/assets.dart';
 import 'package:studio_partner_app/src/res/strings.dart';
-import 'package:studio_partner_app/utils/authprovider.dart';
+import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
 
 class Splashscreen extends ConsumerStatefulWidget {
   const Splashscreen({super.key});

@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studio_partner_app/src/core/api.dart';
 import 'package:studio_partner_app/src/feature/profile/views/profile_screen.dart';
 import 'package:studio_partner_app/src/res/endpoints.dart';
-import 'package:studio_partner_app/utils/authprovider.dart';
+import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
 import '../../src/feature/profile/models/profile.dart';
 
 class GetProfile {

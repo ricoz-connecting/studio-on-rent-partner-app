@@ -9,7 +9,6 @@ import 'package:studio_partner_app/src/feature/profile/views/widgets/sectiontwo.
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
-
 import '../controllers/logout.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -96,20 +95,20 @@ class ProfileScreen extends StatelessWidget {
                   const Icon(Icons.phone_outlined, color: Colors.black54),
                   const SizedBox(width: 8),
                   Text(
-                    profile.phone,
+                    profile.phone!,
                     style: GoogleFonts.lato(color: Colors.black54),
                   ),
                 ],
               ),
               const SizedBox(height: 20),
               SectionOne(
-                businessName: profile.businessName,
+                businessName: profile.businessName!,
               ),
               const SizedBox(height: 20),
               SectionTwo(
-                city: profile.city,
-                state: profile.state,
-                address: profile.address,
+                city: profile.city!,
+                state: profile.state!,
+                address: profile.address!,
               ),
               const SizedBox(height: 20),
               CustomEditProfile(

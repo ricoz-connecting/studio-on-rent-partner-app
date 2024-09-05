@@ -1,10 +1,8 @@
-import 'dart:convert';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:studio_partner_app/src/core/api.dart';
-import 'package:studio_partner_app/src/feature/auth/views/register_one.dart';
-import 'package:studio_partner_app/src/res/endpoints.dart';
+import 'package:studio_partner_app/src/feature/auth/repo/signup.dart';
+import 'package:studio_partner_app/src/feature/auth/views/login_screen.dart';
 
 class SignupEmail {
   final String email;
@@ -38,48 +36,34 @@ class SignupEmail {
         );
         return;
       }
-      final result = await api.postRequest(
-        url: Endpoints.signupEmail,
-        body: {
-          "email": email,
-          "password": password,
-          "phone": "+919999999999",
-        },
-        requireAuth: false,
-      );
-      result.fold(
-        (failure) {
+      final result = await SignupRepo.signup(email, password);
+      if (result == false) {
+        if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(failure.message),
+            const SnackBar(
+              content: Text('An unexpected error occurred'),
             ),
           );
-        },
-        (response) {
-          final Map<String, dynamic> responseBody = jsonDecode(response.body);
-          if (responseBody['success'] == false) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(responseBody['message']),
-              ),
-            );
-          } else {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const RegisterScreen(),
-              ),
-            );
-          }
-        },
-      );
+        }
+      } else {
+        if (context.mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const LoginScreen(),
+            ),
+          );
+        }
+      }
     } catch (e) {
       log(e.toString());
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('An unexpected error occurred'),
-        ),
-      );
+      context.mounted
+          ? ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('An unexpected error occurred'),
+              ),
+            )
+          : null;
     }
   }
 }
