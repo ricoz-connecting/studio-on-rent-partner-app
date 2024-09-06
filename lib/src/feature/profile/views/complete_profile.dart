@@ -1,8 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:studio_partner_app/commons/views/providers/image_upload_url.dart';
 import 'package:studio_partner_app/src/feature/profile/controllers/editprofile.dart';
 import 'package:studio_partner_app/src/feature/profile/models/profile.dart';
+import 'package:studio_partner_app/src/feature/profile/views/widgets/pickimage.dart';
+import 'package:studio_partner_app/src/res/assets.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
 class CompleteProfileScreen extends ConsumerStatefulWidget {
@@ -21,9 +27,11 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
   String? name;
   String? businessName;
   String? gender;
+  XFile? image;
 
   @override
   Widget build(BuildContext context) {
+    final userImageKey = ref.watch(keyProvider);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -55,11 +63,15 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
                   CircleAvatar(
                     radius: 50,
                     backgroundColor: Colors.grey.shade200,
-                    child: const Icon(
-                      Icons.person,
-                      size: 60,
-                      color: Colors.grey,
-                    ),
+                    backgroundImage:
+                        image == null ? null : FileImage(File(image!.path)),
+                    child: image == null
+                        ? const Icon(
+                            Icons.person,
+                            size: 60,
+                            color: Colors.grey,
+                          )
+                        : null,
                   ),
                   Positioned(
                     right: 0,
@@ -69,12 +81,21 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
                         color: AppColors.primaryBackgroundColor,
                         shape: BoxShape.circle,
                       ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(4.0),
-                        child: Icon(
-                          Icons.edit,
-                          size: 18,
-                          color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            Pickimage(ref).pickImage().then((value) {
+                              setState(() {
+                                image = value;
+                              });
+                            });
+                          },
+                          child: const Icon(
+                            Icons.edit,
+                            size: 18,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
@@ -246,9 +267,11 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
                   onPressed: () {
                     Editprofile(
                       profile: Profile(
-                          name: name,
-                          businessName: businessName,
-                          gender: gender),
+                        name: name,
+                        businessName: businessName,
+                        gender: gender,
+                        avatar: "${ImageAssets.userProfile}$userImageKey",
+                      ),
                     ).editProfile(ref, context);
                   },
                   child: const Text(

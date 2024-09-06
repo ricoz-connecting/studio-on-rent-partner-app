@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studio_partner_app/src/feature/profile/models/profile.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/bank_details.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/custom_edit_profile.dart';
@@ -11,13 +14,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 import '../controllers/logout.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends ConsumerWidget {
   final Profile profile;
 
   const ProfileScreen({super.key, required this.profile});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    // log('${profile.avatar}');
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -53,14 +57,13 @@ class ProfileScreen extends StatelessWidget {
               Stack(
                 children: [
                   CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.grey.shade200,
-                    child: const Icon(
-                      Icons.person,
-                      size: 60,
-                      color: Colors.grey,
-                    ),
-                  ),
+                      radius: 50,
+                      backgroundColor: Colors.grey.shade200,
+                      backgroundImage: profile.avatar == ''
+                          ? null
+                          : NetworkImage(
+                              '${profile.avatar}',
+                            )),
                   Positioned(
                     bottom: 0,
                     right: 0,

@@ -13,4 +13,5 @@ class Endpoints {
   static const String editProfile = "${baseUrl}partner/profile";
   static const String logout = "${baseUrl}partner/logout";
   static const String changeEmailPhone = "${baseUrl}partner/change-phone-email";
+  static const String fetchUploadImageUrl = "${baseUrl}storage/upload";
 }

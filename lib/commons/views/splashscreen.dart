@@ -1,14 +1,15 @@
 import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:studio_partner_app/commons/controllers/checkauth.dart';
+import 'package:studio_partner_app/commons/repo/get_image_url.dart';
+import 'package:studio_partner_app/commons/views/providers/image_upload_url.dart';
 import 'package:studio_partner_app/src/feature/auth/views/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/feature/navigation/navigation_page.dart';
 import 'package:studio_partner_app/src/res/assets.dart';
 import 'package:studio_partner_app/src/res/strings.dart';
-import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
 
 class Splashscreen extends ConsumerStatefulWidget {
   const Splashscreen({super.key});
@@ -18,28 +19,21 @@ class Splashscreen extends ConsumerStatefulWidget {
 }
 
 class _SplashscreenState extends ConsumerState<Splashscreen> {
-  Future<String> checkAuth() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? token = prefs.getString('token');
-    ref.read(authprovider.notifier).auth(token ?? '');
-    return token ?? '';
-  }
-
   @override
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 3), () async {
-      String token = await checkAuth();
-      log(token.toString());
+      String token = await Checkauth.checkAuth(ref);
+      Map<String, dynamic> url = await GetImageUrl.getUploadUrl();
+      ref.read(imageUploadUrl.notifier).setImageUploadUrl(url['uploadUrl']);
+      ref.read(keyProvider.notifier).setKey(url['key']);
       if (token != '') {
         Navigator.pushReplacement(
-          // ignore: use_build_context_synchronously
           context,
           MaterialPageRoute(builder: (context) => const BottomNavBar()),
         );
       } else {
         Navigator.pushReplacement(
-          // ignore: use_build_context_synchronously
           context,
           MaterialPageRoute(builder: (context) => const Signup()),
         );

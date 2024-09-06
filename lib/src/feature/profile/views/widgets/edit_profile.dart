@@ -1,7 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:studio_partner_app/commons/views/providers/image_upload_url.dart';
 import 'package:studio_partner_app/src/feature/profile/controllers/editprofile.dart';
+import 'package:studio_partner_app/src/feature/profile/views/widgets/pickimage.dart';
+import 'package:studio_partner_app/src/res/assets.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
 import '../../models/profile.dart';
@@ -18,10 +24,13 @@ class _EditProfileState extends ConsumerState<EditProfile> {
       _restaurantName,
       _restaurantAddress,
       _restaurantAddressLine2,
-      _restaurantCity;
+      _restaurantCity,
+      _avatar;
+  XFile? image;
 
   @override
   Widget build(BuildContext context) {
+    final userImage = ref.watch(keyProvider);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -56,12 +65,25 @@ class _EditProfileState extends ConsumerState<EditProfile> {
                     CircleAvatar(
                       radius: 50,
                       backgroundColor: Colors.grey.shade300,
-                      child: IconButton(
-                        icon: const Icon(Icons.edit, color: Colors.white),
-                        onPressed: () {
-                          // Add edit profile picture logic here
-                        },
-                      ),
+                      backgroundImage: image == null
+                          ? null
+                          : FileImage(
+                              File(image!.path),
+                            ),
+                      child: image == null
+                          ? IconButton(
+                              icon: const Icon(Icons.edit, color: Colors.white),
+                              onPressed: () {
+                                Pickimage(ref).pickImage().then((value) {
+                                  setState(() {
+                                    image = value;
+                                    _avatar =
+                                        '${ImageAssets.userProfile}$userImage';
+                                  });
+                                });
+                              },
+                            )
+                          : null,
                     ),
                     const SizedBox(height: 20),
                     _buildTextField(
@@ -141,15 +163,14 @@ class _EditProfileState extends ConsumerState<EditProfile> {
                     ),
                   ),
                   onPressed: () {
-                    
                     Editprofile(
                       profile: Profile(
-                        name: _name,
-                        businessName: _restaurantName,
-                        address: _restaurantAddress,
-                        city: _restaurantCity,
-                        pincode: _restaurantAddressLine2,
-                      ),
+                          name: _name,
+                          businessName: _restaurantName,
+                          address: _restaurantAddress,
+                          city: _restaurantCity,
+                          pincode: _restaurantAddressLine2,
+                          avatar: _avatar),
                     ).editProfile(ref, context);
                   },
                   child: const Text(
