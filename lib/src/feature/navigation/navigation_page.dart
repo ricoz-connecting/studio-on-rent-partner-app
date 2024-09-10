@@ -1,3 +1,5 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studio_partner_app/commons/controllers/get_profile.dart';
 import 'package:studio_partner_app/src/feature/Home/views/chat_screen.dart';
 import 'package:studio_partner_app/src/feature/Home/views/earnings.dart';
 import 'package:studio_partner_app/src/feature/Home/views/booking.dart';
@@ -5,18 +7,18 @@ import 'package:studio_partner_app/src/feature/Home/views/empty_chat.dart';
 import 'package:studio_partner_app/src/feature/Home/views/empty_earning.dart';
 import 'package:studio_partner_app/src/feature/Home/views/empty_studio.dart';
 import 'package:studio_partner_app/src/feature/Home/views/empyt_bookings.dart';
-import 'package:studio_partner_app/src/feature/Home/views/store_screen.dart';
+import 'package:studio_partner_app/src/feature/Home/views/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
-class BottomNavBar extends StatefulWidget {
+class BottomNavBar extends ConsumerStatefulWidget {
   const BottomNavBar({super.key});
 
   @override
-  State<BottomNavBar> createState() => _BottomNavBarState();
+  ConsumerState<BottomNavBar> createState() => _BottomNavBarState();
 }
 
-class _BottomNavBarState extends State<BottomNavBar> {
+class _BottomNavBarState extends ConsumerState<BottomNavBar> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
     // Bookings(),
@@ -27,10 +29,14 @@ class _BottomNavBarState extends State<BottomNavBar> {
     EmptyChat(),
     EmptyStudio(),
     EmptyEarning(),
+    Profile(),
   ];
 
   void _onItemTapped(int index) {
     setState(() {
+      if (index == 4) {
+        GetProfile.getProfile(context, ref);
+      }
       _selectedIndex = index;
     });
   }
@@ -44,10 +50,17 @@ class _BottomNavBarState extends State<BottomNavBar> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.event_note,
+              Icons.home_outlined,
               size: 30,
             ),
-            label: 'Bookings',
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.explore_outlined,
+              size: 30,
+            ),
+            label: 'Explore',
           ),
           BottomNavigationBarItem(
             icon: Icon(
@@ -58,17 +71,17 @@ class _BottomNavBarState extends State<BottomNavBar> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.store_outlined,
+              Icons.favorite_border,
               size: 30,
             ),
-            label: 'Studio',
+            label: 'Saved',
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.account_balance_wallet_outlined,
+              Icons.person_outline,
               size: 30,
             ),
-            label: 'Eearnings',
+            label: 'Profile',
           ),
         ],
         currentIndex: _selectedIndex,

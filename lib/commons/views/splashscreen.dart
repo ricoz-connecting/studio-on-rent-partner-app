@@ -1,15 +1,15 @@
-import 'dart:developer';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studio_partner_app/commons/controllers/checkauth.dart';
 import 'package:studio_partner_app/commons/repo/get_image_url.dart';
 import 'package:studio_partner_app/commons/views/providers/image_upload_url.dart';
-import 'package:studio_partner_app/src/feature/auth/views/signup.dart';
+import 'package:studio_partner_app/src/feature/auth/views/landing_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/feature/navigation/navigation_page.dart';
 import 'package:studio_partner_app/src/res/assets.dart';
 import 'package:studio_partner_app/src/res/strings.dart';
+
+import '../controllers/get_profile.dart';
 
 class Splashscreen extends ConsumerStatefulWidget {
   const Splashscreen({super.key});
@@ -28,6 +28,7 @@ class _SplashscreenState extends ConsumerState<Splashscreen> {
       ref.read(imageUploadUrl.notifier).setImageUploadUrl(url['uploadUrl']);
       ref.read(keyProvider.notifier).setKey(url['key']);
       if (token != '') {
+        await GetProfile.getProfile(context, ref);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const BottomNavBar()),
@@ -35,7 +36,7 @@ class _SplashscreenState extends ConsumerState<Splashscreen> {
       } else {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const Signup()),
+          MaterialPageRoute(builder: (context) => const LandingScreen()),
         );
       }
     });

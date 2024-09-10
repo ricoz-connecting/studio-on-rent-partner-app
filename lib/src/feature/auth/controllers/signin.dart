@@ -1,8 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:studio_partner_app/src/feature/auth/repo/signin.dart';
-import 'package:studio_partner_app/src/feature/auth/views/register_one.dart';
-import 'package:studio_partner_app/src/feature/profile/views/complete_profile.dart';
+import 'package:studio_partner_app/src/feature/navigation/navigation_page.dart';
 
 class Signin {
   final String email;
@@ -39,7 +38,7 @@ class Signin {
             ? Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => CompleteProfileScreen(),
+                  builder: (context) => const BottomNavBar(),
                 ),
               )
             : null;

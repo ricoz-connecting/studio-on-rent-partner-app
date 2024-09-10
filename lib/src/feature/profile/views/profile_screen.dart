@@ -15,9 +15,9 @@ import 'package:studio_partner_app/src/res/colors.dart';
 import '../controllers/logout.dart';
 
 class ProfileScreen extends ConsumerWidget {
-  final Profile profile;
+  final Profile? profile;
 
-  const ProfileScreen({super.key, required this.profile});
+  const ProfileScreen({super.key, this.profile});
 
   @override
   Widget build(BuildContext context, ref) {
@@ -59,10 +59,10 @@ class ProfileScreen extends ConsumerWidget {
                   CircleAvatar(
                       radius: 50,
                       backgroundColor: Colors.grey.shade200,
-                      backgroundImage: profile.avatar == ''
+                      backgroundImage: profile!.avatar == ''
                           ? null
                           : NetworkImage(
-                              '${profile.avatar}',
+                              '${profile!.avatar}',
                             )),
                   Positioned(
                     bottom: 0,
@@ -84,7 +84,7 @@ class ProfileScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 20),
               Text(
-                'Hi, ${profile.name}',
+                'Hi, ${profile!.name}',
                 style: GoogleFonts.lato(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -98,20 +98,20 @@ class ProfileScreen extends ConsumerWidget {
                   const Icon(Icons.phone_outlined, color: Colors.black54),
                   const SizedBox(width: 8),
                   Text(
-                    profile.phone!,
+                    profile!.phone!,
                     style: GoogleFonts.lato(color: Colors.black54),
                   ),
                 ],
               ),
               const SizedBox(height: 20),
               SectionOne(
-                businessName: profile.businessName!,
+                businessName: profile!.businessName!,
               ),
               const SizedBox(height: 20),
               SectionTwo(
-                city: profile.city!,
-                state: profile.state!,
-                address: profile.address!,
+                city: profile!.city!,
+                state: profile!.state!,
+                address: profile!.address!,
               ),
               const SizedBox(height: 20),
               CustomEditProfile(

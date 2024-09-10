@@ -1,10 +1,12 @@
 import 'package:studio_partner_app/src/feature/auth/controllers/signin.dart';
 import 'package:studio_partner_app/src/feature/auth/views/forgot_password.dart';
-import 'package:studio_partner_app/src/feature/auth/views/signup.dart';
+import 'package:studio_partner_app/src/feature/auth/views/signin_with_phone.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/res/assets.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
+
+import 'widgets/signin_widget.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,7 +17,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _obscureText = true;
-  bool _rememberMe = false;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -23,16 +24,16 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      appBar: AppBar(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Login',
-                style: GoogleFonts.inter(
+                'Welcome!',
+                style: GoogleFonts.plusJakartaSans(
                   fontSize: 28,
                   fontWeight: FontWeight.w600,
                   color: Colors.black,
@@ -40,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 10),
               const Text(
-                'Hi! Welcome back, nice to see you',
+                'Log In to your account to explore your dream Studio!',
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.grey,
@@ -50,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
               const Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Email',
+                  'Username',
                   style: TextStyle(fontSize: 16, color: Colors.black),
                 ),
               ),
@@ -68,10 +69,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   filled: true,
                   fillColor: Colors.grey.shade200,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(50),
                     borderSide: BorderSide.none,
                   ),
-                  hintText: 'example@gmail.com',
+                  hintText: 'Enter your Username',
                 ),
               ),
               const SizedBox(height: 20),
@@ -97,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     filled: true,
                     fillColor: Colors.grey.shade200,
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(50),
                       borderSide: BorderSide.none,
                     ),
                     hintText: '********',
@@ -110,38 +111,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: _obscureText
                             ? const Icon(Icons.visibility_off)
                             : const Icon(Icons.visibility))),
-              ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Switch(
-                      value: _rememberMe,
-                      onChanged: (value) {
-                        setState(() {
-                          _rememberMe = value;
-                        });
-                      }),
-                  const Text(
-                    'Remember Me',
-                    style: TextStyle(color: Color(0xFF939393)),
-                  ),
-                  const Spacer(),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ForgotPassword()));
-                    },
-                    child: const Text(
-                      'Forgot Password',
-                      style: TextStyle(
-                          color: Color(0xFF939393),
-                          decoration: TextDecoration.underline),
-                    ),
-                  ),
-                ],
               ),
               const SizedBox(height: 20),
               SizedBox(
@@ -162,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         .signInEmail();
                   },
                   child: const Text(
-                    'Sign In',
+                    'Log in',
                     style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -170,62 +139,48 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ForgotPassword()));
+                  },
+                  child: const Text(
+                    'Forgot Password?',
+                    style: TextStyle(
+                      color: Color(0xFF939393),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
               const Row(
                 children: [
                   Expanded(child: Divider()),
                   Text(
-                    ' or sign in with ',
-                    style: TextStyle(color: Colors.grey),
+                    ' OR  ',
+                    style: TextStyle(color: Colors.grey, fontSize: 16),
                   ),
                   Expanded(child: Divider()),
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: Image.asset(ImageAssets.googleimage),
-                  ),
-                  const SizedBox(width: 10),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Image.asset(
-                      ImageAssets.facebook,
-                      height: 70,
-                      width: 70,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Image.asset(
-                      ImageAssets.appleimage,
-                      height: 70,
-                      width: 70,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text("Don't have account?"),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
+              const SizedBox(height: 10),
+              SigninWidget(
+                  onTap: () {
+                    Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const Signup(),
-                        ),
-                      );
-                    },
-                    child: const Text(
-                      'Sign Up',
-                      style: TextStyle(color: AppColors.primaryBackgroundColor),
-                    ),
-                  ),
-                ],
+                            builder: (context) => const SigninWithPhone()));
+                  },
+                  label: 'Sign in with Phone number',
+                  icon: Icons.phone),
+              const SizedBox(height: 10),
+              SigninWidget(
+                onTap: () {},
+                label: 'Sign in with Google',
+                iconImage: ImageAssets.googleimage,
               ),
             ],
           ),
