@@ -1,8 +1,9 @@
-
 import 'dart:developer';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studio_partner_app/commons/views/providers/profileprovider.dart';
+import 'package:studio_partner_app/src/feature/Home/views/widgets/custom_search_bar.dart';
 import 'package:studio_partner_app/src/feature/chat/views/chatroom.dart';
-import 'package:studio_partner_app/src/feature/chat/widgets/chatappbar.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,27 +15,7 @@ class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          onPressed: () {
-            
-           Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.keyboard_arrow_left,
-            size: 30,
-          ),
-        ),
-        title: const ChatAppBar(
-          icons: Icon(
-            Icons.search,
-            size: 30,
-          ),
-          emailText: 'Search messages',
-          colors: Color(0xFFF2F2F3), profileImage: AssetImage('assets/images/profile.png'),
-        ),
-      ),
+      appBar: CustomSearchBar(label: 'Search messages', context: context),
       body: const ChatScreenBody(),
     );
   }
@@ -52,13 +33,14 @@ class ChatScreenBody extends StatelessWidget {
     return ListView.builder(
       itemCount: 10,
       itemBuilder: (context, index) {
-        return Chats(height: height, width: width, formattedTime: formattedTime);
+        return Chats(
+            height: height, width: width, formattedTime: formattedTime);
       },
     );
   }
 }
 
-class Chats extends StatelessWidget {
+class Chats extends ConsumerWidget {
   const Chats({
     super.key,
     required this.height,
@@ -71,7 +53,8 @@ class Chats extends StatelessWidget {
   final String formattedTime;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userProfile = ref.watch(profileProvider);
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -91,8 +74,8 @@ class Chats extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const CircleAvatar(
-              backgroundImage: AssetImage('assets/images/profile.png'),
+            CircleAvatar(
+              backgroundImage: NetworkImage(userProfile.avatar!),
               radius: 25,
             ),
             Container(

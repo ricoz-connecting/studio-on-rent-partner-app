@@ -1,31 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:studio_partner_app/commons/views/providers/profileprovider.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
-class Chatroom extends StatelessWidget {
+class Chatroom extends ConsumerWidget {
   const Chatroom({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userProfile = ref.watch(profileProvider);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        title: Text(
-          'ID : 12345',
-          style: GoogleFonts.lato(
-            color: Colors.black,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
+        title: Row(
+          children: [
+            CircleAvatar(
+              backgroundImage: NetworkImage(userProfile.avatar!),
+            ),
+            const SizedBox(width: 8),
+            Text(
+              'ID : 12345',
+              style: GoogleFonts.lato(
+                color: Colors.black,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
         ),
-        centerTitle: true,
         actions: [
           TextButton(
             onPressed: () {},
@@ -34,6 +43,7 @@ class Chatroom extends StatelessWidget {
               style: GoogleFonts.lato(
                 color: AppColors.primaryBackgroundColor,
                 fontSize: 14,
+                decoration: TextDecoration.underline,
               ),
             ),
           ),
@@ -72,7 +82,7 @@ class Chatroom extends StatelessWidget {
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: Colors.grey.shade200,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(8),
               ),
               child: Text(
                 text,
@@ -107,8 +117,8 @@ class Chatroom extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: AppColors.primaryBackgroundColor,
-                borderRadius: BorderRadius.circular(20),
+                color: AppColors.chatScreenColor,
+                borderRadius: BorderRadius.circular(8),
               ),
               child: Text(
                 text,
@@ -137,6 +147,15 @@ class Chatroom extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Row(
         children: [
+          CircleAvatar(
+            backgroundColor: AppColors.chatScreenColor,
+            child: IconButton(
+              icon: const Icon(Icons.add, color: Colors.white),
+              onPressed: () {
+                // Implement add attachment functionality
+              },
+            ),
+          ),
           Expanded(
             child: TextField(
               decoration: InputDecoration(
@@ -155,20 +174,14 @@ class Chatroom extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           CircleAvatar(
-            backgroundColor: AppColors.primaryBackgroundColor,
+            backgroundColor: AppColors.chatScreenColor,
             child: IconButton(
               icon: const Icon(Icons.send, color: Colors.white),
-              onPressed: () {
-                // Implement send message functionality
-              },
+              onPressed: () {},
             ),
           ),
         ],
       ),
     );
   }
-}
-
-void main() {
-  runApp(const MaterialApp(home: Chatroom()));
 }

@@ -4,6 +4,7 @@ import 'package:studio_partner_app/commons/views/providers/profileprovider.dart'
 import 'package:studio_partner_app/src/feature/Home/views/widgets/profile.dart';
 import 'package:studio_partner_app/src/feature/Home/views/widgets/refer_and_earn.dart';
 import 'package:studio_partner_app/src/feature/profile/views/profile_screen.dart';
+import 'package:studio_partner_app/src/feature/settings/views/settings.dart';
 
 class Profile extends ConsumerStatefulWidget {
   const Profile({super.key});
@@ -61,7 +62,12 @@ class _ProfileState extends ConsumerState<Profile> {
               ),
               const SizedBox(height: 20),
               ProfileWidgets(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SettingsScreen()));
+                },
                 icon: Icons.settings,
                 title: 'Settings',
               ),

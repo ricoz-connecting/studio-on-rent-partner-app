@@ -4,6 +4,8 @@ class AppColors {
   static const primaryBackgroundColor = Color(0xFF6D52EF);
   static const black = Colors.black;
   static const white = Colors.white;
+  static const appbarColor = Color(0xFFEEEAE9);
+  static const chatScreenColor = Color(0xFFD5CDFB);
 }
 
 class BasicColor {

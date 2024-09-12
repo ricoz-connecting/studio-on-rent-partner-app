@@ -4,7 +4,7 @@ import 'package:studio_partner_app/src/feature/Home/views/chat_screen.dart';
 import 'package:studio_partner_app/src/feature/Home/views/earnings.dart';
 import 'package:studio_partner_app/src/feature/Home/views/booking.dart';
 import 'package:studio_partner_app/src/feature/Home/views/empty_chat.dart';
-import 'package:studio_partner_app/src/feature/Home/views/empty_earning.dart';
+import 'package:studio_partner_app/src/feature/Home/views/saved_studios.dart';
 import 'package:studio_partner_app/src/feature/Home/views/empty_studio.dart';
 import 'package:studio_partner_app/src/feature/Home/views/empyt_bookings.dart';
 import 'package:studio_partner_app/src/feature/Home/views/profile.dart';
@@ -21,14 +21,14 @@ class BottomNavBar extends ConsumerStatefulWidget {
 class _BottomNavBarState extends ConsumerState<BottomNavBar> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
-    // Bookings(),
-    // ChatScreen(),
+    Bookings(),
     // StoreScreen(),
     // EarningsPage(),
-    EmpytBookings(),
-    EmptyChat(),
+    // EmpytBookings(),
+    // EmptyChat(),
     EmptyStudio(),
-    EmptyEarning(),
+    ChatScreen(),
+    SavedStudios(),
     Profile(),
   ];
 
