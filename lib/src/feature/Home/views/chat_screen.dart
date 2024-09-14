@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studio_partner_app/commons/views/providers/profileprovider.dart';
 import 'package:studio_partner_app/src/feature/Home/views/widgets/custom_search_bar.dart';
 import 'package:studio_partner_app/src/feature/chat/views/chatroom.dart';
+import 'package:studio_partner_app/src/res/assets.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -75,7 +76,9 @@ class Chats extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             CircleAvatar(
-              backgroundImage: NetworkImage(userProfile.avatar!),
+              backgroundImage: userProfile.avatar == null
+                  ? const AssetImage(ImageAssets.profile)
+                  : NetworkImage(userProfile.avatar!),
               radius: 25,
             ),
             Container(

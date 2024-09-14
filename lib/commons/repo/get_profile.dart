@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:studio_partner_app/src/feature/profile/views/profile_screen.dart';
 import 'package:studio_partner_app/src/res/endpoints.dart';
 import '../../src/core/api.dart';
 import '../../src/feature/profile/models/profile.dart';
@@ -16,7 +15,6 @@ class GetProfileRepo {
         return Profile();
       } else {
         Profile profile = Profile.fromJson(responseBody['data']);
-
         return profile;
       }
     });

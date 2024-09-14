@@ -1,21 +1,22 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studio_partner_app/src/feature/auth/controllers/signin.dart';
 import 'package:studio_partner_app/src/feature/auth/views/forgot_password.dart';
 import 'package:studio_partner_app/src/feature/auth/views/signin_with_phone.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:studio_partner_app/src/feature/auth/views/widgets/reusable_button.dart';
 import 'package:studio_partner_app/src/res/assets.dart';
-import 'package:studio_partner_app/src/res/colors.dart';
 
 import 'widgets/signin_widget.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   bool _obscureText = true;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -113,32 +114,15 @@ class _LoginScreenState extends State<LoginScreen> {
                             : const Icon(Icons.visibility))),
               ),
               const SizedBox(height: 20),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryBackgroundColor,
-                    padding: const EdgeInsets.symmetric(vertical: 13),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(90),
-                    ),
-                  ),
+              ReusableButton(
+                  text: 'Log in',
                   onPressed: () {
                     Signin(
                             context: context,
                             email: emailController.text,
                             password: passwordController.text)
-                        .signInEmail();
-                  },
-                  child: const Text(
-                    'Log in',
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                  ),
-                ),
-              ),
+                        .signInEmail(ref);
+                  }),
               Center(
                 child: TextButton(
                   onPressed: () {

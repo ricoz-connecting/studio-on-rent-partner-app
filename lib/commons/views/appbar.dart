@@ -34,7 +34,9 @@ class Appbar {
               }
             },
             child: CircleAvatar(
-              backgroundImage: NetworkImage(userProfile.avatar!),
+              backgroundImage: userProfile.avatar == null
+                  ? const AssetImage(ImageAssets.profile)
+                  : NetworkImage(userProfile.avatar!),
               radius: 20,
             ),
           ),

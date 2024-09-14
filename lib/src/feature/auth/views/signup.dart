@@ -1,10 +1,9 @@
 import 'package:studio_partner_app/src/feature/auth/controllers/signup.dart';
 import 'package:studio_partner_app/src/feature/auth/views/signin_with_phone.dart';
+import 'package:studio_partner_app/src/feature/auth/views/widgets/reusable_button.dart';
 import 'package:studio_partner_app/src/res/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:studio_partner_app/src/res/colors.dart';
-
 import 'widgets/signin_widget.dart';
 
 class Signup extends StatefulWidget {
@@ -60,6 +59,10 @@ class _SignupState extends State<Signup> {
               ),
               const SizedBox(height: 10),
               TextField(
+                controller: _emailController,
+                onChanged: (value) => setState(() {
+                  _emailController.text = value;
+                }),
                 onTapOutside: (event) => FocusScope.of(context).unfocus(),
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.symmetric(
@@ -154,34 +157,16 @@ class _SignupState extends State<Signup> {
                 ),
               ),
               const SizedBox(height: 30),
-              Center(
-                child: SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryBackgroundColor,
-                      padding: const EdgeInsets.symmetric(vertical: 13),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(90),
-                      ),
-                    ),
-                    onPressed: () {
-                      SignupEmail(
-                              context: context,
-                              email: _emailController.text,
-                              password: _passwordController.text,
-                              confirmPassword: _confirmPasswordController.text)
-                          .signUpEmail();
-                    },
-                    child: const Text(
-                      'Create Account',
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                  ),
-                ),
+              ReusableButton(
+                text: 'Create Account',
+                onPressed: () {
+                  SignupEmail(
+                          context: context,
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                          confirmPassword: _confirmPasswordController.text)
+                      .signUpEmail();
+                },
               ),
               const SizedBox(height: 20),
               const Row(

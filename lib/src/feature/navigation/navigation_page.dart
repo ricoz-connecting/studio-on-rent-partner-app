@@ -1,12 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studio_partner_app/commons/controllers/get_profile.dart';
 import 'package:studio_partner_app/src/feature/Home/views/chat_screen.dart';
-import 'package:studio_partner_app/src/feature/Home/views/earnings.dart';
 import 'package:studio_partner_app/src/feature/Home/views/booking.dart';
-import 'package:studio_partner_app/src/feature/Home/views/empty_chat.dart';
 import 'package:studio_partner_app/src/feature/Home/views/saved_studios.dart';
 import 'package:studio_partner_app/src/feature/Home/views/empty_studio.dart';
-import 'package:studio_partner_app/src/feature/Home/views/empyt_bookings.dart';
 import 'package:studio_partner_app/src/feature/Home/views/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:studio_partner_app/src/res/colors.dart';

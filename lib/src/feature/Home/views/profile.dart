@@ -5,6 +5,7 @@ import 'package:studio_partner_app/src/feature/Home/views/widgets/profile.dart';
 import 'package:studio_partner_app/src/feature/Home/views/widgets/refer_and_earn.dart';
 import 'package:studio_partner_app/src/feature/profile/views/profile_screen.dart';
 import 'package:studio_partner_app/src/feature/settings/views/settings.dart';
+import 'package:studio_partner_app/src/res/assets.dart';
 
 class Profile extends ConsumerStatefulWidget {
   const Profile({super.key});
@@ -26,13 +27,15 @@ class _ProfileState extends ConsumerState<Profile> {
               const SizedBox(height: 20),
               Center(
                 child: CircleAvatar(
-                  backgroundImage: NetworkImage(userProfile.avatar!),
+                  backgroundImage: userProfile.avatar == null
+                      ? const AssetImage(ImageAssets.profile)
+                      : NetworkImage(userProfile.avatar!),
                   radius: 50,
                 ),
               ),
               const SizedBox(height: 20),
               Text(
-                userProfile.name!,
+                userProfile.name == null ? "Guest User" : userProfile.name!,
                 style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -40,7 +43,7 @@ class _ProfileState extends ConsumerState<Profile> {
               ),
               const SizedBox(height: 10),
               Text(
-                userProfile.email!,
+                userProfile.email == null ? "" : userProfile.email!,
                 style: const TextStyle(fontSize: 20, color: Colors.grey),
               ),
               const SizedBox(height: 20),

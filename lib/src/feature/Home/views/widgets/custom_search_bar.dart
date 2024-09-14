@@ -13,6 +13,7 @@ class CustomSearchBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      automaticallyImplyLeading: false,
       toolbarHeight: MediaQuery.of(context).size.height * 0.1,
       title: SearchBar(
         padding: WidgetStateProperty.all(

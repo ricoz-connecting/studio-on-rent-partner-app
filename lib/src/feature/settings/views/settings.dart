@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:studio_partner_app/src/feature/profile/controllers/logout.dart';
 import 'package:studio_partner_app/src/feature/settings/views/notifications.dart';
 
 import 'widgets/settings_card.dart';
@@ -59,7 +60,9 @@ class SettingsScreen extends StatelessWidget {
             label: "Feedback",
           ),
           SettingsCard(
-            onTap: () {},
+            onTap: () {
+              Logout.logout(context);
+            },
             icon: Icons.logout,
             label: "Logout",
           ),

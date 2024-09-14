@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studio_partner_app/commons/controllers/checkauth.dart';
 import 'package:studio_partner_app/commons/repo/get_image_url.dart';
+import 'package:studio_partner_app/commons/views/location_access.dart';
 import 'package:studio_partner_app/commons/views/providers/image_upload_url.dart';
 import 'package:studio_partner_app/src/feature/auth/views/landing_screen.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class _SplashscreenState extends ConsumerState<Splashscreen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 3), () async {
+      await GetUserLocation.determinePosition();
       String token = await Checkauth.checkAuth(ref);
       Map<String, dynamic> url = await GetImageUrl.getUploadUrl();
       ref.read(imageUploadUrl.notifier).setImageUploadUrl(url['uploadUrl']);
