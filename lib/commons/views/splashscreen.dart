@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studio_partner_app/commons/controllers/checkauth.dart';
 import 'package:studio_partner_app/commons/repo/get_image_url.dart';
 import 'package:studio_partner_app/commons/views/providers/image_upload_url.dart';
+import 'package:studio_partner_app/src/feature/auth/views/landing_screen.dart';
 import 'package:studio_partner_app/src/feature/auth/views/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -35,7 +36,7 @@ class _SplashscreenState extends ConsumerState<Splashscreen> {
       } else {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const Signup()),
+          MaterialPageRoute(builder: (context) => const LandingScreen()),
         );
       }
     });

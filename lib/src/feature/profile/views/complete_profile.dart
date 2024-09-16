@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:studio_partner_app/commons/views/location_access.dart';
 import 'package:studio_partner_app/commons/views/providers/image_upload_url.dart';
 import 'package:studio_partner_app/src/feature/profile/controllers/editprofile.dart';
 import 'package:studio_partner_app/src/feature/profile/models/profile.dart';
@@ -264,15 +265,21 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
                       borderRadius: BorderRadius.circular(90),
                     ),
                   ),
-                  onPressed: () {
-                    Editprofile(
-                      profile: Profile(
-                        name: name,
-                        businessName: businessName,
-                        gender: gender,
-                        avatar: "${ImageAssets.userProfile}$userImageKey",
-                      ),
-                    ).editProfile(ref, context);
+                  onPressed: () async {
+                    final userLocation =
+                        await GetUserLocation.determinePosition();
+                    context.mounted
+                        ? Editprofile(
+                            profile: Profile(
+                              name: name,
+                              businessName: businessName,
+                              gender: gender,
+                              avatar: "${ImageAssets.userProfile}$userImageKey",
+                              longitude: userLocation.longitude.toString(),
+                              latitude: userLocation.latitude.toString(),
+                            ),
+                          ).editProfile(ref, context)
+                        : null;
                   },
                   child: const Text(
                     'Complete Profile',

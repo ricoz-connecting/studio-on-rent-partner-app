@@ -1,19 +1,21 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studio_partner_app/src/feature/auth/controllers/signin.dart';
 import 'package:studio_partner_app/src/feature/auth/views/forgot_password.dart';
 import 'package:studio_partner_app/src/feature/auth/views/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:studio_partner_app/src/res/assets.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
-class LoginScreen extends StatefulWidget {
+import 'widgets/login_via_google.dart';
+
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   bool _obscureText = true;
   bool _rememberMe = false;
   TextEditingController emailController = TextEditingController();
@@ -159,7 +161,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             context: context,
                             email: emailController.text,
                             password: passwordController.text)
-                        .signInEmail();
+                        .signInEmail(ref);
                   },
                   child: const Text(
                     'Sign In',
@@ -181,32 +183,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Expanded(child: Divider()),
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: Image.asset(ImageAssets.googleimage),
-                  ),
-                  const SizedBox(width: 10),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Image.asset(
-                      ImageAssets.facebook,
-                      height: 70,
-                      width: 70,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Image.asset(
-                      ImageAssets.appleimage,
-                      height: 70,
-                      width: 70,
-                    ),
-                  ),
-                ],
-              ),
+              const LoginViaGoogleOrApple(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

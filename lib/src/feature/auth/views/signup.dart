@@ -1,6 +1,6 @@
 import 'package:studio_partner_app/src/feature/auth/controllers/signup.dart';
 import 'package:studio_partner_app/src/feature/auth/views/login_screen.dart';
-import 'package:studio_partner_app/src/res/assets.dart';
+import 'package:studio_partner_app/src/feature/auth/views/widgets/login_via_google.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
@@ -229,32 +229,7 @@ class _SignupState extends State<Signup> {
                     Expanded(child: Divider()),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(
-                      onPressed: () {},
-                      icon: Image.asset(ImageAssets.googleimage),
-                    ),
-                    const SizedBox(width: 10),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Image.asset(
-                        ImageAssets.facebook,
-                        height: 70,
-                        width: 70,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Image.asset(
-                        ImageAssets.appleimage,
-                        height: 70,
-                        width: 70,
-                      ),
-                    ),
-                  ],
-                ),
+                const LoginViaGoogleOrApple(),
                 Center(
                   child: TextButton(
                     onPressed: () {
