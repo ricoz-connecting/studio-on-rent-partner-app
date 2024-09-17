@@ -45,11 +45,11 @@ class HelpPage extends StatelessWidget {
                     title: 'How to get started with our services',
                     navigateTo: const GettingStartedScreen(),
                   ),
-                  _buildHelpOption(
-                    context,
-                    title: 'My Profile',
-                    navigateTo: const ProfileScreen(),
-                  ),
+                  // _buildHelpOption(
+                  //   context,
+                  //   title: 'My Profile',
+                  //   navigateTo: const ProfileScreen(),
+                  // ),
                   _buildHelpOption(
                     context,
                     title: 'Changes to project scope',
@@ -144,10 +144,6 @@ class HelpPage extends StatelessWidget {
   }
 }
 
-void main() {
-  runApp(const MaterialApp(home: HelpPage()));
-}
-
 // Placeholder screens for navigation
 class ServicesScreen extends StatelessWidget {
   const ServicesScreen({super.key});
@@ -173,17 +169,17 @@ class GettingStartedScreen extends StatelessWidget {
   }
 }
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+// class ProfileScreen extends StatelessWidget {
+//   const ProfileScreen({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('My Profile')),
-      body: const Center(child: Text('Profile details...')),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(title: const Text('My Profile')),
+//       body: const Center(child: Text('Profile details...')),
+//     );
+//   }
+// }
 
 class ProjectScopeScreen extends StatelessWidget {
   const ProjectScopeScreen({super.key});

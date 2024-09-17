@@ -1,13 +1,14 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/commons/controllers/checkauth.dart';
 import 'package:studio_partner_app/commons/controllers/get_profile.dart';
 import 'package:studio_partner_app/commons/repo/get_image_url.dart';
 import 'package:studio_partner_app/commons/views/providers/image_upload_url.dart';
 import 'package:studio_partner_app/src/feature/auth/repo/signin.dart';
-import 'package:studio_partner_app/src/feature/auth/views/register_one.dart';
 import 'package:studio_partner_app/src/feature/profile/views/complete_profile.dart';
+import 'package:studio_partner_app/utils/router.dart';
 
 class Signin {
   final String email;
@@ -47,10 +48,7 @@ class Signin {
         if (token != '') {
           context.mounted ? await GetProfile.getProfile(context, ref) : null;
           context.mounted
-              ? Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => const CompleteProfileScreen()),
-                  (route) => false)
+              ? GoRouter.of(context).go(StudioRoutes.createProfileScreen)
               : null;
         }
       }

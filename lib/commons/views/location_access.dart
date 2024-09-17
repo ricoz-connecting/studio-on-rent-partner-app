@@ -86,8 +86,6 @@
 //     );
 //   }
 // }
-
-import 'dart:developer';
 import 'package:geolocator/geolocator.dart';
 
 /// Determine the current position of the device.

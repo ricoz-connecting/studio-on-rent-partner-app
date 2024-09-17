@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/res/assets.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
@@ -42,7 +43,7 @@ class ResetDialog {
             actions: [
               GestureDetector(
                 onTap: () {
-                  Navigator.pop(context);
+                  context.pop();
                 },
                 child: Container(
                   width: double.infinity,

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:studio_partner_app/src/feature/auth/views/verify_otp.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
+import 'package:studio_partner_app/utils/router.dart';
 
 class ResetPassSms extends StatelessWidget {
   const ResetPassSms({super.key});
@@ -63,8 +64,7 @@ class ResetPassSms extends StatelessWidget {
             const SizedBox(height: 20),
             GestureDetector(
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const VerifyOtp()));
+                GoRouter.of(context).push(StudioRoutes.verifyOtpScreen);
               },
               child: Container(
                 width: double.infinity,

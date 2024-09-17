@@ -1,9 +1,10 @@
+import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/src/feature/auth/controllers/signup.dart';
-import 'package:studio_partner_app/src/feature/auth/views/login_screen.dart';
 import 'package:studio_partner_app/src/feature/auth/views/widgets/login_via_google.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
+import 'package:studio_partner_app/utils/router.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -233,12 +234,7 @@ class _SignupState extends State<Signup> {
                 Center(
                   child: TextButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginScreen(),
-                        ),
-                      );
+                      GoRouter.of(context).push(StudioRoutes.loginViaEmailScreen);
                     },
                     child: const Text.rich(
                       TextSpan(
