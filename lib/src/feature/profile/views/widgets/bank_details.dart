@@ -10,12 +10,6 @@ class BankDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
         title: Text(
           'Bank Details',
           style: GoogleFonts.lato(
@@ -25,8 +19,6 @@ class BankDetails extends StatelessWidget {
           ),
         ),
         backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -47,7 +39,7 @@ class BankDetails extends StatelessWidget {
               bankName: 'John Doe',
               accountNumber: 'XXXX XXXX 1345',
               icon: Icons.check_circle,
-              bankLogo: 'assets/sbi_logo.png', // Replace with actual asset path
+              bankLogo: 'assets/sbi_logo.png', 
               selected: true,
             ),
             const SizedBox(height: 10),
@@ -57,7 +49,7 @@ class BankDetails extends StatelessWidget {
               accountNumber: 'XXXX XXXX 5431',
               icon: Icons.add_circle_outline,
               bankLogo:
-                  'assets/axis_logo.png', // Replace with actual asset path
+                  'assets/axis_logo.png', 
               selected: false,
             ),
             const SizedBox(height: 20),
@@ -89,8 +81,6 @@ class BankDetails extends StatelessWidget {
                         builder: (context) => const BankDetailss(),
                       ),
                     );
-
-                    // Add new bank account logic here
                   },
                 ),
               ),
@@ -117,7 +107,7 @@ class BankDetails extends StatelessWidget {
       child: ListTile(
         leading: CircleAvatar(
           radius: 25,
-          backgroundImage: AssetImage(bankLogo), // Bank logo image
+          backgroundImage: AssetImage(bankLogo),
           backgroundColor: Colors.transparent,
         ),
         title: Text(
@@ -142,13 +132,8 @@ class BankDetails extends StatelessWidget {
               : Colors.grey.shade600,
         ),
         onTap: () {
-          // Handle card tap
         },
       ),
     );
   }
-}
-
-void main() {
-  runApp(const MaterialApp(home: BankDetails()));
 }

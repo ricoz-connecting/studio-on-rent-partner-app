@@ -104,7 +104,9 @@ class StudioRouter {
       GoRoute(
           path: StudioRoutes.resetViaPhone,
           builder: (context, state) => const ResetPassSms()),
-          GoRoute(path: StudioRoutes.verifyOtpScreen, builder: (context, state) => const VerifyOtp()),
+      GoRoute(
+          path: StudioRoutes.verifyOtpScreen,
+          builder: (context, state) => const VerifyOtp()),
     ],
   );
 }

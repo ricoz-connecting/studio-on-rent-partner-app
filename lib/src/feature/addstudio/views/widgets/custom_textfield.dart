@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
+  final IconData? icon;
+  final String? suffixLabel;
   final String? hintText;
   final TextInputType? keyboardType;
   const CustomTextField({
+    this.suffixLabel,
+    this.icon,
     this.keyboardType,
     this.hintText,
     super.key,
@@ -15,6 +19,8 @@ class CustomTextField extends StatelessWidget {
       keyboardType: keyboardType,
       onTapOutside: (event) => FocusScope.of(context).unfocus(),
       decoration: InputDecoration(
+        suffixIcon: suffixLabel != null ? Text(suffixLabel!) : null,
+        prefixIcon: icon != null ? Icon(icon) : null,
         contentPadding: const EdgeInsets.symmetric(
           vertical: 14,
           horizontal: 14,
