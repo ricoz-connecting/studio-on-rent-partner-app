@@ -1,13 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:studio_partner_app/src/feature/auth/controllers/verify_otp.dart';
 import 'package:studio_partner_app/src/feature/auth/views/widgets/otptextfield.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
+import 'package:studio_partner_app/utils/router.dart';
 
-class SendOtp extends StatelessWidget {
-  const SendOtp({super.key});
+import '../../../../commons/views/providers/otp.dart';
+
+class SendOtp extends ConsumerStatefulWidget {
+  final String phoneNumber;
+  const SendOtp({required this.phoneNumber, super.key});
 
   @override
+  ConsumerState<SendOtp> createState() => _SendOtpState();
+}
+
+class _SendOtpState extends ConsumerState<SendOtp> {
+  @override
   Widget build(BuildContext context) {
+    final otp = ref.watch(otpProvider);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(),
@@ -41,10 +54,11 @@ class SendOtp extends StatelessWidget {
                 ),
                 child: TextButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SendOtp()));
+                    VerifyOtp(
+                            context: context,
+                            phoneNumber: widget.phoneNumber,
+                            otp: otp)
+                        .verifyOtp(ref);
                   },
                   child: Text('Confirm',
                       style: GoogleFonts.plusJakartaSans(

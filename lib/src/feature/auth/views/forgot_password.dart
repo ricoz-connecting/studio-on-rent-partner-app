@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:studio_partner_app/src/feature/auth/views/recover_pass_email.dart';
-import 'package:studio_partner_app/src/feature/auth/views/reset_pass_sms.dart';
 import 'package:studio_partner_app/src/feature/auth/views/widgets/reset_button.dart';
+import 'package:studio_partner_app/utils/router.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -48,10 +48,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             const SizedBox(height: 10),
             ResetButton(
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const RecoverPassEmail()));
+                GoRouter.of(context).push(StudioRoutes.resetViaEmailScreen);
               },
               resetText: 'Reset via Email',
               icon: Icons.mail_outline,
@@ -61,12 +58,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               resetText: 'Reset via SMS',
               icon: Icons.smartphone,
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ResetPassSms(),
-                  ),
-                );
+                GoRouter.of(context).push(StudioRoutes.resetViaPhone);
               },
             )
           ],

@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:studio_partner_app/commons/views/splashscreen.dart';
 import 'package:flutter/material.dart';
+import 'utils/router.dart';
 
 void main() {
   runApp(
@@ -15,9 +15,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return  MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      home: Splashscreen(),
+      routerConfig: StudioRouter.router,
     );
   }
 }

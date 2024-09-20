@@ -9,7 +9,7 @@ class GetProfile {
   static Future<bool> getProfile(BuildContext context, WidgetRef ref) async {
     final authToken = ref.watch(authprovider);
     final response = await GetProfileRepo.getProfile(authToken, context);
-    if(response.email != null || response.phone != null) {
+    if (response.email != null || response.phone != null) {
       ref.read(profileProvider.notifier).setProfile(response);
       log('Profile fetched successfully', name: 'GetProfile');
       return true;

@@ -1,13 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/src/feature/auth/controllers/signin.dart';
-import 'package:studio_partner_app/src/feature/auth/views/forgot_password.dart';
-import 'package:studio_partner_app/src/feature/auth/views/signin_with_phone.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:studio_partner_app/src/feature/auth/views/widgets/reusable_button.dart';
-import 'package:studio_partner_app/src/res/assets.dart';
+import 'package:studio_partner_app/src/res/colors.dart';
+import 'package:studio_partner_app/utils/router.dart';
 
-import 'widgets/signin_widget.dart';
+import 'widgets/login_via_google.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -113,6 +112,36 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             ? const Icon(Icons.visibility_off)
                             : const Icon(Icons.visibility))),
               ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Switch(
+                      value: _rememberMe,
+                      onChanged: (value) {
+                        setState(() {
+                          _rememberMe = value;
+                        });
+                      }),
+                  const Text(
+                    'Remember Me',
+                    style: TextStyle(color: Color(0xFF939393)),
+                  ),
+                  const Spacer(),
+                  TextButton(
+                    onPressed: () {
+                      GoRouter.of(context)
+                          .push(StudioRoutes.forgotPasswordScreen);
+                    },
+                    child: const Text(
+                      'Forgot Password',
+                      style: TextStyle(
+                          color: Color(0xFF939393),
+                          decoration: TextDecoration.underline),
+                    ),
+                  ),
+                ],
+              ),
               const SizedBox(height: 20),
               ReusableButton(
                   text: 'Log in',
@@ -122,14 +151,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             email: emailController.text,
                             password: passwordController.text)
                         .signInEmail(ref);
-                  }),
-              Center(
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ForgotPassword()));
                   },
                   child: const Text(
                     'Forgot Password?',
@@ -150,21 +171,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   Expanded(child: Divider()),
                 ],
               ),
-              const SizedBox(height: 10),
-              SigninWidget(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SigninWithPhone()));
-                  },
-                  label: 'Sign in with Phone number',
-                  icon: Icons.phone),
-              const SizedBox(height: 10),
-              SigninWidget(
-                onTap: () {},
-                label: 'Sign in with Google',
-                iconImage: ImageAssets.googleimage,
+              const LoginViaGoogleOrPhone(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Don't have account?"),
+                  TextButton(
+                    onPressed: () {
+                      GoRouter.of(context)
+                          .push(StudioRoutes.signUpViaEmailScreen);
+                    },
+                    child: const Text(
+                      'Sign Up',
+                      style: TextStyle(color: AppColors.primaryBackgroundColor),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

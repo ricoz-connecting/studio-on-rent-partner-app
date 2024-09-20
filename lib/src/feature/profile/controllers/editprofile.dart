@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/src/core/api.dart';
-import 'package:studio_partner_app/src/feature/navigation/navigation_page.dart';
 import 'package:studio_partner_app/src/feature/profile/repo/edit_profile.dart';
 import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
+import 'package:studio_partner_app/utils/router.dart';
 
 import '../models/profile.dart';
 
@@ -39,12 +40,7 @@ class Editprofile {
           : null;
     } else {
       context.mounted
-          ? Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const BottomNavBar(),
-              ),
-            )
+          ? GoRouter.of(context).go(StudioRoutes.bottomNavBar)
           : null;
     }
   }

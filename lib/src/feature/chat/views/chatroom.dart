@@ -13,27 +13,14 @@ class Chatroom extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: Row(
-          children: [
-            CircleAvatar(
-              backgroundImage: NetworkImage(userProfile.avatar!),
-            ),
-            const SizedBox(width: 8),
-            Text(
-              'ID : 12345',
-              style: GoogleFonts.lato(
-                color: Colors.black,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
+        elevation: 0,
+        title: Text(
+          'ID : 12345',
+          style: GoogleFonts.lato(
+            color: Colors.black,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         actions: [
           TextButton(

@@ -1,10 +1,10 @@
+import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/src/feature/auth/controllers/signup.dart';
-import 'package:studio_partner_app/src/feature/auth/views/signin_with_phone.dart';
-import 'package:studio_partner_app/src/feature/auth/views/widgets/reusable_button.dart';
-import 'package:studio_partner_app/src/res/assets.dart';
+import 'package:studio_partner_app/src/feature/auth/views/widgets/login_via_google.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'widgets/signin_widget.dart';
+import 'package:studio_partner_app/src/res/colors.dart';
+import 'package:studio_partner_app/utils/router.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -25,19 +25,23 @@ class _SignupState extends State<Signup> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBar(),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Let’s get started!',
-                style: GoogleFonts.plusJakartaSans(
-                  fontSize: 28,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                Center(
+                  child: Text(
+                    'Sign Up',
+                    style: GoogleFonts.inter(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 10),
@@ -77,27 +81,27 @@ class _SignupState extends State<Signup> {
                   ),
                   hintText: 'Rishav Bhardwaz',
                 ),
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                'Password',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: _passwordController,
-                onChanged: (value) => setState(() {
-                  _passwordController.text = value;
-                }),
-                onTapOutside: (event) => FocusScope.of(context).unfocus(),
-                obscureText: _obscureText,
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(
-                    vertical: 14,
-                    horizontal: 14,
+                const SizedBox(height: 10),
+                TextField(
+                  controller: _emailController,
+                  onChanged: (value) {
+                    setState(() {
+                      _emailController.text = value;
+                    });
+                  },
+                  onTapOutside: (event) => FocusScope.of(context).unfocus(),
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 14,
+                      horizontal: 14,
+                    ),
+                    filled: true,
+                    fillColor: Colors.grey.shade300,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
+                    ),
+                    hintText: 'Enter your Email',
                   ),
                   filled: true,
                   fillColor: Colors.grey.shade200,
@@ -155,47 +159,41 @@ class _SignupState extends State<Signup> {
                           : const Icon(Icons.visibility)),
                   hintText: '********',
                 ),
-              ),
-              const SizedBox(height: 30),
-              ReusableButton(
-                text: 'Create Account',
-                onPressed: () {
-                  SignupEmail(
-                          context: context,
-                          email: _emailController.text,
-                          password: _passwordController.text,
-                          confirmPassword: _confirmPasswordController.text)
-                      .signUpEmail();
-                },
-              ),
-              const SizedBox(height: 20),
-              const Row(
-                children: [
-                  Expanded(child: Divider()),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Text('OR'),
+                const SizedBox(height: 20),
+                const Row(
+                  children: [
+                    Expanded(child: Divider()),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text('or sign up with'),
+                    ),
+                    Expanded(child: Divider()),
+                  ],
+                ),
+                const LoginViaGoogleOrPhone(),
+                Center(
+                  child: TextButton(
+                    onPressed: () {
+                      GoRouter.of(context)
+                          .push(StudioRoutes.loginViaEmailScreen);
+                    },
+                    child: const Text.rich(
+                      TextSpan(
+                        text: 'Already have an account? ',
+                        style: TextStyle(color: Colors.black),
+                        children: [
+                          TextSpan(
+                            text: 'Login',
+                            style: TextStyle(
+                                color: AppColors.primaryBackgroundColor),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  Expanded(child: Divider()),
-                ],
-              ),
-              const SizedBox(height: 20),
-              SigninWidget(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SigninWithPhone()));
-                  },
-                  label: 'Sign in with Phone number',
-                  icon: Icons.phone),
-              const SizedBox(height: 10),
-              SigninWidget(
-                onTap: () {},
-                label: 'Sign in with Google',
-                iconImage: ImageAssets.googleimage,
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

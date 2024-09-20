@@ -7,36 +7,30 @@ import 'package:studio_partner_app/commons/controllers/get_profile.dart';
 import 'package:studio_partner_app/commons/repo/get_image_url.dart';
 import 'package:studio_partner_app/commons/views/providers/image_upload_url.dart';
 import 'package:studio_partner_app/src/feature/auth/repo/signin.dart';
-import 'package:studio_partner_app/src/feature/profile/views/complete_profile.dart';
+import 'package:studio_partner_app/src/feature/auth/repo/verify_otp.dart';
 import 'package:studio_partner_app/utils/router.dart';
 
-class Signin {
-  final String email;
-  final String password;
+import '../repo/signinPhone.dart';
+
+class VerifyOtp {
+  final String otp;
+  final String phoneNumber;
   final BuildContext context;
 
-  Signin({
+  VerifyOtp({
+    required this.phoneNumber,
     required this.context,
-    required this.email,
-    required this.password,
+    required this.otp,
   });
 
-  Future<void> signInEmail(WidgetRef ref) async {
+  Future<void> verifyOtp(WidgetRef ref) async {
     try {
-      if (password.length < 6) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Password must be at least 6 characters long'),
-          ),
-        );
-        return;
-      }
-      final result = await SignInRepo.signIn(email, password);
+      final result = await VerifyOtpRepo.verifyOtp(otp, phoneNumber);
       if (result == false) {
         context.mounted
             ? ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text('An unexpected error occurred'),
+                  content: Text('Incorrect OTP'),
                 ),
               )
             : null;
@@ -48,7 +42,7 @@ class Signin {
         if (token != '') {
           context.mounted ? await GetProfile.getProfile(context, ref) : null;
           context.mounted
-              ? GoRouter.of(context).go(StudioRoutes.createProfileScreen)
+              ? GoRouter.of(context).go(StudioRoutes.bottomNavBar)
               : null;
         }
       }

@@ -1,8 +1,9 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/src/core/api.dart';
 import 'package:studio_partner_app/src/feature/auth/repo/signup.dart';
-import 'package:studio_partner_app/src/feature/auth/views/login_screen.dart';
+import 'package:studio_partner_app/utils/router.dart';
 
 class SignupEmail {
   final String email;
@@ -47,12 +48,7 @@ class SignupEmail {
         }
       } else {
         if (context.mounted) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const LoginScreen(),
-            ),
-          );
+          GoRouter.of(context).go(StudioRoutes.loginViaEmailScreen);
         }
       }
     } catch (e) {

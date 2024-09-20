@@ -7,31 +7,22 @@ import 'package:studio_partner_app/commons/controllers/get_profile.dart';
 import 'package:studio_partner_app/commons/repo/get_image_url.dart';
 import 'package:studio_partner_app/commons/views/providers/image_upload_url.dart';
 import 'package:studio_partner_app/src/feature/auth/repo/signin.dart';
-import 'package:studio_partner_app/src/feature/profile/views/complete_profile.dart';
 import 'package:studio_partner_app/utils/router.dart';
 
-class Signin {
-  final String email;
-  final String password;
+import '../repo/signinPhone.dart';
+
+class Signinphone {
+  final String phoneNumber;
   final BuildContext context;
 
-  Signin({
+  Signinphone({
     required this.context,
-    required this.email,
-    required this.password,
+    required this.phoneNumber,
   });
 
-  Future<void> signInEmail(WidgetRef ref) async {
+  Future<void> signInPhone(WidgetRef ref) async {
     try {
-      if (password.length < 6) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Password must be at least 6 characters long'),
-          ),
-        );
-        return;
-      }
-      final result = await SignInRepo.signIn(email, password);
+      final result = await SignInPhoneRepo.signIn(phoneNumber);
       if (result == false) {
         context.mounted
             ? ScaffoldMessenger.of(context).showSnackBar(
@@ -41,16 +32,17 @@ class Signin {
               )
             : null;
       } else {
-        String token = await Checkauth.checkAuth(ref);
-        Map<String, dynamic> url = await GetImageUrl.getUploadUrl();
-        ref.read(imageUploadUrl.notifier).setImageUploadUrl(url['uploadUrl']);
-        ref.read(keyProvider.notifier).setKey(url['key']);
-        if (token != '') {
-          context.mounted ? await GetProfile.getProfile(context, ref) : null;
-          context.mounted
-              ? GoRouter.of(context).go(StudioRoutes.createProfileScreen)
-              : null;
-        }
+        // String token = await Checkauth.checkAuth(ref);
+        // Map<String, dynamic> url = await GetImageUrl.getUploadUrl();
+        // ref.read(imageUploadUrl.notifier).setImageUploadUrl(url['uploadUrl']);
+        // ref.read(keyProvider.notifier).setKey(url['key']);
+        // if (token != '') {
+        // context.mounted ? await GetProfile.getProfile(context, ref) : null;
+        context.mounted
+            ? GoRouter.of(context)
+                .push(StudioRoutes.sendOtpScreen, extra: phoneNumber)
+            : null;
+        // }
       }
     } catch (e) {
       log(e.toString());

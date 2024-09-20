@@ -1,17 +1,13 @@
-import 'dart:developer';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/src/feature/profile/models/profile.dart';
-import 'package:studio_partner_app/src/feature/profile/views/widgets/bank_details.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/custom_edit_profile.dart';
-import 'package:studio_partner_app/src/feature/profile/views/widgets/edit_profile.dart';
-import 'package:studio_partner_app/src/feature/profile/views/widgets/help.dart';
-import 'package:studio_partner_app/src/feature/profile/views/widgets/history_screen.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/sectionone.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/sectiontwo.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
+import 'package:studio_partner_app/utils/router.dart';
 import '../controllers/logout.dart';
 
 class ProfileScreen extends ConsumerWidget {
@@ -21,30 +17,16 @@ class ProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    // log('${profile.avatar}');
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
-        elevation: 0,
-        title: Row(
-          children: [
-            IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.black),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            const SizedBox(width: 8),
-            Text(
-              'Profile',
-              style: GoogleFonts.lato(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-                color: Colors.black,
-              ),
-            ),
-          ],
+        title: Text(
+          'Profile',
+          style: GoogleFonts.lato(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            color: Colors.black,
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -128,11 +110,7 @@ class ProfileScreen extends ConsumerWidget {
                     Icons.help_outline_outlined,
                     'Help',
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HelpPage()),
-                      );
+                      GoRouter.of(context).push(StudioRoutes.helpScreen);
                     },
                   ),
                   _buildProfileButton(
@@ -140,11 +118,7 @@ class ProfileScreen extends ConsumerWidget {
                     Icons.edit_outlined,
                     'Edit Profile',
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const EditProfile()),
-                      );
+                      GoRouter.of(context).push(StudioRoutes.editProfile);
                     },
                   ),
                   _buildProfileButton(
@@ -152,11 +126,7 @@ class ProfileScreen extends ConsumerWidget {
                     Icons.history,
                     'History',
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HistoryPage()),
-                      );
+                      GoRouter.of(context).push(StudioRoutes.historyScreen);
                     },
                   ),
                   _buildProfileButton(
@@ -164,11 +134,7 @@ class ProfileScreen extends ConsumerWidget {
                     Icons.account_balance_wallet_outlined,
                     'Bank Details',
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const BankDetails()),
-                      );
+                      GoRouter.of(context).push(StudioRoutes.bankDetails);
                     },
                   ),
                 ],

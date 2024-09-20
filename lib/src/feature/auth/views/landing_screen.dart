@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:studio_partner_app/src/feature/auth/views/login_screen.dart';
-import 'package:studio_partner_app/src/feature/auth/views/signup.dart';
 import 'package:studio_partner_app/src/res/assets.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
+import 'package:studio_partner_app/utils/router.dart';
 
 class LandingScreen extends StatelessWidget {
   const LandingScreen({super.key});
@@ -60,10 +60,7 @@ class LandingScreen extends StatelessWidget {
                 ),
                 child: TextButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const LoginScreen()));
+                    GoRouter.of(context).push(StudioRoutes.loginViaEmailScreen);
                   },
                   child: Text(
                     'Log in',
@@ -84,10 +81,8 @@ class LandingScreen extends StatelessWidget {
                 ),
                 child: TextButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Signup()));
+                    GoRouter.of(context)
+                        .push(StudioRoutes.signUpViaEmailScreen);
                   },
                   child: Text(
                     'Sign up',

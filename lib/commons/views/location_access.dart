@@ -86,8 +86,6 @@
 //     );
 //   }
 // }
-
-import 'dart:developer';
 import 'package:geolocator/geolocator.dart';
 
 /// Determine the current position of the device.
@@ -127,11 +125,6 @@ class GetUserLocation {
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
-    String userlocation = await Geolocator.getCurrentPosition().then((value) {
-      return value.toString();
-    });
-    log(userlocation, name: 'User Location');
-
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
     return await Geolocator.getCurrentPosition();

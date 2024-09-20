@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:studio_partner_app/src/feature/auth/views/send_otp.dart';
+import 'package:studio_partner_app/src/feature/auth/controllers/signinPhone.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
+import 'package:studio_partner_app/utils/router.dart';
 
-class SigninWithPhone extends StatefulWidget {
+class SigninWithPhone extends ConsumerStatefulWidget {
   const SigninWithPhone({super.key});
 
   @override
-  State<SigninWithPhone> createState() => _SigninWithPhoneState();
+  ConsumerState<SigninWithPhone> createState() => _SigninWithPhoneState();
 }
 
-class _SigninWithPhoneState extends State<SigninWithPhone> {
+class _SigninWithPhoneState extends ConsumerState<SigninWithPhone> {
+  String phoneNumber = '';
   String selectedCountryCode = '+91';
   List<String> countryCodes = ['+91', '+1', '+44', '+61'];
   @override
@@ -73,10 +77,15 @@ class _SigninWithPhoneState extends State<SigninWithPhone> {
                       },
                     ),
                     const SizedBox(width: 5),
-                    const Expanded(
+                    Expanded(
                       child: TextField(
+                        onChanged: (value) {
+                          setState(() {
+                            phoneNumber = value;
+                          });
+                        },
                         keyboardType: TextInputType.phone,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Enter your phone number',
                         ),
@@ -94,16 +103,16 @@ class _SigninWithPhoneState extends State<SigninWithPhone> {
                 ),
                 child: TextButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SendOtp()));
+                    Signinphone(context: context, phoneNumber: phoneNumber)
+                        .signInPhone(ref);
                   },
-                  child: Text('Send OTP',
-                      style: GoogleFonts.plusJakartaSans(
-                        fontSize: 16,
-                        color: Colors.white,
-                      )),
+                  child: Text(
+                    'Send OTP',
+                    style: GoogleFonts.plusJakartaSans(
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ),
             ],
