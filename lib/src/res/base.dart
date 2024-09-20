@@ -1,12 +1,10 @@
+import 'package:studio_partner_app/utils/config.dart';
 
-import 'package:studio_partner_app/src/utils/config.dart';
-
-class BasePaths{
+class BasePaths {
   static const baseImagePath = "assets/images";
-  static const baseIconsPath = "assets/icons";
-  static const baseAnimationPath = "assets/animations";
-  static const basePlaceholderPath = "assets/placeholders";
-  static const baseProdUrl = "http://productionURL.com";
-  static const baseTestUrl = "https://dummyjson.com";
+  static const baseProdUrl =
+      "https://bookmystudio-new-backend.onrender.com/api/v1/";
+  static const baseTestUrl =
+      "https://bookmystudio-new-backend.onrender.com/api/v1/";
   static const baseUrl = AppConfig.devMode ? baseTestUrl : baseProdUrl;
 }

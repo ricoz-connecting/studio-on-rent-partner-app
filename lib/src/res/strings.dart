@@ -1,43 +1,46 @@
-class AppUrls {
-  static const baseUrl = "http://192.168.1.5:3000";
-  // static const baseUrl = "https://booking-studio-node-apis.vercel.app";
-  static const otpEndPoint = '/api/v1/agent/otp';
-  static const categoryEndpoint = '/api/agent/category';
-  static const locationEndPoint = '/api/agent/city';
-  static const loginEndPoint = '/api/v1/user/agent/login';
-  static const signupEndPoint = '/api/agent/signup';
-  static const homeViewEndPoint = '/api/agent/homeview';
-  static const descriptionEndpoint = '/api/agent/description';
-  static const reviewEndPoint = '/api/agent/review';
-  static const search = '/api/agent/search';
-  static const chat = '/api/agent/chat';
-  static const agent = '/api/agent/agent';
-  static const earningRequestEndPoint = "/api/agent/earning";
-  static const requestEndPoint = '/api/agent/request';
-  static const loginOtpEndPoint = '/api/v1/user/otp/login';
-  static const filter = '/api/agent/filter';
-  static const update = '/api/agent/update';
-  static const favourites = '/api/agent/favourites';
-  static const delete = '/api/agent/delete';
-  static const help = '/api/help';
-  // AGENT
-  static const studioRequestEndPoint = '/api/agent/studio';
-  static const registerEndpoint = '/api/agent/register';
-  static const isVerified = '/api/agent/verification';
-  static const schedulesUpdateEndPoint = "/api/agent/schedulesUpdate";
-  static const bankDetailsEndPoint = '/api/agent/bank/get';
-  static const addBankDetailsEndPoint = '/api/agent/bank/add';
-  static const withdrawEndPoint = '/api/agent/withdraw';
-  static const issuesEndPoint = '/api/agent/issues';
+class AppString {
+  static const appName = "StudioOnRent";
+  static const splashTitleName = "Studio On Rent\n Partner";
 }
 
-class AppFailures {
-  static const String apiFailure = "API EXCEPTION PLEASE TRY AGAIN";
+class FailureMessage {
+  static const getRequestMessage = "GET REQUEST FAILED";
+  static const postRequestMessage = "POST REQUEST FAILED";
+  static const putRequestMessage = "PUT REQUEST FAILED";
+  static const deleteRequestMessage = "DELETE REQUEST FAILED";
+
+  static const jsonParsingFailed = "FAILED TO PARSE JSON RESPONSE";
+
+  static const authTokenEmpty = "AUTH TOKEN EMPTY";
+
+  static const failedToParseJson = "Failed to Parse JSON Data";
 }
 
-class ScheduleStatus {
-  static const accepted = "accepted";
-  static const pending = "pending";
-  static const delivered = "delivered";
-  static const rejected = "rejected";
+class AuthenticationMessages {
+  static const otpSendSuccessfully = "OTP Sent Successfully";
+  static const otpSendFailed = "Failed To Send OTP";
+  static const otpVerificationFailed = "Failed To Verify OTP";
+  static const otpVerificationSuccess = "OTP Successfully Verified";
 }
+
+class UserProfile {
+  static const nameEmpty = "Name can't be empty";
+  static const updateFailed = "Failed to update profile";
+  static const updateSuccess = "Profile updated successfully";
+}
+
+class SnackBarMessages {
+  // message show in snackbar
+}
+
+class LogLabel {
+  static const auth = "AUTH";
+  static const httpGet = "HTTP/GET";
+  static const httpPost = "HTTP/POST";
+  static const httpPut = "HTTP/PUT";
+  static const httpDelete = "HTTP/DELETE";
+  static const httpPatch = "HTTP/PATCH";
+  static const sharedPrefs = "SHARED_PREFERENCES";
+}
+
+class CheckOut {}

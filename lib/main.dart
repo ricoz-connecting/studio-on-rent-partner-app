@@ -1,13 +1,13 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/adapters.dart';
-import 'package:studio_partner_app/app.dart';
+import 'package:studio_partner_app/commons/views/splashscreen.dart';
+import 'package:flutter/material.dart';
 
-main() async{
-  await Hive.initFlutter();
-
-  await Hive.openBox('USER');
-  runApp(const ProviderScope(child: MyApp()));
+void main() {
+  runApp(
+    const ProviderScope(
+      child: (MyApp()),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -15,6 +15,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ProviderScope(child: App());
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Splashscreen(),
+    );
   }
 }
