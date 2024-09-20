@@ -1,14 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:pinput/pinput.dart';
+import 'dart:developer';
 
-class OtpTextField extends StatefulWidget {
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pinput/pinput.dart';
+import 'package:studio_partner_app/commons/views/providers/otp.dart';
+
+class OtpTextField extends ConsumerStatefulWidget {
   const OtpTextField({super.key});
 
   @override
-  State<OtpTextField> createState() => _OtpTextFieldState();
+  ConsumerState<OtpTextField> createState() => _OtpTextFieldState();
 }
 
-class _OtpTextFieldState extends State<OtpTextField> {
+class _OtpTextFieldState extends ConsumerState<OtpTextField> {
   final pinController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
@@ -41,16 +45,15 @@ class _OtpTextFieldState extends State<OtpTextField> {
           Directionality(
             textDirection: TextDirection.ltr,
             child: Pinput(
-              length: 4,
+              length: 6,
               controller: pinController,
               defaultPinTheme: defaultPinTheme,
               hapticFeedbackType: HapticFeedbackType.lightImpact,
               onCompleted: (pin) {
-                debugPrint('onCompleted: $pin');
+                ref.read(otpProvider.notifier).setOtp(pin);
+                log('onCompleted: $pin', name: 'OTP');
               },
-              onChanged: (value) {
-                debugPrint('onChanged: $value');
-              },
+              onChanged: (value) {},
               cursor: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [

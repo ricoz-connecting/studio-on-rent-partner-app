@@ -25,8 +25,8 @@ class _SignupState extends State<Signup> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      body: SingleChildScrollView(
-        child: SafeArea(
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
@@ -107,7 +107,7 @@ class _SignupState extends State<Signup> {
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide.none,
                     ),
-                    hintText: 'example@gmail.com',
+                    hintText: 'Enter your Email',
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -230,11 +230,12 @@ class _SignupState extends State<Signup> {
                     Expanded(child: Divider()),
                   ],
                 ),
-                const LoginViaGoogleOrApple(),
+                const LoginViaGoogleOrPhone(),
                 Center(
                   child: TextButton(
                     onPressed: () {
-                      GoRouter.of(context).push(StudioRoutes.loginViaEmailScreen);
+                      GoRouter.of(context)
+                          .push(StudioRoutes.loginViaEmailScreen);
                     },
                     child: const Text.rich(
                       TextSpan(

@@ -1,8 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/src/feature/auth/controllers/signin.dart';
-import 'package:studio_partner_app/src/feature/auth/views/forgot_password.dart';
-import 'package:studio_partner_app/src/feature/auth/views/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
@@ -183,7 +181,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   Expanded(child: Divider()),
                 ],
               ),
-              const LoginViaGoogleOrApple(),
+              const LoginViaGoogleOrPhone(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

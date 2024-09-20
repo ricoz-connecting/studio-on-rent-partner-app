@@ -47,8 +47,7 @@ class ResetPassSms extends StatelessWidget {
               },
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(
-                prefixStyle: const TextStyle(color: Colors.black),
-                prefixText: '+91',
+                prefix: const Text('+91'),
                 contentPadding: const EdgeInsets.symmetric(
                   vertical: 14,
                   horizontal: 14,
