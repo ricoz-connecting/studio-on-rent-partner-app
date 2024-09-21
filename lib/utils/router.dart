@@ -10,6 +10,7 @@ import 'package:studio_partner_app/src/feature/auth/views/send_otp.dart';
 import 'package:studio_partner_app/src/feature/auth/views/setnewpass.dart';
 import 'package:studio_partner_app/src/feature/auth/views/signin_with_phone.dart';
 import 'package:studio_partner_app/src/feature/auth/views/verify_otp.dart';
+import 'package:studio_partner_app/src/feature/landing/views/onboarding_screen.dart';
 import 'package:studio_partner_app/src/feature/navigation/navigation_page.dart';
 import 'package:studio_partner_app/src/feature/profile/views/complete_profile.dart';
 import 'package:studio_partner_app/src/feature/profile/views/profile_screen.dart';
@@ -17,7 +18,7 @@ import 'package:studio_partner_app/src/feature/profile/views/widgets/bank_detail
 import 'package:studio_partner_app/src/feature/profile/views/widgets/edit_profile.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/help.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/history_screen.dart';
-import '../src/feature/auth/views/landing_screen.dart';
+import '../src/feature/landing/views/landing_screen.dart';
 import '../src/feature/auth/views/signup.dart';
 import '../src/feature/profile/models/profile.dart';
 
@@ -46,6 +47,7 @@ class StudioRoutes {
   static const String helpScreen = '/help';
   static const String editProfile = '/editProfile';
   static const String historyScreen = '/history';
+  static const String onboardingScreen = '/onboarding';
   static const String bankDetails = '/bankDetails';
 }
 
@@ -56,6 +58,10 @@ class StudioRouter {
       GoRoute(
           path: StudioRoutes.splashScreen,
           builder: (context, state) => const Splashscreen()),
+      GoRoute(
+        path: StudioRoutes.onboardingScreen,
+        builder: (context, state) => const OnboardingScreen(),
+      ),
       GoRoute(
         path: StudioRoutes.loginViaEmailScreen,
         builder: (BuildContext context, GoRouterState state) =>

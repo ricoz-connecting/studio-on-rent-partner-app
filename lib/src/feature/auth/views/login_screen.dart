@@ -1,8 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/src/feature/auth/controllers/signin.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:studio_partner_app/src/feature/auth/views/widgets/auth_text_field.dart';
+import 'package:studio_partner_app/src/feature/auth/views/widgets/reusable_button.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 import 'package:studio_partner_app/utils/router.dart';
 
@@ -18,8 +22,8 @@ class LoginScreen extends ConsumerStatefulWidget {
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   bool _obscureText = true;
   bool _rememberMe = false;
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  String email = '';
+  String password = '';
 
   @override
   Widget build(BuildContext context) {
@@ -57,24 +61,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
               ),
               const SizedBox(height: 10),
-              TextField(
-                controller: emailController,
+              AuthTextField(
+                hintText: 'example@gmail.com',
                 onChanged: (value) => setState(() {
-                  emailController.text = value;
+                  email = value;
                 }),
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(
-                    vertical: 14,
-                    horizontal: 14,
-                  ),
-                  filled: true,
-                  fillColor: Colors.grey.shade200,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide.none,
-                  ),
-                  hintText: 'example@gmail.com',
-                ),
               ),
               const SizedBox(height: 20),
               const Align(
@@ -85,33 +76,21 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
               ),
               const SizedBox(height: 10),
-              TextField(
-                controller: passwordController,
-                onChanged: (value) => setState(() {
-                  passwordController.text = value;
-                }),
+              AuthTextField(
                 obscureText: _obscureText,
-                decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(
-                      vertical: 14,
-                      horizontal: 14,
-                    ),
-                    filled: true,
-                    fillColor: Colors.grey.shade200,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none,
-                    ),
-                    hintText: '********',
-                    suffixIcon: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _obscureText = !_obscureText;
-                          });
-                        },
-                        child: _obscureText
-                            ? const Icon(Icons.visibility_off)
-                            : const Icon(Icons.visibility))),
+                hintText: '********',
+                child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _obscureText = !_obscureText;
+                      });
+                    },
+                    child: _obscureText
+                        ? const Icon(Icons.visibility_off)
+                        : const Icon(Icons.visibility)),
+                onChanged: (value) => setState(() {
+                  password = value;
+                }),
               ),
               const SizedBox(height: 10),
               Row(
@@ -144,31 +123,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ],
               ),
               const SizedBox(height: 20),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryBackgroundColor,
-                    padding: const EdgeInsets.symmetric(vertical: 13),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(90),
-                    ),
-                  ),
-                  onPressed: () {
-                    Signin(
-                            context: context,
-                            email: emailController.text,
-                            password: passwordController.text)
-                        .signInEmail(ref);
-                  },
-                  child: const Text(
-                    'Sign In',
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                  ),
-                ),
+              ReusableButton(
+                label: 'Login',
+                onPressed: () {
+                  log('Email: $email, Password: $password');
+                  Signin(context: context, email: email, password: password)
+                      .signInEmail(ref);
+                },
               ),
               const SizedBox(height: 20),
               const Row(

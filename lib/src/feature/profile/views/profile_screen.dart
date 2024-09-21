@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/src/feature/profile/models/profile.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/custom_edit_profile.dart';
+import 'package:studio_partner_app/src/feature/profile/views/widgets/membership_card.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/sectionone.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/sectiontwo.dart';
 import 'package:flutter/material.dart';
@@ -64,6 +65,8 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                 ],
               ),
+              const SizedBox(height: 20),
+              const MembershipCard(),
               const SizedBox(height: 20),
               Text(
                 'Hi, ${profile.name}',
@@ -153,6 +156,7 @@ class ProfileScreen extends ConsumerWidget {
                   Logout.logout(context);
                 },
               ),
+
               // Container(
               //   width: double.infinity,
               //   decoration: BoxDecoration(
@@ -174,6 +178,15 @@ class ProfileScreen extends ConsumerWidget {
               //     onPressed: () {},
               //   ),
               // ),
+              const SizedBox(height: 15),
+              CustomEditProfile(
+                color: Colors.red,
+                label: 'Delete Account',
+                icon: Icons.delete_outlined,
+                onTap: () {
+                  Logout.logout(context);
+                },
+              ),
               const SizedBox(height: 20),
             ],
           ),

@@ -13,7 +13,10 @@ class ImageAssets {
       'https://pub-fa34e1d40214487bba2b2645b6ff63b1.r2.dev/';
   static const studiohome = 'assets/images/studio_home.png';
   static const appbarImage = 'assets/images/appbar_title.png';
-
+  static const onboardingOne = 'assets/images/landing_one.png';
+  static const onboardingTwo = 'assets/images/landing_two.png';
+  static const onboardingThree = 'assets/images/landing_three.png';
+  static const diamond = 'assets/images/diamond.png';
   //example
   static const sampleImagePath = "$_base/image.png";
 }

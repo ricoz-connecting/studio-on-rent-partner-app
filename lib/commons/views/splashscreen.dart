@@ -6,7 +6,9 @@ import 'package:studio_partner_app/commons/views/providers/image_upload_url.dart
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/res/assets.dart';
+import 'package:studio_partner_app/src/res/colors.dart';
 import 'package:studio_partner_app/src/res/strings.dart';
+import 'package:studio_partner_app/utils/router.dart';
 
 class Splashscreen extends ConsumerStatefulWidget {
   const Splashscreen({super.key});
@@ -25,9 +27,9 @@ class _SplashscreenState extends ConsumerState<Splashscreen> {
       ref.read(imageUploadUrl.notifier).setImageUploadUrl(url['uploadUrl']);
       ref.read(keyProvider.notifier).setKey(url['key']);
       if (token != '') {
-        GoRouter.of(context).replace('/navBar');
+        GoRouter.of(context).replace(StudioRoutes.bottomNavBar);
       } else {
-        GoRouter.of(context).replace('/landing');
+        GoRouter.of(context).replace(StudioRoutes.onboardingScreen);
       }
     });
   }
@@ -45,12 +47,13 @@ class _SplashscreenState extends ConsumerState<Splashscreen> {
               Positioned.fill(
                 child: Container(
                   decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: <Color>[Color(0xFFBCB1F0), Color(0xFF6F54EF)],
-                      stops: <double>[0, 1],
-                    ),
+                    color: AppColors.splashScreenBackgroundColor,
+                    // gradient: LinearGradient(
+                    //   begin: Alignment.topCenter,
+                    //   end: Alignment.bottomCenter,
+                    //   colors: <Color>[Color(0xFFBCB1F0), Color(0xFF6F54EF)],
+                    //   stops: <double>[0, 1],
+                    // ),
                   ),
                 ),
               ),
@@ -58,19 +61,34 @@ class _SplashscreenState extends ConsumerState<Splashscreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      child: Image.asset(
-                        ImageAssets.home,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'book my',
+                          style: GoogleFonts.inter(
+                            fontSize: 30,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(left: 5),
+                          color: Colors.yellow,
+                          child: Text(
+                            'studio',
+                            style: GoogleFonts.inter(
+                              fontSize: 30,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     Text(
-                      AppString.splashTitleName,
-                      textAlign: TextAlign.center,
+                      'Discover Your Perfect Studio Space!',
                       style: GoogleFonts.inter(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 32,
-                        color: const Color(0xFFFFFFFF),
-                        decoration: TextDecoration.none,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
                   ],
