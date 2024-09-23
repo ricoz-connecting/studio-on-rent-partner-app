@@ -102,7 +102,9 @@ class ProfileScreen extends ConsumerWidget {
               CustomEditProfile(
                   label: "Customer Reviews",
                   icon: Icons.reviews_outlined,
-                  onTap: () {}),
+                  onTap: () {
+                    GoRouter.of(context).push(StudioRoutes.customerReview);
+                  }),
               const SizedBox(height: 20),
               Wrap(
                 spacing: 20,

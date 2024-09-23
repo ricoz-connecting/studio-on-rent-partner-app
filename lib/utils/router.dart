@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/commons/views/splashscreen.dart';
@@ -10,13 +12,17 @@ import 'package:studio_partner_app/src/feature/auth/views/send_otp.dart';
 import 'package:studio_partner_app/src/feature/auth/views/setnewpass.dart';
 import 'package:studio_partner_app/src/feature/auth/views/signin_with_phone.dart';
 import 'package:studio_partner_app/src/feature/auth/views/verify_otp.dart';
+import 'package:studio_partner_app/src/feature/complains/views/complaint_description.dart';
+import 'package:studio_partner_app/src/feature/complains/views/previous_complaint.dart';
+import 'package:studio_partner_app/src/feature/customer_reviews.dart/views/customer_review.dart';
+import 'package:studio_partner_app/src/feature/customer_reviews.dart/views/studio_review.dart';
 import 'package:studio_partner_app/src/feature/landing/views/onboarding_screen.dart';
 import 'package:studio_partner_app/src/feature/navigation/navigation_page.dart';
 import 'package:studio_partner_app/src/feature/profile/views/complete_profile.dart';
 import 'package:studio_partner_app/src/feature/profile/views/profile_screen.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/bank_details.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/edit_profile.dart';
-import 'package:studio_partner_app/src/feature/profile/views/widgets/help.dart';
+import 'package:studio_partner_app/src/feature/profile/views/help.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/history_screen.dart';
 import '../src/feature/landing/views/landing_screen.dart';
 import '../src/feature/auth/views/signup.dart';
@@ -49,6 +55,10 @@ class StudioRoutes {
   static const String historyScreen = '/history';
   static const String onboardingScreen = '/onboarding';
   static const String bankDetails = '/bankDetails';
+  static const String previousComplaint = '/previousComplaint';
+  static const String complaintDescription = '/complaintDescription';
+  static const String customerReview = '/customerReview';
+  static const String studioReview = '/studioReview';
 }
 
 class StudioRouter {
@@ -133,6 +143,22 @@ class StudioRouter {
       GoRoute(
           path: StudioRoutes.setNewPasswordScreen,
           builder: (context, state) => Setnewpass()),
+      GoRoute(
+          path: StudioRoutes.previousComplaint,
+          builder: (context, state) => PreviousComplaint()),
+      GoRoute(
+          path: StudioRoutes.complaintDescription,
+          builder: (context, state) {
+            final sno = state.extra as String;
+            log(sno);
+            return ComplaintDescription(sno: sno);
+          }),
+      GoRoute(
+          path: StudioRoutes.customerReview,
+          builder: (context, state) => const CustomerReview()),
+      GoRoute(
+          path: StudioRoutes.studioReview,
+          builder: (context, state) => const StudioReview()),
     ],
   );
 }
