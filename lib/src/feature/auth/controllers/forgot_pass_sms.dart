@@ -5,8 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/src/feature/auth/repo/forgot_pass_sms.dart';
 import 'package:studio_partner_app/utils/router.dart';
 
-import '../repo/signin_phone.dart';
-
 class ForgotPassSms {
   final String phoneNumber;
   final BuildContext context;

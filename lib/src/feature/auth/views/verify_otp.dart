@@ -6,8 +6,6 @@ import 'package:studio_partner_app/src/feature/auth/views/widgets/otptextfield.d
 import 'package:studio_partner_app/src/res/colors.dart';
 import 'package:studio_partner_app/utils/router.dart';
 
-import '../../../../commons/views/providers/otp.dart';
-
 class VerifyOtp extends ConsumerStatefulWidget {
   const VerifyOtp({super.key});
 
@@ -18,7 +16,7 @@ class VerifyOtp extends ConsumerStatefulWidget {
 class _VerifyOtpState extends ConsumerState<VerifyOtp> {
   @override
   Widget build(BuildContext context) {
-    final otp = ref.watch(otpProvider);
+    // final otp = ref.watch(otpProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text(

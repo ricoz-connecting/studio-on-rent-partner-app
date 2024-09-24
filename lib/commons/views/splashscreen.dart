@@ -1,14 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/commons/controllers/checkauth.dart';
-import 'package:studio_partner_app/commons/repo/get_image_url.dart';
-import 'package:studio_partner_app/commons/views/providers/image_upload_url.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:studio_partner_app/src/res/assets.dart';
+import 'package:studio_partner_app/commons/views/providers/profileprovider.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
-import 'package:studio_partner_app/src/res/strings.dart';
 import 'package:studio_partner_app/utils/router.dart';
+
+import '../repo/get_profile.dart';
 
 class Splashscreen extends ConsumerStatefulWidget {
   const Splashscreen({super.key});
@@ -23,10 +24,10 @@ class _SplashscreenState extends ConsumerState<Splashscreen> {
     super.initState();
     Future.delayed(const Duration(seconds: 3), () async {
       String token = await Checkauth.checkAuth(ref);
-      Map<String, dynamic> url = await GetImageUrl.getUploadUrl();
-      ref.read(imageUploadUrl.notifier).setImageUploadUrl(url['uploadUrl']);
-      ref.read(keyProvider.notifier).setKey(url['key']);
       if (token != '') {
+        final response = await GetProfileRepo.getProfile(token, context);
+        ref.read(profileProvider.notifier).setProfile(response);
+        log('Profile fetched successfully', name: 'GetProfile');
         GoRouter.of(context).replace(StudioRoutes.bottomNavBar);
       } else {
         GoRouter.of(context).replace(StudioRoutes.onboardingScreen);

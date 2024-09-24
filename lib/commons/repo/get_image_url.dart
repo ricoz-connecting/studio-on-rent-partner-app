@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import '../../src/core/api.dart';
 import '../../src/res/endpoints.dart';
 
@@ -12,7 +11,6 @@ class GetImageUrl {
         requireAuth: false);
     return response.fold((failure) => {'success': false}, (response) {
       Map<String, dynamic> responseBody = jsonDecode(response.body);
-      log(responseBody.toString());
       return responseBody;
     });
   }

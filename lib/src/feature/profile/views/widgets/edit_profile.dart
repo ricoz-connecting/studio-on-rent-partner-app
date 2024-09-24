@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -30,7 +31,6 @@ class _EditProfileState extends ConsumerState<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
-    final userImage = ref.watch(keyProvider);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -75,6 +75,7 @@ class _EditProfileState extends ConsumerState<EditProfile> {
                               icon: const Icon(Icons.edit, color: Colors.white),
                               onPressed: () {
                                 Pickimage(ref).pickImage().then((value) {
+                                  final userImage = ref.watch(keyProvider);
                                   setState(() {
                                     image = value;
                                     _avatar =

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/feature/auth/controllers/verify_otp.dart';
 import 'package:studio_partner_app/src/feature/auth/views/widgets/otptextfield.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
-import 'package:studio_partner_app/utils/router.dart';
-
 import '../../../../commons/views/providers/otp.dart';
 
 class SendOtp extends ConsumerStatefulWidget {
