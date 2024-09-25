@@ -1,22 +1,46 @@
-import 'package:studio_partner_app/src/feature/auth/views/register_one.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:studio_partner_app/commons/views/location_access.dart';
+import 'package:studio_partner_app/commons/views/providers/image_upload_url.dart';
+import 'package:studio_partner_app/src/feature/profile/controllers/editprofile.dart';
+import 'package:studio_partner_app/src/feature/profile/models/profile.dart';
+import 'package:studio_partner_app/src/feature/profile/views/widgets/pickimage.dart';
+import 'package:studio_partner_app/src/res/assets.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
-class CompleteProfileScreen extends StatelessWidget {
+class CompleteProfileScreen extends ConsumerStatefulWidget {
   const CompleteProfileScreen({super.key});
 
   @override
+  ConsumerState<CompleteProfileScreen> createState() =>
+      _CompleteProfileScreenState();
+}
+
+class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _bussinessNameController =
+      TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  String? name;
+  String? businessName;
+  String? gender;
+  XFile? image;
+
+  @override
   Widget build(BuildContext context) {
+    final userImageKey = ref.watch(keyProvider);
     return Scaffold(
-      resizeToAvoidBottomInset: true,
-      body: SingleChildScrollView(
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          padding: const EdgeInsets.all(10.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 80),
               Text(
                 'Complete Your Profile',
                 style: GoogleFonts.inter(
@@ -40,11 +64,15 @@ class CompleteProfileScreen extends StatelessWidget {
                   CircleAvatar(
                     radius: 50,
                     backgroundColor: Colors.grey.shade200,
-                    child: const Icon(
-                      Icons.person,
-                      size: 60,
-                      color: Colors.grey,
-                    ),
+                    backgroundImage:
+                        image == null ? null : FileImage(File(image!.path)),
+                    child: image == null
+                        ? const Icon(
+                            Icons.person,
+                            size: 60,
+                            color: Colors.grey,
+                          )
+                        : null,
                   ),
                   Positioned(
                     right: 0,
@@ -54,12 +82,21 @@ class CompleteProfileScreen extends StatelessWidget {
                         color: AppColors.primaryBackgroundColor,
                         shape: BoxShape.circle,
                       ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(4.0),
-                        child: Icon(
-                          Icons.edit,
-                          size: 18,
-                          color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            Pickimage(ref).pickImage().then((value) {
+                              setState(() {
+                                image = value;
+                              });
+                            });
+                          },
+                          child: const Icon(
+                            Icons.edit,
+                            size: 18,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
@@ -76,6 +113,12 @@ class CompleteProfileScreen extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               TextField(
+                controller: _nameController,
+                onChanged: (value) {
+                  setState(() {
+                    name = value;
+                  });
+                },
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.symmetric(
                     vertical: 14,
@@ -88,6 +131,36 @@ class CompleteProfileScreen extends StatelessWidget {
                     borderSide: BorderSide.none,
                   ),
                   hintText: 'Rishav Bhardwaz',
+                ),
+              ),
+              const SizedBox(height: 10),
+              const Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Business Name',
+                  style: TextStyle(fontSize: 16, color: Colors.black),
+                ),
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: _bussinessNameController,
+                onChanged: (value) {
+                  setState(() {
+                    businessName = value;
+                  });
+                },
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: 14,
+                    horizontal: 14,
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey.shade200,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide.none,
+                  ),
+                  hintText: 'ABC Enterprises',
                 ),
               ),
               const SizedBox(height: 20),
@@ -112,13 +185,17 @@ class CompleteProfileScreen extends StatelessWidget {
                     borderSide: BorderSide.none,
                   ),
                 ),
-                value: 'Male',
+                value: 'male',
                 items: const [
-                  DropdownMenuItem(value: 'Male', child: Text('Male')),
-                  DropdownMenuItem(value: 'Female', child: Text('Female')),
-                  DropdownMenuItem(value: 'Other', child: Text('Other')),
+                  DropdownMenuItem(value: 'male', child: Text('Male')),
+                  DropdownMenuItem(value: 'female', child: Text('Female')),
+                  DropdownMenuItem(value: 'other', child: Text('Other')),
                 ],
-                onChanged: (value) {},
+                onChanged: (value) {
+                  setState(() {
+                    gender = value;
+                  });
+                },
               ),
               const SizedBox(height: 20),
               const Align(
@@ -143,6 +220,7 @@ class CompleteProfileScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: const Text(
+                        textAlign: TextAlign.center,
                         '+91',
                         style: TextStyle(fontSize: 16),
                       ),
@@ -152,6 +230,12 @@ class CompleteProfileScreen extends StatelessWidget {
                   Expanded(
                     flex: 3,
                     child: TextField(
+                      controller: _phoneController,
+                      onChanged: (value) {
+                        setState(() {
+                          _phoneController.text = value;
+                        });
+                      },
                       keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.symmetric(
@@ -170,24 +254,32 @@ class CompleteProfileScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 30),
+              const Spacer(),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor:  AppColors.primaryBackgroundColor,
+                    backgroundColor: AppColors.primaryBackgroundColor,
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(90),
                     ),
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const RegisterScreen(),
-                      ),
-                    );
+                  onPressed: () async {
+                    final userLocation =
+                        await GetUserLocation.determinePosition();
+                    context.mounted
+                        ? Editprofile(
+                            profile: Profile(
+                              name: name,
+                              businessName: businessName,
+                              gender: gender,
+                              avatar: "${ImageAssets.userProfile}$userImageKey",
+                              longitude: userLocation.longitude.toString(),
+                              latitude: userLocation.latitude.toString(),
+                            ),
+                          ).editProfile(ref, context)
+                        : null;
                   },
                   child: const Text(
                     'Complete Profile',
@@ -198,15 +290,11 @@ class CompleteProfileScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 10),
             ],
           ),
         ),
       ),
     );
   }
-}
-
-void main() {
-  runApp(const MaterialApp(home: CompleteProfileScreen()));
 }

@@ -1,16 +1,19 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:studio_partner_app/src/core/api.dart';
-import 'package:studio_partner_app/src/feature/navigation/navigation_page.dart';
-import 'package:studio_partner_app/src/res/endpoints.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:studio_partner_app/commons/controllers/checkauth.dart';
+import 'package:studio_partner_app/commons/controllers/get_profile.dart';
+import 'package:studio_partner_app/commons/repo/get_image_url.dart';
+import 'package:studio_partner_app/commons/views/providers/image_upload_url.dart';
+import 'package:studio_partner_app/src/feature/auth/repo/signin.dart';
+import 'package:studio_partner_app/src/feature/profile/views/complete_profile.dart';
+import 'package:studio_partner_app/utils/router.dart';
 
 class Signin {
   final String email;
   final String password;
   final BuildContext context;
-  API api = API(authToken: '');
 
   Signin({
     required this.context,
@@ -18,7 +21,7 @@ class Signin {
     required this.password,
   });
 
-  Future<void> signInEmail() async {
+  Future<void> signInEmail(WidgetRef ref) async {
     try {
       if (password.length < 6) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -28,50 +31,36 @@ class Signin {
         );
         return;
       }
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final result = await api.postRequest(
-        url: Endpoints.loginEmail,
-        body: {
-          "email": email,
-          "password": password,
-          "deviceType": "PartnerApp",
-        },
-        requireAuth: false,
-      );
-      result.fold(
-        (failure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(failure.message),
-            ),
-          );
-        },
-        (response) async {
-          final Map<String, dynamic> responseBody = jsonDecode(response.body);
-          if (responseBody['success'] == false) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(responseBody['message']),
-              ),
-            );
-          } else {
-            await prefs.setString("token", responseBody['token']);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const BottomNavBar(),
-              ),
-            );
-          }
-        },
-      );
+      final result = await SignInRepo.signIn(email, password);
+      if (result == false) {
+        context.mounted
+            ? ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('An unexpected error occurred'),
+                ),
+              )
+            : null;
+      } else {
+        String token = await Checkauth.checkAuth(ref);
+        Map<String, dynamic> url = await GetImageUrl.getUploadUrl();
+        ref.read(imageUploadUrl.notifier).setImageUploadUrl(url['uploadUrl']);
+        ref.read(keyProvider.notifier).setKey(url['key']);
+        if (token != '') {
+          context.mounted ? await GetProfile.getProfile(context, ref) : null;
+          context.mounted
+              ? GoRouter.of(context).go(StudioRoutes.createProfileScreen)
+              : null;
+        }
+      }
     } catch (e) {
       log(e.toString());
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('An unexpected error occurred'),
-        ),
-      );
+      context.mounted
+          ? ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('An unexpected error occurred'),
+              ),
+            )
+          : null;
     }
   }
 }

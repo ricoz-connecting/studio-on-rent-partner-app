@@ -1,9 +1,10 @@
+import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/src/feature/auth/controllers/signup.dart';
-import 'package:studio_partner_app/src/feature/auth/views/login_screen.dart';
-import 'package:studio_partner_app/src/res/assets.dart';
+import 'package:studio_partner_app/src/feature/auth/views/widgets/login_via_google.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
+import 'package:studio_partner_app/utils/router.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -22,10 +23,10 @@ class _SignupState extends State<Signup> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        body: SingleChildScrollView(
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
@@ -106,7 +107,7 @@ class _SignupState extends State<Signup> {
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide.none,
                     ),
-                    hintText: 'example@gmail.com',
+                    hintText: 'Enter your Email',
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -229,41 +230,12 @@ class _SignupState extends State<Signup> {
                     Expanded(child: Divider()),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(
-                      onPressed: () {},
-                      icon: Image.asset(ImageAssets.googleimage),
-                    ),
-                    const SizedBox(width: 10),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Image.asset(
-                        ImageAssets.facebook,
-                        height: 70,
-                        width: 70,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Image.asset(
-                        ImageAssets.appleimage,
-                        height: 70,
-                        width: 70,
-                      ),
-                    ),
-                  ],
-                ),
+                const LoginViaGoogleOrPhone(),
                 Center(
                   child: TextButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginScreen(),
-                        ),
-                      );
+                      GoRouter.of(context)
+                          .push(StudioRoutes.loginViaEmailScreen);
                     },
                     child: const Text.rich(
                       TextSpan(

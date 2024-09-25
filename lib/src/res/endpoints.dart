@@ -14,4 +14,12 @@ class Endpoints {
   static const String editProfile = "${baseUrl}partner/profile";
   static const String logout = "${baseUrl}partner/logout";
   static const String changeEmailPhone = "${baseUrl}partner/change-phone-email";
+  static const String fetchUploadImageUrl = "${baseUrl}storage/upload";
+
+  //membership
+  static const String createMembershipPayment =
+      "${baseUrl}membership/create-payment";
+  static const String verifyMembershipPayment =
+      "${baseUrl}membership/verify-payment";
+  static const String paymentFailed = "${baseUrl}membership/payment-failed";
 }

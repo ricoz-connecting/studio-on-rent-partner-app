@@ -27,6 +27,7 @@ android {
     namespace = "com.bookmystudio.app.studio_partner_app"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "25.1.8937393"
+    compileSdkVersion 34
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8

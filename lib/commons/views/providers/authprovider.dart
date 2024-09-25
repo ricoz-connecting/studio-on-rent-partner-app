@@ -11,3 +11,6 @@ class Authprovider extends StateNotifier<String> {
 final authprovider = StateNotifierProvider<Authprovider, String>((ref) {
   return Authprovider();
 });
+
+final authTokenProvider = StateProvider<String?>((ref) =>
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ1YzQwYTI1MjIxYzA1ZmM5MGU0NzYiLCJpYXQiOjE3MjY5MjIzNTksImV4cCI6MTcyOTUxNDM1OX0.gZD9fgUUb8KPI4U4oNuQxaRI_yg_jV6Zt2ClULqYcnw");

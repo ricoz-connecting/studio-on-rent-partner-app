@@ -1,47 +1,33 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:studio_partner_app/src/feature/membership_payment/view/membership_payment_page.dart';
 import 'package:studio_partner_app/src/feature/profile/models/profile.dart';
-import 'package:studio_partner_app/src/feature/profile/views/widgets/bank_details.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/custom_edit_profile.dart';
-import 'package:studio_partner_app/src/feature/profile/views/widgets/edit_profile.dart';
-import 'package:studio_partner_app/src/feature/profile/views/widgets/help.dart';
-import 'package:studio_partner_app/src/feature/profile/views/widgets/history_screen.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/sectionone.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/sectiontwo.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
-
+import 'package:studio_partner_app/utils/router.dart';
 import '../controllers/logout.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends ConsumerWidget {
   final Profile profile;
 
   const ProfileScreen({super.key, required this.profile});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
-        elevation: 0,
-        title: Row(
-          children: [
-            IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.black),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            const SizedBox(width: 8),
-            Text(
-              'Profile',
-              style: GoogleFonts.lato(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-                color: Colors.black,
-              ),
-            ),
-          ],
+        title: Text(
+          'Profile',
+          style: GoogleFonts.lato(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            color: Colors.black,
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -54,14 +40,13 @@ class ProfileScreen extends StatelessWidget {
               Stack(
                 children: [
                   CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.grey.shade200,
-                    child: const Icon(
-                      Icons.person,
-                      size: 60,
-                      color: Colors.grey,
-                    ),
-                  ),
+                      radius: 50,
+                      backgroundColor: Colors.grey.shade200,
+                      backgroundImage: profile.avatar == ''
+                          ? null
+                          : NetworkImage(
+                              '${profile.avatar}',
+                            )),
                   Positioned(
                     bottom: 0,
                     right: 0,
@@ -96,20 +81,46 @@ class ProfileScreen extends StatelessWidget {
                   const Icon(Icons.phone_outlined, color: Colors.black54),
                   const SizedBox(width: 8),
                   Text(
-                    profile.phone,
+                    profile.phone!,
                     style: GoogleFonts.lato(color: Colors.black54),
                   ),
                 ],
               ),
               const SizedBox(height: 20),
+              Container(
+                padding: const EdgeInsets.all(10),
+                color: AppColors.primaryBackgroundColor,
+                child: ListTile(
+                  leading: const Icon(
+                    Icons.currency_rupee,
+                    color: Colors.black54,
+                  ),
+                  title: Text(
+                    "Membership Payment",
+                    style: GoogleFonts.lato(),
+                  ),
+                  trailing: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.grey.shade200,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    onPressed: () {
+                      context.push(MembershipPayment.routePath);
+                    },
+                    child: const Text('Membership'),
+                  ),
+                ),
+              ),
               SectionOne(
-                businessName: profile.businessName,
+                businessName: profile.businessName!,
               ),
               const SizedBox(height: 20),
               SectionTwo(
-                city: profile.city,
-                state: profile.state,
-                address: profile.address,
+                city: profile.city!,
+                state: profile.state!,
+                address: profile.address!,
               ),
               const SizedBox(height: 20),
               CustomEditProfile(
@@ -126,11 +137,7 @@ class ProfileScreen extends StatelessWidget {
                     Icons.help_outline_outlined,
                     'Help',
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HelpPage()),
-                      );
+                      GoRouter.of(context).push(StudioRoutes.helpScreen);
                     },
                   ),
                   _buildProfileButton(
@@ -138,11 +145,7 @@ class ProfileScreen extends StatelessWidget {
                     Icons.edit_outlined,
                     'Edit Profile',
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const EditProfile()),
-                      );
+                      GoRouter.of(context).push(StudioRoutes.editProfile);
                     },
                   ),
                   _buildProfileButton(
@@ -150,11 +153,7 @@ class ProfileScreen extends StatelessWidget {
                     Icons.history,
                     'History',
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HistoryPage()),
-                      );
+                      GoRouter.of(context).push(StudioRoutes.historyScreen);
                     },
                   ),
                   _buildProfileButton(
@@ -162,11 +161,7 @@ class ProfileScreen extends StatelessWidget {
                     Icons.account_balance_wallet_outlined,
                     'Bank Details',
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const BankDetails()),
-                      );
+                      GoRouter.of(context).push(StudioRoutes.bankDetails);
                     },
                   ),
                 ],

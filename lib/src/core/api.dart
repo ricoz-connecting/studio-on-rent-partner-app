@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
 import 'package:studio_partner_app/src/res/strings.dart';
 import 'package:studio_partner_app/utils/config.dart';
 import 'package:fpdart/fpdart.dart';
@@ -8,10 +10,10 @@ import 'core.dart';
 
 /// Watch apiProvider to make sure to have the latest authToken passed.
 
-// final apiProvider = StateProvider((ref) {
-//   final authToken = ref.watch(authTokenProvider);
-//   return API(authToken: authToken);
-// });
+final apiProvider = StateProvider((ref) {
+  final authToken = ref.watch(authTokenProvider);
+  return API(authToken: authToken);
+});
 
 /// Contains common methods required for client side APIs [GET, POST, PUT, DELETE].
 /// Pass the [url] from endpoints using [Endpoints] class.
