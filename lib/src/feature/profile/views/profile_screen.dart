@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/src/feature/membership_payment/view/membership_payment_page.dart';
 import 'package:studio_partner_app/src/feature/profile/models/profile.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/custom_edit_profile.dart';
+import 'package:studio_partner_app/src/feature/profile/views/widgets/membership_card.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/sectionone.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/sectiontwo.dart';
 import 'package:flutter/material.dart';
@@ -66,6 +67,8 @@ class ProfileScreen extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: 20),
+              const MembershipCard(),
+              const SizedBox(height: 20),
               Text(
                 'Hi, ${profile.name}',
                 style: GoogleFonts.lato(
@@ -126,7 +129,9 @@ class ProfileScreen extends ConsumerWidget {
               CustomEditProfile(
                   label: "Customer Reviews",
                   icon: Icons.reviews_outlined,
-                  onTap: () {}),
+                  onTap: () {
+                    GoRouter.of(context).push(StudioRoutes.customerReview);
+                  }),
               const SizedBox(height: 20),
               Wrap(
                 spacing: 20,
@@ -180,6 +185,7 @@ class ProfileScreen extends ConsumerWidget {
                   Logout.logout(context);
                 },
               ),
+
               // Container(
               //   width: double.infinity,
               //   decoration: BoxDecoration(
@@ -201,6 +207,15 @@ class ProfileScreen extends ConsumerWidget {
               //     onPressed: () {},
               //   ),
               // ),
+              const SizedBox(height: 15),
+              CustomEditProfile(
+                color: Colors.red,
+                label: 'Delete Account',
+                icon: Icons.delete_outlined,
+                onTap: () {
+                  Logout.logout(context);
+                },
+              ),
               const SizedBox(height: 20),
             ],
           ),

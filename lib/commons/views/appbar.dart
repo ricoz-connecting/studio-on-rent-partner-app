@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:studio_partner_app/commons/controllers/get_profile.dart';
 import 'package:studio_partner_app/commons/views/providers/profileprovider.dart';
 import 'package:studio_partner_app/src/res/assets.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
+import 'package:studio_partner_app/utils/router.dart';
 
 class Appbar {
   static AppBar buildAppBar(BuildContext context, WidgetRef ref) {
@@ -13,22 +13,24 @@ class Appbar {
       automaticallyImplyLeading: false,
       backgroundColor: AppColors.appbarColor,
       elevation: 0,
-      title: Image.asset(
-        ImageAssets.appbarImage,
+      title: Container(
+        padding: const EdgeInsets.only(top: 20.0),
+        width: MediaQuery.of(context).size.width * 0.45,
+        child: Image.asset(
+          ImageAssets.appbarImage,
+        ),
       ),
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 10.0),
           child: GestureDetector(
-            onTap: () async {
-              if (await GetProfile.getProfile(context, ref)) {
-                final userProfile = ref.watch(profileProvider);
-                context.mounted
-                    ? GoRouter.of(context).push('/profile', extra: 
-                        userProfile,
-                      )
-                    : null;
-              }
+            onTap: () {
+              context.mounted
+                  ? GoRouter.of(context).push(
+                      StudioRoutes.profileScreen,
+                      extra: userProfile,
+                    )
+                  : null;
             },
             child: CircleAvatar(
               backgroundImage: userProfile.avatar == null

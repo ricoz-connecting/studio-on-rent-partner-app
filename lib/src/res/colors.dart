@@ -6,6 +6,7 @@ class AppColors {
   static const white = Colors.white;
   static const appbarColor = Color(0xFFEEEAE9);
   static const chatScreenColor = Color(0xFFD5CDFB);
+  static const splashScreenBackgroundColor = Color(0xFFE3C3BB); 
 }
 
 class BasicColor {

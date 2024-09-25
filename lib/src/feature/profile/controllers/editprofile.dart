@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:studio_partner_app/commons/repo/get_profile.dart';
+import 'package:studio_partner_app/commons/views/providers/profileprovider.dart';
 import 'package:studio_partner_app/src/core/api.dart';
 import 'package:studio_partner_app/src/feature/profile/repo/edit_profile.dart';
 import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
@@ -39,6 +41,13 @@ class Editprofile {
             )
           : null;
     } else {
+      final response = context.mounted
+          ? await GetProfileRepo.getProfile(authToken, context)
+          : null;
+      ref.read(profileProvider.notifier).setProfile(response!);
+      // Map<String, dynamic> url = await GetImageUrl.getUploadUrl();
+      // ref.read(imageUploadUrl.notifier).setImageUploadUrl(url['uploadUrl']);
+      // ref.read(keyProvider.notifier).setKey(url['key']);
       context.mounted
           ? GoRouter.of(context).go(StudioRoutes.bottomNavBar)
           : null;

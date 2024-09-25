@@ -1,4 +1,4 @@
-import 'package:studio_partner_app/src/feature/complains/complain.dart';
+import 'package:studio_partner_app/src/feature/complains/views/complain.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
@@ -99,8 +99,6 @@ class HelpPage extends StatelessWidget {
                       builder: (context) => const ComplaintScreen(),
                     ),
                   );
-
-                  // Add your raise ticket logic here
                 },
                 child: const Text(
                   'RAISE TICKET',

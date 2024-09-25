@@ -5,8 +5,10 @@ class CustomEditProfile extends StatelessWidget {
   final String label;
   final IconData icon;
   final Function onTap;
+  final Color? color;
   const CustomEditProfile({
     required this.label,
+    this.color,
     required this.icon,
     required this.onTap,
     super.key,
@@ -27,15 +29,20 @@ class CustomEditProfile extends StatelessWidget {
         ),
         child: ListTile(
           leading: Icon(
+            color: color ?? Colors.black,
             icon,
           ),
           title: Text(
             label,
-            style: GoogleFonts.lato(),
+            style: GoogleFonts.lato(
+              color: color ?? Colors.black,
+            ),
           ),
-          trailing: const Icon(
-            Icons.arrow_forward_ios,
-          ),
+          trailing: color == null
+              ? const Icon(
+                  Icons.arrow_forward_ios,
+                )
+              : null,
         ),
       ),
     );

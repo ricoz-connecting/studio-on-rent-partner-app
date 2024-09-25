@@ -8,14 +8,18 @@ class OnboardingCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: width,
-      child: Card(
+      child: Container(
         margin: const EdgeInsets.all(16.0),
-        color: const Color(0xFFFFF7E6),
-        shape: RoundedRectangleBorder(
+        decoration: BoxDecoration(
+          color: const Color(0xFFFFF7E4),
           borderRadius: BorderRadius.circular(8.0),
+          border: Border.all(
+            color: Color(0xFFFFE49F),
+            width: 2.0,
+          ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(10.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -27,15 +31,16 @@ class OnboardingCard extends StatelessWidget {
                   color: Colors.black,
                 ),
               ),
-              const SizedBox(height: 8.0),
+              const SizedBox(height: 4.0),
               const Text(
-                'Onboarding Incomplete',
+                'Your onboarding is incomplete. Please complete it to continue.',
                 style: TextStyle(
                   fontSize: 14.0,
                   color: Colors.black54,
                 ),
+                maxLines: 3,
               ),
-              const SizedBox(height: 16.0),
+              const SizedBox(height: 10.0),
               ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(

@@ -13,13 +13,15 @@ class EmptyChat extends ConsumerWidget {
     return SafeArea(
       child: Scaffold(
         appBar: Appbar.buildAppBar(context, ref),
-        body: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(30),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+        body: Container(
+          color: Colors.white,
+          child: Stack(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.15),
                   Center(child: Image.asset('assets/images/emptychat.png')),
                   const SizedBox(height: 20),
                   Text(
@@ -31,17 +33,25 @@ class EmptyChat extends ConsumerWidget {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                      textAlign: TextAlign.center,
-                      'A group easily allows you to share content,Inputs & templates.',
-                      style: GoogleFonts.inter()),
+                    textAlign: TextAlign.center,
+                    'A group easily allows you to share content,Inputs & templates.',
+                    style: GoogleFonts.inter(
+                      fontSize: 14,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    maxLines: 3,
+                  ),
                 ],
               ),
-            ),
-            Positioned(
+              Positioned(
                 bottom: 0,
-                child:
-                    OnboardingCard(width: MediaQuery.of(context).size.width)),
-          ],
+                child: OnboardingCard(
+                  width: MediaQuery.of(context).size.width,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

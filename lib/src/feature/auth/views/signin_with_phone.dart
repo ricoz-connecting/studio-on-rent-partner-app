@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/feature/auth/controllers/signinPhone.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
-import 'package:studio_partner_app/utils/router.dart';
 
 class SigninWithPhone extends ConsumerStatefulWidget {
   const SigninWithPhone({super.key});

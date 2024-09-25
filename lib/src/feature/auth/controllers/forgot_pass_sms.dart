@@ -2,22 +2,21 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:studio_partner_app/src/feature/auth/repo/forgot_pass_sms.dart';
 import 'package:studio_partner_app/utils/router.dart';
 
-import '../repo/signin_phone.dart';
-
-class Signinphone {
+class ForgotPassSms {
   final String phoneNumber;
   final BuildContext context;
 
-  Signinphone({
+  ForgotPassSms({
     required this.context,
     required this.phoneNumber,
   });
 
-  Future<void> signInPhone(WidgetRef ref) async {
+  Future<void> forgotPassSMS(WidgetRef ref) async {
     try {
-      final result = await SignInPhoneRepo.signIn(phoneNumber);
+      final result = await ForgotPassSmsRepo.forgotPassSms(phoneNumber);
       if (result == false) {
         context.mounted
             ? ScaffoldMessenger.of(context).showSnackBar(
@@ -35,7 +34,7 @@ class Signinphone {
         // context.mounted ? await GetProfile.getProfile(context, ref) : null;
         context.mounted
             ? GoRouter.of(context)
-                .push(StudioRoutes.sendOtpScreen, extra: phoneNumber)
+                .push(StudioRoutes.verifyOtpScreen, extra: phoneNumber)
             : null;
         // }
       }
