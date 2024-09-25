@@ -18,6 +18,8 @@ class ImageAssets {
   static const onboardingThree = 'assets/images/landing_three.png';
   static const diamond = 'assets/images/diamond.png';
   static const studioExample = 'assets/images/studio_example.png';
+  static const membershipImage = 'assets/images/membership_image.png';
+  static const appLogo = 'assets/images/app_logo.png';
   //example
   static const sampleImagePath = "$_base/image.png";
 }

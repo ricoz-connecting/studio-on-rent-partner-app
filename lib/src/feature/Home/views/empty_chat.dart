@@ -19,7 +19,6 @@ class EmptyChat extends ConsumerWidget {
             children: [
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(height: MediaQuery.of(context).size.height * 0.15),
                   Center(child: Image.asset('assets/images/emptychat.png')),

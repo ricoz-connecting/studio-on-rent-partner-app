@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/src/res/assets.dart';
+import 'package:studio_partner_app/utils/router.dart';
 
 class MembershipCard extends StatelessWidget {
   const MembershipCard({super.key});
@@ -39,7 +41,9 @@ class MembershipCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  GoRouter.of(context).push(StudioRoutes.memmbershipPayment);
+                },
                 child: const Text(
                   'Get it now',
                   style: TextStyle(color: Colors.white),

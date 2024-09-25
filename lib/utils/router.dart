@@ -56,6 +56,7 @@ class StudioRoutes {
   static const String complaintDescription = '/complaintDescription';
   static const String customerReview = '/customerReview';
   static const String studioReview = '/studioReview';
+  static const String memmbershipPayment = '/membershipPayment';
 }
 
 class StudioRouter {
@@ -142,7 +143,7 @@ class StudioRouter {
         builder: (context, state) => Setnewpass(),
       ),
       GoRoute(
-        path: MembershipPayment.routePath,
+        path: StudioRoutes.memmbershipPayment,
         builder: (context, state) {
           return const MembershipPayment();
         },

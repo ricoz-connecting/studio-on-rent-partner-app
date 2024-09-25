@@ -11,21 +11,22 @@ class LandingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Stack(
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.6,
+              child: Stack(
                 children: [
                   Center(
                     child: Image(
+                      width: MediaQuery.of(context).size.width,
+                      fit: BoxFit.cover,
                       image: const AssetImage(ImageAssets.studiohome),
-                      height: MediaQuery.of(context).size.height * 0.75,
                     ),
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.75,
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
@@ -39,63 +40,63 @@ class LandingScreen extends StatelessWidget {
                   )
                 ],
               ),
-              Text(
-                textAlign: TextAlign.center,
-                'Near by Studio on your Fingertips',
-                style: GoogleFonts.inter(
-                    fontSize: 28, fontWeight: FontWeight.bold),
+            ),
+            const Spacer(),
+            Text(
+              textAlign: TextAlign.center,
+              'Near by Studio on your Fingertips',
+              style:
+                  GoogleFonts.inter(fontSize: 28, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              textAlign: TextAlign.center,
+              'Are you ready to uproot and start over in a new area? Placoo will help you on your journey!',
+              style: GoogleFonts.inter(fontWeight: FontWeight.w300),
+            ),
+            const SizedBox(height: 20),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.9,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                color: AppColors.primaryBackgroundColor,
               ),
-              const SizedBox(height: 10),
-              Text(
-                textAlign: TextAlign.center,
-                'Are you ready to uproot and start over in a new area? Placoo will help you on your journey!',
-                style: GoogleFonts.inter(fontWeight: FontWeight.w300),
-              ),
-              const SizedBox(height: 20),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.9,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  color: AppColors.primaryBackgroundColor,
-                ),
-                child: TextButton(
-                  onPressed: () {
-                    GoRouter.of(context).push(StudioRoutes.loginViaEmailScreen);
-                  },
-                  child: Text(
-                    'Log in',
-                    style: GoogleFonts.inter(
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),
+              child: TextButton(
+                onPressed: () {
+                  GoRouter.of(context).push(StudioRoutes.loginViaEmailScreen);
+                },
+                child: Text(
+                  'Log in',
+                  style: GoogleFonts.inter(
+                    color: Colors.white,
+                    fontSize: 16,
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.9,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  border: Border.all(color: Colors.grey.shade400),
-                  color: AppColors.white,
-                ),
-                child: TextButton(
-                  onPressed: () {
-                    GoRouter.of(context)
-                        .push(StudioRoutes.signUpViaEmailScreen);
-                  },
-                  child: Text(
-                    'Sign up',
-                    style: GoogleFonts.inter(
-                      color: Colors.black,
-                      fontSize: 16,
-                    ),
+            ),
+            const SizedBox(height: 10),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.9,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                border: Border.all(color: Colors.grey.shade400),
+                color: AppColors.white,
+              ),
+              child: TextButton(
+                onPressed: () {
+                  GoRouter.of(context).push(StudioRoutes.signUpViaEmailScreen);
+                },
+                child: Text(
+                  'Sign up',
+                  style: GoogleFonts.inter(
+                    color: Colors.black,
+                    fontSize: 16,
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
-            ],
-          ),
+            ),
+            const SizedBox(height: 10),
+          ],
         ),
       ),
     );

@@ -90,32 +90,6 @@ class ProfileScreen extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: 20),
-              Container(
-                padding: const EdgeInsets.all(10),
-                color: AppColors.primaryBackgroundColor,
-                child: ListTile(
-                  leading: const Icon(
-                    Icons.currency_rupee,
-                    color: Colors.black54,
-                  ),
-                  title: Text(
-                    "Membership Payment",
-                    style: GoogleFonts.lato(),
-                  ),
-                  trailing: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey.shade200,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    onPressed: () {
-                      context.push(MembershipPayment.routePath);
-                    },
-                    child: const Text('Membership'),
-                  ),
-                ),
-              ),
               SectionOne(
                 businessName: profile.businessName!,
               ),

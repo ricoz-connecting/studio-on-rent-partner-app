@@ -17,7 +17,7 @@ class Editprofile {
   });
 
   Future<void> editProfile(WidgetRef ref, BuildContext context) async {
-    final authToken = ref.read(authprovider);
+    final authToken = ref.watch(authTokenProvider);
     API api = API(authToken: authToken);
     Profile profileLocal = Profile(
         name: profile!.name,
@@ -42,12 +42,9 @@ class Editprofile {
           : null;
     } else {
       final response = context.mounted
-          ? await GetProfileRepo.getProfile(authToken, context)
+          ? await GetProfileRepo.getProfile(authToken!, context)
           : null;
       ref.read(profileProvider.notifier).setProfile(response!);
-      // Map<String, dynamic> url = await GetImageUrl.getUploadUrl();
-      // ref.read(imageUploadUrl.notifier).setImageUploadUrl(url['uploadUrl']);
-      // ref.read(keyProvider.notifier).setKey(url['key']);
       context.mounted
           ? GoRouter.of(context).go(StudioRoutes.bottomNavBar)
           : null;

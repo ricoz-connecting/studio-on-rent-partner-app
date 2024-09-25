@@ -7,8 +7,8 @@ import 'package:studio_partner_app/commons/views/providers/profileprovider.dart'
 
 class GetProfile {
   static Future<bool> getProfile(BuildContext context, WidgetRef ref) async {
-    final authToken = ref.watch(authprovider);
-    final response = await GetProfileRepo.getProfile(authToken, context);
+    final authToken = ref.watch(authTokenProvider);
+    final response = await GetProfileRepo.getProfile(authToken!, context);
     if (response.email != null || response.phone != null) {
       ref.read(profileProvider.notifier).setProfile(response);
       log('Profile fetched successfully', name: 'GetProfile');

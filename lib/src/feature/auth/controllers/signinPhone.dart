@@ -27,17 +27,10 @@ class Signinphone {
               )
             : null;
       } else {
-        // String token = await Checkauth.checkAuth(ref);
-        // Map<String, dynamic> url = await GetImageUrl.getUploadUrl();
-        // ref.read(imageUploadUrl.notifier).setImageUploadUrl(url['uploadUrl']);
-        // ref.read(keyProvider.notifier).setKey(url['key']);
-        // if (token != '') {
-        // context.mounted ? await GetProfile.getProfile(context, ref) : null;
         context.mounted
             ? GoRouter.of(context)
                 .push(StudioRoutes.sendOtpScreen, extra: phoneNumber)
             : null;
-        // }
       }
     } catch (e) {
       log(e.toString());
