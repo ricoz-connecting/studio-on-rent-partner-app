@@ -1,28 +1,13 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
 import 'package:studio_partner_app/src/core/core.dart';
-import 'package:studio_partner_app/src/feature/profile/models/profile.dart';
+import 'package:studio_partner_app/src/feature/file/repository/file_repo.dart';
 import 'package:studio_partner_app/src/res/base.dart';
 import 'package:studio_partner_app/src/res/endpoints.dart';
 
-import '../../file/repository/file_repo.dart';
-
-// class EditProfileRepo {
-//   static Future<bool> editProfile(Profile profile, API api) async {
-//     final response = await api.patchRequest(
-//         url: Endpoints.editProfile, body: profile.toJson());
-//     return response.fold((err) {
-//       log(err.message.toString());
-//       return false;
-//     }, (response) {
-//       return true;
-//     });
-//   }
-// }
-
+import '../models/profile.dart';
 
 class ProfileRepo {
   final API _api;

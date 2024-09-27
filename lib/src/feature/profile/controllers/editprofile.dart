@@ -1,11 +1,11 @@
+import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:studio_partner_app/commons/repo/get_profile.dart';
-import 'package:studio_partner_app/commons/views/providers/profileprovider.dart';
 import 'package:studio_partner_app/src/core/api.dart';
-import 'package:studio_partner_app/src/feature/profile/repo/edit_profile.dart';
 import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
+import 'package:studio_partner_app/src/res/endpoints.dart';
 import 'package:studio_partner_app/utils/router.dart';
 
 import '../models/profile.dart';
@@ -31,23 +31,31 @@ class Editprofile {
         latitude: profile!.latitude,
         longitude: profile!.longitude,
         businessName: profile!.businessName);
-    final response = await EditProfileRepo.editProfile(profileLocal, api);
-    if (response == false) {
-      context.mounted
-          ? ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('An unexpected error occurred'),
-              ),
-            )
-          : null;
-    } else {
-      final response = context.mounted
-          ? await GetProfileRepo.getProfile(authToken!, context)
-          : null;
-      ref.read(profileProvider.notifier).setProfile(response!);
-      context.mounted
-          ? GoRouter.of(context).go(StudioRoutes.bottomNavBar)
-          : null;
-    }
+    final Map<String, dynamic> body = {
+      if (profileLocal.name != null) 'name': profileLocal.name,
+      if (profileLocal.avatar != null) 'avatar': profileLocal.avatar,
+      if (profileLocal.gender != null) 'gender': profileLocal.gender,
+      if (profileLocal.address != null) 'address': profileLocal.address,
+      if (profileLocal.city != null) 'city': profileLocal.city,
+      if (profileLocal.pincode != null) 'pincode': profileLocal.pincode,
+      if (profileLocal.state != null) 'state': profileLocal.state,
+      if (profileLocal.country != null) 'country': profileLocal.country,
+      if (profileLocal.latitude != null) 'latitude': profileLocal.latitude,
+      if (profileLocal.longitude != null) 'longitude': profileLocal.longitude,
+      if (profileLocal.businessName != null)
+        'businessName': profileLocal.businessName,
+    };
+    final response =
+        await api.patchRequest(url: Endpoints.editProfile, body: body);
+
+    response.fold((error) {
+      log(error.message);
+    }, (response) {
+      log(response.body);
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
+      if (responseBody['success'] == true) {
+        GoRouter.of(context).go(StudioRoutes.bottomNavBar);
+      }
+    });
   }
 }

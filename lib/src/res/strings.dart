@@ -21,6 +21,12 @@ class AuthenticationMessages {
   static const otpSendFailed = "Failed To Send OTP";
   static const otpVerificationFailed = "Failed To Verify OTP";
   static const otpVerificationSuccess = "OTP Successfully Verified";
+  static const signUpSuccess = "Sign Up Successful";
+  static const signUpFailed = "Sign Up Failed";
+  static const signInSuccess = "Sign In Successful";
+  static const signInFailed = "Sign In Failed";
+  static const signOutSuccess = "Sign Out Successful";
+  static const signOutFailed = "Sign Out Failed";
 }
 
 class UserProfile {

@@ -6,14 +6,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:studio_partner_app/commons/views/location_access.dart';
 import 'package:studio_partner_app/commons/views/providers/image_upload_url.dart';
-import 'package:studio_partner_app/src/feature/profile/controllers/editprofile.dart';
+import 'package:studio_partner_app/src/feature/profile/controllers/profile_controller.dart';
 import 'package:studio_partner_app/src/feature/profile/models/profile.dart';
-import 'package:studio_partner_app/src/feature/profile/views/widgets/pickimage.dart';
-import 'package:studio_partner_app/src/res/assets.dart';
+import 'package:studio_partner_app/src/feature/profile/views/widgets/global_image_builder.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
 class CompleteProfileScreen extends ConsumerStatefulWidget {
-  const CompleteProfileScreen({super.key});
+
+  const CompleteProfileScreen({super.key,});
 
   @override
   ConsumerState<CompleteProfileScreen> createState() =>
@@ -59,50 +59,76 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
                 ),
               ),
               const SizedBox(height: 30),
-              Stack(
-                children: [
-                  CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.grey.shade200,
-                    backgroundImage:
-                        image == null ? null : FileImage(File(image!.path)),
-                    child: image == null
-                        ? const Icon(
-                            Icons.person,
-                            size: 60,
-                            color: Colors.grey,
-                          )
-                        : null,
-                  ),
-                  Positioned(
-                    right: 0,
-                    bottom: 0,
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        color: AppColors.primaryBackgroundColor,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            Pickimage(ref).pickImage().then((value) {
-                              setState(() {
-                                image = value;
-                              });
-                            });
-                          },
-                          child: const Icon(
-                            Icons.edit,
-                            size: 18,
-                            color: Colors.white,
-                          ),
+              SizedBox(
+                height: 110,
+                width: 100,
+                child: Consumer(
+                  builder: (context, ref, child) {
+                    final selectedImageFile = ref.watch(
+                        profileController.select((value) => value.avatarFile));
+                    return InkWell(
+                      onTap: () {
+                        ref
+                            .read(profileController.notifier)
+                            .selectFile('avatar');
+                      },
+                      child: ClipOval(
+                        child: GlobalImageBuilder(
+                          // src: avatarURL,
+                          file: selectedImageFile,
+                          height: 110,
+                          width: 110,
+                          icon: Icons.person,
                         ),
                       ),
-                    ),
-                  ),
-                ],
+                    );
+                  },
+                ),
               ),
+              // Stack(
+              //   children: [
+              //     CircleAvatar(
+              //       radius: 50,
+              //       backgroundColor: Colors.grey.shade200,
+              //       backgroundImage:
+              //           image == null ? null : FileImage(File(image!.path)),
+              //       child: image == null
+              //           ? const Icon(
+              //               Icons.person,
+              //               size: 60,
+              //               color: Colors.grey,
+              //             )
+              //           : null,
+              //     ),
+              //     Positioned(
+              //       right: 0,
+              //       bottom: 0,
+              //       child: Container(
+              //         decoration: const BoxDecoration(
+              //           color: AppColors.primaryBackgroundColor,
+              //           shape: BoxShape.circle,
+              //         ),
+              //         child: Padding(
+              //           padding: const EdgeInsets.all(4.0),
+              //           child: GestureDetector(
+              //             onTap: () {
+              //               Pickimage(ref).pickImage().then((value) {
+              //                 setState(() {
+              //                   image = value;
+              //                 });
+              //               });
+              //             },
+              //             child: const Icon(
+              //               Icons.edit,
+              //               size: 18,
+              //               color: Colors.white,
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
               const SizedBox(height: 30),
               const Align(
                 alignment: Alignment.centerLeft,
@@ -268,17 +294,43 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
                   onPressed: () async {
                     final userLocation =
                         await GetUserLocation.determinePosition();
+                    // context.mounted
+                    //     ? Editprofile(
+                    //         profile: Profile(
+                    //           name: name,
+                    //           businessName: businessName,
+                    //           gender: gender,
+                    //           avatar: "${ImageAssets.userProfile}$userImageKey",
+                    //           longitude: userLocation.longitude.toString(),
+                    //           latitude: userLocation.latitude.toString(),
+                    //         ),
+                    //       ).editProfile(ref, context)
+                    //     : null;
+
+                    final selectedImageFile = ref.watch(
+                        profileController.select((value) => value.avatarFile));
+                    final updatedProfile = Profile(
+                      name: name,
+                      phone: _phoneController.text,
+                      businessName: businessName,
+                      longitude: userLocation.longitude.toString(),
+                      latitude: userLocation.latitude.toString(),
+                    );
+
+                    // Call the controller method with the updated profile
                     context.mounted
-                        ? Editprofile(
-                            profile: Profile(
-                              name: name,
-                              businessName: businessName,
-                              gender: gender,
-                              avatar: "${ImageAssets.userProfile}$userImageKey",
-                              longitude: userLocation.longitude.toString(),
-                              latitude: userLocation.latitude.toString(),
-                            ),
-                          ).editProfile(ref, context)
+                        ? ref.read(profileController.notifier).updateProfile(
+                            context: context,
+                            profile: updatedProfile,
+                            file: selectedImageFile)
+                        : null;
+
+                    // Show a success message or handle failure
+                    context.mounted
+                        ? ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Profile saved successfully!')),
+                          )
                         : null;
                   },
                   child: const Text(

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/commons/views/splashscreen.dart';
@@ -84,14 +82,14 @@ class StudioRouter {
         builder: (BuildContext context, GoRouterState state) =>
             const SigninWithPhone(),
       ),
-      GoRoute(
-          path: StudioRoutes.sendOtpScreen,
-          builder: (context, state) {
-            final phoneNumber = state.extra as String;
-            return SendOtp(
-              phoneNumber: phoneNumber,
-            );
-          }),
+      // GoRoute(
+      //     path: StudioRoutes.sendOtpScreen,
+      //     builder: (context, state) {
+      //       final phoneNumber = state.extra as String;
+      //       return SendOtp(
+      //         phoneNumber: phoneNumber,
+      //       );
+      //     }),
       GoRoute(
         path: StudioRoutes.bottomNavBar,
         builder: (BuildContext context, GoRouterState state) =>
@@ -116,7 +114,10 @@ class StudioRouter {
           builder: (context, state) => const HelpPage()),
       GoRoute(
           path: StudioRoutes.editProfile,
-          builder: (context, state) => const EditProfile()),
+          builder: (context, state) {
+            final profile = state.extra as Profile;
+            return EditProfile(profile: profile);
+          }),
       GoRoute(
           path: StudioRoutes.historyScreen,
           builder: (context, state) => const HistoryPage()),
@@ -125,7 +126,9 @@ class StudioRouter {
           builder: (context, state) => const BankDetails()),
       GoRoute(
           path: StudioRoutes.createProfileScreen,
-          builder: (context, state) => const CompleteProfileScreen()),
+          builder: (context, state) {
+            return CompleteProfileScreen();
+          }),
       GoRoute(
           path: StudioRoutes.forgotPasswordScreen,
           builder: (context, state) => const ForgotPassword()),

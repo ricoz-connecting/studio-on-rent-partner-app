@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:studio_partner_app/src/feature/membership_payment/view/membership_payment_page.dart';
 import 'package:studio_partner_app/src/feature/profile/models/profile.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/custom_edit_profile.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/membership_card.dart';
@@ -124,7 +123,10 @@ class ProfileScreen extends ConsumerWidget {
                     Icons.edit_outlined,
                     'Edit Profile',
                     onTap: () {
-                      GoRouter.of(context).push(StudioRoutes.editProfile);
+                      GoRouter.of(context).push(
+                        StudioRoutes.editProfile,
+                        extra: profile,
+                      );
                     },
                   ),
                   _buildProfileButton(

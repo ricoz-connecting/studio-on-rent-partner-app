@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -8,7 +10,6 @@ class RazorpayController {
   late Razorpay _razorpay;
   String? _currentOrderId;
   String? _partnerDocId;
-  BuildContext? _context;
 
   RazorpayController({required this.repository}) {
     _razorpay = Razorpay();
@@ -20,11 +21,10 @@ class RazorpayController {
   Future<void> createAndProcessOrder(
       BuildContext context, Map<String, dynamic> orderData) async {
     try {
-      _context = context;
       final orderResponse = await repository.createOrder(orderData);
 
       if (orderResponse != null) {
-        print("Order Response: $orderResponse");
+        log("Order Response: $orderResponse");
 
         // Fixing how the response is accessed
         _currentOrderId = orderResponse["order"]["id"];
@@ -35,10 +35,12 @@ class RazorpayController {
           'partnerDocId': orderData['partnerDocId'],
         };
 
-        _openRazorpayCheckout(context, updatedOrderResponse);
+        context.mounted
+            ? _openRazorpayCheckout(context, updatedOrderResponse)
+            : null;
       }
     } catch (e) {
-      print("Error creating and processing order: $e");
+      log("Error creating and processing order: $e");
     }
   }
 
@@ -55,22 +57,21 @@ class RazorpayController {
     };
 
     try {
-      print("Opening Razorpay with options: $options");
+      log("Opening Razorpay with options: $options");
       _razorpay.open(options);
     } catch (e) {
-      print("Error opening Razorpay checkout: $e");
+      log("Error opening Razorpay checkout: $e");
     }
 
-    print(
-        "Order id before push to profile screen: ${orderResponse["data"]["_id"]}");
+    log("Order id before push to profile screen: ${orderResponse["data"]["_id"]}");
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
     try {
-      print("Payment successful: ${response}");
-      print("Order ID: ${response.orderId}");
-      print("Payment ID: ${response.paymentId}");
-      print("Signature: ${response.signature}");
+      log("Payment successful: $response");
+      log("Order ID: ${response.orderId}");
+      log("Payment ID: ${response.paymentId}");
+      log("Signature: ${response.signature}");
       final verificationResponse = await repository.verifyPayment({
         "partnerDocId": _partnerDocId,
         "razorpay_order_id": response.orderId,
@@ -78,18 +79,18 @@ class RazorpayController {
         "razorpay_signature": response.signature,
       });
       if (verificationResponse["success"] == true) {
-        print("Payment verified successfully");
+        log("Payment verified successfully");
         // _context!.push(ProfileScreen.routePath);
       } else {
-        print("Payment verification failed");
+        log("Payment verification failed");
       }
     } catch (e) {
-      print("Error verifying payment: $e");
+      log("Error verifying payment: $e");
     }
   }
 
   void _handlePaymentError(PaymentFailureResponse response) async {
-    print("Payment failed: ${response.message}");
+    log("Payment failed: ${response.message}");
     try {
       final failureResponse = await repository.paymentFailed({
         "partnerDocId": _partnerDocId,
@@ -99,17 +100,17 @@ class RazorpayController {
         "error_description": response.error
       });
       if (failureResponse["success"] == true) {
-        print("Payment failure logged successfully");
+        log("Payment failure logged successfully");
       } else {
-        print("Payment failure logging failed");
+        log("Payment failure logging failed");
       }
     } catch (e) {
-      print("Error logging payment failure: $e");
+      log("Error logging payment failure: $e");
     }
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
-    print("External wallet selected: ${response.walletName}");
+    log("External wallet selected: ${response.walletName}");
   }
 
   void dispose() {

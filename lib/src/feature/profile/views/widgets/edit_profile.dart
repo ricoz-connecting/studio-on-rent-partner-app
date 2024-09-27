@@ -1,18 +1,15 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:studio_partner_app/commons/views/providers/image_upload_url.dart';
-import 'package:studio_partner_app/src/feature/profile/controllers/editprofile.dart';
-import 'package:studio_partner_app/src/feature/profile/views/widgets/pickimage.dart';
-import 'package:studio_partner_app/src/res/assets.dart';
+import 'package:studio_partner_app/src/feature/profile/controllers/profile_controller.dart';
+import 'package:studio_partner_app/src/feature/profile/views/widgets/global_image_builder.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
 import '../../models/profile.dart';
 
 class EditProfile extends ConsumerStatefulWidget {
-  const EditProfile({super.key});
+  final Profile profile;
+  const EditProfile({super.key,  required this.profile});
 
   @override
   ConsumerState<EditProfile> createState() => _EditProfileState();
@@ -23,12 +20,13 @@ class _EditProfileState extends ConsumerState<EditProfile> {
       _restaurantName,
       _restaurantAddress,
       _restaurantAddressLine2,
-      _restaurantCity,
-      _avatar;
-  XFile? image;
+      _restaurantCity;
+  //     _avatar;
+  // XFile? _image;
 
   @override
   Widget build(BuildContext context) {
+    String avatarURL = '${widget.profile.avatar}';
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -60,30 +58,56 @@ class _EditProfileState extends ConsumerState<EditProfile> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const SizedBox(height: 20),
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundColor: Colors.grey.shade300,
-                      backgroundImage: image == null
-                          ? null
-                          : FileImage(
-                              File(image!.path),
+                    SizedBox(
+                      height: 110,
+                      width: 100,
+                      child: Consumer(
+                        builder: (context, ref, child) {
+                          final selectedImageFile = ref.watch(profileController
+                              .select((value) => value.avatarFile));
+                          return InkWell(
+                            onTap: () {
+                              ref
+                                  .read(profileController.notifier)
+                                  .selectFile('avatar');
+                            },
+                            child: ClipOval(
+                              child: GlobalImageBuilder(
+                                src: avatarURL,
+                                file: selectedImageFile,
+                                height: 110,
+                                width: 110,
+                                icon: Icons.person,
+                              ),
                             ),
-                      child: image == null
-                          ? IconButton(
-                              icon: const Icon(Icons.edit, color: Colors.white),
-                              onPressed: () {
-                                Pickimage(ref).pickImage().then((value) {
-                                  final userImage = ref.watch(keyProvider);
-                                  setState(() {
-                                    image = value;
-                                    _avatar =
-                                        '${ImageAssets.userProfile}$userImage';
-                                  });
-                                });
-                              },
-                            )
-                          : null,
+                          );
+                        },
+                      ),
                     ),
+                    // CircleAvatar(
+                    //   radius: 50,
+                    //   backgroundColor: Colors.grey.shade300,
+                    //   backgroundImage: image == null
+                    //       ? null
+                    //       : FileImage(
+                    //           File(image!.path),
+                    //         ),
+                    //   child: image == null
+                    //       ? IconButton(
+                    //           icon: const Icon(Icons.edit, color: Colors.white),
+                    //           onPressed: () {
+                    //             Pickimage(ref).pickImage().then((value) {
+                    //               final userImage = ref.watch(keyProvider);
+                    //               setState(() {
+                    //                 image = value;
+                    //                 _avatar =
+                    //                     '${ImageAssets.userProfile}$userImage';
+                    //               });
+                    //             });
+                    //           },
+                    //         )
+                    //       : null,
+                    // ),
                     const SizedBox(height: 20),
                     _buildTextField(
                       onChanged: (value) {
@@ -162,15 +186,39 @@ class _EditProfileState extends ConsumerState<EditProfile> {
                     ),
                   ),
                   onPressed: () {
-                    Editprofile(
-                      profile: Profile(
-                          name: _name,
-                          businessName: _restaurantName,
-                          address: _restaurantAddress,
-                          city: _restaurantCity,
-                          pincode: _restaurantAddressLine2,
-                          avatar: _avatar),
-                    ).editProfile(ref, context);
+                    final selectedImageFile = ref.watch(
+                        profileController.select((value) => value.avatarFile));
+                    final updatedProfile = Profile(
+                      name: _name,
+                      // phone: _phone,
+                      businessName: _restaurantName,
+                      address: _restaurantAddress,
+                      pincode: _restaurantAddressLine2,
+                      // state: ,
+                      city: _restaurantCity,
+                      // country: _country,
+                    );
+
+                    // Call the controller method with the updated profile
+                    ref.read(profileController.notifier).updateProfile(
+                        context: context,
+                        profile: updatedProfile,
+                        file: selectedImageFile);
+
+                    // Show a success message or handle failure
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          content: Text('Profile saved successfully!')),
+                    );
+                    // Editprofile(
+                    //   profile: Profile(
+                    //       name: _name,
+                    //       businessName: _restaurantName,
+                    //       address: _restaurantAddress,
+                    //       city: _restaurantCity,
+                    //       pincode: _restaurantAddressLine2,
+                    //       avatar: _avatar),
+                    // ).editProfile(ref, context);
                   },
                   child: const Text(
                     'SAVE',

@@ -9,8 +9,6 @@ class ImageAssets {
   static const facebook = "assets/images/facebook.png";
   static const iconCheckMark = 'assets/images/icon_checkmark.png';
   static const profile = 'assets/images/profile.png';
-  static const userProfile =
-      'https://pub-fa34e1d40214487bba2b2645b6ff63b1.r2.dev/';
   static const studiohome = 'assets/images/studio_home.png';
   static const appbarImage = 'assets/images/appbar_title.png';
   static const onboardingOne = 'assets/images/landing_one.png';
