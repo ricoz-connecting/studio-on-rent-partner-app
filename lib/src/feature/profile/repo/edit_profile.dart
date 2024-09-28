@@ -23,7 +23,6 @@ import '../../file/repository/file_repo.dart';
 //   }
 // }
 
-
 class ProfileRepo {
   final API _api;
   final Ref _ref;
@@ -34,13 +33,13 @@ class ProfileRepo {
   FutureEither<Response> updateProfile(
       {required Profile profile, File? file}) async {
     final body = {
-      "name": profile.name,
-      "address": profile.address,
-      "city": profile.city,
-      "pincode": profile.pincode,
-      "state": profile.state,
-      "country": profile.country,
-      "businessName": profile.businessName,
+      if (profile.name != null) "name": profile.name,
+      if (profile.address != null) "address": profile.address,
+      if (profile.city != null) "city": profile.city,
+      if (profile.pincode != null) "pincode": profile.pincode,
+      if (profile.state != null) "state": profile.state,
+      if (profile.country != null) "country": profile.country,
+      if (profile.businessName != null) "businessName": profile.businessName,
     };
     if (file != null) {
       final info = await _ref

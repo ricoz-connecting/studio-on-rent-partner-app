@@ -69,6 +69,7 @@ class SharedPrefsRepo {
     if (AppConfig.devMode) {
       log("Saving cookie", name: LogLabel.sharedPrefs);
       log("Data : $cookie", name: LogLabel.sharedPrefs);
+      prefs.setString(_tokenKey, cookie);
     }
     prefs.setString(_tokenKey, cookie);
   }

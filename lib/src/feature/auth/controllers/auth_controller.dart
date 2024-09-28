@@ -176,11 +176,10 @@ class AuthController extends StateNotifier<bool> {
               : null;
           final token = data['token'];
           // final partnerDetails = data['partnerDetails'];
-          // log(partnerDetails);
+
           if (token != null) {
             _ref.read(sharedPrefsControllerPovider).setCookie(cookie: token);
             _ref.read(authTokenProvider.notifier).update((state) => token);
-            
           }
           // final user = User.fromJson(partnerDetails);
           state = false;

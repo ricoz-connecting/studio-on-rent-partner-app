@@ -202,6 +202,7 @@ class _EditProfileState extends ConsumerState<EditProfile> {
                     // Call the controller method with the updated profile
                     ref.read(profileController.notifier).updateProfile(
                         context: context,
+                        ref: ref,
                         profile: updatedProfile,
                         file: selectedImageFile);
 

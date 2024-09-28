@@ -19,6 +19,7 @@ import 'package:studio_partner_app/src/feature/profile/views/widgets/bank_detail
 import 'package:studio_partner_app/src/feature/profile/views/widgets/edit_profile.dart';
 import 'package:studio_partner_app/src/feature/profile/views/help.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/history_screen.dart';
+import 'package:studio_partner_app/src/models/user_model.dart';
 import '../src/feature/landing/views/landing_screen.dart';
 import '../src/feature/auth/views/signup.dart';
 import '../src/feature/profile/models/profile.dart';

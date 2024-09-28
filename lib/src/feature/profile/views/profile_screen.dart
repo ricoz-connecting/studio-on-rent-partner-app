@@ -7,6 +7,7 @@ import 'package:studio_partner_app/src/feature/profile/views/widgets/sectionone.
 import 'package:studio_partner_app/src/feature/profile/views/widgets/sectiontwo.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:studio_partner_app/src/models/user_model.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 import 'package:studio_partner_app/utils/router.dart';
 import '../controllers/logout.dart';

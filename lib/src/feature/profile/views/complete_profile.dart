@@ -1,11 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:studio_partner_app/commons/views/location_access.dart';
-import 'package:studio_partner_app/commons/views/providers/image_upload_url.dart';
 import 'package:studio_partner_app/src/feature/profile/controllers/profile_controller.dart';
 import 'package:studio_partner_app/src/feature/profile/models/profile.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/global_image_builder.dart';
@@ -32,7 +29,6 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final userImageKey = ref.watch(keyProvider);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -321,6 +317,7 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
                     context.mounted
                         ? ref.read(profileController.notifier).updateProfile(
                             context: context,
+                            ref: ref,
                             profile: updatedProfile,
                             file: selectedImageFile)
                         : null;

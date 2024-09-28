@@ -3,9 +3,12 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:studio_partner_app/commons/controllers/get_profile.dart';
 import 'package:studio_partner_app/src/feature/file/controller/file_controller.dart';
 import 'package:studio_partner_app/src/feature/profile/models/profile.dart';
 import 'package:studio_partner_app/src/feature/profile/repo/edit_profile.dart';
+import 'package:studio_partner_app/utils/router.dart';
 import 'package:studio_partner_app/utils/snackbar_service.dart';
 
 final profileController = StateNotifierProvider<ProfileController, Profile>(
@@ -26,6 +29,7 @@ class ProfileController extends StateNotifier<Profile> {
   Future<void> updateProfile(
       {required BuildContext context,
       required Profile profile,
+      WidgetRef? ref,
       File? file}) async {
     try {
       final result = await _repo.updateProfile(profile: profile, file: file);
@@ -53,7 +57,8 @@ class ProfileController extends StateNotifier<Profile> {
           );
 
           if (success) {
-            Navigator.of(context).pop();
+            GetProfile.getProfile(context, ref!, _ref);
+            // GoRouter.of(context).go(StudioRoutes.bottomNavBar);
           }
         },
       );
@@ -62,11 +67,13 @@ class ProfileController extends StateNotifier<Profile> {
       log('Stacktrace: $stacktrace');
 
       // Show error snackbar
-      SnackBarService.showSnackBar(
-        context: context,
-        message: "An unexpected error occurred",
-        backgroundColor: const Color.fromARGB(255, 227, 121, 113),
-      );
+      context.mounted
+          ? SnackBarService.showSnackBar(
+              context: context,
+              message: "An unexpected error occurred",
+              backgroundColor: const Color.fromARGB(255, 227, 121, 113),
+            )
+          : null;
     }
   }
 
