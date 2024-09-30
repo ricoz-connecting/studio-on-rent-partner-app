@@ -23,8 +23,10 @@ class _SplashscreenState extends ConsumerState<Splashscreen> {
         final token = ref.read(authTokenProvider);
         final user = ref.read(currentUserProvider);
         if (token == null || user == null) {
+          if (!mounted) return;
           context.go(StudioRoutes.onboardingScreen);
         } else {
+          if (!mounted) return;
           context.go(StudioRoutes.bottomNavBar);
         }
       });

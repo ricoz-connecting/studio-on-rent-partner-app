@@ -5,9 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/commons/controllers/shared_prefs_controller.dart';
 import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
-import 'package:studio_partner_app/commons/views/providers/profileprovider.dart';
 import 'package:studio_partner_app/src/core/api.dart';
-import 'package:studio_partner_app/src/feature/profile/models/profile.dart';
 import 'package:studio_partner_app/src/models/user_model.dart';
 import 'package:studio_partner_app/src/res/endpoints.dart';
 import 'package:studio_partner_app/utils/router.dart';
@@ -41,12 +39,10 @@ class GetProfile {
           ),
         );
       } else {
-        Profile profile = Profile.fromJson(responseBody['data']);
-        ref.read(profileProvider.notifier).setProfile(profile);
         final user = User.fromJson(responseBody['data']);
         _ref.read(sharedPrefsControllerPovider).setUser(user: user);
         _ref.read(currentUserProvider.notifier).update((state) => user);
-        context.go(StudioRoutes.bottomNavBar, extra: profile);
+        context.go(StudioRoutes.bottomNavBar);
       }
     });
   }

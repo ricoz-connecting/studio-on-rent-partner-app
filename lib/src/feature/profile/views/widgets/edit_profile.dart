@@ -3,13 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/feature/profile/controllers/profile_controller.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/global_image_builder.dart';
+import 'package:studio_partner_app/src/models/user_model.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
 import '../../models/profile.dart';
 
 class EditProfile extends ConsumerStatefulWidget {
-  final Profile profile;
-  const EditProfile({super.key,  required this.profile});
+  final User currentUser;
+  const EditProfile({super.key,  required this.currentUser});
 
   @override
   ConsumerState<EditProfile> createState() => _EditProfileState();
@@ -26,7 +27,7 @@ class _EditProfileState extends ConsumerState<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
-    String avatarURL = '${widget.profile.avatar}';
+    String avatarURL = widget.currentUser.avatar;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(

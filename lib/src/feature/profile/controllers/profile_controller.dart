@@ -3,12 +3,10 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/commons/controllers/get_profile.dart';
 import 'package:studio_partner_app/src/feature/file/controller/file_controller.dart';
 import 'package:studio_partner_app/src/feature/profile/models/profile.dart';
 import 'package:studio_partner_app/src/feature/profile/repo/edit_profile.dart';
-import 'package:studio_partner_app/utils/router.dart';
 import 'package:studio_partner_app/utils/snackbar_service.dart';
 
 final profileController = StateNotifierProvider<ProfileController, Profile>(

@@ -1,21 +1,20 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:studio_partner_app/src/feature/profile/models/profile.dart';
+import 'package:studio_partner_app/src/feature/auth/controllers/auth_controller.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/custom_edit_profile.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/membership_card.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/sectionone.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/sectiontwo.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:studio_partner_app/src/models/user_model.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 import 'package:studio_partner_app/utils/router.dart';
-import '../controllers/logout.dart';
+import '../../../models/user_model.dart';
 
 class ProfileScreen extends ConsumerWidget {
-  final Profile profile;
+  final User currentUser;
 
-  const ProfileScreen({super.key, required this.profile});
+  const ProfileScreen({super.key, required this.currentUser});
 
   @override
   Widget build(BuildContext context, ref) {
@@ -43,10 +42,10 @@ class ProfileScreen extends ConsumerWidget {
                   CircleAvatar(
                       radius: 50,
                       backgroundColor: Colors.grey.shade200,
-                      backgroundImage: profile.avatar == ''
+                      backgroundImage: currentUser.avatar == ''
                           ? null
                           : NetworkImage(
-                              '${profile.avatar}',
+                              currentUser.avatar,
                             )),
                   Positioned(
                     bottom: 0,
@@ -70,7 +69,7 @@ class ProfileScreen extends ConsumerWidget {
               const MembershipCard(),
               const SizedBox(height: 20),
               Text(
-                'Hi, ${profile.name}',
+                'Hi, ${currentUser.name}',
                 style: GoogleFonts.lato(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -84,20 +83,20 @@ class ProfileScreen extends ConsumerWidget {
                   const Icon(Icons.phone_outlined, color: Colors.black54),
                   const SizedBox(width: 8),
                   Text(
-                    profile.phone!,
+                    currentUser.phone,
                     style: GoogleFonts.lato(color: Colors.black54),
                   ),
                 ],
               ),
               const SizedBox(height: 20),
               SectionOne(
-                businessName: profile.businessName!,
+                businessName: currentUser.businessName,
               ),
               const SizedBox(height: 20),
               SectionTwo(
-                city: profile.city!,
-                state: profile.state!,
-                address: profile.address!,
+                city: currentUser.city,
+                state: currentUser.state,
+                address: currentUser.address,
               ),
               const SizedBox(height: 20),
               CustomEditProfile(
@@ -126,7 +125,7 @@ class ProfileScreen extends ConsumerWidget {
                     onTap: () {
                       GoRouter.of(context).push(
                         StudioRoutes.editProfile,
-                        extra: profile,
+                        extra: currentUser,
                       );
                     },
                   ),
@@ -152,14 +151,19 @@ class ProfileScreen extends ConsumerWidget {
               CustomEditProfile(
                 label: 'KYC',
                 icon: Icons.event_note_outlined,
-                onTap: () {},
+                onTap: () {
+                  GoRouter.of(context).push(StudioRoutes.kycVerification);
+                },
               ),
               const SizedBox(height: 15),
               CustomEditProfile(
                 label: 'Logout',
                 icon: Icons.logout,
-                onTap: () {
-                  Logout.logout(context);
+                onTap: () async {
+                  await ref
+                      .read(authControllerProvider.notifier)
+                      .signOut(context);
+                  // Logout.logout(context);
                 },
               ),
 
@@ -190,7 +194,7 @@ class ProfileScreen extends ConsumerWidget {
                 label: 'Delete Account',
                 icon: Icons.delete_outlined,
                 onTap: () {
-                  Logout.logout(context);
+                  // Logout.logout(context);
                 },
               ),
               const SizedBox(height: 20),

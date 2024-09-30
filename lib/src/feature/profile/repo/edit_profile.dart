@@ -10,19 +10,6 @@ import 'package:studio_partner_app/src/res/endpoints.dart';
 
 import '../../file/repository/file_repo.dart';
 
-// class EditProfileRepo {
-//   static Future<bool> editProfile(Profile profile, API api) async {
-//     final response = await api.patchRequest(
-//         url: Endpoints.editProfile, body: profile.toJson());
-//     return response.fold((err) {
-//       log(err.message.toString());
-//       return false;
-//     }, (response) {
-//       return true;
-//     });
-//   }
-// }
-
 class ProfileRepo {
   final API _api;
   final Ref _ref;

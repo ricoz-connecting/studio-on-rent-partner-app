@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:studio_partner_app/src/feature/auth/controllers/signinPhone.dart';
+import 'package:studio_partner_app/src/feature/auth/controllers/auth_controller.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
 class SigninWithPhone extends ConsumerStatefulWidget {
@@ -101,8 +101,13 @@ class _SigninWithPhoneState extends ConsumerState<SigninWithPhone> {
                 ),
                 child: TextButton(
                   onPressed: () {
-                    Signinphone(context: context, phoneNumber: phoneNumber)
-                        .signInPhone(ref);
+                    ref.read(authControllerProvider.notifier).loginUsingPhone(
+                          context: context,
+                          phone: phoneNumber,
+                          resend: false,
+                        );
+                    // Signinphone(context: context, phoneNumber: phoneNumber)
+                    //     .signInPhone(ref);
                   },
                   child: Text(
                     'Send OTP',

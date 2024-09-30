@@ -80,17 +80,17 @@ class AuthController extends StateNotifier<bool> {
                 )
               : null;
           final token = data['token'];
-          final partnerDetails = data['partnerDetails'];
-          log(partnerDetails);
+          // final partnerDetails = data['partnerDetails'];
+          // log(partnerDetails);
           if (token != null) {
             _ref.read(sharedPrefsControllerPovider).setCookie(cookie: token);
             _ref.read(authTokenProvider.notifier).update((state) => token);
           }
-          final user = User.fromJson(partnerDetails);
+          // final user = User.fromJson(partnerDetails);
           state = false;
-          _ref.read(sharedPrefsControllerPovider).setUser(user: user);
-          _ref.read(currentUserProvider.notifier).update((state) => user);
-          context.mounted ? context.go(StudioRoutes.bottomNavBar) : null;
+          // _ref.read(sharedPrefsControllerPovider).setUser(user: user);
+          // _ref.read(currentUserProvider.notifier).update((state) => user);
+          context.mounted ? context.go(StudioRoutes.createProfileScreen) : null;
         } catch (e, stacktrace) {
           log('$e');
           log('$stacktrace');
@@ -201,7 +201,7 @@ class AuthController extends StateNotifier<bool> {
     state = false;
   }
 
-  Future<void> signOut({BuildContext? context}) async {
+  Future<void> signOut(BuildContext context) async {
     // _ref.read(authTokenProvider.notifier).update((state) => null);
     // _ref.read(currentUserProvider.notifier).update((state) => null);
     final authTokenState = _ref.read(authTokenProvider);
@@ -209,8 +209,6 @@ class AuthController extends StateNotifier<bool> {
       _ref.read(authTokenProvider.notifier).update((_) => null);
     }
     _ref.read(sharedPrefsControllerPovider).clear();
-    if (context != null) {
-      context.go(StudioRoutes.landingScreen);
-    }
+    GoRouter.of(context).go(StudioRoutes.landingScreen);
   }
 }

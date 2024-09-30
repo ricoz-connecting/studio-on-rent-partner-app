@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/src/feature/auth/controllers/auth_controller.dart';
-import 'package:studio_partner_app/src/feature/auth/controllers/signin.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/feature/auth/views/widgets/auth_text_field.dart';

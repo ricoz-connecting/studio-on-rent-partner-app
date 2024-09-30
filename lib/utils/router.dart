@@ -9,6 +9,11 @@ import 'package:studio_partner_app/src/feature/auth/views/reset_pass_sms.dart';
 import 'package:studio_partner_app/src/feature/auth/views/send_otp.dart';
 import 'package:studio_partner_app/src/feature/auth/views/setnewpass.dart';
 import 'package:studio_partner_app/src/feature/auth/views/signin_with_phone.dart';
+import 'package:studio_partner_app/src/feature/complains/views/complaint_description.dart';
+import 'package:studio_partner_app/src/feature/complains/views/previous_complaint.dart';
+import 'package:studio_partner_app/src/feature/customer_reviews.dart/views/customer_review.dart';
+import 'package:studio_partner_app/src/feature/customer_reviews.dart/views/studio_review.dart';
+import 'package:studio_partner_app/src/feature/kyc_verification/views/verification.dart';
 import 'package:studio_partner_app/src/feature/auth/views/verify_otp.dart';
 import 'package:studio_partner_app/src/feature/landing/views/onboarding_screen.dart';
 import 'package:studio_partner_app/src/feature/membership_payment/view/membership_payment_page.dart';
@@ -22,7 +27,6 @@ import 'package:studio_partner_app/src/feature/profile/views/widgets/history_scr
 import 'package:studio_partner_app/src/models/user_model.dart';
 import '../src/feature/landing/views/landing_screen.dart';
 import '../src/feature/auth/views/signup.dart';
-import '../src/feature/profile/models/profile.dart';
 
 class StudioRoutes {
   static const String splashScreen = '/';
@@ -56,6 +60,7 @@ class StudioRoutes {
   static const String customerReview = '/customerReview';
   static const String studioReview = '/studioReview';
   static const String memmbershipPayment = '/membershipPayment';
+  static const String kycVerification = '/kycVerification';
 }
 
 class StudioRouter {
@@ -83,14 +88,14 @@ class StudioRouter {
         builder: (BuildContext context, GoRouterState state) =>
             const SigninWithPhone(),
       ),
-      // GoRoute(
-      //     path: StudioRoutes.sendOtpScreen,
-      //     builder: (context, state) {
-      //       final phoneNumber = state.extra as String;
-      //       return SendOtp(
-      //         phoneNumber: phoneNumber,
-      //       );
-      //     }),
+      GoRoute(
+          path: StudioRoutes.sendOtpScreen,
+          builder: (context, state) {
+            final phoneNumber = state.extra as String;
+            return SendOtp(
+              phoneNumber: phoneNumber,
+            );
+          }),
       GoRoute(
         path: StudioRoutes.bottomNavBar,
         builder: (BuildContext context, GoRouterState state) =>
@@ -103,8 +108,8 @@ class StudioRouter {
       GoRoute(
           path: StudioRoutes.profileScreen,
           builder: (BuildContext context, GoRouterState state) {
-            final profile = state.extra as Profile;
-            return ProfileScreen(profile: profile);
+            final profile = state.extra as User;
+            return ProfileScreen(currentUser: profile);
           }),
       GoRoute(
           path: StudioRoutes.addStudioRequest,
@@ -116,8 +121,8 @@ class StudioRouter {
       GoRoute(
           path: StudioRoutes.editProfile,
           builder: (context, state) {
-            final profile = state.extra as Profile;
-            return EditProfile(profile: profile);
+            final profile = state.extra as User;
+            return EditProfile(currentUser: profile);
           }),
       GoRoute(
           path: StudioRoutes.historyScreen,
@@ -128,7 +133,7 @@ class StudioRouter {
       GoRoute(
           path: StudioRoutes.createProfileScreen,
           builder: (context, state) {
-            return CompleteProfileScreen();
+            return const CompleteProfileScreen();
           }),
       GoRoute(
           path: StudioRoutes.forgotPasswordScreen,
@@ -147,11 +152,28 @@ class StudioRouter {
         builder: (context, state) => Setnewpass(),
       ),
       GoRoute(
-        path: StudioRoutes.memmbershipPayment,
-        builder: (context, state) {
-          return const MembershipPayment();
-        },
-      ),
+          path: StudioRoutes.memmbershipPayment,
+          builder: (context, state) {
+            return const MembershipPayment();
+          }),
+      GoRoute(
+          path: StudioRoutes.kycVerification,
+          builder: (context, state) => const Verification()),
+      GoRoute(
+          path: StudioRoutes.customerReview,
+          builder: (context, state) => const CustomerReview()),
+      GoRoute(
+          path: StudioRoutes.studioReview,
+          builder: (context, state) => const StudioReview()),
+      GoRoute(
+          path: StudioRoutes.previousComplaint,
+          builder: (context, state) => PreviousComplaint()),
+      GoRoute(
+          path: StudioRoutes.complaintDescription,
+          builder: (context, state) {
+            final sno = state.extra as String;
+            return ComplaintDescription(sno: sno);
+          })
     ],
   );
 }

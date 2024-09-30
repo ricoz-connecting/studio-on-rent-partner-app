@@ -56,6 +56,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 if (index < 3) {
                   return _buildPages()[index];
                 }
+                return null;
               }),
           Positioned(
             bottom: 50,
