@@ -35,7 +35,10 @@ class FontAssets {
 }
 
 class IconAssets {
-  // icons
+  static const bookings = 'assets/icons/bookings.svg';
+  static const chat = 'assets/icons/chat.svg';
+  static const earnings = 'assets/icons/earnings.svg';
+  static const studio = 'assets/icons/studio.svg';
 }
 
 class NotificationAssets {

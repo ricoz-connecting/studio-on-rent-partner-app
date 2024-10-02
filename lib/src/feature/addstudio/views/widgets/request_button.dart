@@ -13,7 +13,7 @@ class AddStudioRequestButton extends StatelessWidget {
       onTap: () {},
       child: Container(
         height: MediaQuery.of(context).size.height * 0.07,
-        margin: const EdgeInsets.all(8),
+        margin: const EdgeInsets.all(10),
         padding: const EdgeInsets.all(15),
         width: double.infinity,
         decoration: BoxDecoration(

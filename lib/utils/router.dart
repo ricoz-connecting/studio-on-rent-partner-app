@@ -21,7 +21,7 @@ import 'package:studio_partner_app/src/feature/navigation/navigation_page.dart';
 import 'package:studio_partner_app/src/feature/profile/views/complete_profile.dart';
 import 'package:studio_partner_app/src/feature/profile/views/profile_screen.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/bank_details.dart';
-import 'package:studio_partner_app/src/feature/profile/views/widgets/edit_profile.dart';
+import 'package:studio_partner_app/src/feature/profile/views/edit_profile.dart';
 import 'package:studio_partner_app/src/feature/profile/views/help.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/history_screen.dart';
 import 'package:studio_partner_app/src/models/user_model.dart';

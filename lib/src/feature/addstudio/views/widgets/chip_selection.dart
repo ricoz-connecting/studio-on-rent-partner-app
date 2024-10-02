@@ -26,6 +26,7 @@ class _ChipSelectionState extends State<ChipSelection> {
         children: categories.map((category) {
           final isSelected = _selectedCategory == category;
           return ChoiceChip(
+            color: const WidgetStatePropertyAll(Colors.white),
             showCheckmark: false,
             label: Text(
               category,

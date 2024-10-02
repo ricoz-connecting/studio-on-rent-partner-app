@@ -29,7 +29,7 @@ class EmptyStudio extends ConsumerWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.15),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.1),
                     Center(child: Image.asset('assets/images/emptystudio.png')),
                     const SizedBox(height: 20),
                     Text(

@@ -7,8 +7,10 @@ class AddStudioRequest extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
+          backgroundColor: Colors.white,
           title: Text(
             'Add Studio Request',
             style: GoogleFonts.inter(fontWeight: FontWeight.w500),

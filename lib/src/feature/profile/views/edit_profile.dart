@@ -6,11 +6,11 @@ import 'package:studio_partner_app/src/feature/profile/views/widgets/global_imag
 import 'package:studio_partner_app/src/models/user_model.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
-import '../../models/profile.dart';
+import '../models/profile.dart';
 
 class EditProfile extends ConsumerStatefulWidget {
   final User currentUser;
-  const EditProfile({super.key,  required this.currentUser});
+  const EditProfile({super.key, required this.currentUser});
 
   @override
   ConsumerState<EditProfile> createState() => _EditProfileState();
@@ -29,13 +29,8 @@ class _EditProfileState extends ConsumerState<EditProfile> {
   Widget build(BuildContext context) {
     String avatarURL = widget.currentUser.avatar;
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
         title: Text(
           textAlign: TextAlign.left,
           'Edit Profile',
@@ -46,8 +41,6 @@ class _EditProfileState extends ConsumerState<EditProfile> {
           ),
         ),
         backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),

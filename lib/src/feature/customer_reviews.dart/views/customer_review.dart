@@ -9,7 +9,9 @@ class CustomerReview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text(
           'Customer Reviews',
           style: GoogleFonts.lato(
@@ -25,4 +27,3 @@ class CustomerReview extends StatelessWidget {
     );
   }
 }
-

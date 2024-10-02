@@ -15,7 +15,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp.router(
+    return MaterialApp.router(
+      theme: ThemeData(
+        canvasColor: Colors.white,
+      ),
       debugShowCheckedModeBanner: false,
       routerConfig: StudioRouter.router,
     );

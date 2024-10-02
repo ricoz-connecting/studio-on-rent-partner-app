@@ -59,6 +59,7 @@ class CustomerReviewCard extends StatelessWidget {
           const SizedBox(height: 10),
           ElevatedButton(
             style: ButtonStyle(
+              backgroundColor: const WidgetStatePropertyAll(Colors.white),
               elevation: WidgetStateProperty.all(5),
             ),
             onPressed: () {

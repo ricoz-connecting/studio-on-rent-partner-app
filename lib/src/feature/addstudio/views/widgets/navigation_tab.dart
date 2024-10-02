@@ -18,30 +18,47 @@ class _CustomTabbarState extends State<CustomTabbar> {
       length: 2,
       child: Column(
         children: [
-          PrimaryContainer(
-            color: const Color(0xFFF2F2F3),
-            radius: 30,
+          Container(
+            margin: const EdgeInsets.symmetric(
+              horizontal: 10,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              borderRadius: BorderRadius.circular(30),
+              border: Border.all(color: Colors.grey.shade300),
+            ),
             child: TabBar(
-              unselectedLabelColor: Colors.grey.shade600,
+              indicatorPadding: const EdgeInsets.all(5),
               indicatorSize: TabBarIndicatorSize.tab,
-              indicatorColor: Colors.transparent,
-              dividerColor: Colors.transparent,
-              labelColor: Colors.white,
               indicator: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
                 color: AppColors.primaryBackgroundColor,
+                borderRadius: BorderRadius.circular(30),
+              ),
+              labelColor: Colors.white,
+              unselectedLabelColor: Colors.grey,
+              labelStyle: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+              unselectedLabelStyle: const TextStyle(
+                fontWeight: FontWeight.normal,
+                fontSize: 16,
               ),
               tabs: const [
-                Tab(text: 'Rent'),
-                Tab(text: 'Sell'),
+                Tab(
+                  text: 'Rent',
+                ),
+                Tab(
+                  text: 'Sell',
+                ),
               ],
             ),
           ),
           SizedBox(
-            width: double.infinity,
             height: MediaQuery.of(context).size.height * 0.8,
+            width: double.infinity,
             child: const TabBarView(
-              children: [
+              children: <Widget>[
                 Rent(),
                 Sell(),
               ],
@@ -49,41 +66,6 @@ class _CustomTabbarState extends State<CustomTabbar> {
           ),
         ],
       ),
-    );
-  }
-}
-
-class PrimaryContainer extends StatelessWidget {
-  final Widget child;
-  final double? radius;
-  final Color? color;
-  const PrimaryContainer({
-    super.key,
-    this.radius,
-    this.color,
-    required this.child,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(radius ?? 30),
-        boxShadow: [
-          BoxShadow(
-            color: color ?? const Color(0XFF1E1E1E),
-          ),
-          const BoxShadow(
-            offset: Offset(2, 2),
-            blurRadius: 4,
-            spreadRadius: 0,
-            color: Colors.black,
-            inset: true,
-          ),
-        ],
-      ),
-      child: child,
     );
   }
 }
