@@ -3,14 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:studio_partner_app/commons/views/location_access.dart';
+import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
 import 'package:studio_partner_app/src/feature/profile/controllers/profile_controller.dart';
 import 'package:studio_partner_app/src/feature/profile/models/profile.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/global_image_builder.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
 class CompleteProfileScreen extends ConsumerStatefulWidget {
-
-  const CompleteProfileScreen({super.key,});
+  const CompleteProfileScreen({
+    super.key,
+  });
 
   @override
   ConsumerState<CompleteProfileScreen> createState() =>
@@ -29,7 +31,9 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userProfile = ref.watch(currentUserProvider);
     return Scaffold(
+      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Padding(
@@ -61,7 +65,7 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
                 child: Consumer(
                   builder: (context, ref, child) {
                     final selectedImageFile = ref.watch(
-                        profileController.select((value) => value.avatarFile));
+                        profileController.select((value) => value?.avatarFile));
                     return InkWell(
                       onTap: () {
                         ref
@@ -70,7 +74,7 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
                       },
                       child: ClipOval(
                         child: GlobalImageBuilder(
-                          // src: avatarURL,
+                          src: userProfile?.avatar,
                           file: selectedImageFile,
                           height: 110,
                           width: 110,
@@ -304,7 +308,7 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
                     //     : null;
 
                     final selectedImageFile = ref.watch(
-                        profileController.select((value) => value.avatarFile));
+                        profileController.select((value) => value?.avatarFile));
                     final updatedProfile = Profile(
                       name: name,
                       phone: _phoneController.text,

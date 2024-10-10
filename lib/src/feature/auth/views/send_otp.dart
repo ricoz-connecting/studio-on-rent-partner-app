@@ -19,8 +19,9 @@ class _SendOtpState extends ConsumerState<SendOtp> {
   Widget build(BuildContext context) {
     final otp = ref.watch(otpProvider);
     return Scaffold(
+      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(),
+      appBar: AppBar(backgroundColor: Colors.white),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),

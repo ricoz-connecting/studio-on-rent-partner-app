@@ -18,6 +18,7 @@ class ImageAssets {
   static const studioExample = 'assets/images/studio_example.png';
   static const membershipImage = 'assets/images/membership_image.png';
   static const appLogo = 'assets/images/app_logo.png';
+  static const kycVerified = 'assets/images/kyc_verified.png';
   //example
   static const sampleImagePath = "$_base/image.png";
 }

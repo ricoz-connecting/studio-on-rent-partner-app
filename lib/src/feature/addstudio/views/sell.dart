@@ -5,7 +5,6 @@ import 'package:studio_partner_app/src/feature/addstudio/views/widgets/chip_sele
 import 'package:studio_partner_app/src/feature/addstudio/views/widgets/custom_textfield.dart';
 import 'package:studio_partner_app/src/feature/addstudio/views/widgets/facilities_chip.dart';
 import 'package:studio_partner_app/src/feature/addstudio/views/widgets/rental_widget.dart';
-import 'package:studio_partner_app/src/feature/addstudio/views/widgets/request_button.dart';
 
 class Sell extends StatelessWidget {
   const Sell({super.key});
@@ -17,7 +16,7 @@ class Sell extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.7,
+          height: MediaQuery.of(context).size.height * 0.75,
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -156,7 +155,6 @@ class Sell extends StatelessWidget {
           ),
         ),
       ),
-      bottomSheet: const AddStudioRequestButton(),
     );
   }
 }

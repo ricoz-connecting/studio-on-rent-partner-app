@@ -58,7 +58,7 @@ class _EditProfileState extends ConsumerState<EditProfile> {
                       child: Consumer(
                         builder: (context, ref, child) {
                           final selectedImageFile = ref.watch(profileController
-                              .select((value) => value.avatarFile));
+                              .select((value) => value?.avatarFile));
                           return InkWell(
                             onTap: () {
                               ref
@@ -181,7 +181,7 @@ class _EditProfileState extends ConsumerState<EditProfile> {
                   ),
                   onPressed: () {
                     final selectedImageFile = ref.watch(
-                        profileController.select((value) => value.avatarFile));
+                        profileController.select((value) => value?.avatarFile));
                     final updatedProfile = Profile(
                       name: _name,
                       // phone: _phone,

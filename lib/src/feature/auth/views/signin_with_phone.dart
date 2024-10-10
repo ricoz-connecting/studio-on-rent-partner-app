@@ -18,8 +18,9 @@ class _SigninWithPhoneState extends ConsumerState<SigninWithPhone> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(),
+      appBar: AppBar(backgroundColor: Colors.white),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),

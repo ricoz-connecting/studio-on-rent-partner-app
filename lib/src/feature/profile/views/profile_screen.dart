@@ -95,9 +95,9 @@ class ProfileScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 20),
               SectionTwo(
-                city: currentUser.city,
-                state: currentUser.state,
-                address: currentUser.address,
+                city: currentUser.city!,
+                state: currentUser.state!,
+                address: currentUser.address!,
               ),
               const SizedBox(height: 20),
               CustomEditProfile(
@@ -153,7 +153,8 @@ class ProfileScreen extends ConsumerWidget {
                 label: 'KYC',
                 icon: Icons.event_note_outlined,
                 onTap: () {
-                  GoRouter.of(context).push(StudioRoutes.kycVerification);
+                  // GoRouter.of(context).push(StudioRoutes.kycVerification);
+                  GoRouter.of(context).push(StudioRoutes.kycVerified);
                 },
               ),
               const SizedBox(height: 15),

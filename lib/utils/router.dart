@@ -13,6 +13,7 @@ import 'package:studio_partner_app/src/feature/complains/views/complaint_descrip
 import 'package:studio_partner_app/src/feature/complains/views/previous_complaint.dart';
 import 'package:studio_partner_app/src/feature/customer_reviews.dart/views/customer_review.dart';
 import 'package:studio_partner_app/src/feature/customer_reviews.dart/views/studio_review.dart';
+import 'package:studio_partner_app/src/feature/kyc_verification/views/kyc_verified.dart';
 import 'package:studio_partner_app/src/feature/kyc_verification/views/verification.dart';
 import 'package:studio_partner_app/src/feature/auth/views/verify_otp.dart';
 import 'package:studio_partner_app/src/feature/landing/views/onboarding_screen.dart';
@@ -61,6 +62,7 @@ class StudioRoutes {
   static const String studioReview = '/studioReview';
   static const String memmbershipPayment = '/membershipPayment';
   static const String kycVerification = '/kycVerification';
+  static const String kycVerified = '/kycVerified';
 }
 
 class StudioRouter {
@@ -173,7 +175,10 @@ class StudioRouter {
           builder: (context, state) {
             final sno = state.extra as String;
             return ComplaintDescription(sno: sno);
-          })
+          }),
+      GoRoute(
+          path: StudioRoutes.kycVerified,
+          builder: (context, state) => const KycVerified())
     ],
   );
 }

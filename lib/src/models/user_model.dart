@@ -14,11 +14,11 @@ class User {
   final File? avatarFile;
   final String? gender;
   final String businessName;
-  final String address;
-  final String city;
-  final String pincode;
-  final String state;
-  final String country;
+  final String? address;
+  final String? city;
+  final String? pincode;
+  final String? state;
+  final String? country;
 
   User({
     required this.id,

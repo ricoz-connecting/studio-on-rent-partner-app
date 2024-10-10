@@ -21,14 +21,14 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
-    // Bookings(),
-    // ChatScreen(),
-    // StoreScreen(),
-    // EarningsPage(),
-    EmpytBookings(),
-    EmptyChat(),
-    EmptyStudio(),
+    // EmpytBookings(),
+    Bookings(),
+    ChatScreen(),
+    // EmptyChat(),
+    // EmptyStudio(),
+    StoreScreen(),
     EmptyEarning(),
+    // EarningsPage(),
   ];
 
   void _onItemTapped(int index) {

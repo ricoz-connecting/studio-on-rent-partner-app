@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:studio_partner_app/src/feature/Home/views/service_card.dart';
+import 'package:studio_partner_app/src/feature/Home/views/widgets/service_card.dart';
 import 'package:flutter/material.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
@@ -11,112 +11,115 @@ class Bookings extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: Appbar.buildAppBar(context, ref),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Container(
-              color: Colors.white,
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      // Navigate to Active screen
-                    },
-                    child: Column(
-                      children: [
-                        Text(
-                          'Active (3)',
-                          style: TextStyle(
-                            color: Colors.grey.shade800,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
-                    ),
+      body: Column(
+        children: [
+          DefaultTabController(
+            length: 2,
+            child: Column(
+              children: [
+                const SizedBox(height: 10),
+                Container(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 10,
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      // Navigate to Delivered screen
-                    },
-                    child: const Column(
-                      children: [
-                        Text(
-                          'Delivered (4)',
-                          style: TextStyle(
-                            color: AppColors.primaryBackgroundColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
-                    ),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.grey.shade300),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      // Navigate to New Requests screen
-                    },
-                    child: Column(
-                      children: [
-                        Text(
-                          'New Requests (2)',
-                          style: TextStyle(
-                            color: Colors.grey.shade800,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
+                  child: TabBar(
+                    indicatorPadding: const EdgeInsets.all(5),
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    indicator: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(8),
                     ),
+                    labelColor: Colors.black,
+                    unselectedLabelColor: Colors.grey,
+                    labelStyle: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                    unselectedLabelStyle: const TextStyle(
+                      fontWeight: FontWeight.normal,
+                      fontSize: 16,
+                    ),
+                    tabs: const [
+                      Tab(
+                        text: 'Active',
+                      ),
+                      Tab(
+                        text: 'Completed',
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: ListView(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 8.0), // Added padding
-                  children: const [
-                    SizedBox(height: 20),
-                    ServiceCard(
-                      id: "12333",
-                      serviceName: "Warehouse Service",
-                      nextServiceDate: "04/11/2023",
-                      noOfPeople: "100",
-                      address: "123, XYZ Apt. New Delhi, Delhi, 123456",
-                      isBilling: true,
-                    ),
-                    SizedBox(height: 10),
-                    ServiceCard(
-                      id: "12363",
-                      serviceName: "Warehouse Service",
-                      nextServiceDate: "04/11/2023",
-                      noOfPeople: "100",
-                      address: "123, XYZ Apt. New Delhi, Delhi, 123456",
-                      isBilling: true,
-                    ),
-                    SizedBox(height: 10),
-                    ServiceCard(
-                      id: "12349",
-                      serviceName: "Kitchen Cleaner",
-                      nextServiceDate: "05/11/2023 09:00AM - 12:00PM",
-                      noOfPeople: "1",
-                      address: "123, XYZ Apt. New Delhi, Delhi, 123456",
-                      isBilling: false,
-                    ),
-                    SizedBox(height: 20),
-                  ],
                 ),
-              ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.72,
+                  width: double.infinity,
+                  child: const TabBarView(
+                    children: <Widget>[ActiveRequests(), CompletedRequests()],
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
+    );
+  }
+}
+
+class ActiveRequests extends StatelessWidget {
+  const ActiveRequests({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      children: const [
+        SizedBox(height: 20),
+        ServiceCard(
+          isComingFromActive: true,
+          id: "12333",
+          address: "123, XYZ Apt. New Delhi, Delhi, 123456",
+          customerName: 'Shreya',
+          daysLeft: '(19/30 Days)',
+          nextBillingDate: '04/11/2023',
+          studioName: 'Studio A',
+          bookingStartDate: '31/08/2024',
+          bookingEndDate: '31/10/2024',
+          duration: '1 Month',
+        ),
+      ],
+    );
+  }
+}
+
+class CompletedRequests extends StatelessWidget {
+  const CompletedRequests({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      children: const [
+        SizedBox(height: 20),
+        ServiceCard(
+          isComingFromActive: false,
+          id: "12333",
+          address: "123, XYZ Apt. New Delhi, Delhi, 123456",
+          customerName: 'Shreya',
+          daysLeft: 'Completed',
+          nextBillingDate: '\$550',
+          studioName: 'Studio A',
+          bookingStartDate: '31/08/2024',
+          bookingEndDate: '31/10/2024',
+          duration: '1 Month',
+        ),
+      ],
     );
   }
 }

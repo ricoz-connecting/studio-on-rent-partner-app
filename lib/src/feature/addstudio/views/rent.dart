@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/feature/addstudio/views/widgets/add_image.dart';
 import 'package:studio_partner_app/src/feature/addstudio/views/widgets/chip_selection.dart';
 import 'package:studio_partner_app/src/feature/addstudio/views/widgets/rental_widget.dart';
-import 'package:studio_partner_app/src/feature/addstudio/views/widgets/request_button.dart';
 import 'widgets/custom_textfield.dart';
 import 'widgets/facilities_chip.dart';
 
@@ -17,7 +16,7 @@ class Rent extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.7,
+          height: MediaQuery.of(context).size.height * 0.75,
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -171,7 +170,6 @@ class Rent extends StatelessWidget {
           ),
         ),
       ),
-      bottomSheet: const AddStudioRequestButton(),
     );
   }
 }

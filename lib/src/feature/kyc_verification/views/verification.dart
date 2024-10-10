@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/feature/navigation/navigation_page.dart';
 
 class Verification extends ConsumerWidget {
@@ -8,6 +9,14 @@ class Verification extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: Text(
+          'KYC Status',
+          style: GoogleFonts.lato(),
+        ),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

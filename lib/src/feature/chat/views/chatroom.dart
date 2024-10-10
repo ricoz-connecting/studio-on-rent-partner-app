@@ -8,6 +8,7 @@ class Chatroom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF3F3F3),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -37,14 +38,15 @@ class Chatroom extends StatelessWidget {
         children: [
           Expanded(
             child: ListView(
+              reverse: true,
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               children: [
-                _buildReceivedMessage('Hello', '9:37 pm'),
-                _buildSentMessage('Hello Sir', '9:36 pm'),
-                _buildSentMessage('How can I help you?', '9:36 pm'),
+                _buildSentMessage('Ok Sir', '9:41 pm'),
                 _buildReceivedMessage(
-                    'I need some changes in the Warehouse', '9:40 pm'),
-                _buildSentMessage('Ok Sir', '9:36 pm'),
+                    'I need some changes in the Studio', '9:40 pm'),
+                _buildSentMessage('How can I help you?', '9:36 pm'),
+                _buildSentMessage('Hello Sir', '9:36 pm'),
+                _buildReceivedMessage('Hello', '9:37 pm'),
               ],
             ),
           ),
@@ -65,8 +67,8 @@ class Chatroom extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Colors.grey.shade200,
-                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
               ),
               child: Text(
                 text,
@@ -101,8 +103,8 @@ class Chatroom extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: AppColors.primaryBackgroundColor,
-                borderRadius: BorderRadius.circular(20),
+                color: const Color(0xFFC8BCFF),
+                borderRadius: BorderRadius.circular(8),
               ),
               child: Text(
                 text,
@@ -134,27 +136,22 @@ class Chatroom extends StatelessWidget {
           Expanded(
             child: TextField(
               decoration: InputDecoration(
+                suffixIcon: IconButton(
+                  icon:
+                      const Icon(Icons.send_outlined, color: Color(0xFF6D52EF)),
+                  onPressed: () {},
+                ),
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 hintText: 'Type your message',
-                hintStyle: GoogleFonts.lato(color: Colors.grey),
+                hintStyle: GoogleFonts.lato(color: Colors.black),
                 filled: true,
-                fillColor: Colors.grey.shade200,
+                fillColor: Colors.white,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide.none,
                 ),
               ),
-            ),
-          ),
-          const SizedBox(width: 8),
-          CircleAvatar(
-            backgroundColor: AppColors.primaryBackgroundColor,
-            child: IconButton(
-              icon: const Icon(Icons.send, color: Colors.white),
-              onPressed: () {
-                // Implement send message functionality
-              },
             ),
           ),
         ],

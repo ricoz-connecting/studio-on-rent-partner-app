@@ -80,16 +80,16 @@ class AuthController extends StateNotifier<bool> {
                 )
               : null;
           final token = data['token'];
-          // final partnerDetails = data['partnerDetails'];
+          final partnerDetails = data['partnerDetails'];
           // log(partnerDetails);
           if (token != null) {
             _ref.read(sharedPrefsControllerPovider).setCookie(cookie: token);
             _ref.read(authTokenProvider.notifier).update((state) => token);
           }
-          // final user = User.fromJson(partnerDetails);
+          final user = User.fromJson(partnerDetails);
           state = false;
-          // _ref.read(sharedPrefsControllerPovider).setUser(user: user);
-          // _ref.read(currentUserProvider.notifier).update((state) => user);
+          _ref.read(sharedPrefsControllerPovider).setUser(user: user);
+          _ref.read(currentUserProvider.notifier).update((state) => user);
           context.mounted ? context.go(StudioRoutes.createProfileScreen) : null;
         } catch (e, stacktrace) {
           log('$e');
@@ -175,16 +175,16 @@ class AuthController extends StateNotifier<bool> {
                 )
               : null;
           final token = data['token'];
-          // final partnerDetails = data['partnerDetails'];
+          final partnerDetails = data['partnerDetails'];
 
           if (token != null) {
             _ref.read(sharedPrefsControllerPovider).setCookie(cookie: token);
             _ref.read(authTokenProvider.notifier).update((state) => token);
           }
-          // final user = User.fromJson(partnerDetails);
+          final user = User.fromJson(partnerDetails);
           state = false;
-          // _ref.read(sharedPrefsControllerPovider).setUser(user: user);
-          // _ref.read(currentUserProvider.notifier).update((state) => user);
+          _ref.read(sharedPrefsControllerPovider).setUser(user: user);
+          _ref.read(currentUserProvider.notifier).update((state) => user);
           context.mounted ? context.go(StudioRoutes.createProfileScreen) : null;
         } catch (e, stacktrace) {
           log('$e');
