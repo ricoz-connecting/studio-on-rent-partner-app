@@ -27,8 +27,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
     // EmptyChat(),
     // EmptyStudio(),
     StoreScreen(),
-    EmptyEarning(),
-    // EarningsPage(),
+    // EmptyEarning(),
+    EarningsPage(),
   ];
 
   void _onItemTapped(int index) {
