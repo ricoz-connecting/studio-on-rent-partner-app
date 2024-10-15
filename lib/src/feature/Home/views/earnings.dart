@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/commons/views/appbar.dart';
 import 'package:studio_partner_app/src/feature/Home/views/widgets/recent_transaction_widget.dart';
@@ -7,6 +8,7 @@ import 'package:studio_partner_app/src/feature/Home/views/widgets/withdrawal_wid
 import 'package:studio_partner_app/src/feature/Home/views/widgets/your_earnings_widget.dart';
 import 'package:studio_partner_app/src/feature/auth/views/widgets/reusable_button.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
+import 'package:studio_partner_app/utils/router.dart';
 
 class EarningsPage extends ConsumerWidget {
   const EarningsPage({super.key});
@@ -55,7 +57,9 @@ class EarningsPage extends ConsumerWidget {
             const SizedBox(height: 15),
             ReusableButton(
               label: 'View Upcoming Billings',
-              onPressed: () {},
+              onPressed: () {
+                GoRouter.of(context).push(StudioRoutes.upcomingBills);
+              },
               radius: 10,
             ),
             const SizedBox(height: 20),
@@ -68,11 +72,16 @@ class EarningsPage extends ConsumerWidget {
                     fontSize: 16,
                   ),
                 ),
-                Text(
-                  'See All',
-                  style: GoogleFonts.lato(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primaryBackgroundColor),
+                GestureDetector(
+                  onTap: () {
+                    GoRouter.of(context).push(StudioRoutes.transactionHistory);
+                  },
+                  child: Text(
+                    'See All',
+                    style: GoogleFonts.lato(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primaryBackgroundColor),
+                  ),
                 ),
               ],
             ),

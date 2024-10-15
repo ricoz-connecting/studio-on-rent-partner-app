@@ -25,9 +25,12 @@ import 'package:studio_partner_app/src/feature/profile/views/widgets/bank_detail
 import 'package:studio_partner_app/src/feature/profile/views/edit_profile.dart';
 import 'package:studio_partner_app/src/feature/profile/views/help.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/history_screen.dart';
+import 'package:studio_partner_app/src/feature/transactions/views/upcoming_bills.dart';
+import 'package:studio_partner_app/src/feature/transactions/views/withdrawal_history.dart';
 import 'package:studio_partner_app/src/models/user_model.dart';
 import '../src/feature/landing/views/landing_screen.dart';
 import '../src/feature/auth/views/signup.dart';
+import '../src/feature/transactions/views/transaction_history.dart';
 
 class StudioRoutes {
   static const String splashScreen = '/';
@@ -63,6 +66,9 @@ class StudioRoutes {
   static const String memmbershipPayment = '/membershipPayment';
   static const String kycVerification = '/kycVerification';
   static const String kycVerified = '/kycVerified';
+  static const String transactionHistory = '/transactionHistory';
+  static const String withdrawalHistory = '/withdrawalHistory';
+  static const String upcomingBills = '/upcomingBills';
 }
 
 class StudioRouter {
@@ -178,7 +184,16 @@ class StudioRouter {
           }),
       GoRoute(
           path: StudioRoutes.kycVerified,
-          builder: (context, state) => const KycVerified())
+          builder: (context, state) => const KycVerified()),
+      GoRoute(
+          path: StudioRoutes.transactionHistory,
+          builder: (context, state) => TransactionHistory()),
+      GoRoute(
+          path: StudioRoutes.withdrawalHistory,
+          builder: (context, state) => WithdrawalHistory()),
+      GoRoute(
+          path: StudioRoutes.upcomingBills,
+          builder: (context, state) => UpcomingBills()),
     ],
   );
 }

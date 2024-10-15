@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/feature/Home/views/widgets/withdraw_money_widget.dart';
 import 'package:studio_partner_app/src/feature/auth/views/widgets/reusable_button.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
+import 'package:studio_partner_app/utils/router.dart';
 
 class WithdrawalWidget extends StatelessWidget {
   const WithdrawalWidget({
@@ -79,10 +81,15 @@ class WithdrawalWidget extends StatelessWidget {
             },
           ),
           const SizedBox(height: 10),
-          Text(
-            'Withdrawal History',
-            style: GoogleFonts.lato(
-              color: const Color(0xFF5F5F5F),
+          GestureDetector(
+            onTap: () {
+              GoRouter.of(context).push(StudioRoutes.withdrawalHistory);
+            },
+            child: Text(
+              'Withdrawal History',
+              style: GoogleFonts.lato(
+                color: const Color(0xFF5F5F5F),
+              ),
             ),
           )
         ],

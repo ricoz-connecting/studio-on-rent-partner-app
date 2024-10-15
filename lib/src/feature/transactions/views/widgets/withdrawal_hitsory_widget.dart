@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class RecentTransactionWidget extends StatelessWidget {
-  const RecentTransactionWidget({
+class WithdrawalHitsoryWidget extends StatelessWidget {
+  const WithdrawalHitsoryWidget({
     super.key,
   });
 
@@ -17,15 +17,6 @@ class RecentTransactionWidget extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Container(
-            height: 50,
-            width: 50,
-            decoration: BoxDecoration(
-              color: const Color(0xFFD9D9D9),
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-          const SizedBox(width: 10),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -37,7 +28,7 @@ class RecentTransactionWidget extends StatelessWidget {
                 ),
               ),
               Text(
-                'ID : 12345',
+                'Txn ID : 12345',
                 style: GoogleFonts.lato(
                   color: const Color(0xFF656565),
                 ),
@@ -49,9 +40,9 @@ class RecentTransactionWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                '+ ₹6000',
+                '- ₹500',
                 style: GoogleFonts.lato(
-                    color: const Color(0xFF16BF27),
+                    color: Colors.red,
                     fontSize: 16,
                     fontWeight: FontWeight.bold),
               ),
