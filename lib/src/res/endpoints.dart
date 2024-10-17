@@ -15,6 +15,8 @@ class Endpoints {
   static const String logout = "${baseUrl}partner/logout";
   static const String changeEmailPhone = "${baseUrl}partner/change-phone-email";
   static const String fetchUploadImageUrl = "${baseUrl}storage/upload";
+  static const String getKYC = "${baseUrl}kyc/status";
+  static const String uploadKYC = "${baseUrl}kyc/upload";
 
   //membership
   static const String createMembershipPayment =

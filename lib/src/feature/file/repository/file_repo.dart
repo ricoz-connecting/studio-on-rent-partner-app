@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
-import 'package:studio_partner_app/src/core/core.dart';
+import 'package:studio_partner_app/src/core/api.dart';
 import 'package:studio_partner_app/src/res/endpoints.dart';
 
 final fileRepoProvider = Provider((ref) {
@@ -66,17 +66,27 @@ class FileRepo {
 }
 
 enum UploadFileType {
-  AVATAR('AVATAR');
+  AVATAR('AVATAR'),
+  FRONT('FRONT'),
+  BACK('BACK'),
+  COMPLAINT('COMPLAINT');
 
   final String text;
   const UploadFileType(this.text);
 
   factory UploadFileType.fromText(String text) {
-    switch (text) {
-      case "avatar":
+    switch (text.toUpperCase()) {
+      case 'AVATAR':
+        return UploadFileType.AVATAR;
+      case 'FRONT':
+        return UploadFileType.FRONT;
+      case 'BACK':
+        return UploadFileType.BACK;
+      case 'COMPLAINT':
+        return UploadFileType.COMPLAINT;
+      default:
         return UploadFileType.AVATAR;
     }
-    return UploadFileType.AVATAR;
   }
 }
 
