@@ -18,6 +18,10 @@ class Endpoints {
   static const String getKYC = "${baseUrl}kyc/status";
   static const String uploadKYC = "${baseUrl}kyc/upload";
 
+  // Complaints
+  static const String getComplaints = "${baseUrl}partner/complaints";
+  static const String createComplaint = "${baseUrl}partner/complaints";
+
   //membership
   static const String createMembershipPayment =
       "${baseUrl}membership/create-payment";

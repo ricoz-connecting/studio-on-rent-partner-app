@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
@@ -47,6 +48,7 @@ class KycRepo {
           .uploadFile(file: backImage, type: UploadFileType.BACK);
       if (backinfo != null) {
         body['backImage'] = "${BasePaths.storageURL}${backinfo.key}";
+        log(body.toString());
       }
     }
     // final backinfo = await _ref

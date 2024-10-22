@@ -154,7 +154,7 @@ class ProfileScreen extends ConsumerWidget {
                 icon: Icons.event_note_outlined,
                 onTap: () {
                   // GoRouter.of(context).push(StudioRoutes.kycVerification);
-                  GoRouter.of(context).push(StudioRoutes.kycVerified);
+                  GoRouter.of(context).push(StudioRoutes.kycPage);
                 },
               ),
               const SizedBox(height: 15),

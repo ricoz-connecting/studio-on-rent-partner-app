@@ -64,8 +64,7 @@ class StudioRoutes {
   static const String customerReview = '/customerReview';
   static const String studioReview = '/studioReview';
   static const String memmbershipPayment = '/membershipPayment';
-  static const String kycVerification = '/kycVerification';
-  static const String kycVerified = '/kycVerified';
+  static const String kycPage = '/kycPage';
   static const String transactionHistory = '/transactionHistory';
   static const String withdrawalHistory = '/withdrawalHistory';
   static const String upcomingBills = '/upcomingBills';
@@ -165,9 +164,6 @@ class StudioRouter {
             return const MembershipPayment();
           }),
       GoRoute(
-          path: StudioRoutes.kycVerification,
-          builder: (context, state) => const Verification()),
-      GoRoute(
           path: StudioRoutes.customerReview,
           builder: (context, state) => const CustomerReview()),
       GoRoute(
@@ -183,7 +179,7 @@ class StudioRouter {
             return ComplaintDescription(sno: sno);
           }),
       GoRoute(
-          path: StudioRoutes.kycVerified,
+          path: StudioRoutes.kycPage,
           builder: (context, state) => const KYCscreen()),
       GoRoute(
           path: StudioRoutes.transactionHistory,

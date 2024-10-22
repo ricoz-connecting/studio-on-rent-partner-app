@@ -62,11 +62,13 @@ class StatusController extends StateNotifier<bool> {
       log('Stacktrace: $stacktrace');
 
       // Show error snackbar
-      SnackBarService.showSnackBar(
-        context: context,
-        message: "An unexpected error occurred",
-        backgroundColor: const Color.fromARGB(255, 227, 121, 113),
-      );
+      context.mounted
+          ? SnackBarService.showSnackBar(
+              context: context,
+              message: "An unexpected error occurred",
+              backgroundColor: const Color.fromARGB(255, 227, 121, 113),
+            )
+          : null;
     }
   }
 }

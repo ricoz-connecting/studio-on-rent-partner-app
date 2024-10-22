@@ -5,6 +5,8 @@ import 'package:studio_partner_app/commons/controllers/status_controller.dart';
 import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
 import 'package:studio_partner_app/src/feature/auth/views/widgets/reusable_button.dart';
 import 'package:studio_partner_app/src/feature/kyc_verification/controller/kyc_controller.dart';
+import 'package:studio_partner_app/src/feature/kyc_verification/views/kyc_verified.dart';
+import 'package:studio_partner_app/src/feature/kyc_verification/views/verification.dart';
 import 'package:studio_partner_app/src/feature/kyc_verification/views/widgets/kyc_image_builder.dart';
 import 'package:studio_partner_app/src/feature/kyc_verification/views/widgets/kyc_status.dart';
 
@@ -49,11 +51,9 @@ class _KYCscreenState extends ConsumerState<KYCscreen> {
         ),
       ),
       body: status?.kycStatus == "Pending"
-          ? const KycStatusScreen(
-              status: "Pending",
-            )
+          ? const Verification()
           : status?.kycStatus == "Success"
-              ? const KycStatusScreen(status: "Success")
+              ? const KycVerified()
               : Column(
                   children: [
                     Expanded(
@@ -128,7 +128,7 @@ class _KYCscreenState extends ConsumerState<KYCscreen> {
                                     TextStyle(color: Colors.grey.shade500),
                               ),
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             TextField(
                               controller: _nameController,
                               onChanged: (value) {

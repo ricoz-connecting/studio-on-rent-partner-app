@@ -1,14 +1,27 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/feature/addstudio/views/widgets/add_image.dart';
 import 'package:studio_partner_app/src/feature/auth/views/widgets/reusable_button.dart';
+import 'package:studio_partner_app/src/feature/complains/controller/complaint_controller.dart';
 import 'package:studio_partner_app/src/feature/complains/views/widgets/previous_complaint.dart';
+import 'package:studio_partner_app/src/feature/file/controller/file_controller.dart';
 import 'package:studio_partner_app/utils/router.dart';
 
-class ComplaintScreen extends StatelessWidget {
+class ComplaintScreen extends ConsumerStatefulWidget {
   const ComplaintScreen({super.key});
 
+  @override
+  ConsumerState<ComplaintScreen> createState() => _ComplaintScreenState();
+}
+
+class _ComplaintScreenState extends ConsumerState<ComplaintScreen> {
+  File? _selectedFile;
+  String? subject;
+  final TextEditingController _complaintController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +44,7 @@ class ComplaintScreen extends StatelessWidget {
             const SizedBox(height: 16),
             Image.asset(
               'assets/images/Objects.png',
-              height: 200,
+              height: MediaQuery.of(context).size.height * 0.2,
             ),
             const SizedBox(height: 16),
             Padding(
@@ -44,6 +57,7 @@ class ComplaintScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   DropdownButtonFormField<String>(
+                    value: subject,
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 12),
@@ -56,11 +70,15 @@ class ComplaintScreen extends StatelessWidget {
                     ),
                     items: const [
                       DropdownMenuItem(
-                          value: 'Warehouse Service',
-                          child: Text('Warehouse Service')),
+                          value: 'Studio Service',
+                          child: Text('Studio Service')),
                       DropdownMenuItem(value: 'Other', child: Text('Other')),
                     ],
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                      setState(() {
+                        subject = value;
+                      });
+                    },
                     hint: Text(
                       'Select subject',
                       style: GoogleFonts.lato(color: Colors.grey),
@@ -72,6 +90,7 @@ class ComplaintScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   TextField(
+                    controller: _complaintController,
                     maxLines: 1,
                     keyboardType: TextInputType.multiline,
                     decoration: InputDecoration(
@@ -86,17 +105,41 @@ class ComplaintScreen extends StatelessWidget {
                         borderSide: BorderSide.none,
                       ),
                     ),
+                    onTapOutside: (event) => FocusScope.of(context).unfocus(),
+                    onChanged: (value) {
+                      setState(() {
+                        _complaintController.text = value;
+                      });
+                    },
                   ),
                   const SizedBox(height: 10),
                   const Text(
                     'Add Image (Optional)',
                   ),
                   const SizedBox(height: 10),
-                  const AddImage(),
+                  AddImage(
+                    onTap: () async {
+                      final file =
+                          await ref.read(fileControllerProvider).selectFile();
+                      setState(() {
+                        _selectedFile = file;
+                      });
+                    },
+                    image: _selectedFile,
+                  ),
                   const SizedBox(height: 10),
                   ReusableButton(
                     label: 'Submit Request',
-                    onPressed: () {},
+                    onPressed: () {
+                      ref
+                          .read(complaintControllerProvider.notifier)
+                          .addComplaint(
+                            context: context,
+                            title: subject ?? '',
+                            description: _complaintController.text,
+                            file: _selectedFile,
+                          );
+                    },
                     radius: 12,
                   ),
                   const SizedBox(height: 10),
