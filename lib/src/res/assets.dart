@@ -25,6 +25,7 @@ class ImageAssets {
 
 class AnimationAssets {
   /// Contains all the paths of animations used across the project.
+  static const noDataFound = "assets/animations/noDataFound.json";
 }
 
 class PlaceholderAssets {

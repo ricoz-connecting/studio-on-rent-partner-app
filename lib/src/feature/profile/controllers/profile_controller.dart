@@ -24,8 +24,7 @@ final profileController = StateNotifierProvider<ProfileController, User?>(
 class ProfileController extends StateNotifier<User?> {
   final ProfileRepo _repo;
   final Ref _ref;
-  ProfileController(
-      {required ProfileRepo repo, required Ref ref, User? user})
+  ProfileController({required ProfileRepo repo, required Ref ref, User? user})
       : _repo = repo,
         _ref = ref,
         super(user); // Initial state
@@ -60,12 +59,12 @@ class ProfileController extends StateNotifier<User?> {
                 : const Color.fromARGB(255, 215, 101, 93),
           );
 
-          if (success)  {
+          if (success) {
             final partnerDetails = data['partner'];
             log('Partner Details: $partnerDetails', name: 'partnerDetails');
             final user = User.fromJson(partnerDetails);
             log('User: $user', name: 'ProfileController');
-            // _ref.read(currentUserProvider.notifier).update((state) => user);
+            _ref.read(currentUserProvider.notifier).update((state) => user);
             // Navigator.of(context).pop();
             // GetProfile.getProfile(context, ref!, _ref);
             GoRouter.of(context).go(StudioRoutes.bottomNavBar);
@@ -73,8 +72,8 @@ class ProfileController extends StateNotifier<User?> {
         },
       );
     } catch (e, stacktrace) {
-      log('Error: $e');
-      log('Stacktrace: $stacktrace');
+      log('Error: $e', name: 'ProfileControllerError');
+      log('Stacktrace: $stacktrace', name: 'ProfileControllerStacktrace');
 
       // Show error snackbar
       context.mounted

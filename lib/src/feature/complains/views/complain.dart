@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
 import 'package:studio_partner_app/src/feature/addstudio/views/widgets/add_image.dart';
 import 'package:studio_partner_app/src/feature/auth/views/widgets/reusable_button.dart';
 import 'package:studio_partner_app/src/feature/complains/controller/complaint_controller.dart';
+import 'package:studio_partner_app/src/feature/complains/controller/previous_complaint_controller.dart';
 import 'package:studio_partner_app/src/feature/complains/views/widgets/previous_complaint.dart';
 import 'package:studio_partner_app/src/feature/file/controller/file_controller.dart';
 import 'package:studio_partner_app/utils/router.dart';
@@ -148,8 +150,12 @@ class _ComplaintScreenState extends ConsumerState<ComplaintScreen> {
                     style: TextStyle(fontSize: 12),
                   ),
                   const SizedBox(height: 20),
-                  PreviousCompaintWidgte(
+                  PreviousCompaintWidget(
                     onTap: () {
+                      final currentUser = ref.watch(currentUserProvider);
+                      ref
+                          .read(previousComplaintControllerProvider.notifier)
+                          .getComplaintDetails(currentUser!.id);
                       GoRouter.of(context).push(StudioRoutes.previousComplaint);
                     },
                   ),

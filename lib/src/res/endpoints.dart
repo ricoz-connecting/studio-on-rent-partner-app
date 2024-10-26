@@ -21,6 +21,11 @@ class Endpoints {
   // Complaints
   static const String getComplaints = "${baseUrl}partner/complaints";
   static const String createComplaint = "${baseUrl}partner/complaints";
+  static const String getComplaintDetails = "${baseUrl}partner/complaints/";
+
+  //Customer Reviews
+  static const String getReviews = "${baseUrl}ratings/partner-studio";
+  static const String getStudioReviews = "${baseUrl}ratings/particular-studio?studioDocId=";
 
   //membership
   static const String createMembershipPayment =

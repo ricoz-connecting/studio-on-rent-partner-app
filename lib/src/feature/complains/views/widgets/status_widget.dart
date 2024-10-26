@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class StatusWidget extends StatelessWidget {
   final String status;
   final String sno;
+  final String subject;
+  final DateTime isoDate;
   const StatusWidget({
+    required this.isoDate,
+    required this.subject,
     required this.status,
     required this.sno,
     super.key,
@@ -12,6 +17,8 @@ class StatusWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DateTime parsedDate = isoDate;
+    String formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(parsedDate);
     return Container(
       margin: const EdgeInsets.all(5),
       padding: const EdgeInsets.all(10.0),
@@ -30,10 +37,10 @@ class StatusWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Studio Service',
+                    subject,
                     style: GoogleFonts.lato(fontSize: 18),
                   ),
-                  const Text('Jan 20, 2024 04:45pm'),
+                  Text(formattedDate),
                 ],
               ),
               const Spacer(),

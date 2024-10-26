@@ -84,20 +84,20 @@ class ProfileScreen extends ConsumerWidget {
                   const Icon(Icons.phone_outlined, color: Colors.black54),
                   const SizedBox(width: 8),
                   Text(
-                    currentUser.phone,
+                    currentUser.phone!,
                     style: GoogleFonts.lato(color: Colors.black54),
                   ),
                 ],
               ),
               const SizedBox(height: 20),
               SectionOne(
-                businessName: currentUser.businessName,
+                businessName: currentUser.businessName ?? '',
               ),
               const SizedBox(height: 20),
               SectionTwo(
-                city: currentUser.city!,
-                state: currentUser.state!,
-                address: currentUser.address!,
+                city: currentUser.city ?? '',
+                state: currentUser.state ?? '',
+                address: currentUser.address ?? '',
               ),
               const SizedBox(height: 20),
               CustomEditProfile(
@@ -108,7 +108,7 @@ class ProfileScreen extends ConsumerWidget {
                   }),
               const SizedBox(height: 20),
               Wrap(
-                spacing: 20,
+                spacing: 30,
                 runSpacing: 20,
                 children: [
                   _buildProfileButton(

@@ -3,8 +3,12 @@ import 'package:google_fonts/google_fonts.dart';
 
 class RatingWidget extends StatelessWidget {
   final String label;
+  final double rating;
+  final int reviewCount;
   const RatingWidget({
-    required this.label,  
+    required this.reviewCount,
+    required this.rating,
+    required this.label,
     super.key,
   });
 
@@ -26,15 +30,15 @@ class RatingWidget extends StatelessWidget {
             color: Colors.yellow,
           ),
           Text(
-            '4.5',
+            rating.toString(),
             style: GoogleFonts.lato(
               fontSize: 18,
             ),
           ),
           const SizedBox(width: 5),
-          const Text(
-            '(Based on 345 reviews)',
-            style: TextStyle(
+          Text(
+            '(Based on $reviewCount reviews)',
+            style: const TextStyle(
               fontSize: 14,
             ),
           ),

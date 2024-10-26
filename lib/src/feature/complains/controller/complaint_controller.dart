@@ -17,13 +17,13 @@ final complaintControllerProvider =
 
 class ComplaintController extends StateNotifier<List<Complaint>> {
   final ComplaintRepo _repo;
-  final Ref _ref;
+  // final Ref _ref;
 
   ComplaintController(
       {required Complaint complaint,
       required ComplaintRepo repo,
       required Ref ref})
-      : _ref = ref,
+      : //_ref = ref,
         _repo = repo,
         super([]);
   Future<void> getComplaints() async {
@@ -90,11 +90,15 @@ class ComplaintController extends StateNotifier<List<Complaint>> {
       log('Stacktrace: $stacktrace');
 
       // Show error snackbar
-      SnackBarService.showSnackBar(
-        context: context,
-        message: "An unexpected error occurred",
-        backgroundColor: const Color.fromARGB(255, 227, 121, 113),
-      );
+      context.mounted
+          ? SnackBarService.showSnackBar(
+              context: context,
+              message: "An unexpected error occurred",
+              backgroundColor: const Color.fromARGB(255, 227, 121, 113),
+            )
+          : null;
     }
   }
+
+  
 }

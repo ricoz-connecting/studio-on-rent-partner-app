@@ -14,7 +14,6 @@ import 'package:studio_partner_app/src/feature/complains/views/previous_complain
 import 'package:studio_partner_app/src/feature/customer_reviews.dart/views/customer_review.dart';
 import 'package:studio_partner_app/src/feature/customer_reviews.dart/views/studio_review.dart';
 import 'package:studio_partner_app/src/feature/kyc_verification/views/kyc_page.dart';
-import 'package:studio_partner_app/src/feature/kyc_verification/views/verification.dart';
 import 'package:studio_partner_app/src/feature/auth/views/verify_otp.dart';
 import 'package:studio_partner_app/src/feature/landing/views/onboarding_screen.dart';
 import 'package:studio_partner_app/src/feature/membership_payment/view/membership_payment_page.dart';
@@ -168,15 +167,18 @@ class StudioRouter {
           builder: (context, state) => const CustomerReview()),
       GoRoute(
           path: StudioRoutes.studioReview,
-          builder: (context, state) => const StudioReview()),
+          builder: (context, state) {
+            final review = state.extra as Map<String, dynamic>;
+            return StudioReview(studioDetails: review);
+          }),
       GoRoute(
           path: StudioRoutes.previousComplaint,
-          builder: (context, state) => PreviousComplaint()),
+          builder: (context, state) => const PreviousComplaint()),
       GoRoute(
           path: StudioRoutes.complaintDescription,
           builder: (context, state) {
-            final sno = state.extra as String;
-            return ComplaintDescription(sno: sno);
+            final complaint = state.extra as Map<String, dynamic>;
+            return ComplaintDescription(complaint: complaint,);
           }),
       GoRoute(
           path: StudioRoutes.kycPage,

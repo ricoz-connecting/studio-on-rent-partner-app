@@ -292,8 +292,8 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
                     ),
                   ),
                   onPressed: () async {
-                    final userLocation =
-                        await GetUserLocation.determinePosition();
+                    // final userLocation =
+                    //     await GetUserLocation.determinePosition();
                     // context.mounted
                     //     ? Editprofile(
                     //         profile: Profile(
@@ -313,8 +313,8 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
                       name: name,
                       phone: _phoneController.text,
                       businessName: businessName,
-                      longitude: userLocation.longitude.toString(),
-                      latitude: userLocation.latitude.toString(),
+                      // longitude: userLocation.longitude.toString(),
+                      // latitude: userLocation.latitude.toString(),
                     );
 
                     // Call the controller method with the updated profile

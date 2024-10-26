@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
-import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
 import 'package:studio_partner_app/src/core/core.dart';
 import 'package:studio_partner_app/src/feature/file/repository/file_repo.dart';
 import 'package:studio_partner_app/src/res/base.dart';
@@ -20,11 +19,9 @@ class ComplaintRepo {
     required String description,
     File? file,
   }) async {
-    final currentUser = _ref.watch(currentUserProvider);
     final body = {
       "subject": title,
       "description": description,
-      "email": currentUser!.email,
     };
     if (file != null) {
       final frontinfo = await _ref
@@ -44,6 +41,14 @@ class ComplaintRepo {
   FutureEither<Response> getComplaints() async {
     final result = await _api.getRequest(
       url: Endpoints.getComplaints,
+      requireAuth: true,
+    );
+    return result;
+  }
+
+  FutureEither<Response> getComplaintDetails(String id) async {
+    final result = await _api.getRequest(
+      url: "${Endpoints.getComplaintDetails}$id",
       requireAuth: true,
     );
     return result;

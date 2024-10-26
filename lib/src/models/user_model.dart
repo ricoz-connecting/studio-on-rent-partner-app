@@ -8,12 +8,12 @@ String userToJson(User data) => json.encode(data.toJson());
 class User {
   final String id;
   final String? email;
-  final String phone;
+  final String? phone;
   final String name;
   final String avatar;
   final File? avatarFile;
   final String? gender;
-  final String businessName;
+  final String? businessName;
   final String? address;
   final String? city;
   final String? pincode;
@@ -23,12 +23,12 @@ class User {
   User({
     required this.id,
     this.email,
-    required this.phone,
+    this.phone,
     required this.name,
     required this.avatar,
     this.avatarFile,
     this.gender,
-    required this.businessName,
+    this.businessName,
     required this.address,
     required this.city,
     required this.pincode,

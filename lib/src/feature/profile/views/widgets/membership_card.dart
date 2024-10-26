@@ -27,7 +27,7 @@ class MembershipCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Get Your Membership @ \$999 Now',
+                'Get Your Membership @ \999 Now',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
