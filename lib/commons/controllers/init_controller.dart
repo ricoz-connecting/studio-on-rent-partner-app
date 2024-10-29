@@ -5,6 +5,8 @@ import 'package:studio_partner_app/commons/controllers/shared_prefs_controller.d
 import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
 import 'package:studio_partner_app/src/core/core.dart';
 
+import 'status_controller.dart';
+
 final initControllerProvider = Provider((ref) => InitController(ref: ref));
 
 class InitController {
@@ -16,6 +18,8 @@ class InitController {
     await _ref.read(sharedPrefsControllerPovider).getUser().then((value) {
       _ref.read(currentUserProvider.notifier).update((state) => value);
     });
+
+    
 
     await _ref.read(sharedPrefsControllerPovider).getCookie().then((value) {
       log(value.toString());

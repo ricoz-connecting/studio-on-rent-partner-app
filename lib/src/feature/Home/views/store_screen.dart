@@ -1,11 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/commons/views/appbar.dart';
+import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
 import 'package:studio_partner_app/src/feature/Home/views/widgets/custom_fab.dart';
-import 'package:studio_partner_app/src/feature/addstudio/views/add_studio_request.dart';
 import 'package:flutter/material.dart';
-import 'package:studio_partner_app/src/res/colors.dart';
 import 'package:studio_partner_app/utils/router.dart';
+
+import 'empty_studio.dart';
 
 class StoreScreen extends ConsumerStatefulWidget {
   const StoreScreen({super.key});
@@ -18,53 +19,55 @@ class _HomeScreenState extends ConsumerState<StoreScreen> {
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
-
+    final status = ref.watch(statusProvider);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: Appbar.buildAppBar(context, ref),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: height * 0.02),
-              const WarehouseCard(
-                status: Status.active,
-                title: 'Studio',
-                price: '₹ 50000/- Per Month',
-                address:
-                    'No. of Days 123, XYZ Apt., New Delhi, Delhi Pin - 123456',
-                imageUrl: 'assets/images/frame.png',
+      body: status?.kycStatus != 'Success'
+          ? const EmptyStudio()
+          : SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: height * 0.02),
+                    const WarehouseCard(
+                      status: Status.active,
+                      title: 'Studio',
+                      price: '₹ 50000/- Per Month',
+                      address:
+                          'No. of Days 123, XYZ Apt., New Delhi, Delhi Pin - 123456',
+                      imageUrl: 'assets/images/frame.png',
+                    ),
+                    const WarehouseCard(
+                      status: Status.active,
+                      title: 'Studio',
+                      price: '₹ 50000/- Per Month',
+                      address:
+                          'No. of Days 123, XYZ Apt., New Delhi, Delhi Pin - 123456',
+                      imageUrl: 'assets/images/frame.png',
+                    ),
+                    const WarehouseCard(
+                      status: Status.close,
+                      title: 'Studio',
+                      price: '₹ 50000/- Per Month',
+                      address:
+                          'No. of Days 123, XYZ Apt., New Delhi, Delhi Pin - 123456',
+                      imageUrl: 'assets/images/frame.png',
+                    ),
+                    const WarehouseCard(
+                      status: Status.active,
+                      title: 'Studio',
+                      price: '₹ 50000/- Per Month',
+                      address:
+                          'No. of Days 123, XYZ Apt., New Delhi, Delhi Pin - 123456',
+                      imageUrl: 'assets/images/frame.png',
+                    ),
+                  ],
+                ),
               ),
-              const WarehouseCard(
-                status: Status.active,
-                title: 'Studio',
-                price: '₹ 50000/- Per Month',
-                address:
-                    'No. of Days 123, XYZ Apt., New Delhi, Delhi Pin - 123456',
-                imageUrl: 'assets/images/frame.png',
-              ),
-              const WarehouseCard(
-                status: Status.close,
-                title: 'Studio',
-                price: '₹ 50000/- Per Month',
-                address:
-                    'No. of Days 123, XYZ Apt., New Delhi, Delhi Pin - 123456',
-                imageUrl: 'assets/images/frame.png',
-              ),
-              const WarehouseCard(
-                status: Status.active,
-                title: 'Studio',
-                price: '₹ 50000/- Per Month',
-                address:
-                    'No. of Days 123, XYZ Apt., New Delhi, Delhi Pin - 123456',
-                imageUrl: 'assets/images/frame.png',
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
       floatingActionButton: CustomFAB(
         onPressed: () {
           GoRouter.of(context).push(StudioRoutes.addStudioRequest);

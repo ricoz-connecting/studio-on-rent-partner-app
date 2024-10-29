@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SectionTwo extends StatelessWidget {
+class InfoSection extends StatelessWidget {
+  final String businessName;
   final String address;
-  final String city;
-  final String state;
-  const SectionTwo({
-    required this.state,
-    required this.city,
+  const InfoSection({
+    required this.businessName,
     required this.address,
     super.key,
   });
@@ -25,6 +23,23 @@ class SectionTwo extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
+            'Business/Restaurant Name',
+            style: GoogleFonts.lato(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: Colors.black54,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            businessName,
+            style: GoogleFonts.lato(
+              fontWeight: FontWeight.w600,
+              fontSize: 16,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
             'Address',
             style: GoogleFonts.lato(
               fontSize: 14,
@@ -34,7 +49,7 @@ class SectionTwo extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            '$address, $city, $state',
+            address,
             style: GoogleFonts.lato(
               fontWeight: FontWeight.w600,
               fontSize: 16,

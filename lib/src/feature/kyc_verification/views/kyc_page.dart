@@ -27,7 +27,7 @@ class _KYCscreenState extends ConsumerState<KYCscreen> {
     final kyc = ref.read(kycControllerProvider);
     _documentController.text = kyc.documentNumber ?? "";
     _nameController.text = kyc.nameOnDocument ?? "";
-    ref.read(statusControllerProvider.notifier).getStatus(context: context);
+    
   }
 
   @override

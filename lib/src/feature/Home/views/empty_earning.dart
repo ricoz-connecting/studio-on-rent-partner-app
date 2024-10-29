@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:studio_partner_app/commons/views/appbar.dart';
 import 'package:studio_partner_app/src/feature/Home/views/widgets/onboarding_card.dart';
 
 class EmptyEarning extends ConsumerWidget {
@@ -11,7 +10,6 @@ class EmptyEarning extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return SafeArea(
       child: Scaffold(
-        appBar: Appbar.buildAppBar(context, ref),
         body: Container(
           color: Colors.white,
           child: Stack(

@@ -2,8 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studio_partner_app/commons/views/appbar.dart';
+import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
+import 'package:studio_partner_app/src/feature/Home/views/empty_chat.dart';
 import 'package:studio_partner_app/src/feature/chat/views/chatroom.dart';
-import 'package:studio_partner_app/src/feature/chat/widgets/chatappbar.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,10 +15,13 @@ class ChatScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final status = ref.watch(statusProvider);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: Appbar.buildAppBar(context, ref),
-      body: const ChatScreenBody(),
+      body: status?.kycStatus != 'Success'
+          ? const EmptyChat()
+          : const ChatScreenBody(),
     );
   }
 }
