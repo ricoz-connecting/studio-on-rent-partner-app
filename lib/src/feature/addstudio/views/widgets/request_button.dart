@@ -3,14 +3,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
 class AddStudioRequestButton extends StatelessWidget {
+  final Function()? onTap;
   const AddStudioRequestButton({
+    this.onTap,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: onTap,
       child: Container(
         height: MediaQuery.of(context).size.height * 0.07,
         margin: const EdgeInsets.all(5),

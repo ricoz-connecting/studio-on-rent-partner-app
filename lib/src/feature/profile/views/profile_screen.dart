@@ -65,15 +65,15 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               const MembershipCard(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
-                  borderRadius: BorderRadius.circular(8),
+                  color: const Color(0xFFF4F6F9),
+                  borderRadius: BorderRadius.circular(14),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,19 +100,19 @@ class ProfileScreen extends ConsumerWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               InfoSection(
                 businessName: currentUser.businessName ?? '',
                 address: currentUser.address ?? '',
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               CustomEditProfile(
                   label: "Customer Reviews",
                   icon: Icons.reviews_outlined,
                   onTap: () {
                     GoRouter.of(context).push(StudioRoutes.customerReview);
                   }),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Row(
                 children: [
                   Flexible(
@@ -139,7 +139,7 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Row(
                 children: [
                   Flexible(
@@ -163,7 +163,7 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               CustomEditProfile(
                 label: 'KYC',
                 icon: Icons.event_note_outlined,
@@ -171,7 +171,7 @@ class ProfileScreen extends ConsumerWidget {
                   GoRouter.of(context).push(StudioRoutes.kycPage);
                 },
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 10),
               CustomEditProfile(
                 label: 'Logout',
                 icon: Icons.logout,
@@ -181,7 +181,7 @@ class ProfileScreen extends ConsumerWidget {
                       .signOut(context);
                 },
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 10),
               CustomEditProfile(
                 color: Colors.red,
                 label: 'Delete Account',

@@ -24,9 +24,8 @@ class CustomEditProfile extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.grey.shade100,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors.grey.shade300),
+          color: const Color(0xFFF4F6F9),
+          borderRadius: BorderRadius.circular(14),
         ),
         child: ListTile(
           leading: Icon(

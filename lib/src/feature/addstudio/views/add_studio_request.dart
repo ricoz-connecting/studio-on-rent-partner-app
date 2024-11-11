@@ -19,7 +19,7 @@ class AddStudioRequest extends StatelessWidget {
         ),
       ),
       body: const CustomTabbar(),
-      bottomSheet: const AddStudioRequestButton(),
+      
     );
   }
 }
