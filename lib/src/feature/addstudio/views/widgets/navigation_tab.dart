@@ -57,10 +57,10 @@ class _CustomTabbarState extends State<CustomTabbar> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.8,
             width: double.infinity,
-            child: const TabBarView(
+            child: TabBarView(
               children: <Widget>[
                 Rent(),
-                Sell(),
+                const Sell(),
               ],
             ),
           ),

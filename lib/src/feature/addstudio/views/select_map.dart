@@ -29,106 +29,100 @@ class _GoogleMapFlutterState extends State<GoogleMapFlutter> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: currentPosition(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: Text(
+          'Select Location',
+          style: GoogleFonts.lato(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            color: Colors.black,
+          ),
+        ),
+      ),
+      body: Stack(
+        children: [
+          GoogleMap(
+            myLocationButtonEnabled: false,
+            markers: markers,
+            onMapCreated: (GoogleMapController controller) {
+              _controller.complete(controller);
+            },
+            initialCameraPosition: CameraPosition(
+              target: myCurrentLocation,
+              zoom: 14,
             ),
-          );
-        }
-        return Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            title: Text(
-              'Select Location',
-              style: GoogleFonts.lato(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-                color: Colors.black,
+            onTap: (LatLng latLng) {
+              _addMarker(latLng);
+            },
+          ),
+          Positioned(
+            top: 16.0,
+            right: 16.0,
+            child: FloatingActionButton(
+              heroTag: 'currentLocation',
+              backgroundColor: Colors.white,
+              child: const Icon(
+                Icons.my_location,
+                size: 25,
               ),
+              onPressed: () async {
+                Position position = await currentPosition();
+                final controller = await _controller.future;
+                controller.animateCamera(
+                  CameraUpdate.newCameraPosition(
+                    CameraPosition(
+                      target: LatLng(position.latitude, position.longitude),
+                      zoom: 14,
+                    ),
+                  ),
+                );
+                _addMarker(LatLng(position.latitude, position.longitude));
+              },
             ),
           ),
-          body: Stack(
-            children: [
-              SizedBox(
-                child: GoogleMap(
-                  myLocationButtonEnabled: false,
-                  markers: markers,
-                  onMapCreated: (GoogleMapController controller) {
-                    _controller.complete(controller);
-                  },
-                  initialCameraPosition: CameraPosition(
-                    target: myCurrentLocation,
-                    zoom: 14,
-                  ),
-                  onTap: (LatLng latLng) {
-                    _addMarker(latLng);
-                  },
-                ),
+          Positioned(
+            top: 16.0,
+            left: 16.0,
+            child: FloatingActionButton(
+              heroTag: 'confirmLocation',
+              backgroundColor: Colors.white,
+              child: const Icon(
+                Icons.check,
+                size: 25,
               ),
-              Positioned(
-                top: 16.0,
-                right: 16.0,
-                child: FloatingActionButton(
-                  heroTag: 'currentLocation',
-                  backgroundColor: Colors.white,
-                  child: const Icon(
-                    Icons.my_location,
-                    size: 25,
-                  ),
-                  onPressed: () async {
-                    Position position = await currentPosition();
-                    final controller = await _controller.future;
-                    controller.animateCamera(
-                      CameraUpdate.newCameraPosition(
-                        CameraPosition(
-                          target: LatLng(position.latitude, position.longitude),
-                          zoom: 14,
-                        ),
-                      ),
-                    );
-                    markers.clear();
-                    markers.add(
-                      Marker(
-                        markerId: const MarkerId('currentLocation'),
-                        position: LatLng(position.latitude, position.longitude),
-                      ),
-                    );
-                    // setState(() {});
-                  },
-                ),
-              ),
-              Positioned(
-                top: 16.0,
-                left: 16.0,
-                child: FloatingActionButton(
-                  heroTag: 'confirmLocation',
-                  backgroundColor: Colors.white,
-                  child: const Icon(
-                    Icons.check,
-                    size: 25,
-                  ),
-                  onPressed: () {
-                    if (selectedLocation != null) {
-                      Navigator.pop(context, selectedLocation);
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Please select a location on the map."),
-                        ),
-                      );
-                    }
-                  },
-                ),
-              ),
-            ],
+              onPressed: () {
+                if (selectedLocation != null) {
+                  Navigator.pop(context, selectedLocation);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Please select a location on the map."),
+                    ),
+                  );
+                }
+              },
+            ),
           ),
-        );
-      },
+        ],
+      ),
     );
+  }
+
+  void _addMarker(LatLng latLng) {
+    setState(() {
+      markers.clear();
+      markers.add(
+        Marker(
+          markerId: const MarkerId('selectedLocation'),
+          position: latLng,
+        ),
+      );
+      selectedLocation = latLng;
+
+      log('Selected location: Latitude: ${latLng.latitude}, Longitude: ${latLng.longitude}');
+    });
   }
 
   Future<Position> currentPosition() async {
@@ -180,19 +174,20 @@ class _GoogleMapFlutterState extends State<GoogleMapFlutter> {
       log('Error fetching location: $e');
     }
   }
-
-  void _addMarker(LatLng latLng) {
-    markers.clear();
-    markers.add(
-      Marker(
-        markerId: const MarkerId('selectedLocation'),
-        position: latLng,
-      ),
-    );
-    selectedLocation = latLng;
-
-    log('Selected location: Latitude: ${latLng.latitude}, Longitude: ${latLng.longitude}');
-
-    // setState(() {});
-  }
 }
+
+//   void _addMarker(LatLng latLng) {
+//     setState(() {
+//       markers.clear();
+//       markers.add(
+//         Marker(
+//           markerId: const MarkerId('selectedLocation'),
+//           position: latLng,
+//         ),
+//       );
+//       selectedLocation = latLng;
+
+//       log('Selected location: Latitude: ${latLng.latitude}, Longitude: ${latLng.longitude}');
+//     });
+//   }
+// }

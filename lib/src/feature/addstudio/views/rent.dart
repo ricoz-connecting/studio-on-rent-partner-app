@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:studio_partner_app/src/feature/addstudio/repo/studio_repo.dart';
 import 'package:studio_partner_app/src/feature/addstudio/views/select_map.dart';
 import 'package:studio_partner_app/src/feature/addstudio/views/widgets/add_image.dart';
 import 'package:studio_partner_app/src/feature/addstudio/views/widgets/chip_selection.dart';
@@ -37,7 +36,9 @@ class _RentState extends ConsumerState<Rent> {
   List<String>? facilities = [];
   List<Widget>? addons = [];
   File? _thumbnailFile;
+  final List<Price> _price = [];
   List<File> _multipleFiles = [];
+  final _selectedLocationNotifier = ValueNotifier<LatLng?>(null);
   String _selectedType = 'Commercial';
   String _selectedCategory = 'Recording';
   String? _studioName,
@@ -47,7 +48,9 @@ class _RentState extends ConsumerState<Rent> {
       _state,
       _pincode,
       _areaSqFt,
-      _basePrice;
+      _basePriceMonth,
+      _basePriceDay,
+      _basePriceWeek;
 
   bool isAnySelected = false,
       isWifiSelected = false,
@@ -167,22 +170,36 @@ class _RentState extends ConsumerState<Rent> {
                 ),
                 const SizedBox(height: 10),
                 GestureDetector(
-                  onTap: () async {
-                    selectedLocation = await Navigator.push(
+                  onTap: () {
+                    setState(() {
+                      selectedLocation = null;
+                    });
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const GoogleMapFlutter(),
                       ),
-                    );
+                    ).then((value) {
+                      if (value != null) {
+                        setState(() {
+                          selectedLocation = value;
+                        });
+                      }
+                    });
                   },
-                  child: const Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Icon(
+                      Text(
+                        'Address',
+                        style: GoogleFonts.inter(fontWeight: FontWeight.bold),
+                      ),
+                      const Spacer(),
+                      const Icon(
                         Icons.location_on_outlined,
                         color: AppColors.primaryBackgroundColor,
                       ),
-                      Text(
+                      const Text(
                         'Select From Maps',
                         style:
                             TextStyle(color: AppColors.primaryBackgroundColor),
@@ -190,6 +207,24 @@ class _RentState extends ConsumerState<Rent> {
                     ],
                   ),
                 ),
+                selectedLocation != null
+                    ? Center(
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.2,
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFF4F6F9),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: GoogleMap(
+                              initialCameraPosition: CameraPosition(
+                            target: selectedLocation!,
+                            zoom: 14,
+                          )),
+                        ),
+                      )
+                    : const SizedBox(),
                 const SizedBox(height: 10),
                 CustomTextField(
                   onChanged: (value) {
@@ -411,49 +446,39 @@ class _RentState extends ConsumerState<Rent> {
                   label: "Rental",
                 ),
                 const SizedBox(height: 10),
-                const CustomTextField(
+                CustomTextField(
+                  onChanged: (value) {
+                    setState(() {
+                      _basePriceMonth = value;
+                    });
+                  },
                   suffixLabel: '/Per month',
                   icon: Icons.price_change_outlined,
                   hintText: 'Base Price',
                 ),
                 const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Optional',
-                      style: TextStyle(color: Colors.grey.shade600),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          addons?.add(AddOns(
-                            key: UniqueKey(),
-                            onTap: () {},
-                          ));
-                        });
-                      },
-                      child: Text(
-                        'Add another',
-                        style: TextStyle(color: Colors.grey.shade600),
-                      ),
-                    ),
-                  ],
+                CustomTextField(
+                  onChanged: (value) {
+                    setState(() {
+                      _basePriceDay = value;
+                    });
+                  },
+                  suffixLabel: '/Per day',
+                  icon: Icons.price_change_outlined,
+                  hintText: 'Base Price',
                 ),
                 const SizedBox(height: 10),
-                addons!.isEmpty
-                    ? const SizedBox()
-                    : Column(
-                        children: List.generate(addons!.length, (index) {
-                          return AddOns(
-                            onTap: () {
-                              setState(() {
-                                addons?.removeAt(index);
-                              });
-                            },
-                          );
-                        }),
-                      ),
+                CustomTextField(
+                  onChanged: (value) {
+                    setState(() {
+                      _basePriceWeek = value;
+                    });
+                  },
+                  suffixLabel: '/Per week',
+                  icon: Icons.price_change_outlined,
+                  hintText: 'Base Price',
+                ),
+                const SizedBox(height: 30),
               ],
             ),
           ),
@@ -474,6 +499,24 @@ class _RentState extends ConsumerState<Rent> {
             return Location(type: 'Point', coordinates: []);
           }
 
+          if (_basePriceDay != null) {
+            _price.add(Price(
+                title: 'Daily Rent',
+                amount: int.parse(_basePriceDay!),
+                discount: 0));
+          }
+          if (_basePriceMonth != null) {
+            _price.add(Price(
+                title: 'Monthly Rent',
+                amount: int.parse(_basePriceMonth!),
+                discount: 0));
+          }
+          if (_basePriceWeek != null) {
+            _price.add(Price(
+                title: 'Weekly Rent',
+                amount: int.parse(_basePriceWeek!),
+                discount: 0));
+          }
           final updatedProfile = Studio(
             name: _studioName,
             about: _aboutStudio,
@@ -487,6 +530,7 @@ class _RentState extends ConsumerState<Rent> {
             category: _selectedCategory,
             facility: facilities,
             rentOrSell: 'rent',
+            price: _price,
           );
           ref.read(studioControllerProvider.notifier).addNewStudio(
                 context: context,
@@ -495,64 +539,6 @@ class _RentState extends ConsumerState<Rent> {
                 images: _multipleFiles,
               );
         },
-      ),
-    );
-  }
-}
-
-class AddOns extends StatelessWidget {
-  final void Function() onTap;
-  const AddOns({
-    required this.onTap,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF4F6F9),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            width: MediaQuery.of(context).size.width * 0.4,
-            child: TextField(
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintStyle: TextStyle(color: Colors.grey.shade600),
-                hintText: 'Add On',
-              ),
-            ),
-          ),
-          const SizedBox(width: 10),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF4F6F9),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            width: MediaQuery.of(context).size.width * 0.4,
-            child: TextField(
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                contentPadding: const EdgeInsets.only(top: 10),
-                hintStyle: TextStyle(color: Colors.grey.shade600),
-                prefixIcon: const Icon(Icons.price_change_outlined),
-                hintText: 'Price',
-              ),
-            ),
-          ),
-          const SizedBox(width: 10),
-          GestureDetector(
-            onTap: onTap,
-            child: const Icon(Icons.delete_outline,
-                color: Color.fromARGB(255, 218, 88, 123), size: 30),
-          ),
-        ],
       ),
     );
   }
