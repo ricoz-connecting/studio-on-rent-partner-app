@@ -25,7 +25,8 @@ class Endpoints {
 
   //Customer Reviews
   static const String getReviews = "${baseUrl}ratings/partner-studio";
-  static const String getStudioReviews = "${baseUrl}ratings/particular-studio?studioDocId=";
+  static const String getStudioReviews =
+      "${baseUrl}ratings/particular-studio?studioDocId=";
 
   //membership
   static const String createMembershipPayment =
@@ -37,7 +38,7 @@ class Endpoints {
   //Studio
   static const String createStudio = "${baseUrl}studio/create-studio";
   static const String getStudio = "${baseUrl}studio/fetch-partner-studio";
-  static const String updateStudio = "${baseUrl}studio/update-studio/:";
-  static const String getStudioDetails = "${baseUrl}studio/fetch-studio/:";
-  static const String deleteStudio = "${baseUrl}studio/delete-studio/:";
+  static const String updateStudio = "${baseUrl}studio/update-studio/";
+  static const String getStudioDetails = "${baseUrl}studio/fetch-studio/";
+  static const String deleteStudio = "${baseUrl}studio/delete-studio/";
 }
