@@ -1,20 +1,54 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:studio_partner_app/src/feature/addstudio/controller/studio_controller.dart';
+import 'package:studio_partner_app/src/feature/addstudio/views/select_map.dart';
 import 'package:studio_partner_app/src/feature/addstudio/views/widgets/add_image.dart';
 import 'package:studio_partner_app/src/feature/addstudio/views/widgets/chip_selection.dart';
 import 'package:studio_partner_app/src/feature/addstudio/views/widgets/custom_textfield.dart';
 import 'package:studio_partner_app/src/feature/addstudio/views/widgets/facilities_chip.dart';
 import 'package:studio_partner_app/src/feature/addstudio/views/widgets/rental_widget.dart';
+import 'package:studio_partner_app/src/feature/file/controller/studiofile.dart';
+import 'package:studio_partner_app/src/models/studio_model.dart';
 
-class Sell extends StatefulWidget {
+import '../../../res/colors.dart';
+import 'widgets/label_title.dart';
+import 'widgets/request_button.dart';
+
+class Sell extends ConsumerStatefulWidget {
   const Sell({super.key});
 
   @override
-  State<Sell> createState() => _SellState();
+  ConsumerState<Sell> createState() => _SellState();
 }
 
-class _SellState extends State<Sell> {
+class _SellState extends ConsumerState<Sell> {
+  final List<String> categories = [
+    'Recording',
+    'Photography',
+    'Misc.',
+    'Luxury',
+  ];
+  LatLng? selectedLocation;
   List<String>? facilities = [];
+  List<Widget>? addons = [];
+  File? _thumbnailFile;
+  final List<Price> _price = [];
+  List<File> _multipleFiles = [];
+  String _selectedType = 'Commercial';
+  String _selectedCategory = 'Recording';
+  String? _studioName,
+      _aboutStudio,
+      _addressLine1,
+      _city,
+      _state,
+      _pincode,
+      _areaSqFt,
+      _finalPrice;
+
   bool isAnySelected = false,
       isWifiSelected = false,
       isSelfCheckInSelected = false,
@@ -24,6 +58,28 @@ class _SellState extends State<Sell> {
       isSecuritySelected = false,
       isMembersSelected = false,
       isAirConditionerSelected = false;
+
+  void _pickThumbnail() async {
+    final controller = ref.read(studioFileControllerProvider);
+    final file = await controller.selectFile();
+    if (file != null) {
+      setState(() {
+        _thumbnailFile = file;
+      });
+    }
+  }
+
+  void _pickMultipleImages() async {
+    final controller = ref.read(studioFileControllerProvider);
+    final result = await controller.selectMultipleFiles();
+
+    if (result != null && result.isNotEmpty) {
+      setState(() {
+        _multipleFiles = result;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,13 +87,18 @@ class _SellState extends State<Sell> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.75,
+          height: MediaQuery.of(context).size.height * 0.72,
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Center(
-                  child: AddImage(),
+                Center(
+                  child: AddImage(
+                    onTap: () {
+                      _pickThumbnail();
+                    },
+                    image: _thumbnailFile,
+                  ),
                 ),
                 Center(
                   child: Text(
@@ -46,8 +107,39 @@ class _SellState extends State<Sell> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const CustomTextField(
+                CustomTextField(
+                  onChanged: (value) {
+                    setState(() {
+                      _studioName = value;
+                    });
+                  },
                   hintText: 'Studio Name*',
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Text(
+                      'Type',
+                      style: GoogleFonts.inter(fontSize: 16),
+                    ),
+                    const Spacer(),
+                    DropdownButton<String>(
+                      value: _selectedType,
+                      items: <String>['Commercial', 'Residential']
+                          .map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedType = value!;
+                        });
+                      },
+                      hint: const Text('Select Type'),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 20),
                 Text(
@@ -56,39 +148,112 @@ class _SellState extends State<Sell> {
                 ),
                 const SizedBox(height: 10),
                 ChipSelection(
-                  onCategorySelected: (category) {},
+                  onCategorySelected: (category) {
+                    setState(() {
+                      _selectedCategory = category;
+                    });
+                  },
                 ),
                 const SizedBox(height: 20),
-                const CustomTextField(
+                CustomTextField(
+                  onChanged: (value) {
+                    setState(() {
+                      _aboutStudio = value;
+                    });
+                  },
+                  height: 100,
                   hintText: 'About Studio',
                   keyboardType: TextInputType.multiline,
                 ),
-                TextButton(
-                  onPressed: () {},
-                  child: const Row(
+                const SizedBox(height: 10),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      selectedLocation = null;
+                    });
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const GoogleMapFlutter(),
+                      ),
+                    ).then((value) {
+                      if (value != null) {
+                        setState(() {
+                          selectedLocation = value;
+                        });
+                      }
+                    });
+                  },
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Icon(Icons.location_on_outlined),
-                      Text('Select From Maps'),
+                      Text(
+                        'Address',
+                        style: GoogleFonts.inter(fontWeight: FontWeight.bold),
+                      ),
+                      const Spacer(),
+                      const Icon(
+                        Icons.location_on_outlined,
+                        color: AppColors.primaryBackgroundColor,
+                      ),
+                      const Text(
+                        'Select From Maps',
+                        style:
+                            TextStyle(color: AppColors.primaryBackgroundColor),
+                      ),
                     ],
                   ),
                 ),
-                const CustomTextField(
+                selectedLocation != null
+                    ? Center(
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.2,
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFF4F6F9),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: GoogleMap(
+                              initialCameraPosition: CameraPosition(
+                            target: selectedLocation!,
+                            zoom: 14,
+                          )),
+                        ),
+                      )
+                    : const SizedBox(),
+                const SizedBox(height: 10),
+                CustomTextField(
+                  onChanged: (value) {
+                    setState(() {
+                      _addressLine1 = value;
+                    });
+                  },
                   icon: Icons.location_on_outlined,
                   hintText: 'Address Line 1',
                 ),
                 const SizedBox(height: 10),
-                const Row(
+                Row(
                   children: [
                     Expanded(
                       child: CustomTextField(
+                        onChanged: (value) {
+                          setState(() {
+                            _city = value;
+                          });
+                        },
                         icon: Icons.location_on_outlined,
                         hintText: 'City',
                       ),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Expanded(
                       child: CustomTextField(
+                        onChanged: (value) {
+                          setState(() {
+                            _state = value;
+                          });
+                        },
                         icon: Icons.location_on_outlined,
                         hintText: 'State',
                       ),
@@ -96,12 +261,22 @@ class _SellState extends State<Sell> {
                   ],
                 ),
                 const SizedBox(height: 10),
-                const CustomTextField(
+                CustomTextField(
+                  onChanged: (value) {
+                    setState(() {
+                      _pincode = value;
+                    });
+                  },
                   icon: Icons.location_on_outlined,
                   hintText: 'Pincode',
                 ),
                 const SizedBox(height: 10),
-                const CustomTextField(
+                CustomTextField(
+                  onChanged: (value) {
+                    setState(() {
+                      _areaSqFt = value;
+                    });
+                  },
                   icon: Icons.location_on_outlined,
                   hintText: 'Area(Sq. Ft)',
                 ),
@@ -224,12 +399,40 @@ class _SellState extends State<Sell> {
                   ],
                 ),
                 const SizedBox(height: 10),
-                Text(
-                  'Add Images',
-                  style: GoogleFonts.inter(fontSize: 16),
+                Row(
+                  children: [
+                    _multipleFiles.isEmpty
+                        ? const CustomLabelTitle(title: "Add Images")
+                        : const CustomLabelTitle(title: "Images"),
+                    const Spacer(),
+                    if (_multipleFiles.isNotEmpty)
+                      TextButton(
+                          onPressed: _pickMultipleImages,
+                          child: const Text('Add More Images',
+                              style: TextStyle(
+                                  color: AppColors.primaryBackgroundColor))),
+                  ],
                 ),
-                const SizedBox(height: 10),
-                const AddImage(),
+                _multipleFiles.isNotEmpty
+                    ? MultipleImagesDisplay(imageFiles: _multipleFiles)
+                    : InkWell(
+                        onTap: () {
+                          _pickMultipleImages();
+                        },
+                        child: Container(
+                          height: 84,
+                          width: 84,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            border: Border.all(
+                              color: const Color.fromRGBO(130, 130, 130, 1),
+                            ),
+                          ),
+                          child: const Image(
+                            image: AssetImage("assets/images/add_image.png"),
+                          ),
+                        ),
+                      ),
                 const SizedBox(height: 10),
                 Text(
                   'Pricing',
@@ -240,7 +443,16 @@ class _SellState extends State<Sell> {
                   label: "Sell",
                 ),
                 const SizedBox(height: 10),
-                const CustomTextField(
+                CustomTextField(
+                  onChanged: (value) {
+                    setState(() {
+                      _price.add(Price(
+                        title: 'Final Price',
+                        amount: int.parse(value),
+                        discount: 0,
+                      ));
+                    });
+                  },
                   icon: Icons.price_change_outlined,
                   hintText: 'Final Price',
                 ),
@@ -249,6 +461,44 @@ class _SellState extends State<Sell> {
             ),
           ),
         ),
+      ),
+      bottomSheet: AddStudioRequestButton(
+        onTap: () {
+          Location locationFromLatLng(LatLng? selectedLocation) {
+            if (selectedLocation != null) {
+              return Location(
+                type: 'Point',
+                coordinates: [
+                  selectedLocation.longitude,
+                  selectedLocation.latitude
+                ],
+              );
+            }
+            return Location(type: 'Point', coordinates: []);
+          }
+
+          final updatedProfile = Studio(
+            name: _studioName,
+            about: _aboutStudio,
+            address: _addressLine1,
+            city: _city,
+            state: _state,
+            pincode: _pincode,
+            areaSqFt: _areaSqFt,
+            country: "india",
+            location: locationFromLatLng(selectedLocation),
+            category: _selectedCategory,
+            facility: facilities,
+            rentOrSell: 'Sell',
+            price: _price,
+          );
+          ref.read(studioControllerProvider.notifier).addNewStudio(
+                context: context,
+                studio: updatedProfile,
+                thumbnail: _thumbnailFile,
+                images: _multipleFiles,
+              );
+        },
       ),
     );
   }

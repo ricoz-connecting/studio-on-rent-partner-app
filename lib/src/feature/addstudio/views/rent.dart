@@ -38,7 +38,6 @@ class _RentState extends ConsumerState<Rent> {
   File? _thumbnailFile;
   final List<Price> _price = [];
   List<File> _multipleFiles = [];
-  final _selectedLocationNotifier = ValueNotifier<LatLng?>(null);
   String _selectedType = 'Commercial';
   String _selectedCategory = 'Recording';
   String? _studioName,
@@ -90,7 +89,7 @@ class _RentState extends ConsumerState<Rent> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.75,
+          height: MediaQuery.of(context).size.height * 0.72,
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -478,7 +477,6 @@ class _RentState extends ConsumerState<Rent> {
                   icon: Icons.price_change_outlined,
                   hintText: 'Base Price',
                 ),
-                const SizedBox(height: 30),
               ],
             ),
           ),
