@@ -1,19 +1,19 @@
-import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fpdart/fpdart.dart';
 import 'package:http/http.dart';
 import 'package:studio_partner_app/src/core/core.dart';
 import 'package:studio_partner_app/src/feature/file/repository/studio_file_repo.dart';
 import 'package:studio_partner_app/src/res/base.dart';
 
+import '../../../res/endpoints.dart';
+
 class StudioRepo {
-  // final API _api;
+  final API _api;
   final Ref _ref;
-  StudioRepo({ required Ref ref})
-      // : _api = api,
-       : _ref = ref;
+  StudioRepo({required API api, required Ref ref})
+      : _api = api,
+       _ref = ref;
   FutureEither<Response?> createStudio(
       {required Map<String, dynamic> body,
       required File thumbnail,
@@ -46,16 +46,13 @@ class StudioRepo {
       }
     }
     log(body.toString());
-    final response = Response('{"success":true}', 200);
-    final result = Right(response);
-    return Future.value(result as FutureOr<Either<Failure, Response?>>?);
-    // final response = await _api.postRequest(
-    //     url: Endpoints.createWarehouse, body: body, requireAuth: true);
-    // return ;
+    final response = await _api.postRequest(
+        url: Endpoints.createStudio, body: body, requireAuth: true);
+    return response;
   }
 }
 
 final studioRepoProvider = Provider<StudioRepo>((ref) {
   final api = ref.watch(apiProvider);
-  return StudioRepo(/*api: api,*/ ref: ref);
+  return StudioRepo(api: api, ref: ref);
 });

@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/src/feature/addstudio/repo/studio_repo.dart';
 import 'package:studio_partner_app/src/models/studio_model.dart';
+import 'package:studio_partner_app/utils/router.dart';
 import 'package:studio_partner_app/utils/snackbar_service.dart';
 
 final studioControllerProvider =
@@ -48,16 +50,15 @@ class StudioController extends StateNotifier<Studio?> {
 
           SnackBarService.showSnackBar(
             context: context,
-            message: success
-                ? "Warehouse Added Successfully"
-                : "Warehouse Added Failed",
+            message:
+                success ? "Studio Added Successfully" : "Studio Added Failed",
             backgroundColor: success
                 ? Colors.green
                 : const Color.fromARGB(255, 215, 101, 93),
           );
 
           if (success) {
-            Navigator.of(context).pop();
+            GoRouter.of(context).replace(StudioRoutes.bottomNavBar);
           }
         },
       );

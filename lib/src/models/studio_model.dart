@@ -23,7 +23,7 @@ class Studio {
   final String? areaSqFt;
   final String? rentOrSell;
   // final bool? isCouponApplicable;
-  // final bool? isActive;
+  final bool? isActive;
 
   Studio({
     this.id,
@@ -47,7 +47,7 @@ class Studio {
     this.areaSqFt,
     this.rentOrSell,
     // this.isCouponApplicable,
-    // this.isActive,
+    this.isActive,
   });
 
   factory Studio.fromJson(Map<String, dynamic> json) => Studio(
@@ -84,7 +84,7 @@ class Studio {
         areaSqFt: json['areaSqFt'],
         rentOrSell: json['rentOrSell'],
         // isCouponApplicable: json['isCouponApplicable'] ?? false,
-        // isActive: json['isActive'] ?? true,
+        isActive: json['isActive'] ?? true,
       );
 
   Map<String, dynamic> toJson() => {
@@ -118,7 +118,7 @@ class Studio {
         'areaSqFt': areaSqFt,
         'rentOrSell': rentOrSell,
         // 'isCouponApplicable': isCouponApplicable,
-        // 'isActive': isActive,
+        'isActive': isActive,
       };
 
   // copyWith method to create a new instance with updated values
@@ -144,7 +144,7 @@ class Studio {
     String? areaSqFt,
     String? rentOrSell,
     // bool? isCouponApplicable,
-    // bool? isActive,
+    bool? isActive,
   }) {
     return Studio(
       id: id ?? this.id,
@@ -168,7 +168,7 @@ class Studio {
       areaSqFt: areaSqFt ?? this.areaSqFt,
       rentOrSell: rentOrSell ?? this.rentOrSell,
       // isCouponApplicable: isCouponApplicable ?? this.isCouponApplicable,
-      // isActive: isActive ?? this.isActive,
+      isActive: isActive ?? this.isActive,
     );
   }
 }

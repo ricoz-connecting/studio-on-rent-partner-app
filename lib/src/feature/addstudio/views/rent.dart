@@ -529,7 +529,7 @@ class _RentState extends ConsumerState<Rent> {
             location: locationFromLatLng(selectedLocation),
             category: _selectedCategory,
             facility: facilities,
-            rentOrSell: 'rent',
+            rentOrSell: 'Rent',
             price: _price,
           );
           ref.read(studioControllerProvider.notifier).addNewStudio(

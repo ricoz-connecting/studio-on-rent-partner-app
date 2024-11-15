@@ -33,4 +33,11 @@ class Endpoints {
   static const String verifyMembershipPayment =
       "${baseUrl}membership/verify-payment";
   static const String paymentFailed = "${baseUrl}membership/payment-failed";
+
+  //Studio
+  static const String createStudio = "${baseUrl}studio/create-studio";
+  static const String getStudio = "${baseUrl}studio/fetch-partner-studio";
+  static const String updateStudio = "${baseUrl}studio/update-studio/:";
+  static const String getStudioDetails = "${baseUrl}studio/fetch-studio/:";
+  static const String deleteStudio = "${baseUrl}studio/delete-studio/:";
 }

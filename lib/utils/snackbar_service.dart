@@ -11,7 +11,7 @@ class SnackBarService {
     FontWeight fontWeight = FontWeight.w400,
     Duration? duration,
   }) {
-    ScaffoldMessenger.of(context).showSnackBar(
+    context.mounted ? ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
           message,
@@ -30,6 +30,6 @@ class SnackBarService {
         ),
         duration: duration ?? const Duration(seconds: 3),
       ),
-    );
+    ) : null;
   }
 }
