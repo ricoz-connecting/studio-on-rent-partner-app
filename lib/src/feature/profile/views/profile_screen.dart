@@ -6,6 +6,7 @@ import 'package:studio_partner_app/src/feature/profile/views/widgets/membership_
 import 'package:studio_partner_app/src/feature/profile/views/widgets/info_section.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:studio_partner_app/src/res/assets.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 import 'package:studio_partner_app/utils/router.dart';
 import '../../../models/user_model.dart';
@@ -42,11 +43,11 @@ class ProfileScreen extends ConsumerWidget {
                   CircleAvatar(
                       radius: 50,
                       backgroundColor: Colors.grey.shade200,
-                      backgroundImage: currentUser.avatar == ''
-                          ? null
-                          : NetworkImage(
-                              currentUser.avatar,
-                            )),
+                      backgroundImage: currentUser.avatar == null
+                          ? const AssetImage(
+                              ImageAssets.profile,
+                            )
+                          : NetworkImage(currentUser.avatar!)),
                   Positioned(
                     bottom: 0,
                     right: 0,

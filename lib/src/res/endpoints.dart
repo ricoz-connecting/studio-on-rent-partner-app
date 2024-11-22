@@ -41,4 +41,11 @@ class Endpoints {
   static const String updateStudio = "${baseUrl}studio/update-studio/";
   static const String getStudioDetails = "${baseUrl}studio/fetch-studio/";
   static const String deleteStudio = "${baseUrl}studio/delete-studio/";
+
+  //Bank
+  static const String addBank = "${baseUrl}bank-details";
+  static const String getBank = "${baseUrl}bank-details";
+  static const String updateBank = "${baseUrl}bank-detail";
+  static const String deleteBank = "${baseUrl}bank-detail";
+  static const String getDetailsByIFSC = "${baseUrl}bank-details/by-ifsc";
 }

@@ -10,7 +10,7 @@ class User {
   final String? email;
   final String? phone;
   final String name;
-  final String avatar;
+  final String? avatar;
   final File? avatarFile;
   final String? gender;
   final String? businessName;
@@ -25,7 +25,7 @@ class User {
     this.email,
     this.phone,
     required this.name,
-    required this.avatar,
+    this.avatar,
     this.avatarFile,
     this.gender,
     this.businessName,

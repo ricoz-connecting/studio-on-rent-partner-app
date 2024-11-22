@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:studio_partner_app/src/feature/Home/controller/studio_list_controller.dart';
 import 'package:studio_partner_app/src/feature/addstudio/views/select_map.dart';
 import 'package:studio_partner_app/src/feature/addstudio/views/widgets/add_image.dart';
 import 'package:studio_partner_app/src/feature/addstudio/views/widgets/chip_selection.dart';
@@ -19,7 +20,8 @@ import 'widgets/facilities_chip.dart';
 import 'widgets/request_button.dart';
 
 class Rent extends ConsumerStatefulWidget {
-  const Rent({super.key});
+  final Studio? studio;
+  const Rent({super.key, this.studio});
 
   @override
   ConsumerState<Rent> createState() => _RentState();
@@ -33,10 +35,10 @@ class _RentState extends ConsumerState<Rent> {
     'Luxury',
   ];
   LatLng? selectedLocation;
-  List<String>? facilities = [];
+  List<String>? facilities = List<String>.empty(growable: true);
   List<Widget>? addons = [];
   File? _thumbnailFile;
-  final List<Price> _price = [];
+  List<Price>? _price;
   List<File> _multipleFiles = [];
   String _selectedType = 'Commercial';
   String _selectedCategory = 'Recording';
@@ -68,6 +70,7 @@ class _RentState extends ConsumerState<Rent> {
       setState(() {
         _thumbnailFile = file;
       });
+      log('Thumbnail file: $_thumbnailFile');
     }
   }
 
@@ -80,6 +83,40 @@ class _RentState extends ConsumerState<Rent> {
         _multipleFiles = result;
       });
     }
+  }
+
+  @override
+  void initState() {
+    if (widget.studio != null) {
+      _studioName = widget.studio!.name;
+      selectedLocation = LatLng(widget.studio!.location!.coordinates![1],
+          widget.studio!.location!.coordinates![0]);
+      _aboutStudio = widget.studio!.about;
+      _addressLine1 = widget.studio!.address;
+      _city = widget.studio!.city;
+      _state = widget.studio!.state;
+      _pincode = widget.studio!.pincode;
+      _areaSqFt = widget.studio!.areaSqFt;
+      _selectedCategory = widget.studio!.category!;
+      _price = widget.studio!.price;
+      // _thumbnailFile = File(widget.studio!.thumbnail!);
+      // _multipleFiles = widget.studio!.images!;
+      if (widget.studio!.facility != null) {
+        setState(() {
+          facilities = widget.studio!.facility;
+          isAnySelected = facilities!.contains('Any');
+          isWifiSelected = facilities!.contains('WiFi');
+          isSelfCheckInSelected = facilities!.contains('Self check-in');
+          isTimeSelected = facilities!.contains('time');
+          isFreeCancelSelected = facilities!.contains('Free cancel');
+          isFreeParkingSelected = facilities!.contains('Free Parking');
+          isSecuritySelected = facilities!.contains('Security');
+          isMembersSelected = facilities!.contains('Members');
+          isAirConditionerSelected = facilities!.contains('Air Conditioner');
+        });
+      }
+    }
+    super.initState();
   }
 
   @override
@@ -416,7 +453,11 @@ class _RentState extends ConsumerState<Rent> {
                   ],
                 ),
                 _multipleFiles.isNotEmpty
-                    ? MultipleImagesDisplay(imageFiles: _multipleFiles)
+                    ? widget.studio != null
+                        ? MultipleImagesDisplay(
+                            imageFiles: _multipleFiles as List<String>)
+                        : MultipleImagesDisplay(
+                            imageFiles: _multipleFiles as List<File>)
                     : InkWell(
                         onTap: () {
                           _pickMultipleImages();
@@ -484,6 +525,7 @@ class _RentState extends ConsumerState<Rent> {
       ),
       bottomSheet: AddStudioRequestButton(
         onTap: () {
+          log('thumbnail: $_thumbnailFile');
           Location locationFromLatLng(LatLng? selectedLocation) {
             if (selectedLocation != null) {
               return Location(
@@ -498,19 +540,22 @@ class _RentState extends ConsumerState<Rent> {
           }
 
           if (_basePriceDay != null) {
-            _price.add(Price(
+            _price ??= [];
+            _price!.add(Price(
                 title: 'Daily Rent',
                 amount: int.parse(_basePriceDay!),
                 discount: 0));
           }
           if (_basePriceMonth != null) {
-            _price.add(Price(
+            _price ??= [];
+            _price!.add(Price(
                 title: 'Monthly Rent',
                 amount: int.parse(_basePriceMonth!),
                 discount: 0));
           }
           if (_basePriceWeek != null) {
-            _price.add(Price(
+            _price ??= [];
+            _price!.add(Price(
                 title: 'Weekly Rent',
                 amount: int.parse(_basePriceWeek!),
                 discount: 0));
@@ -530,12 +575,20 @@ class _RentState extends ConsumerState<Rent> {
             rentOrSell: 'Rent',
             price: _price,
           );
-          ref.read(studioControllerProvider.notifier).addNewStudio(
-                context: context,
-                studio: updatedProfile,
-                thumbnail: _thumbnailFile,
-                images: _multipleFiles,
-              );
+          widget.studio != null
+              ? ref.read(studioListControllerProvider.notifier).updateStudio(
+                    studioId: widget.studio!.id!,
+                    studio: updatedProfile,
+                    context: context,
+                    thumbnailFile: _thumbnailFile,
+                    imageFiles: _multipleFiles,
+                  )
+              : ref.read(studioControllerProvider.notifier).addNewStudio(
+                    context: context,
+                    studio: updatedProfile,
+                    thumbnail: _thumbnailFile,
+                    images: _multipleFiles,
+                  );
         },
       ),
     );

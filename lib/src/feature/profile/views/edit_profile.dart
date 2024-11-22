@@ -27,7 +27,8 @@ class _EditProfileState extends ConsumerState<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
-    String avatarURL = widget.currentUser.avatar;
+    String avatarURL = widget.currentUser.avatar ??
+        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vecteezy.com%2Ffree-png%2Fuser&psig=AOvVaw0YK0y000AuHKxye8bJVFN1&ust=1732025299876000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCLimlJmH5okDFQAAAAAdAAAAABAE";
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

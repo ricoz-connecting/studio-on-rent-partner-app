@@ -12,11 +12,13 @@ class StudioCard extends StatefulWidget {
   final String pincode;
   final String imageUrl;
   final bool status;
-  final Function()? onLongPress;
+  final Function()? onTap, setStatus, onTapEdit;
 
   const StudioCard({
     super.key,
-    required this.onLongPress,
+    required this.onTapEdit,
+    required this.setStatus,
+    required this.onTap,
     required this.status,
     required this.title,
     required this.price,
@@ -32,7 +34,6 @@ class StudioCard extends StatefulWidget {
 }
 
 class _StudioCardState extends State<StudioCard> {
-  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   int _currentIndex = 0;
   late Timer _timer;
   String convertPeriod(String period) {
@@ -71,7 +72,6 @@ class _StudioCardState extends State<StudioCard> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
       child: GestureDetector(
-        onLongPress: widget.onLongPress,
         child: Container(
           padding: const EdgeInsets.only(bottom: 5.0),
           decoration: BoxDecoration(
@@ -124,13 +124,30 @@ class _StudioCardState extends State<StudioCard> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Text(
-                            widget.status == widget.status ? 'Active' : 'Close',
+                            widget.status == true ? 'Active' : 'Close',
                             style: const TextStyle(
                               fontSize: 12,
                               color: Colors.white,
                             ),
                           ),
-                        )
+                        ),
+                        PopupMenuButton(itemBuilder: (context) {
+                          return [
+                            PopupMenuItem(
+                              onTap: widget.onTapEdit,
+                              child: Text('Edit'),
+                            ),
+                            PopupMenuItem(
+                              onTap: widget.setStatus,
+                              child: Text(
+                                  'Set ${widget.status ? 'Close' : 'Active'}'),
+                            ),
+                            PopupMenuItem(
+                              onTap: widget.onTap,
+                              child: const Text('Delete'),
+                            ),
+                          ];
+                        }),
                       ],
                     ),
                     const SizedBox(height: 4),

@@ -23,7 +23,7 @@ class Studio {
   final String? areaSqFt;
   final String? rentOrSell;
   // final bool? isCouponApplicable;
-  final bool? isActive;
+  bool? isActive;
 
   Studio({
     this.id,
@@ -88,26 +88,28 @@ class Studio {
       );
 
   Map<String, dynamic> toJson() => {
-        '_id': id,
-        'name': name,
-        'category': category,
-        'about': about,
-        'price': price != null
-            ? List<dynamic>.from(price!.map((x) => x.toJson()))
-            : null,
-        'location': location?.toJson(),
-        'address': address,
-        'city': city,
-        'pincode': pincode,
-        'state': state,
-        'country': country,
+        if (id != null) '_id': id,
+        if (name != null) 'name': name,
+        if (category != null) 'category': category,
+        if (about != null) 'about': about,
+        if (price != null)
+          'price': price != null
+              ? List<dynamic>.from(price!.map((x) => x.toJson()))
+              : null,
+        if (location!.coordinates!.isEmpty) 'location': location?.toJson(),
+        if (address != null) 'address': address,
+        if (city != null) 'city': city,
+        if (pincode != null) 'pincode': pincode,
+        if (state != null) 'state': state,
+        if (country != null) 'country': country,
         // 'rooms': rooms != null
         //     ? List<dynamic>.from(rooms!.map((x) => x.toJson()))
         //     : null,
-        'images':
-            images != null ? List<dynamic>.from(images!.map((x) => x)) : null,
-        'thumbnail': thumbnail,
-        'facility': facility,
+        if (images != null)
+          'images':
+              images != null ? List<dynamic>.from(images!.map((x) => x)) : null,
+        if (thumbnail != null) 'thumbnail': thumbnail,
+        if (facility != null) 'facility': facility,
 
         // facility != null
         //     ? List<dynamic>.from(facility!.map((x) => x.toJson()))
@@ -115,10 +117,10 @@ class Studio {
         // 'nearestFacility': nearestFacility != null
         //     ? List<dynamic>.from(nearestFacility!.map((x) => x.toJson()))
         //     : null,
-        'areaSqFt': areaSqFt,
-        'rentOrSell': rentOrSell,
+        if (areaSqFt != null) 'areaSqFt': areaSqFt,
+        if (rentOrSell != null) 'rentOrSell': rentOrSell,
         // 'isCouponApplicable': isCouponApplicable,
-        'isActive': isActive,
+        if (isActive != null) 'isActive': isActive,
       };
 
   // copyWith method to create a new instance with updated values

@@ -66,7 +66,24 @@ class _HomeScreenState extends ConsumerState<StoreScreen> {
                       itemCount: studioList.length,
                       itemBuilder: (context, index) {
                         return StudioCard(
-                          onLongPress: () {
+                          onTapEdit: () {
+                            GoRouter.of(context).push(
+                                StudioRoutes.addStudioRequest,
+                                extra: studioList[index]);
+                          },
+                          setStatus: () {
+                            ref
+                                .read(studioListControllerProvider.notifier)
+                                .updatestudioStatus(
+                                  studioList[index].id!,
+                                  !studioList[index].isActive!,
+                                );
+                            setState(() {
+                              studioList[index].isActive =
+                                  !studioList[index].isActive!;
+                            });
+                          },
+                          onTap: () {
                             ref
                                 .read(studioListControllerProvider.notifier)
                                 .deleteStudio(

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:studio_partner_app/src/feature/addstudio/views/widgets/request_button.dart';
+import 'package:studio_partner_app/src/models/studio_model.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
 import 'rent.dart';
 import 'sell.dart';
 
 class AddStudioRequest extends StatefulWidget {
-  const AddStudioRequest({super.key});
+  final Studio? studio;
+  const AddStudioRequest({super.key, this.studio});
 
   @override
   State<AddStudioRequest> createState() => _AddStudioRequestState();
@@ -77,8 +78,10 @@ class _AddStudioRequestState extends State<AddStudioRequest>
               width: double.infinity,
               child: TabBarView(
                 controller: _tabController,
-                children: const <Widget>[
-                  Rent(),
+                children: <Widget>[
+                  Rent(
+                    studio: widget.studio,
+                  ),
                   Sell(),
                 ],
               ),

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -41,9 +42,30 @@ class StudioListController extends StateNotifier<List<Studio>> {
 
   Future<void> updatestudioStatus(String studioId, bool isActive) async {
     // Step 1: Update the status in MongoDB
-    final result = await _repo.updateStudio(id: studioId, isActive: isActive);
+    final result =
+        await _repo.updateStudioStatus(id: studioId, isActive: isActive);
     if (result != null && result.statusCode == 200) {
       // Step 2: Update the status in the state
+    } else {
+      throw Exception('Failed to update studio status');
+    }
+  }
+
+  Future<void> updateStudio(
+      {String? studioId,
+      Studio? studio,
+      BuildContext? context,
+      File? thumbnailFile,
+      List<File>? imageFiles}) async {
+    final result = await _repo.updateStudio(
+        id: studioId!,
+        body: studio!.toJson(),
+        thumbnail: thumbnailFile,
+        images: imageFiles);
+    if (result != null && result.statusCode == 200) {
+      context!.mounted
+          ? GoRouter.of(context).replace(StudioRoutes.bottomNavBar)
+          : null;
     } else {
       throw Exception('Failed to update studio status');
     }
@@ -78,7 +100,7 @@ class StudioListController extends StateNotifier<List<Studio>> {
           );
 
           if (success) {
-            GoRouter.of(context).replace(StudioRoutes.bookings);
+            state = state.where((studio) => studio.id != studioId).toList();
           }
         },
       );

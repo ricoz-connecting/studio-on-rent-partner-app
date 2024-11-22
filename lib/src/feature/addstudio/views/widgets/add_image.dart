@@ -43,7 +43,7 @@ class AddImage extends StatelessWidget {
 }
 
 class MultipleImagesDisplay extends StatelessWidget {
-  final List<File> imageFiles;
+  final List<dynamic> imageFiles;
 
   const MultipleImagesDisplay({super.key, required this.imageFiles});
 
@@ -52,17 +52,29 @@ class MultipleImagesDisplay extends StatelessWidget {
     return Wrap(
       spacing: 8.0,
       runSpacing: 8.0,
-      children: imageFiles.map((file) {
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: Image.file(
-            file,
-            fit: BoxFit.cover,
-            height: 100, // Adjust height as needed
-            width: 100, // Adjust width as needed
-          ),
-        );
-      }).toList(),
+      children: imageFiles is List<File>
+          ? imageFiles.map((file) {
+              return ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.file(
+                  file,
+                  fit: BoxFit.cover,
+                  height: 100, // Adjust height as needed
+                  width: 100, // Adjust width as needed
+                ),
+              );
+            }).toList()
+          : imageFiles.map((url) {
+              return ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.network(
+                  url,
+                  fit: BoxFit.cover,
+                  height: 100, // Adjust height as needed
+                  width: 100, // Adjust width as needed
+                ),
+              );
+            }).toList(),
     );
   }
 }
