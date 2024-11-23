@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:studio_partner_app/src/feature/Home/controller/studio_list_controller.dart';
 import 'package:studio_partner_app/src/feature/addstudio/controller/studio_controller.dart';
 import 'package:studio_partner_app/src/feature/addstudio/views/select_map.dart';
 import 'package:studio_partner_app/src/feature/addstudio/views/widgets/add_image.dart';
@@ -19,7 +20,8 @@ import 'widgets/label_title.dart';
 import 'widgets/request_button.dart';
 
 class Sell extends ConsumerStatefulWidget {
-  const Sell({super.key});
+  final Studio? studio;
+  const Sell({super.key, this.studio});
 
   @override
   ConsumerState<Sell> createState() => _SellState();
@@ -36,7 +38,7 @@ class _SellState extends ConsumerState<Sell> {
   List<String>? facilities = [];
   List<Widget>? addons = [];
   File? _thumbnailFile;
-  final List<Price> _price = [];
+  List<Price>? _price;
   List<File> _multipleFiles = [];
   String _selectedType = 'Commercial';
   String _selectedCategory = 'Recording';
@@ -46,8 +48,7 @@ class _SellState extends ConsumerState<Sell> {
       _city,
       _state,
       _pincode,
-      _areaSqFt,
-      _finalPrice;
+      _areaSqFt;
 
   bool isAnySelected = false,
       isWifiSelected = false,
@@ -78,6 +79,40 @@ class _SellState extends ConsumerState<Sell> {
         _multipleFiles = result;
       });
     }
+  }
+
+  @override
+  void initState() {
+    if (widget.studio != null) {
+      _studioName = widget.studio!.name;
+      selectedLocation = LatLng(widget.studio!.location!.coordinates![1],
+          widget.studio!.location!.coordinates![0]);
+      _aboutStudio = widget.studio!.about;
+      _addressLine1 = widget.studio!.address;
+      _city = widget.studio!.city;
+      _state = widget.studio!.state;
+      _pincode = widget.studio!.pincode;
+      _areaSqFt = widget.studio!.areaSqFt;
+      _selectedCategory = widget.studio!.category!;
+      _price = widget.studio!.price!;
+      // _thumbnailFile = File(widget.studio!.thumbnail!);
+      // _multipleFiles = widget.studio!.images!;
+      if (widget.studio!.facility != null) {
+        setState(() {
+          facilities = widget.studio!.facility;
+          isAnySelected = facilities!.contains('Any');
+          isWifiSelected = facilities!.contains('WiFi');
+          isSelfCheckInSelected = facilities!.contains('Self check-in');
+          isTimeSelected = facilities!.contains('time');
+          isFreeCancelSelected = facilities!.contains('Free cancel');
+          isFreeParkingSelected = facilities!.contains('Free Parking');
+          isSecuritySelected = facilities!.contains('Security');
+          isMembersSelected = facilities!.contains('Members');
+          isAirConditionerSelected = facilities!.contains('Air Conditioner');
+        });
+      }
+    }
+    super.initState();
   }
 
   @override
@@ -446,7 +481,7 @@ class _SellState extends ConsumerState<Sell> {
                 CustomTextField(
                   onChanged: (value) {
                     setState(() {
-                      _price.add(Price(
+                      _price!.add(Price(
                         title: 'Final Price',
                         amount: int.parse(value),
                         discount: 0,
@@ -492,6 +527,14 @@ class _SellState extends ConsumerState<Sell> {
             rentOrSell: 'Sell',
             price: _price,
           );
+          widget.studio != null
+              ? ref.read(studioListControllerProvider.notifier).updateStudio(
+                    studioId: widget.studio!.id!,
+                    studio: updatedProfile,
+                    context: context,
+                    thumbnailFile: _thumbnailFile,
+                    imageFiles: _multipleFiles,
+                  ):
           ref.read(studioControllerProvider.notifier).addNewStudio(
                 context: context,
                 studio: updatedProfile,
