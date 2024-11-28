@@ -31,6 +31,7 @@ import 'package:studio_partner_app/src/models/user_model.dart';
 import '../src/feature/landing/views/landing_screen.dart';
 import '../src/feature/auth/views/signup.dart';
 import '../src/feature/transactions/views/transaction_history.dart';
+import '../src/models/earnings_withdrawal.dart';
 
 class StudioRoutes {
   static const String splashScreen = '/';
@@ -194,10 +195,12 @@ class StudioRouter {
           builder: (context, state) => const KYCscreen()),
       GoRoute(
           path: StudioRoutes.transactionHistory,
-          builder: (context, state) => TransactionHistory()),
+          builder: (context, state) => TransactionHistory(
+                recentTransaction: state.extra as List<EarningsHistory>,
+              )),
       GoRoute(
           path: StudioRoutes.withdrawalHistory,
-          builder: (context, state) => WithdrawalHistory()),
+          builder: (context, state) => const WithdrawalHistoryPage()),
       GoRoute(
           path: StudioRoutes.upcomingBills,
           builder: (context, state) => UpcomingBills()),

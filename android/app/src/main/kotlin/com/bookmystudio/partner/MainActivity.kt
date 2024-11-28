@@ -1,4 +1,4 @@
-package com.bookmystudio.app.studio_partner_app
+package com.bookmystudio.partner
 
 import io.flutter.embedding.android.FlutterActivity
 

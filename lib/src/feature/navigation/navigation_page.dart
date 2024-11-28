@@ -2,10 +2,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:studio_partner_app/src/feature/Home/views/chat_screen.dart';
 import 'package:studio_partner_app/src/feature/Home/views/earnings.dart';
 import 'package:studio_partner_app/src/feature/Home/views/booking.dart';
-import 'package:studio_partner_app/src/feature/Home/views/empty_chat.dart';
-import 'package:studio_partner_app/src/feature/Home/views/empty_earning.dart';
-import 'package:studio_partner_app/src/feature/Home/views/empty_studio.dart';
-import 'package:studio_partner_app/src/feature/Home/views/empyt_bookings.dart';
 import 'package:studio_partner_app/src/feature/Home/views/store_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:studio_partner_app/src/res/assets.dart';
@@ -21,13 +17,9 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
-    // EmpytBookings(),
     Bookings(),
     ChatScreen(),
-    // EmptyChat(),
-    // EmptyStudio(),
     StoreScreen(),
-    // EmptyEarning(),
     EarningsPage(),
   ];
 

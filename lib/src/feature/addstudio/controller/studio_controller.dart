@@ -4,10 +4,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:studio_partner_app/src/feature/addstudio/repo/studio_repo.dart';
-import 'package:studio_partner_app/src/models/studio_model.dart';
 import 'package:studio_partner_app/utils/router.dart';
-import 'package:studio_partner_app/utils/snackbar_service.dart';
+
+import '../../../../utils/snackbar_service.dart';
+import '../../../models/studio_model.dart';
+import '../repo/studio_repo.dart';
 
 final studioControllerProvider =
     StateNotifierProvider<StudioController, Studio?>(

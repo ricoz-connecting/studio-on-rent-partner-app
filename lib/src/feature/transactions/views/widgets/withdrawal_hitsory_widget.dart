@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../../models/earnings_withdrawal.dart';
 
-class WithdrawalHitsoryWidget extends StatelessWidget {
-  const WithdrawalHitsoryWidget({
+class WithdrawalHistoryWidget extends StatelessWidget {
+  final WithdrawalHistory withdrawalHistory;
+  const WithdrawalHistoryWidget({
+    required this.withdrawalHistory,
     super.key,
   });
 
@@ -28,7 +31,7 @@ class WithdrawalHitsoryWidget extends StatelessWidget {
                 ),
               ),
               Text(
-                'Txn ID : 12345',
+                'Txn ID : ${withdrawalHistory.transactionId}',
                 style: GoogleFonts.lato(
                   color: const Color(0xFF656565),
                 ),
@@ -40,14 +43,14 @@ class WithdrawalHitsoryWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                '- ₹500',
+                '- ₹${withdrawalHistory.amount}',
                 style: GoogleFonts.lato(
                     color: Colors.red,
                     fontSize: 16,
                     fontWeight: FontWeight.bold),
               ),
               Text(
-                '25/05/2024',
+                '${withdrawalHistory.date.day}/${withdrawalHistory.date.month}/${withdrawalHistory.date.year}',
                 style: GoogleFonts.lato(
                   color: const Color(0xFF656565),
                 ),

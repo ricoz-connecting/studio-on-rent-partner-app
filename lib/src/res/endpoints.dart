@@ -48,4 +48,9 @@ class Endpoints {
   static const String updateBank = "${baseUrl}bank-detail";
   static const String deleteBank = "${baseUrl}bank-detail";
   static const String getDetailsByIFSC = "${baseUrl}bank-details/by-ifsc";
+
+  //Earnings ans Withdrawal
+  static const String getEarnings = "${baseUrl}earning-data";
+  static const String withdrawalHistory = "${baseUrl}withdraw-history";
+  static const String earningHistory = "${baseUrl}earning-history";
 }

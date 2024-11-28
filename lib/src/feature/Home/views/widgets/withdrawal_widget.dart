@@ -7,7 +7,11 @@ import 'package:studio_partner_app/src/res/colors.dart';
 import 'package:studio_partner_app/utils/router.dart';
 
 class WithdrawalWidget extends StatelessWidget {
+  final String totalWithdrawal;
+  final String availableWithdrawal;
   const WithdrawalWidget({
+    required this.totalWithdrawal,
+    required this.availableWithdrawal,
     super.key,
   });
 
@@ -24,7 +28,7 @@ class WithdrawalWidget extends StatelessWidget {
           Row(
             children: [
               Text(
-                '₹ 1000',
+                '₹ $totalWithdrawal',
                 style: GoogleFonts.inter(
                   fontSize: 30,
                   fontWeight: FontWeight.w600,
@@ -33,7 +37,7 @@ class WithdrawalWidget extends StatelessWidget {
               ),
               const Spacer(),
               Text(
-                '₹ 500',
+                '₹ $availableWithdrawal',
                 style: GoogleFonts.inter(
                   fontSize: 30,
                   fontWeight: FontWeight.w600,

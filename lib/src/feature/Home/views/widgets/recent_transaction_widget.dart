@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:studio_partner_app/src/models/earnings_withdrawal.dart';
 
 class RecentTransactionWidget extends StatelessWidget {
+  final EarningsHistory recentTransaction;
+  final List<EarningsHistory>? recentTransactions;
   const RecentTransactionWidget({
+    this.recentTransactions,
+    required this.recentTransaction,
     super.key,
   });
 
@@ -30,14 +35,14 @@ class RecentTransactionWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Studio Service',
+                recentTransaction.title,
                 style: GoogleFonts.lato(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
-                'ID : 12345',
+                recentTransaction.orderId,
                 style: GoogleFonts.lato(
                   color: const Color(0xFF656565),
                 ),
@@ -49,14 +54,14 @@ class RecentTransactionWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                '+ ₹6000',
+                '+ ₹${recentTransaction.amount}',
                 style: GoogleFonts.lato(
                     color: const Color(0xFF16BF27),
                     fontSize: 16,
                     fontWeight: FontWeight.bold),
               ),
               Text(
-                '25/05/2024',
+                '${recentTransaction.date.day}/${recentTransaction.date.month}/${recentTransaction.date.year}',
                 style: GoogleFonts.lato(
                   color: const Color(0xFF656565),
                 ),
