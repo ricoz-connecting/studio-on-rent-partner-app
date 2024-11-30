@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
@@ -7,6 +8,7 @@ import 'package:studio_partner_app/src/feature/profile/controllers/profile_contr
 import 'package:studio_partner_app/src/feature/profile/models/profile.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/global_image_builder.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
+import 'package:studio_partner_app/utils/router.dart';
 
 class CompleteProfileScreen extends ConsumerStatefulWidget {
   const CompleteProfileScreen({
@@ -40,13 +42,23 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                'Complete Your Profile',
-                style: GoogleFonts.inter(
-                  fontSize: 26,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                ),
+              Row(
+                children: [
+                  Text(
+                    'Complete Your Profile',
+                    style: GoogleFonts.inter(
+                      fontSize: 26,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const Spacer(),
+                  TextButton(
+                      onPressed: () {
+                        GoRouter.of(context).go(StudioRoutes.bottomNavBar);
+                      },
+                      child: const Text('Skip')),
+                ],
               ),
               const SizedBox(height: 10),
               const Text(
@@ -155,7 +167,7 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide.none,
                   ),
-                  hintText: 'Rishav Bhardwaz',
+                  hintText: 'Enter your Username',
                 ),
               ),
               const SizedBox(height: 10),

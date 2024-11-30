@@ -131,23 +131,25 @@ class _StudioCardState extends State<StudioCard> {
                             ),
                           ),
                         ),
-                        PopupMenuButton(itemBuilder: (context) {
-                          return [
-                            PopupMenuItem(
-                              onTap: widget.onTapEdit,
-                              child: Text('Edit'),
-                            ),
-                            PopupMenuItem(
-                              onTap: widget.setStatus,
-                              child: Text(
-                                  'Set ${widget.status ? 'Close' : 'Active'}'),
-                            ),
-                            PopupMenuItem(
-                              onTap: widget.onTap,
-                              child: const Text('Delete'),
-                            ),
-                          ];
-                        }),
+                        PopupMenuButton(
+                            color: Colors.white,
+                            itemBuilder: (context) {
+                              return [
+                                PopupMenuItem(
+                                  onTap: widget.onTapEdit,
+                                  child: const Text('Edit'),
+                                ),
+                                PopupMenuItem(
+                                  onTap: widget.setStatus,
+                                  child: Text(
+                                      'Set ${widget.status ? 'Close' : 'Active'}'),
+                                ),
+                                PopupMenuItem(
+                                  onTap: widget.onTap,
+                                  child: const Text('Delete'),
+                                ),
+                              ];
+                            }),
                       ],
                     ),
                     const SizedBox(height: 4),

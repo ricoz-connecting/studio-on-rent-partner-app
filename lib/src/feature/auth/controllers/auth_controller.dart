@@ -11,6 +11,8 @@ import 'package:studio_partner_app/src/res/strings.dart';
 import 'package:studio_partner_app/utils/router.dart';
 import 'package:studio_partner_app/utils/snackbar_service.dart';
 
+import '../../../../commons/views/widgets/progressdialog.dart';
+
 final authControllerProvider =
     StateNotifierProvider<AuthController, bool>((ref) {
   final authRepo = ref.watch(authRepoProvider);
@@ -32,6 +34,12 @@ class AuthController extends StateNotifier<bool> {
       required BuildContext context}) async {
     if (!state) {
       state = true;
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => const ProgressDialog(
+                status: 'Please wait...',
+              ));
       _authRepo.loginUsingPhone(phone: phone).then((otpSentSuccess) {
         if (otpSentSuccess) {
           context.mounted
@@ -62,6 +70,12 @@ class AuthController extends StateNotifier<bool> {
       required String phone,
       required BuildContext context}) async {
     state = true;
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const ProgressDialog(
+              status: 'Please wait...',
+            ));
     _authRepo.verifyOTP(phone: phone, otp: otp).then((response) {
       if (response != null) {
         try {
@@ -111,6 +125,12 @@ class AuthController extends StateNotifier<bool> {
       required String password,
       required BuildContext context}) async {
     if (!state) {
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => const ProgressDialog(
+                status: 'Please wait...',
+              ));
       state = true;
       _authRepo
           .signUpUsingEmailPass(email: email, password: password)
@@ -155,6 +175,12 @@ class AuthController extends StateNotifier<bool> {
       required String password,
       required BuildContext context}) async {
     state = true;
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const ProgressDialog(
+              status: 'Please wait...',
+            ));
     _authRepo
         .signInUsingEmailPass(email: email, password: password)
         .then((response) {

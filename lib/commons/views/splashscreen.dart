@@ -20,25 +20,25 @@ class _SplashscreenState extends ConsumerState<Splashscreen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 3), () async {
-      ref.read(initControllerProvider).initUserAndToken(context).then((value) {
-        final token = ref.read(authTokenProvider);
-        final user = ref.read(currentUserProvider);
-        if (token == null || user == null) {
-          if (!mounted) return;
-          context.go(StudioRoutes.onboardingScreen);
-        } else {
-          if (!mounted) {
-            return;
-          } else {
-            ref
-                .read(statusControllerProvider.notifier)
-                .getStatus(context: context)
-                .then((value) {
-              mounted ? context.go(StudioRoutes.bottomNavBar) : null;
-            });
-          }
-        }
-      });
+      mounted
+          ? ref
+              .read(initControllerProvider)
+              .initUserAndToken(context)
+              .then((value) {
+              final token = ref.read(authTokenProvider);
+              final user = ref.read(currentUserProvider);
+              if (token == null || user == null) {
+                if (!mounted) return;
+                context.go(StudioRoutes.onboardingScreen);
+              } else {
+                if (!mounted) {
+                  return;
+                } else {
+                  mounted ? context.go(StudioRoutes.bottomNavBar) : null;
+                }
+              }
+            })
+          : null;
     });
   }
 

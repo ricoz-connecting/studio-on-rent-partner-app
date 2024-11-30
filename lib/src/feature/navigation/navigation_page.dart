@@ -1,4 +1,7 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:studio_partner_app/commons/controllers/status_controller.dart';
+import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
 import 'package:studio_partner_app/src/feature/Home/views/chat_screen.dart';
 import 'package:studio_partner_app/src/feature/Home/views/earnings.dart';
 import 'package:studio_partner_app/src/feature/Home/views/booking.dart';
@@ -7,14 +10,14 @@ import 'package:flutter/material.dart';
 import 'package:studio_partner_app/src/res/assets.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
-class BottomNavBar extends StatefulWidget {
+class BottomNavBar extends ConsumerStatefulWidget {
   const BottomNavBar({super.key});
 
   @override
-  State<BottomNavBar> createState() => _BottomNavBarState();
+  ConsumerState<BottomNavBar> createState() => _BottomNavBarState();
 }
 
-class _BottomNavBarState extends State<BottomNavBar> {
+class _BottomNavBarState extends ConsumerState<BottomNavBar> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
     Bookings(),
@@ -22,6 +25,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
     StoreScreen(),
     EarningsPage(),
   ];
+
+  @override
+  void initState() {
+    ref.read(statusControllerProvider.notifier).getStatus(context: context);
+    super.initState();
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -32,7 +41,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _widgetOptions.elementAt(_selectedIndex),
+      backgroundColor: Colors.white,
+      body:  _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomAppBar(
         height: MediaQuery.of(context).size.height * 0.1,
         color: Colors.white,

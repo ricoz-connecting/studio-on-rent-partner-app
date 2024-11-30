@@ -30,6 +30,7 @@ class StatusController extends StateNotifier<bool> {
     required BuildContext context,
   }) async {
     try {
+      
       final result = await _repo.getStatus();
       result.fold(
         (failure) {

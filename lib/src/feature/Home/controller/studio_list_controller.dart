@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:studio_partner_app/commons/views/widgets/progressdialog.dart';
 import 'package:studio_partner_app/src/models/studio_model.dart';
 
 import '../../../../utils/router.dart';
@@ -57,6 +58,12 @@ class StudioListController extends StateNotifier<List<Studio>> {
       BuildContext? context,
       File? thumbnailFile,
       List<File>? imageFiles}) async {
+    showDialog(
+        context: context!,
+        barrierDismissible: false,
+        builder: (context) => const ProgressDialog(
+              status: 'Please wait...',
+            ));
     final result = await _repo.updateStudio(
         id: studioId!,
         body: studio!.toJson(),

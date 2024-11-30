@@ -68,7 +68,7 @@ class _SignupState extends State<Signup> {
                 ),
                 const SizedBox(height: 10),
                 const AuthTextField(
-                  hintText: 'Rishav Bhardwaz',
+                  hintText: 'Enter your Username',
                 ),
                 const SizedBox(height: 20),
                 const Text(
@@ -98,7 +98,7 @@ class _SignupState extends State<Signup> {
                 const SizedBox(height: 10),
                 AuthTextField(
                   obscureText: _obscureText,
-                  hintText: '********',
+                  hintText: 'Enter your Password',
                   onChanged: (value) => setState(() {
                     password = value;
                   }),
@@ -124,7 +124,7 @@ class _SignupState extends State<Signup> {
                 const SizedBox(height: 10),
                 AuthTextField(
                   obscureText: _obscureTextConfirm,
-                  hintText: '********',
+                  hintText: 'Enter your Password',
                   child: GestureDetector(
                       onTap: () {
                         setState(() {

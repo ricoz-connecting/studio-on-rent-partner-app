@@ -63,7 +63,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               ),
               const SizedBox(height: 10),
               AuthTextField(
-                hintText: 'example@gmail.com',
+                hintText: 'Enter your Email',
                 onChanged: (value) => setState(() {
                   email = value;
                 }),
@@ -79,7 +79,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               const SizedBox(height: 10),
               AuthTextField(
                 obscureText: _obscureText,
-                hintText: '********',
+                hintText: 'Enter your Password',
                 child: GestureDetector(
                     onTap: () {
                       setState(() {

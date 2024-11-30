@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
+import 'package:studio_partner_app/commons/views/widgets/progressdialog.dart';
 import 'package:studio_partner_app/src/feature/file/controller/file_controller.dart';
 import 'package:studio_partner_app/src/feature/profile/models/profile.dart';
 import 'package:studio_partner_app/src/feature/profile/repo/edit_profile.dart';
@@ -35,6 +36,12 @@ class ProfileController extends StateNotifier<User?> {
       WidgetRef? ref,
       File? file}) async {
     try {
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => const ProgressDialog(
+                status: 'Please wait...',
+              ));
       final result = await _repo.updateProfile(profile: profile, file: file);
       result.fold(
         (failure) {
