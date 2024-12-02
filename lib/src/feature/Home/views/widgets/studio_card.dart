@@ -154,9 +154,14 @@ class _StudioCardState extends State<StudioCard> {
                     ),
                     const SizedBox(height: 4),
                     AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 500),
+                      duration: const Duration(milliseconds: 1),
+                      switchInCurve: Curves.easeInOut,
+                      switchOutCurve: Curves.easeInOut,
                       transitionBuilder: (child, animation) {
-                        return FadeTransition(opacity: animation, child: child);
+                        return FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        );
                       },
                       child: Text(
                         '₹${widget.price[_currentIndex].amount}/- ${convertPeriod(widget.price[_currentIndex].title!)}',

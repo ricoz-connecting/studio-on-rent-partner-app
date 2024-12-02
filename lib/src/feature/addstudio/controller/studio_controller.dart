@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/commons/views/widgets/progressdialog.dart';
 import 'package:studio_partner_app/utils/router.dart';
-
 import '../../../../utils/snackbar_service.dart';
 import '../../../models/studio_model.dart';
 import '../repo/studio_repo.dart';
