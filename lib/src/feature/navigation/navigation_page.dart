@@ -4,7 +4,7 @@ import 'package:studio_partner_app/commons/controllers/status_controller.dart';
 import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
 import 'package:studio_partner_app/src/feature/Home/views/chat_screen.dart';
 import 'package:studio_partner_app/src/feature/Home/views/earnings.dart';
-import 'package:studio_partner_app/src/feature/Home/views/booking.dart';
+import 'package:studio_partner_app/src/feature/bookings/views/booking.dart';
 import 'package:studio_partner_app/src/feature/Home/views/store_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:studio_partner_app/src/res/assets.dart';

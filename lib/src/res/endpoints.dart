@@ -53,4 +53,8 @@ class Endpoints {
   static const String getEarnings = "${baseUrl}earning-data";
   static const String withdrawalHistory = "${baseUrl}withdraw-history";
   static const String earningHistory = "${baseUrl}earning-history";
+
+  //Bookings
+  static const String getBookings = "${baseUrl}bookings/partner?orderStatus=Processing";
+  static const String getBookingDetails = "${baseUrl}booking/details/";
 }
