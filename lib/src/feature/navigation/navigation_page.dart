@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:studio_partner_app/commons/controllers/status_controller.dart';
-import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
 import 'package:studio_partner_app/src/feature/Home/views/chat_screen.dart';
 import 'package:studio_partner_app/src/feature/Home/views/earnings.dart';
 import 'package:studio_partner_app/src/feature/bookings/views/booking.dart';

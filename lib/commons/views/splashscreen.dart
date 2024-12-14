@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/commons/controllers/init_controller.dart';
-import 'package:studio_partner_app/commons/controllers/status_controller.dart';
 import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 import 'package:studio_partner_app/utils/router.dart';

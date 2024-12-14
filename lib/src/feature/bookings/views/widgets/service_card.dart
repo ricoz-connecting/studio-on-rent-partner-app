@@ -1,31 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:studio_partner_app/src/feature/auth/views/widgets/reusable_button.dart';
+import 'package:studio_partner_app/src/feature/bookings/views/studio_details.dart';
+import 'package:studio_partner_app/src/models/bookings.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
 class ServiceCard extends StatelessWidget {
+  final Booking? booking;
   final bool isComingFromActive;
-  final String customerName;
-  final String id;
-  final String daysLeft;
-  final String nextBillingDate;
-  final String studioName;
-  final String bookingStartDate;
-  final String bookingEndDate;
-  final String duration;
-  final String address;
 
   const ServiceCard({
     super.key,
+    this.booking,
     required this.isComingFromActive,
-    required this.customerName,
-    required this.id,
-    required this.daysLeft,
-    required this.nextBillingDate,
-    required this.studioName,
-    required this.bookingStartDate,
-    required this.bookingEndDate,
-    required this.duration,
-    required this.address,
   });
 
   @override
@@ -44,8 +29,8 @@ class ServiceCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                const CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/profile.png'),
+                CircleAvatar(
+                  backgroundImage: NetworkImage(booking!.partnerDetails.avatar),
                   radius: 24,
                 ),
                 const SizedBox(width: 12),
@@ -53,21 +38,28 @@ class ServiceCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      customerName,
+                      booking!.customerDetails.name,
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
-                      'ID : $id',
+                      'ID : ${booking!.orderId}',
                       style: const TextStyle(color: Colors.grey),
                     ),
                   ],
                 ),
                 const Spacer(),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return StudioDetail(
+                        booking: booking!,
+                      );
+                    }));
+                  },
                   child: const Text(
                     'View Details',
                     style: TextStyle(
@@ -82,10 +74,10 @@ class ServiceCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
+                const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       "Day's Left",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -93,8 +85,8 @@ class ServiceCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      daysLeft,
-                      style: const TextStyle(
+                      '(19/30 Days)',
+                      style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: AppColors.primaryBackgroundColor,
@@ -109,9 +101,9 @@ class ServiceCard extends StatelessWidget {
                       isComingFromActive ? 'Next Billings on' : 'Total Paid',
                       style: const TextStyle(color: Colors.grey),
                     ),
-                    Text(
-                      nextBillingDate,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    const Text(
+                      '04/11/2023',
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -120,8 +112,8 @@ class ServiceCard extends StatelessWidget {
             const Divider(height: 32),
             Row(
               children: [
-                Image.asset(
-                  'assets/images/frame.png',
+                Image.network(
+                  booking!.studioDetails.thumbnail,
                   width: 40,
                   height: 40,
                 ),
@@ -131,7 +123,7 @@ class ServiceCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        studioName,
+                        booking!.studioDetails.studioName,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
@@ -148,58 +140,54 @@ class ServiceCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Booking Details',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Booking Details',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
-                        children: [
-                          const Text('Booking Starts on: '),
-                          const Spacer(),
-                          Text(bookingStartDate),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          const Text('Booking Ends on: '),
-                          const Spacer(),
-                          Text(bookingEndDate),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          const Text('Duration: '),
-                          const Spacer(),
-                          Text(duration),
-                        ],
-                      ),
-                    ],
-                  ),
+                        const SizedBox(height: 8),
+                        Row(
+                          children: [
+                            const Text('Booking Starts on: '),
+                            const Spacer(),
+                            Text(booking!.bookingDetails.startTime),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            const Text('Booking Ends on: '),
+                            const Spacer(),
+                            Text(booking!.bookingDetails.endTime),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            const Text('Duration: '),
+                            const Spacer(),
+                            Text(
+                                "${booking!.paymentDetails.duration.value} ${booking!.paymentDetails.duration.title}"),
+                          ],
+                        ),
+                      ]),
                 ),
               ],
             ),
             const Divider(height: 32),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    const Text(
-                      'Address',
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                    Text(
-                      address,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
+                const Text(
+                  'Address',
+                  style: TextStyle(color: Colors.grey),
+                ),
+                Text(
+                  textAlign: TextAlign.end,
+                  booking!.studioDetails.address,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ],
             ),

@@ -54,7 +54,6 @@ class StudioController extends StateNotifier<Studio?> {
         (response) {
           final data = jsonDecode(response!.body);
           final success = data['success'];
-
           SnackBarService.showSnackBar(
             context: context,
             message:

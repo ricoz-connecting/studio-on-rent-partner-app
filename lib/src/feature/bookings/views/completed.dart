@@ -1,33 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lottie/lottie.dart';
+import 'package:studio_partner_app/src/feature/bookings/controller/bookings_controller.dart';
 import 'package:studio_partner_app/src/feature/bookings/views/widgets/service_card.dart';
+import 'package:studio_partner_app/src/res/assets.dart';
 
-class CompletedRequests extends StatefulWidget {
+class CompletedRequests extends ConsumerStatefulWidget {
   const CompletedRequests({super.key});
 
   @override
-  State<CompletedRequests> createState() => _CompletedRequestsState();
+  ConsumerState<CompletedRequests> createState() => _CompletedRequestsState();
 }
 
-class _CompletedRequestsState extends State<CompletedRequests> {
+class _CompletedRequestsState extends ConsumerState<CompletedRequests> {
+  bool isLoading = true;
+  @override
+  void initState() {
+    _getBookings();
+    super.initState();
+  }
+
+  Future<void> _getBookings() async {
+    await ref.read(bookingsControllerProvider.notifier).getBookings();
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      children: const [
-        SizedBox(height: 20),
-        ServiceCard(
-          isComingFromActive: false,
-          id: "12333",
-          address: "123, XYZ Apt. New Delhi, Delhi, 123456",
-          customerName: 'Shreya',
-          daysLeft: 'Completed',
-          nextBillingDate: '\$550',
-          studioName: 'Studio A',
-          bookingStartDate: '31/08/2024',
-          bookingEndDate: '31/10/2024',
-          duration: '1 Month',
-        ),
-      ],
-    );
+    final bookings = ref.watch(bookingsControllerProvider);
+    return isLoading
+        ? const Center(child: CircularProgressIndicator())
+        : bookings.isEmpty
+            ? Lottie.asset(AnimationAssets.noDataFound)
+            : ListView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                itemCount: bookings.length,
+                itemBuilder: (context, index) => ServiceCard(
+                  booking: bookings[index],
+                  isComingFromActive: false,
+                ),
+              );
   }
 }

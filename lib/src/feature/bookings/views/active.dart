@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lottie/lottie.dart';
 import 'package:studio_partner_app/src/feature/bookings/controller/bookings_controller.dart';
-
+import 'package:studio_partner_app/src/res/assets.dart';
 import 'widgets/service_card.dart';
 
 class ActiveRequests extends ConsumerStatefulWidget {
@@ -29,25 +30,18 @@ class _ActiveRequestsState extends ConsumerState<ActiveRequests> {
 
   @override
   Widget build(BuildContext context) {
+    final bookings = ref.watch(bookingsControllerProvider);
     return isLoading
         ? const Center(child: CircularProgressIndicator())
-        : ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            children: const [
-              SizedBox(height: 20),
-              ServiceCard(
-                isComingFromActive: true,
-                id: "12333",
-                address: "123, XYZ Apt. New Delhi, Delhi, 123456",
-                customerName: 'Shreya',
-                daysLeft: '(19/30 Days)',
-                nextBillingDate: '04/11/2023',
-                studioName: 'Studio A',
-                bookingStartDate: '31/08/2024',
-                bookingEndDate: '31/10/2024',
-                duration: '1 Month',
-              ),
-            ],
-          );
+        : bookings.isEmpty
+            ? Lottie.asset(AnimationAssets.noDataFound)
+            : ListView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                itemCount: bookings.length,
+                itemBuilder: (context, index) => ServiceCard(
+                  booking: bookings[index],
+                  isComingFromActive: true,
+                ),
+              );
   }
 }
