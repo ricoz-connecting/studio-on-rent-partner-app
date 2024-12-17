@@ -5,6 +5,7 @@ class Studio {
   final String? id;
   final String? name;
   final String? category;
+  final String? type;
   final String? about;
   final List<Price>? price;
   final Location? location;
@@ -28,6 +29,7 @@ class Studio {
   Studio({
     this.id,
     this.name,
+    this.type,
     this.category,
     this.about,
     this.price,
@@ -53,6 +55,7 @@ class Studio {
   factory Studio.fromJson(Map<String, dynamic> json) => Studio(
         id: json['_id'],
         name: json['name'],
+        type: json['type'],
         category: json['category'],
         about: json['about'],
         price: json['price'] != null
@@ -73,10 +76,9 @@ class Studio {
             ? List<String>.from(json['images'].map((x) => x))
             : null,
         thumbnail: json['thumbnail'],
-        // facility: json['facility'] != null
-        //     ? List<Facility>.from(
-        //         json['facility'].map((x) => Facility.fromJson(x)))
-        //     : null,
+        facility: json['facility'] != null
+            ? List<String>.from(json['facility'].map((x) => x))
+            : null,
         // nearestFacility: json['nearestFacility'] != null
         //     ? List<NearestFacility>.from(
         //         json['nearestFacility'].map((x) => NearestFacility.fromJson(x)))
@@ -90,13 +92,14 @@ class Studio {
   Map<String, dynamic> toJson() => {
         if (id != null) '_id': id,
         if (name != null) 'name': name,
+        if (type != null) 'type': type,
         if (category != null) 'category': category,
         if (about != null) 'about': about,
         if (price != null)
           'price': price != null
               ? List<dynamic>.from(price!.map((x) => x.toJson()))
               : null,
-        if (location!.coordinates!.isEmpty) 'location': location?.toJson(),
+        if (location!.coordinates!.isNotEmpty) 'location': location?.toJson(),
         if (address != null) 'address': address,
         if (city != null) 'city': city,
         if (pincode != null) 'pincode': pincode,
@@ -112,7 +115,7 @@ class Studio {
         if (facility != null) 'facility': facility,
 
         // facility != null
-        //     ? List<dynamic>.from(facility!.map((x) => x.toJson()))
+        //     ? List<String>.from(facility!.map((x) => x.toJson()))
         //     : null,
         // 'nearestFacility': nearestFacility != null
         //     ? List<dynamic>.from(nearestFacility!.map((x) => x.toJson()))
@@ -127,6 +130,7 @@ class Studio {
   Studio copyWith({
     String? id,
     String? name,
+    String? type,
     String? category,
     String? about,
     List<Price>? price,
@@ -151,6 +155,7 @@ class Studio {
     return Studio(
       id: id ?? this.id,
       name: name ?? this.name,
+      type: type ?? this.type,
       category: category ?? this.category,
       about: about ?? this.about,
       price: price ?? this.price,

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/feature/auth/views/widgets/reusable_button.dart';
 import 'package:studio_partner_app/src/feature/bookings/views/invoice.dart';
+import 'package:studio_partner_app/src/feature/bookings/views/pdfVIewer.dart';
+import 'package:studio_partner_app/src/feature/bookings/views/widgets/customContainer.dart';
 import 'package:studio_partner_app/src/models/bookings.dart';
 
 class StudioDetail extends StatefulWidget {
@@ -266,51 +266,4 @@ class _StudioDetailState extends State<StudioDetail> {
   }
 }
 
-class CustomContainer extends StatelessWidget {
-  final Widget? child;
-  const CustomContainer({
-    this.child,
-    super.key,
-  });
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF4F6F9),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: child,
-    );
-  }
-}
-
-class PDFViewerScreen extends StatelessWidget {
-  final String path;
-
-  const PDFViewerScreen({super.key, required this.path});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("PDF Preview")),
-      body: PDFView(
-        filePath: path,
-        enableSwipe: true,
-        swipeHorizontal: false,
-        autoSpacing: true,
-        pageFling: true,
-        onRender: (pages) {
-          print("PDF Rendered with $pages pages.");
-        },
-        onError: (error) {
-          print("Error rendering PDF: $error");
-        },
-        onPageError: (page, error) {
-          print("Error on page $page: $error");
-        },
-      ),
-    );
-  }
-}

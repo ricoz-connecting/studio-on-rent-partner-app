@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/commons/views/widgets/progressdialog.dart';
+import 'package:studio_partner_app/src/feature/navigation/navigation_page.dart';
 import 'package:studio_partner_app/src/models/studio_model.dart';
-
-import '../../../../utils/router.dart';
 import '../../../../utils/snackbar_service.dart';
 import '../repo/studio_list_repo.dart';
 
@@ -57,6 +56,7 @@ class StudioListController extends StateNotifier<List<Studio>> {
       Studio? studio,
       BuildContext? context,
       File? thumbnailFile,
+      List<String>? imageUrl,
       List<File>? imageFiles}) async {
     showDialog(
         context: context!,
@@ -68,12 +68,15 @@ class StudioListController extends StateNotifier<List<Studio>> {
         id: studioId!,
         body: studio!.toJson(),
         thumbnail: thumbnailFile,
+        imageUrl: imageUrl,
         images: imageFiles);
-    if (result != null && result.statusCode == 200) {
-      context!.mounted
-          ? GoRouter.of(context).replace(StudioRoutes.bottomNavBar)
-          : null;
+    if (result != null && context.mounted) {
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) {
+        return const BottomNavBar();
+      }));
     } else {
+      context.mounted ? context.pop() : null;
       throw Exception('Failed to update studio status');
     }
   }

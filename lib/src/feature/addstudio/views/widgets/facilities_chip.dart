@@ -7,7 +7,7 @@ class FacilitiesChip extends StatelessWidget {
   final void Function() onTap;
 
   const FacilitiesChip({
-    required this.isSelected,
+    this.isSelected = false,
     required this.onTap,
     this.label,
     super.key,

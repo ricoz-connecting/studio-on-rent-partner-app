@@ -4,9 +4,10 @@ import 'package:studio_partner_app/commons/views/appbar.dart';
 import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
 import 'package:studio_partner_app/src/feature/Home/views/widgets/custom_fab.dart';
 import 'package:flutter/material.dart';
+import 'package:studio_partner_app/src/feature/addstudio/views/rent.dart';
+import 'package:studio_partner_app/src/feature/addstudio/views/sell.dart';
 import 'package:studio_partner_app/utils/router.dart';
 import '../controller/studio_list_controller.dart';
-import 'empty_studio.dart';
 import 'widgets/studio_card.dart';
 
 class StoreScreen extends ConsumerStatefulWidget {
@@ -66,10 +67,40 @@ class _HomeScreenState extends ConsumerState<StoreScreen> {
                       itemCount: studioList.length,
                       itemBuilder: (context, index) {
                         return StudioCard(
+                          onCardTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) {
+                                      return studioList[index].rentOrSell == 'Rent' ? Rent(
+                                          studio: studioList[index],
+                                          disableTextField: true,
+                                          isEdit: false,
+                                        ):
+                                        Sell(
+                                          studio: studioList[index],
+                                          disableTextField: true,
+                                          isEdit: false,
+                                        );
+                                        }));
+                          },
                           onTapEdit: () {
-                            GoRouter.of(context).push(
-                                StudioRoutes.addStudioRequest,
-                                extra: studioList[index]);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context)  {
+                              return studioList[index].rentOrSell == 'Rent'
+                                  ? Rent(
+                                      studio: studioList[index],
+                                      disableTextField: false,
+                                      isEdit: true,
+                                    )
+                                  : Sell(
+                                      studio: studioList[index],
+                                      disableTextField: false,
+                                      isEdit: true,
+                                    );
+                            }));
                           },
                           setStatus: () {
                             ref

@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
-import 'package:studio_partner_app/src/models/studio_model.dart';
 import 'package:studio_partner_app/src/res/base.dart';
 import '../../../core/core.dart';
 import '../../../res/endpoints.dart';
@@ -64,8 +63,9 @@ class StudioListRepo {
       {required String id,
       required Map<String, dynamic> body,
       File? thumbnail,
+      List<String>? imageUrl,
       List<File>? images}) async {
-    log("images : $thumbnail", name: LogLabel.httpPatch);
+    log("images : $images", name: LogLabel.httpPatch);
     if (thumbnail != null) {
       final thumbnailinfo = await _ref
           .read(studioFileRepoProvider)
@@ -74,20 +74,23 @@ class StudioListRepo {
         body['thumbnail'] = "${BasePaths.storageURL}${thumbnailinfo.key}";
       }
       // Upload the images
-      if (images!.isNotEmpty) {
-        List<String> imageUrls = [];
-        for (File? image in images) {
-          if (image != null) {
-            final imageInfo = await _ref
-                .read(studioFileRepoProvider)
-                .uploadFile(file: image, type: UploadFileType.IMAGE);
-            if (imageInfo != null) {
-              imageUrls.add("${BasePaths.storageURL}${imageInfo.key}");
-            }
+    }
+    if (images!.isNotEmpty) {
+      List<String> imageUrls = [];
+      if (imageUrl != null) {
+        imageUrls = imageUrl;
+      }
+      for (File? image in images) {
+        if (image != null) {
+          final imageInfo = await _ref
+              .read(studioFileRepoProvider)
+              .uploadFile(file: image, type: UploadFileType.IMAGE);
+          if (imageInfo != null) {
+            imageUrls.add("${BasePaths.storageURL}${imageInfo.key}");
           }
         }
-        body['images'] = imageUrls;
       }
+      body['images'] = imageUrls;
     }
     log('studio id : $id body : $body', name: LogLabel.httpPatch);
     final result = await _api.patchRequest(

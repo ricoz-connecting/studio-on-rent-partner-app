@@ -12,10 +12,12 @@ class StudioCard extends StatefulWidget {
   final String pincode;
   final String imageUrl;
   final bool status;
-  final Function()? onTap, setStatus, onTapEdit;
+
+  final Function()? onTap, setStatus, onTapEdit, onCardTap;
 
   const StudioCard({
     super.key,
+    required this.onCardTap,
     required this.onTapEdit,
     required this.setStatus,
     required this.onTap,
@@ -72,6 +74,7 @@ class _StudioCardState extends State<StudioCard> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
       child: GestureDetector(
+        onTap: widget.onCardTap,
         child: Container(
           padding: const EdgeInsets.only(bottom: 5.0),
           decoration: BoxDecoration(

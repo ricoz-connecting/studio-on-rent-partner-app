@@ -155,6 +155,7 @@ class AuthController extends StateNotifier<bool> {
                 ? context.go(StudioRoutes.loginViaEmailScreen)
                 : null;
           } catch (e, stacktrace) {
+            context.mounted ? context.pop() : null;
             log('$e');
             log('$stacktrace');
             context.mounted
@@ -213,6 +214,7 @@ class AuthController extends StateNotifier<bool> {
           _ref.read(currentUserProvider.notifier).update((state) => user);
           context.mounted ? context.go(StudioRoutes.createProfileScreen) : null;
         } catch (e, stacktrace) {
+          context.mounted ? context.pop() : null;
           log('$e');
           log('$stacktrace');
           context.mounted

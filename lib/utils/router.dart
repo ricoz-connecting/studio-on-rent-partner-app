@@ -26,7 +26,6 @@ import 'package:studio_partner_app/src/feature/profile/views/help.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/history_screen.dart';
 import 'package:studio_partner_app/src/feature/transactions/views/upcoming_bills.dart';
 import 'package:studio_partner_app/src/feature/transactions/views/withdrawal_history.dart';
-import 'package:studio_partner_app/src/models/studio_model.dart';
 import 'package:studio_partner_app/src/models/user_model.dart';
 import '../src/feature/landing/views/landing_screen.dart';
 import '../src/feature/auth/views/signup.dart';
@@ -122,11 +121,7 @@ class StudioRouter {
       GoRoute(
         path: StudioRoutes.addStudioRequest,
         builder: (BuildContext context, GoRouterState state) {
-          if (state.extra == null) {
-            return const AddStudioRequest();
-          }
-          final studio = state.extra as Studio;
-          return AddStudioRequest(studio: studio);
+          return const AddStudioRequest();
         },
       ),
       GoRoute(

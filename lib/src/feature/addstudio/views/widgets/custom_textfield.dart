@@ -7,7 +7,11 @@ class CustomTextField extends StatelessWidget {
   final double? height;
   final TextInputType? keyboardType;
   final Function(String)? onChanged;
+  final TextEditingController? controller;
+  final bool disableTextField;
   const CustomTextField({
+    required this.disableTextField,
+    this.controller,
     this.onChanged,
     this.height,
     this.suffixLabel,
@@ -22,6 +26,8 @@ class CustomTextField extends StatelessWidget {
     return SizedBox(
       height: height ?? 50,
       child: TextField(
+        enabled: !disableTextField,
+        controller: controller,
         maxLines: 3,
         keyboardType: keyboardType,
         onChanged: onChanged,

@@ -65,19 +65,23 @@ class StudioController extends StateNotifier<Studio?> {
 
           if (success) {
             GoRouter.of(context).replace(StudioRoutes.bottomNavBar);
+            context.pop();
+          } else {
+            context.pop();
           }
         },
       );
     } catch (e, stacktrace) {
       log('Error: $e');
       log('Stacktrace: $stacktrace');
-      context.mounted
-          ? SnackBarService.showSnackBar(
-              context: context,
-              message: "An unexpected error occurred",
-              backgroundColor: const Color.fromARGB(255, 227, 121, 113),
-            )
-          : null;
+      if (context.mounted) {
+        SnackBarService.showSnackBar(
+          context: context,
+          message: "An unexpected error occurred",
+          backgroundColor: const Color.fromARGB(255, 227, 121, 113),
+        );
+        context.pop();
+      }
     }
   }
 }
