@@ -1,33 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
 import 'package:studio_partner_app/src/feature/profile/controllers/profile_controller.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/global_image_builder.dart';
-import 'package:studio_partner_app/src/models/user_model.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
 import '../models/profile.dart';
 
 class EditProfile extends ConsumerStatefulWidget {
-  final User currentUser;
-  const EditProfile({super.key, required this.currentUser});
+  const EditProfile({super.key});
 
   @override
   ConsumerState<EditProfile> createState() => _EditProfileState();
 }
 
 class _EditProfileState extends ConsumerState<EditProfile> {
-  String? _name,
-      _restaurantName,
-      _restaurantAddress,
-      _restaurantAddressLine2,
-      _restaurantCity;
+  late TextEditingController _nameController,
+      _phoneController,
+      _restaurantNameController,
+      _restaurantAddressController,
+      _restaurantAddressLine2Controller,
+      _restaurantCityController;
   //     _avatar;
   // XFile? _image;
 
   @override
+  void initState() {
+    final currentUser = ref.read(currentUserProvider);
+    _nameController = TextEditingController(text: currentUser!.name);
+    _phoneController = TextEditingController(text: currentUser.phone);
+    _restaurantNameController =
+        TextEditingController(text: currentUser.businessName);
+    _restaurantAddressController =
+        TextEditingController(text: currentUser.address);
+    _restaurantAddressLine2Controller =
+        TextEditingController(text: currentUser.pincode);
+    _restaurantCityController = TextEditingController(text: currentUser.city);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    String avatarURL = widget.currentUser.avatar ??
+    final currentUser = ref.read(currentUserProvider);
+    String avatarURL = currentUser!.avatar ??
         "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vecteezy.com%2Ffree-png%2Fuser&psig=AOvVaw0YK0y000AuHKxye8bJVFN1&ust=1732025299876000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCLimlJmH5okDFQAAAAAdAAAAABAE";
     return Scaffold(
       backgroundColor: Colors.white,
@@ -105,61 +121,39 @@ class _EditProfileState extends ConsumerState<EditProfile> {
                     // ),
                     const SizedBox(height: 20),
                     _buildTextField(
-                      onChanged: (value) {
-                        setState(() {
-                          _name = value;
-                        });
-                      },
+                      controller: _nameController,
                       hintText: 'John Doe',
                       prefixIcon: Icons.person,
                     ),
                     const SizedBox(height: 20),
                     _buildTextField(
-                      onChanged: (value) {
-                        setState(() {});
-                      },
+                      controller: _phoneController,
                       hintText: '+91 XXXXXX XXXXX',
                       prefixIcon: Icons.phone,
                     ),
                     const SizedBox(height: 20),
                     _buildTextField(
-                      onChanged: (value) {
-                        setState(() {
-                          _restaurantName = value;
-                        });
-                      },
-                      label: 'Restaurant Name',
+                      controller: _restaurantNameController,
+                      label: 'Business Name',
                       hintText: 'ABC XYZ Restaurant',
                       prefixIcon: Icons.restaurant,
                     ),
                     const SizedBox(height: 20),
                     _buildTextField(
-                      onChanged: (value) {
-                        setState(() {
-                          _restaurantAddress = value;
-                        });
-                      },
-                      label: 'Restaurant Address',
+                      controller: _restaurantAddressController,
+                      label: 'Personal Address',
                       hintText: '111, ABC Apartments',
                       prefixIcon: Icons.location_city,
                     ),
                     const SizedBox(height: 20),
                     _buildTextField(
-                      onChanged: (value) {
-                        setState(() {
-                          _restaurantAddressLine2 = value;
-                        });
-                      },
+                      controller: _restaurantAddressLine2Controller,
                       hintText: 'XYZ Road, New Delhi',
                       prefixIcon: Icons.location_on,
                     ),
                     const SizedBox(height: 20),
                     _buildTextField(
-                      onChanged: (value) {
-                        setState(() {
-                          _restaurantCity = value;
-                        });
-                      },
+                      controller: _restaurantCityController,
                       hintText: 'Delhi',
                       prefixIcon: Icons.map,
                     ),
@@ -184,13 +178,13 @@ class _EditProfileState extends ConsumerState<EditProfile> {
                     final selectedImageFile = ref.watch(
                         profileController.select((value) => value?.avatarFile));
                     final updatedProfile = Profile(
-                      name: _name,
+                      name: _nameController.text,
                       // phone: _phone,
-                      businessName: _restaurantName,
-                      address: _restaurantAddress,
-                      pincode: _restaurantAddressLine2,
+                      businessName: _restaurantNameController.text,
+                      address: _restaurantAddressController.text,
+                      pincode: _restaurantAddressLine2Controller.text,
                       // state: ,
-                      city: _restaurantCity,
+                      city: _restaurantCityController.text,
                       // country: _country,
                     );
 
@@ -200,21 +194,6 @@ class _EditProfileState extends ConsumerState<EditProfile> {
                         ref: ref,
                         profile: updatedProfile,
                         file: selectedImageFile);
-
-                    // Show a success message or handle failure
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                          content: Text('Profile saved successfully!')),
-                    );
-                    // Editprofile(
-                    //   profile: Profile(
-                    //       name: _name,
-                    //       businessName: _restaurantName,
-                    //       address: _restaurantAddress,
-                    //       city: _restaurantCity,
-                    //       pincode: _restaurantAddressLine2,
-                    //       avatar: _avatar),
-                    // ).editProfile(ref, context);
                   },
                   child: const Text(
                     'SAVE',
@@ -232,12 +211,12 @@ class _EditProfileState extends ConsumerState<EditProfile> {
       ),
     );
   }
-
+  
   Widget _buildTextField({
+    TextEditingController? controller,
     String? label,
     required String hintText,
     IconData? prefixIcon,
-    required void Function(String) onChanged,
     int maxLines = 1,
   }) {
     return Column(
@@ -256,7 +235,7 @@ class _EditProfileState extends ConsumerState<EditProfile> {
             ),
           ),
         TextField(
-          onChanged: onChanged,
+          controller: controller,
           maxLines: maxLines,
           decoration: InputDecoration(
             prefixIcon: prefixIcon != null

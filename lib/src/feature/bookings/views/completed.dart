@@ -33,7 +33,13 @@ class _CompletedRequestsState extends ConsumerState<CompletedRequests> {
     return isLoading
         ? const Center(child: CircularProgressIndicator())
         : bookings.isEmpty
-            ? Lottie.asset(AnimationAssets.noDataFound)
+            ? Center(
+                child: SizedBox(
+                  width: 300,
+                  height: 300,
+                  child: Lottie.asset(AnimationAssets.noDataFound),
+                ),
+              )
             : ListView.builder(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 itemCount: bookings.length,

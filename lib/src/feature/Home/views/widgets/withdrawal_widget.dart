@@ -30,7 +30,7 @@ class WithdrawalWidget extends StatelessWidget {
               Text(
                 '₹ $totalWithdrawal',
                 style: GoogleFonts.inter(
-                  fontSize: 30,
+                  fontSize: 25,
                   fontWeight: FontWeight.w600,
                   color: AppColors.primaryBackgroundColor,
                 ),
@@ -39,7 +39,7 @@ class WithdrawalWidget extends StatelessWidget {
               Text(
                 '₹ $availableWithdrawal',
                 style: GoogleFonts.inter(
-                  fontSize: 30,
+                  fontSize: 25,
                   fontWeight: FontWeight.w600,
                   color: AppColors.primaryBackgroundColor,
                 ),
@@ -51,15 +51,16 @@ class WithdrawalWidget extends StatelessWidget {
               Text(
                 'Total\nWithdrawable',
                 style: GoogleFonts.inter(
-                  fontSize: 18,
+                  fontSize: 16,
                   color: const Color(0xFF5F5F5F),
                 ),
               ),
               const Spacer(),
               Text(
+                textAlign: TextAlign.right,
                 'Available to\nWithdraw',
                 style: GoogleFonts.inter(
-                  fontSize: 18,
+                  fontSize: 16,
                   color: const Color(0xFF5F5F5F),
                 ),
               ),

@@ -20,19 +20,19 @@ class ProfileRepo {
   FutureEither<Response> updateProfile(
       {required Profile profile, File? file}) async {
     final body = {
-      if (profile.name != null) "name": profile.name,
-      if (profile.address != null) "address": profile.address,
-      if (profile.city != null) "city": profile.city,
-      if (profile.pincode != null) "pincode": profile.pincode,
+      if (profile.name!.isNotEmpty) "name": profile.name,
+      if (profile.address!.isNotEmpty) "address": profile.address,
+      if (profile.city!.isNotEmpty) "city": profile.city,
+      if (profile.pincode!.isNotEmpty) "pincode": profile.pincode,
       if (profile.state != null) "state": profile.state,
       if (profile.country != null) "country": profile.country,
-      if (profile.businessName != null) "businessName": profile.businessName,
+      if (profile.businessName!.isNotEmpty)
+        "businessName": profile.businessName,
     };
     if (file != null) {
       final info = await _ref
           .read(fileRepoProvider)
           .uploadFile(file: file, type: UploadFileType.AVATAR);
-      log(info.toString());
       if (info != null) {
         body['avatar'] = "${BasePaths.storageURL}${info.key}";
       }

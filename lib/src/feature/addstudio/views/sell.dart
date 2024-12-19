@@ -158,12 +158,14 @@ class _SellState extends ConsumerState<Sell> {
                       image: _thumbnailFile,
                     ),
                   ),
-                  Center(
-                    child: Text(
-                      'Add Thumbnail',
-                      style: GoogleFonts.inter(fontSize: 16),
-                    ),
-                  ),
+                  widget.disableTextField! || widget.isEdit!
+                      ? const SizedBox()
+                      : Center(
+                          child: Text(
+                            'Add Thumbnail',
+                            style: GoogleFonts.inter(fontSize: 16),
+                          ),
+                        ),
                   const SizedBox(height: 20),
                   CustomTextField(
                     disableTextField: widget.disableTextField!,
@@ -466,9 +468,11 @@ class _SellState extends ConsumerState<Sell> {
                   const SizedBox(height: 10),
                   Row(
                     children: [
-                      _multipleFiles.isEmpty
-                          ? const CustomLabelTitle(title: "Add Images")
-                          : const CustomLabelTitle(title: "Images"),
+                      widget.disableTextField! || widget.isEdit!
+                          ? const CustomLabelTitle(title: "Images")
+                          : _multipleFiles.isEmpty
+                              ? const CustomLabelTitle(title: "Add Images")
+                              : const CustomLabelTitle(title: "Images"),
                       const Spacer(),
                       if (_multipleFiles.isNotEmpty || widget.isEdit!)
                         TextButton(

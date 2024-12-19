@@ -4,7 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 class InfoSection extends StatelessWidget {
   final String businessName;
   final String address;
+  final String pincode;
+  final String city;
   const InfoSection({
+    required this.city,
+    required this.pincode,
     required this.businessName,
     required this.address,
     super.key,
@@ -23,7 +27,7 @@ class InfoSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Business/Restaurant Name',
+            'Business Name',
             style: GoogleFonts.lato(
               fontSize: 14,
               fontWeight: FontWeight.w600,
@@ -49,7 +53,11 @@ class InfoSection extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            address,
+            {
+              address,
+              city,
+              pincode,
+            }.join(', '),
             style: GoogleFonts.lato(
               fontWeight: FontWeight.w600,
               fontSize: 16,

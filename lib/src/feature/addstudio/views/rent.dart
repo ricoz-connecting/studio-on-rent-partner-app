@@ -47,6 +47,7 @@ class _RentState extends ConsumerState<Rent> {
       _areaSqFtController,
       _basePriceMonthController,
       _basePriceDayController,
+      _basePriceHourController,
       _basePriceWeekController;
   LatLng? selectedLocation;
   List<String>? facilities = List<String>.empty(growable: true);
@@ -99,6 +100,7 @@ class _RentState extends ConsumerState<Rent> {
     _basePriceMonthController = TextEditingController();
     _basePriceDayController = TextEditingController();
     _basePriceWeekController = TextEditingController();
+    _basePriceHourController = TextEditingController();
     if (widget.studio != null) {
       _selectedType = widget.studio!.type!;
       selectedLocation = LatLng(widget.studio!.location!.coordinates![1],
@@ -120,6 +122,9 @@ class _RentState extends ConsumerState<Rent> {
         }
         if (price.title == 'Weekly Rent') {
           _basePriceWeekController.text = price.amount.toString();
+        }
+        if (price.title == 'Hourly Rent') {
+          _basePriceHourController.text = price.amount.toString();
         }
         setState(() {
           isAnySelected = widget.studio!.facility!.contains('Any');
@@ -170,12 +175,14 @@ class _RentState extends ConsumerState<Rent> {
                       image: _thumbnailFile,
                     ),
                   ),
-                  Center(
-                    child: Text(
-                      'Add Thumbnail',
-                      style: GoogleFonts.inter(fontSize: 16),
-                    ),
-                  ),
+                  widget.disableTextField! || widget.isEdit!
+                      ? const SizedBox()
+                      : Center(
+                          child: Text(
+                            'Add Thumbnail',
+                            style: GoogleFonts.inter(fontSize: 16),
+                          ),
+                        ),
                   const SizedBox(height: 20),
                   CustomTextField(
                     disableTextField: widget.disableTextField!,
@@ -490,9 +497,11 @@ class _RentState extends ConsumerState<Rent> {
                   const SizedBox(height: 10),
                   Row(
                     children: [
-                      _multipleFiles.isEmpty
-                          ? const CustomLabelTitle(title: "Add Images")
-                          : const CustomLabelTitle(title: "Images"),
+                      widget.disableTextField! || widget.isEdit!
+                          ? const CustomLabelTitle(title: "Images")
+                          : _multipleFiles.isEmpty
+                              ? const CustomLabelTitle(title: "Add Images")
+                              : const CustomLabelTitle(title: "Images"),
                       const Spacer(),
                       if (_multipleFiles.isNotEmpty || widget.isEdit!)
                         TextButton(
@@ -550,8 +559,8 @@ class _RentState extends ConsumerState<Rent> {
                   const SizedBox(height: 10),
                   CustomTextField(
                     disableTextField: widget.disableTextField!,
-                    controller: _basePriceMonthController,
-                    suffixLabel: '/Per month',
+                    controller: _basePriceHourController,
+                    suffixLabel: '/Per hour',
                     icon: Icons.price_change_outlined,
                     hintText: 'Base Price',
                   ),
@@ -568,6 +577,14 @@ class _RentState extends ConsumerState<Rent> {
                     disableTextField: widget.disableTextField!,
                     controller: _basePriceWeekController,
                     suffixLabel: '/Per week',
+                    icon: Icons.price_change_outlined,
+                    hintText: 'Base Price',
+                  ),
+                  const SizedBox(height: 10),
+                  CustomTextField(
+                    disableTextField: widget.disableTextField!,
+                    controller: _basePriceMonthController,
+                    suffixLabel: '/Per month',
                     icon: Icons.price_change_outlined,
                     hintText: 'Base Price',
                   ),
@@ -614,6 +631,13 @@ class _RentState extends ConsumerState<Rent> {
                   _price!.add(Price(
                       title: 'Weekly Rent',
                       amount: int.parse(_basePriceWeekController.text),
+                      discount: 0));
+                }
+                if (_basePriceHourController.text.isNotEmpty) {
+                  _price ??= [];
+                  _price!.add(Price(
+                      title: 'Hourly Rent',
+                      amount: int.parse(_basePriceHourController.text),
                       discount: 0));
                 }
                 final updatedProfile = Studio(

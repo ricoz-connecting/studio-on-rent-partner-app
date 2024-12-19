@@ -68,28 +68,25 @@ class ProfileController extends StateNotifier<User?> {
 
           if (success) {
             final partnerDetails = data['partner'];
-            log('Partner Details: $partnerDetails', name: 'partnerDetails');
             final user = User.fromJson(partnerDetails);
-            log('User: $user', name: 'ProfileController');
             _ref.read(currentUserProvider.notifier).update((state) => user);
-            // Navigator.of(context).pop();
-            // GetProfile.getProfile(context, ref!, _ref);
             GoRouter.of(context).go(StudioRoutes.bottomNavBar);
+          } else {
+            context.pop();
           }
         },
       );
     } catch (e, stacktrace) {
       log('Error: $e', name: 'ProfileControllerError');
       log('Stacktrace: $stacktrace', name: 'ProfileControllerStacktrace');
-
-      // Show error snackbar
-      context.mounted
-          ? SnackBarService.showSnackBar(
-              context: context,
-              message: "An unexpected error occurred",
-              backgroundColor: const Color.fromARGB(255, 227, 121, 113),
-            )
-          : null;
+      if (context.mounted) {
+        SnackBarService.showSnackBar(
+          context: context,
+          message: "An unexpected error occurred",
+          backgroundColor: const Color.fromARGB(255, 227, 121, 113),
+        );
+        context.pop();
+      }
     }
   }
 

@@ -40,7 +40,6 @@ class _ComplaintScreenState extends ConsumerState<ComplaintScreen> {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
             const SizedBox(height: 16),
@@ -50,7 +49,7 @@ class _ComplaintScreenState extends ConsumerState<ComplaintScreen> {
             ),
             const SizedBox(height: 16),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

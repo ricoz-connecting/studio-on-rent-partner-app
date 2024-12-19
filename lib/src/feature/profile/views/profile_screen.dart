@@ -104,6 +104,8 @@ class ProfileScreen extends ConsumerWidget {
               const SizedBox(height: 10),
               InfoSection(
                 businessName: currentUser.businessName ?? '',
+                pincode : currentUser.pincode ?? '',
+                city: currentUser.city ?? '',
                 address: currentUser.address ?? '',
               ),
               const SizedBox(height: 10),

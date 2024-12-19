@@ -130,8 +130,7 @@ class StudioRouter {
       GoRoute(
           path: StudioRoutes.editProfile,
           builder: (context, state) {
-            final profile = state.extra as User;
-            return EditProfile(currentUser: profile);
+            return const EditProfile();
           }),
       GoRoute(
           path: StudioRoutes.historyScreen,

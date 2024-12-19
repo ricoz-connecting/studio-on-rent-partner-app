@@ -40,6 +40,8 @@ class _StudioCardState extends State<StudioCard> {
   late Timer _timer;
   String convertPeriod(String period) {
     switch (period) {
+      case 'Hourly Rent':
+        return 'Per Hour';
       case 'Monthly Rent':
         return 'Per Month';
       case 'Weekly Rent':
