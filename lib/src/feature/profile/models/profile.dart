@@ -1,23 +1,26 @@
+import 'dart:io';
+
 class Profile {
-  String? phone;
-  String? gender;
-  String? email;
-  String? username;
-  String? name;
-  String? address;
-  String? city;
-  String? pincode;
-  String? state;
-  String? country;
-  String? avatar;
-  String? businessName;
-  String? latitude;
-  String? longitude;
+  final String? phone;
+  final String? email;
+  final String? username;
+  final String? name;
+  final String? address;
+  final String? city;
+  final String? gender;
+  final String? pincode;
+  final String? state;
+  final String? country;
+  final String? avatar;
+  final File? avatarFile;
+  final String? businessName;
+  final String? latitude;
+  final String? longitude;
 
   Profile({
+    this.gender,
     this.phone,
     this.email,
-    this.gender,
     this.username,
     this.name,
     this.address,
@@ -26,45 +29,88 @@ class Profile {
     this.state,
     this.country,
     this.avatar,
+    this.avatarFile,
     this.businessName,
     this.latitude,
     this.longitude,
   });
 
+  // Factory method to create an instance from JSON data
   factory Profile.fromJson(Map<String, dynamic> json) {
     return Profile(
-      phone: json['phone'],
-      email: json['email'],
-      username: json['username'],
-      name: json['name'],
-      address: json['address'],
-      city: json['city'],
-      pincode: json['pincode'],
-      state: json['state'],
-      country: json['country'],
-      avatar: json['avatar'],
-      businessName: json['businessName'],
-      latitude: json['latitude'],
-      longitude: json['longitude'],
+      phone: json['phone'] ?? '',
+      email: json['email'] ?? '',
+      username: json['username'] ?? '',
+      name: json['name'] ?? 'Guest',
+      address: json['address'] ?? '',
+      gender: json['gender'] ?? '',
+      city: json['city'] ?? '',
+      pincode: json['pincode'] ?? '',
+      state: json['state'] ?? '',
+      country: json['country'] ?? '',
+      avatar: json['avatar'] ?? '',
+      businessName: json['businessName'] ?? '',
+      latitude: json['latitude'] ?? '',
+      longitude: json['longitude'] ?? '',
     );
   }
 
+  // Convert the profile instance to a JSON map, omitting null values
   Map<String, dynamic> toJson() {
-    return {
-      if (phone != null) 'phone': phone,
-      if (email != null) 'email': email,
-      if (username != null) 'username': username,
-      if (name != null) 'name': name,
-      if(gender!=null) 'gender' : gender,
-      if (address != null) 'address': address,
-      if (city != null) 'city': city,
-      if (pincode != null) 'pincode': pincode,
-      if (state != null) 'state': state,
-      if (country != null) 'country': country,
-      if (avatar != null) 'avatar': avatar,
-      if (businessName != null) 'businessName': businessName,
-      if (latitude != null) 'latitude': latitude,
-      if (longitude != null) 'longitude': longitude,
-    };
+    final jsonMap = <String, dynamic>{};
+
+    if (phone != null) jsonMap['phone'] = phone;
+    if (email != null) jsonMap['email'] = email;
+    if (username != null) jsonMap['username'] = username;
+    if (name != null) jsonMap['name'] = name;
+    if (address != null) jsonMap['address'] = address;
+    if (gender != null) jsonMap['gender'] = gender;
+    if (city != null) jsonMap['city'] = city;
+    if (pincode != null) jsonMap['pincode'] = pincode;
+    if (state != null) jsonMap['state'] = state;
+    if (country != null) jsonMap['country'] = country;
+    if (avatar != null) jsonMap['avatar'] = avatar;
+    if (businessName != null) jsonMap['businessName'] = businessName;
+    if (latitude != null) jsonMap['latitude'] = latitude;
+    if (longitude != null) jsonMap['longitude'] = longitude;
+
+    return jsonMap;
+  }
+
+  // Define copyWith method for cloning and updating specific fields
+  Profile copyWith({
+    String? phone,
+    String? email,
+    String? username,
+    String? name,
+    String? address,
+    String? city,
+    String? pincode,
+    String? gender,
+    String? state,
+    String? country,
+    String? avatar,
+    File? avatarFile,
+    String? businessName,
+    String? latitude,
+    String? longitude,
+  }) {
+    return Profile(
+      phone: phone ?? this.phone,
+      email: email ?? this.email,
+      username: username ?? this.username,
+      name: name ?? this.name,
+      address: address ?? this.address,
+      gender: gender ?? this.gender,
+      city: city ?? this.city,
+      pincode: pincode ?? this.pincode,
+      state: state ?? this.state,
+      country: country ?? this.country,
+      avatar: avatar ?? this.avatar,
+      avatarFile: avatarFile ?? this.avatarFile,
+      businessName: businessName ?? this.businessName,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
+    );
   }
 }

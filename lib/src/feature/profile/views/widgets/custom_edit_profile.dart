@@ -3,13 +3,15 @@ import 'package:google_fonts/google_fonts.dart';
 
 class CustomEditProfile extends StatelessWidget {
   final String label;
-  final IconData icon;
+  final IconData? icon;
   final Function onTap;
+  final bool requireLeadingIcon;
   final Color? color;
   const CustomEditProfile({
+    this.requireLeadingIcon = true,
     required this.label,
     this.color,
-    required this.icon,
+    this.icon,
     required this.onTap,
     super.key,
   });
@@ -21,11 +23,9 @@ class CustomEditProfile extends StatelessWidget {
         onTap();
       },
       child: Container(
-        width: double.infinity,
         decoration: BoxDecoration(
-          color: Colors.grey.shade100,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors.grey.shade300),
+          color: const Color(0xFFF4F6F9),
+          borderRadius: BorderRadius.circular(14),
         ),
         child: ListTile(
           leading: Icon(
@@ -35,13 +35,16 @@ class CustomEditProfile extends StatelessWidget {
           title: Text(
             label,
             style: GoogleFonts.lato(
+              fontSize: 14,
               color: color ?? Colors.black,
             ),
           ),
           trailing: color == null
-              ? const Icon(
-                  Icons.arrow_forward_ios,
-                )
+              ? requireLeadingIcon == true
+                  ? const Icon(
+                      Icons.arrow_forward_ios,
+                    )
+                  : null
               : null,
         ),
       ),

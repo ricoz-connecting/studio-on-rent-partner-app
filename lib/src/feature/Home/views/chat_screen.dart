@@ -1,41 +1,27 @@
-
 import 'dart:developer';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studio_partner_app/commons/views/appbar.dart';
+import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
+import 'package:studio_partner_app/src/feature/Home/views/empty_chat.dart';
 import 'package:studio_partner_app/src/feature/chat/views/chatroom.dart';
-import 'package:studio_partner_app/src/feature/chat/widgets/chatappbar.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-class ChatScreen extends StatelessWidget {
+class ChatScreen extends ConsumerWidget {
   const ChatScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final status = ref.watch(statusProvider);
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          onPressed: () {
-            
-           Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.keyboard_arrow_left,
-            size: 30,
-          ),
-        ),
-        title: const ChatAppBar(
-          icons: Icon(
-            Icons.search,
-            size: 30,
-          ),
-          emailText: 'Search messages',
-          colors: Color(0xFFF2F2F3), profileImage: AssetImage('assets/images/profile.png'),
-        ),
-      ),
-      body: const ChatScreenBody(),
+      backgroundColor: Colors.white,
+      appBar: Appbar.buildAppBar(context, ref),
+      body: status?.kycStatus != 'Success'
+          ? const EmptyChat()
+          : const ChatScreenBody(),
     );
   }
 }
@@ -50,9 +36,10 @@ class ChatScreenBody extends StatelessWidget {
     DateTime now = DateTime.now();
     String formattedTime = DateFormat('dd/MM/yyyy').format(now);
     return ListView.builder(
-      itemCount: 10,
+      itemCount: 5,
       itemBuilder: (context, index) {
-        return Chats(height: height, width: width, formattedTime: formattedTime);
+        return Chats(
+            height: height, width: width, formattedTime: formattedTime);
       },
     );
   }
@@ -82,20 +69,25 @@ class Chats extends StatelessWidget {
         log('switching chatscreen to chat room');
       },
       child: Container(
-        height: height * 0.08,
-        width: width * 0.9,
-        margin: EdgeInsets.symmetric(
-          horizontal: width * 0.015,
-          vertical: width * 0.015,
+        color: const Color(0xFFF4F6F9),
+        // height: height * 0.08,
+        // width: width * 0.9,
+
+        margin: EdgeInsets.all(
+          width * 0.015,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            const SizedBox(
+              width: 5,
+            ),
             const CircleAvatar(
               backgroundImage: AssetImage('assets/images/profile.png'),
               radius: 25,
             ),
             Container(
+              color: const Color(0xFFF4F6F9),
               width: width * 0.82,
               padding: const EdgeInsets.all(8.0),
               child: Column(

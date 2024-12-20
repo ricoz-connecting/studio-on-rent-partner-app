@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:studio_partner_app/src/feature/auth/controllers/verify_otp.dart';
+import 'package:studio_partner_app/src/feature/auth/controllers/auth_controller.dart';
 import 'package:studio_partner_app/src/feature/auth/views/widgets/otptextfield.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 import '../../../../commons/views/providers/otp.dart';
@@ -19,8 +19,9 @@ class _SendOtpState extends ConsumerState<SendOtp> {
   Widget build(BuildContext context) {
     final otp = ref.watch(otpProvider);
     return Scaffold(
+      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(),
+      appBar: AppBar(backgroundColor: Colors.white),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -51,11 +52,16 @@ class _SendOtpState extends ConsumerState<SendOtp> {
                 ),
                 child: TextButton(
                   onPressed: () {
-                    VerifyOtp(
-                            context: context,
-                            phoneNumber: widget.phoneNumber,
-                            otp: otp)
-                        .verifyOtp(ref);
+                    ref.read(authControllerProvider.notifier).verifyOtp(
+                          otp: otp,
+                          phone: widget.phoneNumber,
+                          context: context,
+                        );
+                    // VerifyOtp(
+                    //         context: context,
+                    //         phoneNumber: widget.phoneNumber,
+                    //         otp: otp)
+                    //     .verifyOtp(ref);
                   },
                   child: Text('Confirm',
                       style: GoogleFonts.plusJakartaSans(

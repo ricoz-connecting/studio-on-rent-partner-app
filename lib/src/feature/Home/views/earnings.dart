@@ -1,201 +1,160 @@
-import 'package:studio_partner_app/src/feature/Earnings/views/customer_review.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:studio_partner_app/src/res/colors.dart';
+import 'dart:developer';
 
-class EarningsPage extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:studio_partner_app/commons/views/appbar.dart';
+import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
+import 'package:studio_partner_app/src/feature/Home/views/empty_earning.dart';
+import 'package:studio_partner_app/src/feature/Home/views/widgets/recent_transaction_widget.dart';
+import 'package:studio_partner_app/src/feature/Home/views/widgets/withdrawal_widget.dart';
+import 'package:studio_partner_app/src/feature/Home/views/widgets/your_earnings_widget.dart';
+import 'package:studio_partner_app/src/feature/auth/views/widgets/reusable_button.dart';
+import 'package:studio_partner_app/src/feature/transactions/controllers/earning_history_controller.dart';
+import 'package:studio_partner_app/src/feature/transactions/controllers/earnings_controller.dart';
+import 'package:studio_partner_app/src/res/colors.dart';
+import 'package:studio_partner_app/utils/router.dart';
+
+class EarningsPage extends ConsumerStatefulWidget {
   const EarningsPage({super.key});
+  @override
+  ConsumerState<EarningsPage> createState() => _EarningsPageState();
+}
+
+class _EarningsPageState extends ConsumerState<EarningsPage> {
+  bool isLoading = true;
+  @override
+  void initState() {
+    _getEarnings();
+    super.initState();
+  }
+
+  Future<void> _getEarnings() async {
+    await ref
+        .read(earningsControllerProvider.notifier)
+        .getEarnings(context: context);
+    mounted
+        ? await ref
+            .read(earningsHistoryControllerProvider.notifier)
+            .getEarningsHistory(context: context)
+        : null;
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Earnings', style: GoogleFonts.lato(color: Colors.black)),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(12.0), // Reduced padding
-                  decoration: BoxDecoration(
-                    color: AppColors.primaryBackgroundColor,
-                    borderRadius: BorderRadius.circular(8),
+    final earnings = ref.watch(earningsControllerProvider);
+    final earnigsHistory = ref.watch(earningsHistoryControllerProvider);
+    // final status = ref.watch(statusProvider);
+    return isLoading == true
+        ? Scaffold(
+            backgroundColor: Colors.white,
+            appBar: Appbar.buildAppBar(context, ref),
+            body: const Center(
+              child: CircularProgressIndicator(),
+            ),
+          )
+        : Scaffold(
+            backgroundColor: Colors.white,
+            appBar: Appbar.buildAppBar(context, ref),
+            body:
+                // status?.kycStatus != 'Success'
+                //     ? const EmptyEarning()
+                //     :
+                SingleChildScrollView(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  WithdrawalWidget(
+                    totalWithdrawal: earnings!.todayWithdrawal.toString(),
+                    availableWithdrawal: earnings.availableBalance.toString(),
                   ),
-                  child: Column(
+                  const SizedBox(height: 10),
+                  Text(
+                    'Your Earnings',
+                    style: GoogleFonts.lato(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  YourEarningsWidget(
+                    label: 'All time Earning',
+                    earningLabel: '₹ ${earnings.totalEarning}',
+                    width: double.infinity,
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      YourEarningsWidget(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        label: 'Today’s\nEarning',
+                        earningLabel: '₹ ${earnings.todayEarning}',
+                      ),
+                      YourEarningsWidget(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        earningLabel: '₹ ${earnings.thisMonthEarning}',
+                        label: 'This Month’s\nEarning',
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 15),
+                  ReusableButton(
+                    label: 'View Upcoming Billings',
+                    onPressed: () {
+                      GoRouter.of(context).push(StudioRoutes.upcomingBills);
+                    },
+                    radius: 10,
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '₹ 1000',
+                        'Recent Transactions',
                         style: GoogleFonts.lato(
-                          fontSize: 20, // Reduced font size
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                          fontSize: 16,
                         ),
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        "Today's Earnings",
-                        style: GoogleFonts.lato(
-                          fontSize: 14, // Reduced font size
-                          color: Colors.black,
+                      GestureDetector(
+                        onTap: () {
+                          GoRouter.of(context).push(
+                              StudioRoutes.transactionHistory,
+                              extra: earnigsHistory);
+                        },
+                        child: Text(
+                          'See All',
+                          style: GoogleFonts.lato(
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.primaryBackgroundColor),
                         ),
                       ),
                     ],
                   ),
-                ),
-                const Spacer(),
-                DropdownButton<String>(
-                  value: 'Today',
-                  icon: const Icon(Icons.arrow_drop_down),
-                  underline: Container(),
-                  items: const [
-                    DropdownMenuItem(value: 'Today', child: Text('Today')),
-                    DropdownMenuItem(
-                        value: 'In past 1 Month',
-                        child: Text('In past 1 Month')),
-                    DropdownMenuItem(
-                        value: 'In past 3 Month',
-                        child: Text('In past 3 Month')),
-                  ],
-                  onChanged: (value) {},
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            GridView(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 1.5,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-              ),
-              children: [
-                _buildInfoCard('13', 'New One Time Orders'),
-                _buildInfoCard('2', 'New Subscription Orders'),
-                _buildInfoCard('34', 'Subscription Orders Delivered'),
-                _buildInfoCard('39', 'Total Subscription Orders'),
-              ],
-            ),
-            const SizedBox(height: 20),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const CustomerReviews(),
-                  ),
-                );
-              },
-              child: Center(
-                child: Text(
-                  "Click Here To View Customer Reviews",
-                  style: GoogleFonts.lato(
-                    fontSize: 16,
-                    color: AppColors.primaryBackgroundColor,
-                  ),
-                ),
+                  const SizedBox(height: 10),
+                  earnigsHistory.isNotEmpty
+                      ? RecentTransactionWidget(
+                          recentTransaction: earnigsHistory[0],
+                        )
+                      : const SizedBox(),
+                  earnigsHistory.length > 1
+                      ? RecentTransactionWidget(
+                          recentTransaction: earnigsHistory[1],
+                        )
+                      : const SizedBox(),
+                  earnigsHistory.length > 2
+                      ? RecentTransactionWidget(
+                          recentTransaction: earnigsHistory[2],
+                        )
+                      : const SizedBox(),
+                ],
               ),
             ),
-            const SizedBox(height: 20),
-            Text(
-              "Transaction History",
-              style: GoogleFonts.lato(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-            ),
-            const SizedBox(height: 10),
-            _buildTransactionTile('12345', 'Warehouse Service', '+ ₹6000'),
-            _buildTransactionTile(
-                '678137916388', 'Withdrawal to XXXX2010', '- ₹500'),
-            _buildTransactionTile('12345', 'Warehouse Service', '+ ₹6000'),
-          ],
-        ),
-      ),
-    );
+          );
   }
-
-  Widget _buildInfoCard(String number, String title) {
-    return Container(
-      padding: const EdgeInsets.all(12.0), // Reduced padding
-      decoration: BoxDecoration(
-        color: AppColors.primaryBackgroundColor,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            number,
-            style: GoogleFonts.lato(
-              fontSize: 20, // Reduced font size
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            title,
-            style: GoogleFonts.lato(
-              fontSize: 14, // Reduced font size
-              color: Colors.black,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTransactionTile(String id, String title, String amount) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade200,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'ID : $id',
-            style: GoogleFonts.lato(fontSize: 14, color: Colors.black),
-          ),
-          const SizedBox(height: 4),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                title,
-                style: GoogleFonts.lato(fontSize: 16, color: Colors.black),
-              ),
-              Text(
-                amount,
-                style: GoogleFonts.lato(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: amount.startsWith('+')
-                      ? AppColors.primaryBackgroundColor
-                      : Colors.red,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-void main() {
-  runApp(const MaterialApp(home: EarningsPage()));
 }

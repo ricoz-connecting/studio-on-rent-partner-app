@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class PreviousCompaintWidgte extends StatelessWidget {
+class PreviousCompaintWidget extends StatelessWidget {
   final void Function()? onTap;
-  const PreviousCompaintWidgte({
+  const PreviousCompaintWidget({
     this.onTap,
     super.key,
   });

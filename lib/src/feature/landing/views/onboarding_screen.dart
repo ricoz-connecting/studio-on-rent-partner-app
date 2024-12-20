@@ -47,11 +47,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               controller: _pageController,
               onPageChanged: (value) {
                 setState(() {
-                  _currentPage = value;
+                  if (_currentPage < 3) {
+                    _currentPage = value;
+                  }
                 });
               },
               itemBuilder: (context, index) {
-                return _buildPages()[index];
+                if (index < 3) {
+                  return _buildPages()[index];
+                }
+                return null;
               }),
           Positioned(
             bottom: 50,

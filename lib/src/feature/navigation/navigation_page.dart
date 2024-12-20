@@ -1,33 +1,35 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:studio_partner_app/commons/controllers/status_controller.dart';
 import 'package:studio_partner_app/src/feature/Home/views/chat_screen.dart';
 import 'package:studio_partner_app/src/feature/Home/views/earnings.dart';
-import 'package:studio_partner_app/src/feature/Home/views/booking.dart';
-import 'package:studio_partner_app/src/feature/Home/views/empty_chat.dart';
-import 'package:studio_partner_app/src/feature/Home/views/empty_earning.dart';
-import 'package:studio_partner_app/src/feature/Home/views/empty_studio.dart';
-import 'package:studio_partner_app/src/feature/Home/views/empyt_bookings.dart';
+import 'package:studio_partner_app/src/feature/bookings/views/booking.dart';
 import 'package:studio_partner_app/src/feature/Home/views/store_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:studio_partner_app/src/res/assets.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
-class BottomNavBar extends StatefulWidget {
+class BottomNavBar extends ConsumerStatefulWidget {
   const BottomNavBar({super.key});
 
   @override
-  State<BottomNavBar> createState() => _BottomNavBarState();
+  ConsumerState<BottomNavBar> createState() => _BottomNavBarState();
 }
 
-class _BottomNavBarState extends State<BottomNavBar> {
+class _BottomNavBarState extends ConsumerState<BottomNavBar> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
-    // Bookings(),
-    // ChatScreen(),
-    // StoreScreen(),
-    // EarningsPage(),
-    EmpytBookings(),
-    EmptyChat(),
-    EmptyStudio(),
-    EmptyEarning(),
+    Bookings(),
+    ChatScreen(),
+    StoreScreen(),
+    EarningsPage(),
   ];
+
+  @override
+  void initState() {
+    ref.read(statusControllerProvider.notifier).getStatus(context: context);
+    super.initState();
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -38,44 +40,62 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade200,
-      body: _widgetOptions.elementAt(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.event_note,
-              size: 30,
+      backgroundColor: Colors.white,
+      body:  _widgetOptions.elementAt(_selectedIndex),
+      bottomNavigationBar: BottomAppBar(
+        height: MediaQuery.of(context).size.height * 0.1,
+        color: Colors.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _buildNavItem(IconAssets.bookings, 'Bookings', 0),
+            _buildNavItem(IconAssets.chat, 'Chat', 1),
+            _buildNavItem(IconAssets.studio, 'Studio', 2),
+            _buildNavItem(IconAssets.earnings, 'Earnings', 3),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNavItem(String icon, String label, int index) {
+    final bool isSelected = _selectedIndex == index;
+    return GestureDetector(
+      onTap: () => _onItemTapped(index),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          AnimatedContainer(
+            curve: Curves.easeOutSine,
+            duration: const Duration(milliseconds: 500),
+            height: 3,
+            width: 30,
+            decoration: BoxDecoration(
+              color: isSelected
+                  ? AppColors.primaryBackgroundColor
+                  : Colors.transparent,
+              borderRadius: BorderRadius.circular(2),
             ),
-            label: 'Bookings',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.chat_bubble_outline_rounded,
-              size: 30,
-            ),
-            label: 'Chat',
+          const SizedBox(height: 5),
+          SvgPicture.asset(
+            icon,
+            colorFilter: isSelected
+                ? const ColorFilter.mode(
+                    AppColors.primaryBackgroundColor, BlendMode.srcIn)
+                : const ColorFilter.mode(Colors.grey, BlendMode.srcIn),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.store_outlined,
-              size: 30,
+          const SizedBox(height: 5),
+          Text(
+            label,
+            style: TextStyle(
+              color:
+                  isSelected ? AppColors.primaryBackgroundColor : Colors.grey,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
             ),
-            label: 'Studio',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.account_balance_wallet_outlined,
-              size: 30,
-            ),
-            label: 'Eearnings',
           ),
         ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: AppColors.primaryBackgroundColor,
-        unselectedItemColor: const Color(0xFF7D8588),
-        showUnselectedLabels: true,
-        onTap: _onItemTapped,
       ),
     );
   }

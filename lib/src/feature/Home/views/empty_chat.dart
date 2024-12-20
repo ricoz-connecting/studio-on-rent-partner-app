@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:studio_partner_app/commons/views/appbar.dart';
 
 import 'widgets/onboarding_card.dart';
 
@@ -12,14 +11,12 @@ class EmptyChat extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return SafeArea(
       child: Scaffold(
-        appBar: Appbar.buildAppBar(context, ref),
         body: Container(
           color: Colors.white,
           child: Stack(
             children: [
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(height: MediaQuery.of(context).size.height * 0.15),
                   Center(child: Image.asset('assets/images/emptychat.png')),

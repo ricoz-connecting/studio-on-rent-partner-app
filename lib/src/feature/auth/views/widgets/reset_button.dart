@@ -30,8 +30,9 @@ class ResetButton extends StatelessWidget {
             Icon(
               icon,
               color: AppColors.primaryBackgroundColor,
+              size: 30,
             ),
-            const SizedBox(width: 20),
+            const SizedBox(width: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -47,7 +48,7 @@ class ResetButton extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(width: 20),
+            const Spacer(),
             CircleAvatar(
               backgroundColor: Colors.grey.shade200,
               child: const IconButton(

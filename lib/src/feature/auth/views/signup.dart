@@ -1,5 +1,6 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:studio_partner_app/src/feature/auth/controllers/signup.dart';
+import 'package:studio_partner_app/src/feature/auth/controllers/auth_controller.dart';
 import 'package:studio_partner_app/src/feature/auth/views/widgets/login_via_google.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,6 +27,7 @@ class _SignupState extends State<Signup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -66,7 +68,7 @@ class _SignupState extends State<Signup> {
                 ),
                 const SizedBox(height: 10),
                 const AuthTextField(
-                  hintText: 'Rishav Bhardwaz',
+                  hintText: 'Enter your Username',
                 ),
                 const SizedBox(height: 20),
                 const Text(
@@ -96,7 +98,7 @@ class _SignupState extends State<Signup> {
                 const SizedBox(height: 10),
                 AuthTextField(
                   obscureText: _obscureText,
-                  hintText: '********',
+                  hintText: 'Enter your Password',
                   onChanged: (value) => setState(() {
                     password = value;
                   }),
@@ -122,7 +124,7 @@ class _SignupState extends State<Signup> {
                 const SizedBox(height: 10),
                 AuthTextField(
                   obscureText: _obscureTextConfirm,
-                  hintText: '********',
+                  hintText: 'Enter your Password',
                   child: GestureDetector(
                       onTap: () {
                         setState(() {
@@ -137,15 +139,27 @@ class _SignupState extends State<Signup> {
                   }),
                 ),
                 const SizedBox(height: 30),
-                ReusableButton(
-                  label: 'Sign Up',
-                  onPressed: () {
-                    SignupEmail(
-                            context: context,
-                            email: email,
-                            password: password,
-                            confirmPassword: confirmPassword)
-                        .signUpEmail();
+                Consumer(
+                  builder:
+                      (BuildContext context, WidgetRef ref, Widget? child) {
+                    return ReusableButton(
+                      label: 'Sign Up',
+                      onPressed: () {
+                        ref
+                            .read(authControllerProvider.notifier)
+                            .signUpUsingEmailPass(
+                              context: context,
+                              email: email,
+                              password: password,
+                            );
+                        // SignupEmail(
+                        //         context: context,
+                        //         email: email,
+                        //         password: password,
+                        //         confirmPassword: confirmPassword)
+                        //     .signUpEmail();
+                      },
+                    );
                   },
                 ),
                 const SizedBox(height: 20),

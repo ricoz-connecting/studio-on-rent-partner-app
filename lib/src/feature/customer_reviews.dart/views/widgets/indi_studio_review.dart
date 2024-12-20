@@ -2,13 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 
 class IndiStudioReview extends StatelessWidget {
+  final String name;
+  final double rating;
+  final String reviewText;
   const IndiStudioReview({
     super.key,
+    required this.name,
+    required this.rating,
+    required this.reviewText,
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 10),
@@ -21,12 +28,12 @@ class IndiStudioReview extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'John Doe',
-                  style: TextStyle(fontSize: 18),
+                Text(
+                  name,
+                  style: const TextStyle(fontSize: 18),
                 ),
                 StarRating(
-                  rating: 4,
+                  rating: rating,
                   size: 16,
                 ),
               ],
@@ -34,7 +41,10 @@ class IndiStudioReview extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 10),
-        const Text('Lorem ipsum dolor sit amet, consectetur adipiscing elit. '),
+        Text(
+          reviewText,
+          style: const TextStyle(fontSize: 16),
+        ),
         const SizedBox(height: 10),
         const Text(
           'Jan 20, 2024 04:45pm',

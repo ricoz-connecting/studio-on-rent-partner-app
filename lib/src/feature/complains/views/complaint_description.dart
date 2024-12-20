@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class ComplaintDescription extends StatelessWidget {
-  final String sno;
-  const ComplaintDescription({super.key, required this.sno});
+  final Map<String, dynamic> complaint;
+  const ComplaintDescription({super.key, required this.complaint});
 
   @override
   Widget build(BuildContext context) {
+    DateTime parsedDate = complaint['isoDate'];
+    String formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(parsedDate);
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text(
-          '#$sno',
+          '#${complaint['sno']}',
           style: GoogleFonts.lato(
             color: Colors.black,
             fontSize: 18,
@@ -32,15 +37,15 @@ class ComplaintDescription extends StatelessWidget {
                 color: Colors.grey.shade200,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: const Text('Studio Services'),
+              child: Text(complaint['subject']),
             ),
             const SizedBox(height: 10),
-            const Row(
+            Row(
               children: [
-                Text('Date/ Time of Complaint'),
-                Spacer(),
-                Text('Jan 20, 2024 04:45pm',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
+                const Text('Date/ Time of Complaint'),
+                const Spacer(),
+                Text(formattedDate,
+                    style: const TextStyle(fontWeight: FontWeight.bold)),
               ],
             ),
             const SizedBox(height: 10),
@@ -53,27 +58,28 @@ class ComplaintDescription extends StatelessWidget {
                 color: Colors.grey.shade200,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: const Text(
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.'),
+              child: Text(complaint['description']),
             ),
             const SizedBox(height: 10),
             const Text('Images'),
             const SizedBox(height: 10),
             Container(
-              height: 100,
-              width: 100,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade200,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: const Center(
-                child: Icon(
-                  Icons.image,
-                  size: 40,
-                  color: Colors.grey,
+                height: 100,
+                width: 100,
+                decoration: BoxDecoration(
+                  image:
+                      DecorationImage(image: NetworkImage(complaint['images'])),
+                  color: Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(10),
                 ),
-              ),
-            ),
+                child: Center(
+                    child: complaint['images'] == ''
+                        ? const Icon(
+                            Icons.image,
+                            size: 40,
+                            color: Colors.grey,
+                          )
+                        : null)),
             const SizedBox(height: 10),
             const Text('Admins Reply'),
             const SizedBox(height: 10),

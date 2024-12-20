@@ -2,9 +2,10 @@ import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:studio_partner_app/src/feature/auth/controllers/signin.dart';
+import 'package:studio_partner_app/src/feature/auth/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:studio_partner_app/src/feature/auth/forgotpassword/views/forgot_password.dart';
 import 'package:studio_partner_app/src/feature/auth/views/widgets/auth_text_field.dart';
 import 'package:studio_partner_app/src/feature/auth/views/widgets/reusable_button.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
@@ -28,6 +29,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Padding(
@@ -62,7 +64,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               ),
               const SizedBox(height: 10),
               AuthTextField(
-                hintText: 'example@gmail.com',
+                hintText: 'Enter your Email',
                 onChanged: (value) => setState(() {
                   email = value;
                 }),
@@ -78,7 +80,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               const SizedBox(height: 10),
               AuthTextField(
                 obscureText: _obscureText,
-                hintText: '********',
+                hintText: 'Enter your Password',
                 child: GestureDetector(
                     onTap: () {
                       setState(() {
@@ -110,14 +112,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   const Spacer(),
                   TextButton(
                     onPressed: () {
-                      GoRouter.of(context)
-                          .push(StudioRoutes.forgotPasswordScreen);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ForgotPassword(),
+                        ),
+                      );
                     },
                     child: const Text(
                       'Forgot Password',
                       style: TextStyle(
-                          color: Color(0xFF939393),
-                          decoration: TextDecoration.underline),
+                        color: Color(0xFF939393),
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ),
                 ],
@@ -127,8 +134,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 label: 'Login',
                 onPressed: () {
                   log('Email: $email, Password: $password');
-                  Signin(context: context, email: email, password: password)
-                      .signInEmail(ref);
+                  ref
+                      .read(authControllerProvider.notifier)
+                      .signInUsingEmailPass(
+                          email: email, password: password, context: context);
                 },
               ),
               const SizedBox(height: 20),

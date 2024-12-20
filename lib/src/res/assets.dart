@@ -9,8 +9,6 @@ class ImageAssets {
   static const facebook = "assets/images/facebook.png";
   static const iconCheckMark = 'assets/images/icon_checkmark.png';
   static const profile = 'assets/images/profile.png';
-  static const userProfile =
-      'https://pub-fa34e1d40214487bba2b2645b6ff63b1.r2.dev/';
   static const studiohome = 'assets/images/studio_home.png';
   static const appbarImage = 'assets/images/appbar_title.png';
   static const onboardingOne = 'assets/images/landing_one.png';
@@ -18,12 +16,16 @@ class ImageAssets {
   static const onboardingThree = 'assets/images/landing_three.png';
   static const diamond = 'assets/images/diamond.png';
   static const studioExample = 'assets/images/studio_example.png';
+  static const membershipImage = 'assets/images/membership_image.png';
+  static const appLogo = 'assets/images/app_logo.png';
+  static const kycVerified = 'assets/images/kyc_verified.png';
   //example
   static const sampleImagePath = "$_base/image.png";
 }
 
 class AnimationAssets {
   /// Contains all the paths of animations used across the project.
+  static const noDataFound = "assets/animations/noDataFound.json";
 }
 
 class PlaceholderAssets {
@@ -35,7 +37,10 @@ class FontAssets {
 }
 
 class IconAssets {
-  // icons
+  static const bookings = 'assets/icons/bookings.svg';
+  static const chat = 'assets/icons/chat.svg';
+  static const earnings = 'assets/icons/earnings.svg';
+  static const studio = 'assets/icons/studio.svg';
 }
 
 class NotificationAssets {

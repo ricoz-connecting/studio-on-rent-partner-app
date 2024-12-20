@@ -155,8 +155,8 @@ class API {
       log('BODY : $body', name: LogLabel.httpDelete);
     }
     try {
-      final response = await put(Uri.parse(url),
-          body: jsonEncode(body), headers: requestHeaders);
+      final response = await delete(Uri.parse(url),
+           headers: requestHeaders);
       log('RESPONSE : ${response.body}', name: LogLabel.httpDelete);
       return Right(response);
     } catch (e, stktrc) {

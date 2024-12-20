@@ -1,199 +1,147 @@
-import 'package:studio_partner_app/src/feature/store/pages/add_warehouse.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:studio_partner_app/commons/views/appbar.dart';
+import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
+import 'package:studio_partner_app/src/feature/Home/views/widgets/custom_fab.dart';
 import 'package:flutter/material.dart';
-import 'package:studio_partner_app/src/res/colors.dart';
+import 'package:studio_partner_app/src/feature/addstudio/views/rent.dart';
+import 'package:studio_partner_app/src/feature/addstudio/views/sell.dart';
+import 'package:studio_partner_app/utils/router.dart';
+import '../controller/studio_list_controller.dart';
+import 'widgets/studio_card.dart';
 
-class StoreScreen extends StatefulWidget {
+class StoreScreen extends ConsumerStatefulWidget {
   const StoreScreen({super.key});
 
   @override
-  State<StoreScreen> createState() => _HomeScreenState();
+  ConsumerState<StoreScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<StoreScreen> {
+class _HomeScreenState extends ConsumerState<StoreScreen> {
+  bool isLoading = true;
+  bool firstSwitchValue = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchCustomerReviews(firstSwitchValue ? 'Rent' : 'Sell');
+  }
+
+  Future<void> _fetchCustomerReviews(String type) async {
+    await ref
+        .read(studioListControllerProvider.notifier)
+        .getStudioList(type: type);
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final status = ref.watch(statusProvider);
+    final studioList = ref.watch(studioListControllerProvider);
     var height = MediaQuery.of(context).size.height;
-
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        title: const Text(
-          'Warehouse',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: height * 0.02),
-              // Category buttons
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return isLoading == true
+        ? Scaffold(
+            backgroundColor: Colors.white,
+            appBar: Appbar.buildAppBar(context, ref),
+            body: const Center(
+              child: CircularProgressIndicator(),
+            ),
+          )
+        : Scaffold(
+            backgroundColor: Colors.white,
+            appBar: Appbar.buildAppBar(context, ref),
+            body:
+                // status?.kycStatus != 'Success'
+                //     ? const EmptyStudio()
+                //     :
+                Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CategoryButton(label: 'Dance', isActive: true),
-                  CategoryButton(label: 'Photography', isActive: false),
-                  CategoryButton(label: 'Misc.', isActive: false),
-                  CategoryButton(label: 'Luxury', isActive: false),
+                  SizedBox(height: height * 0.02),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: studioList.length,
+                      itemBuilder: (context, index) {
+                        return StudioCard(
+                          onCardTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) {
+                                      return studioList[index].rentOrSell == 'Rent' ? Rent(
+                                          studio: studioList[index],
+                                          disableTextField: true,
+                                          isEdit: false,
+                                        ):
+                                        Sell(
+                                          studio: studioList[index],
+                                          disableTextField: true,
+                                          isEdit: false,
+                                        );
+                                        }));
+                          },
+                          onTapEdit: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context)  {
+                              return studioList[index].rentOrSell == 'Rent'
+                                  ? Rent(
+                                      studio: studioList[index],
+                                      disableTextField: false,
+                                      isEdit: true,
+                                    )
+                                  : Sell(
+                                      studio: studioList[index],
+                                      disableTextField: false,
+                                      isEdit: true,
+                                    );
+                            }));
+                          },
+                          setStatus: () {
+                            ref
+                                .read(studioListControllerProvider.notifier)
+                                .updatestudioStatus(
+                                  studioList[index].id!,
+                                  !studioList[index].isActive!,
+                                );
+                            setState(() {
+                              studioList[index].isActive =
+                                  !studioList[index].isActive!;
+                            });
+                          },
+                          onTap: () {
+                            ref
+                                .read(studioListControllerProvider.notifier)
+                                .deleteStudio(
+                                  context: context,
+                                  studioId: studioList[index].id!,
+                                );
+                          },
+                          status: studioList[index].isActive!,
+                          title: studioList[index].name!,
+                          price: studioList[index].price!,
+                          street: studioList[index].address!,
+                          city: studioList[index].city!,
+                          state: studioList[index].state!,
+                          pincode: studioList[index].pincode!,
+                          imageUrl: studioList[index].thumbnail!,
+                        );
+                      },
+                    ),
+                  ),
                 ],
               ),
-              SizedBox(height: height * 0.02),
-              // List of warehouses
-              const WarehouseCard(
-                title: 'Dance Warehouse',
-                price: '₹ 50000/- Per Month',
-                address:
-                    'No. of Days 123, XYZ Apt., New Delhi, Delhi Pin - 123456',
-                imageUrl:
-                    'assets/images/frame.png', // Update with actual image path
-              ),
-              const WarehouseCard(
-                title: 'Dance Warehouse',
-                price: '₹ 50000/- Per Month',
-                address:
-                    'No. of Days 123, XYZ Apt., New Delhi, Delhi Pin - 123456',
-                imageUrl:
-                    'assets/images/frame.png', // Update with actual image path
-              ),
-              const WarehouseCard(
-                title: 'Dance Warehouse',
-                price: '₹ 50000/- Per Month',
-                address:
-                    'No. of Days 123, XYZ Apt., New Delhi, Delhi Pin - 123456',
-                imageUrl:
-                    'assets/images/frame.png', // Update with actual image path
-              ),
-              const WarehouseCard(
-                title: 'Warehouse',
-                price: '₹ 50000/- Per Month',
-                address:
-                    'No. of Days 123, XYZ Apt., New Delhi, Delhi Pin - 123456',
-                imageUrl:
-                    'assets/images/frame.png', // Update with actual image path
-              ),
-            ],
-          ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const AddWarehouseRequest(),
+            ),
+            floatingActionButton: CustomFAB(
+              onPressed: () {
+                GoRouter.of(context).push(StudioRoutes.addStudioRequest);
+              },
             ),
           );
-        },
-        backgroundColor: AppColors.primaryBackgroundColor,
-        child: const Icon(Icons.add, size: 32),
-      ),
-    );
-  }
-}
-
-class CategoryButton extends StatelessWidget {
-  final String label;
-  final bool isActive;
-
-  const CategoryButton({super.key, 
-    required this.label,
-    required this.isActive,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding:
-          const EdgeInsets.symmetric(horizontal: 12, vertical: 6), // Reduced padding
-      decoration: BoxDecoration(
-        color:
-            isActive ? AppColors.primaryBackgroundColor : Colors.grey.shade300,
-        borderRadius: BorderRadius.circular(
-            16), // Reduced border radius for a smaller button
-      ),
-      child: Text(
-        label,
-        style: TextStyle(
-          color: isActive ? Colors.white : Colors.black,
-          fontWeight: FontWeight.w500,
-          fontSize: 14, // Reduced font size
-        ),
-      ),
-    );
-  }
-}
-
-class WarehouseCard extends StatelessWidget {
-  final String title;
-  final String price;
-  final String address;
-  final String imageUrl; // Added imageUrl parameter
-
-  const WarehouseCard({super.key, 
-    required this.title,
-    required this.price,
-    required this.address,
-    required this.imageUrl, // Added imageUrl parameter
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
-      child: Row(
-        children: [
-          // Image
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: Image.asset(
-              imageUrl,
-              height: 100, // Adjust as needed
-              width: 100, // Adjust as needed
-              fit: BoxFit.cover,
-            ),
-          ),
-          const SizedBox(width: 16), // Space between image and text
-          // Text content
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  price,
-                  style: const TextStyle(
-                    color: Colors.black54,
-                    fontSize: 16,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  address,
-                  style: const TextStyle(
-                    color: Colors.black45,
-                    fontSize: 14,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }

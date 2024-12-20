@@ -1,22 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:studio_partner_app/src/feature/complains/views/widgets/status_widget.dart';
+import 'package:studio_partner_app/src/res/assets.dart';
 import 'package:studio_partner_app/utils/router.dart';
 
-class PreviousComplaint extends StatelessWidget {
-  PreviousComplaint({super.key});
+import '../controller/previous_complaint_controller.dart';
 
-  final List<Widget> statusWidget = [
-    const StatusWidget(sno: '0', status: 'Pending'),
-    const StatusWidget(sno: '1', status: 'Unsolved'),
-    const StatusWidget(sno: '2', status: 'Solved'),
-  ];
+class PreviousComplaint extends ConsumerStatefulWidget {
+  const PreviousComplaint({super.key});
 
   @override
+  ConsumerState<PreviousComplaint> createState() => _PreviousComplaintState();
+}
+
+class _PreviousComplaintState extends ConsumerState<PreviousComplaint> {
+  @override
   Widget build(BuildContext context) {
+    final previousComplaints = ref.watch(previousComplaintControllerProvider);
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text(
           'Previous Complaint',
           style: GoogleFonts.lato(
@@ -26,17 +33,37 @@ class PreviousComplaint extends StatelessWidget {
           ),
         ),
       ),
-      body: ListView.builder(
-        itemCount: 3,
-        itemBuilder: (context, index) {
-          return GestureDetector(
-              onTap: () {
-                GoRouter.of(context).push(StudioRoutes.complaintDescription,
-                    extra: index.toString());
+      body: previousComplaints.isEmpty
+          ? Center(
+              child: SizedBox(
+                width: 300,
+                height: 300,
+                child: Lottie.asset(AnimationAssets.noDataFound),
+              ),
+            )
+          : ListView.builder(
+              itemCount: previousComplaints.length,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    GoRouter.of(context)
+                        .push(StudioRoutes.complaintDescription, extra: {
+                      'subject': previousComplaints[index].subject!,
+                      'description': previousComplaints[index].description!,
+                      'images': previousComplaints[index].image!,
+                      'isoDate': previousComplaints[index].createdAt!,
+                      'sno': (index + 1).toString()
+                    });
+                  },
+                  child: StatusWidget(
+                    isoDate: previousComplaints[index].createdAt!,
+                    status: previousComplaints[index].status!,
+                    sno: (index + 1).toString(),
+                    subject: previousComplaints[index].subject!,
+                  ),
+                );
               },
-              child: statusWidget[index]);
-        },
-      ),
+            ),
     );
   }
 }
