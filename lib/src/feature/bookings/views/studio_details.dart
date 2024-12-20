@@ -265,5 +265,3 @@ class _StudioDetailState extends State<StudioDetail> {
     );
   }
 }
-
-
