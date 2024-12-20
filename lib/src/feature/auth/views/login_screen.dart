@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/src/feature/auth/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:studio_partner_app/src/feature/auth/forgotpassword/views/forgot_password.dart';
 import 'package:studio_partner_app/src/feature/auth/views/widgets/auth_text_field.dart';
 import 'package:studio_partner_app/src/feature/auth/views/widgets/reusable_button.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
@@ -111,14 +112,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   const Spacer(),
                   TextButton(
                     onPressed: () {
-                      GoRouter.of(context)
-                          .push(StudioRoutes.forgotPasswordScreen);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ForgotPassword(),
+                        ),
+                      );
                     },
                     child: const Text(
                       'Forgot Password',
                       style: TextStyle(
-                          color: Color(0xFF939393),
-                          decoration: TextDecoration.underline),
+                        color: Color(0xFF939393),
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ),
                 ],

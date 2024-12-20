@@ -55,6 +55,13 @@ class Endpoints {
   static const String earningHistory = "${baseUrl}earning-history";
 
   //Bookings
-  static const String getBookings = "${baseUrl}bookings/partner?orderStatus=Processing";
+  static const String getBookings =
+      "${baseUrl}bookings/partner?orderStatus=Processing";
   static const String getBookingDetails = "${baseUrl}booking/details/";
+
+  // Recover
+  static const String verifyOTPForRecovery =
+      "${baseUrl}partner/reset/verify-otp";
+  static const String updatePassword = "${baseUrl}partner/reset-password-sms";
+  static const String resetLinkOnEmail = "${baseUrl}partner/reset-link-email";
 }

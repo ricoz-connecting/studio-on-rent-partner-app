@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
-import 'package:studio_partner_app/src/feature/Home/views/empyt_bookings.dart';
 import 'package:studio_partner_app/src/feature/bookings/views/active.dart';
 import 'package:studio_partner_app/src/feature/bookings/views/completed.dart';
 import 'package:flutter/material.dart';
@@ -70,7 +69,7 @@ class Bookings extends ConsumerWidget {
                   ),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.72,
+                  height: MediaQuery.of(context).size.height * 0.67,
                   width: double.infinity,
                   child: const TabBarView(
                     children: <Widget>[ActiveRequests(), CompletedRequests()],

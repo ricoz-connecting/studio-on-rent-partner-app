@@ -2,12 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/commons/views/splashscreen.dart';
 import 'package:studio_partner_app/src/feature/addstudio/views/add_studio_request.dart';
-import 'package:studio_partner_app/src/feature/auth/views/forgot_password.dart';
 import 'package:studio_partner_app/src/feature/auth/views/login_screen.dart';
-import 'package:studio_partner_app/src/feature/auth/views/recover_pass_email.dart';
-import 'package:studio_partner_app/src/feature/auth/views/reset_pass_sms.dart';
 import 'package:studio_partner_app/src/feature/auth/views/send_otp.dart';
-import 'package:studio_partner_app/src/feature/auth/views/setnewpass.dart';
 import 'package:studio_partner_app/src/feature/auth/views/signin_with_phone.dart';
 import 'package:studio_partner_app/src/feature/complains/views/complaint_description.dart';
 import 'package:studio_partner_app/src/feature/complains/views/previous_complaint.dart';
@@ -143,22 +139,22 @@ class StudioRouter {
           builder: (context, state) {
             return const CompleteProfileScreen();
           }),
-      GoRoute(
-          path: StudioRoutes.forgotPasswordScreen,
-          builder: (context, state) => const ForgotPassword()),
-      GoRoute(
-          path: StudioRoutes.resetViaEmailScreen,
-          builder: (context, state) => const RecoverPassEmail()),
-      GoRoute(
-          path: StudioRoutes.resetViaPhone,
-          builder: (context, state) => const ResetPassSms()),
+      // GoRoute(
+      //     path: StudioRoutes.forgotPasswordScreen,
+      //     builder: (context, state) => const ForgotPassword()),
+      // GoRoute(
+      //     path: StudioRoutes.resetViaEmailScreen,
+      //     builder: (context, state) => const RecoverPassEmail()),
+      // GoRoute(
+      //     path: StudioRoutes.resetViaPhone,
+      //     builder: (context, state) => const ResetPassSms()),
       GoRoute(
           path: StudioRoutes.verifyOtpScreen,
           builder: (context, state) => const VerifyOtp()),
-      GoRoute(
-        path: StudioRoutes.setNewPasswordScreen,
-        builder: (context, state) => Setnewpass(),
-      ),
+      // GoRoute(
+      //   path: StudioRoutes.setNewPasswordScreen,
+      //   builder: (context, state) => Setnewpass(),
+      // ),
       GoRoute(
           path: StudioRoutes.memmbershipPayment,
           builder: (context, state) {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:studio_partner_app/src/feature/auth/forgotpassword/views/recover_pass_email.dart';
+import 'package:studio_partner_app/src/feature/auth/forgotpassword/views/reset_pass_sms.dart';
 import 'package:studio_partner_app/src/feature/auth/views/widgets/reset_button.dart';
-import 'package:studio_partner_app/utils/router.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -24,42 +24,50 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             color: Colors.black,
           ),
         ),
+        backgroundColor: Colors.white,
       ),
+      backgroundColor: Colors.white,
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Recover Password',
+              'Reset Password',
               style: GoogleFonts.inter(
-                fontSize: 28,
+                fontSize: 18,
                 fontWeight: FontWeight.w600,
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 5),
             const Text(
-              'Please select option to recover your\npassword',
+              'Please select option to recover your password',
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 12,
                 color: Colors.grey,
               ),
             ),
             const SizedBox(height: 10),
             ResetButton(
               onTap: () {
-                GoRouter.of(context).push(StudioRoutes.resetViaEmailScreen);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const RecoverPassEmail()));
               },
               resetText: 'Reset via Email',
               icon: Icons.mail_outline,
             ),
             const SizedBox(height: 10),
             ResetButton(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ResetPassSms()));
+              },
               resetText: 'Reset via SMS',
               icon: Icons.smartphone,
-              onTap: () {
-                GoRouter.of(context).push(StudioRoutes.resetViaPhone);
-              },
             )
           ],
         ),
