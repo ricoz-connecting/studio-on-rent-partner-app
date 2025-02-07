@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -187,11 +188,14 @@ class CreateInvoice {
         },
       ),
     );
-    final directory = await getExternalStorageDirectory();
-    final filePath = '${directory!.path}/invoice.pdf';
+    final directory = await getExternalStorageDirectories();
+    if (directory == null) {
+      throw Exception("Downloads directory not available");
+    }
+    final filePath = '${directory[1].path}/invoice.pdf';
     final file = File(filePath);
     await file.writeAsBytes(await pdf.save());
-    log(filePath);
+    log('PDF saved at: $filePath');
     return filePath;
   }
 }
