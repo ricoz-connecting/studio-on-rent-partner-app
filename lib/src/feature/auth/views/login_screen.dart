@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/src/feature/auth/controllers/auth_controller.dart';
@@ -10,7 +9,6 @@ import 'package:studio_partner_app/src/feature/auth/views/widgets/auth_text_fiel
 import 'package:studio_partner_app/src/feature/auth/views/widgets/reusable_button.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 import 'package:studio_partner_app/utils/router.dart';
-
 import 'widgets/login_via_google.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
