@@ -276,12 +276,12 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
                           : null;
 
                       // Show a success message or handle failure
-                      context.mounted
-                          ? ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text('Profile saved successfully!')),
-                            )
-                          : null;
+                      // context.mounted
+                      //     ? ScaffoldMessenger.of(context).showSnackBar(
+                      //         const SnackBar(
+                      //             content: Text('Profile saved successfully!')),
+                      //       )
+                      //     : null;
                     },
                     child: const Text(
                       'Complete Profile',

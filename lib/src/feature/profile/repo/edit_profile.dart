@@ -22,7 +22,8 @@ class ProfileRepo {
     final body = {
       if (profile.name != null) "name": profile.name,
       if (profile.address != null) "address": profile.address,
-      if (profile.city != null) "city": profile.city,
+      if (profile.city != "" && profile.city != null && profile.city is String)
+        "city": profile.city,
       if (profile.pincode != null) "pincode": profile.pincode,
       if (profile.state != null) "state": profile.state,
       if (profile.country != null) "country": profile.country,

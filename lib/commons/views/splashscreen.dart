@@ -30,11 +30,7 @@ class _SplashscreenState extends ConsumerState<Splashscreen> {
                 if (!mounted) return;
                 context.go(StudioRoutes.onboardingScreen);
               } else {
-                if (!mounted) {
-                  return;
-                } else {
-                  mounted ? context.go(StudioRoutes.bottomNavBar) : null;
-                }
+                mounted ? context.go(StudioRoutes.bottomNavBar) : null;
               }
             })
           : null;

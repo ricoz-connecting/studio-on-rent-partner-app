@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/feature/auth/views/widgets/reusable_button.dart';
 import 'package:studio_partner_app/src/feature/bookings/views/invoice.dart';
 import 'package:studio_partner_app/src/feature/bookings/views/pdfVIewer.dart';
+import 'package:studio_partner_app/src/feature/bookings/views/widgets/amount_text.dart';
 import 'package:studio_partner_app/src/feature/bookings/views/widgets/customContainer.dart';
 import 'package:studio_partner_app/src/models/bookings.dart';
 
@@ -165,64 +166,26 @@ class _StudioDetailState extends State<StudioDetail> {
             CustomContainer(
               child: Column(
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        'Subtotal',
-                        style: GoogleFonts.inter(
-                          color: const Color(
-                            0xFF444444,
-                          ),
-                        ),
-                      ),
-                      const Spacer(),
-                      Text(
-                        "₹ ${widget.booking.paymentDetails.subTotalAmount}",
-                        style: GoogleFonts.inter(
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
+                  AmountTextWidget(
+                    label: 'Subtotal',
+                    amount: '₹ ${widget.booking.paymentDetails.subTotalAmount}',
                   ),
                   const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Text(
-                        'GST',
-                        style: GoogleFonts.inter(
-                          color: const Color(
-                            0xFF444444,
-                          ),
-                        ),
-                      ),
-                      const Spacer(),
-                      Text(
-                        '₹ ${widget.booking.paymentDetails.taxAmount}',
-                        style: GoogleFonts.inter(
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
+                  AmountTextWidget(
+                    label: 'GST',
+                    amount: '₹ ${widget.booking.paymentDetails.taxAmount}',
+                  ),
+                  const SizedBox(height: 10),
+                  AmountTextWidget(
+                    label:
+                        'Discount (${widget.booking.paymentDetails.discount.couponCode})',
+                    amount:
+                        '-${widget.booking.paymentDetails.discount.discountValue}%',
                   ),
                   const Divider(),
-                  Row(
-                    children: [
-                      Text(
-                        'Total Amount (Paid)',
-                        style: GoogleFonts.inter(
-                          color: const Color(
-                            0xFF444444,
-                          ),
-                        ),
-                      ),
-                      const Spacer(),
-                      Text(
-                        '₹ ${widget.booking.paymentDetails.paidAmount}',
-                        style: GoogleFonts.inter(
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
+                  AmountTextWidget(
+                    label: 'Total Amount (Paid)',
+                    amount: '₹ ${widget.booking.paymentDetails.paidAmount}',
                   ),
                   const SizedBox(height: 10),
                   ReusableButton(
