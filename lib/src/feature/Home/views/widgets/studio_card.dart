@@ -78,7 +78,7 @@ class _StudioCardState extends State<StudioCard> {
       child: GestureDetector(
         onTap: widget.onCardTap,
         child: Container(
-          padding: const EdgeInsets.only(bottom: 5.0),
+          height: 140,
           decoration: BoxDecoration(
             color: const Color(0xFFF4F6F9),
             borderRadius: BorderRadius.circular(12),
@@ -86,7 +86,7 @@ class _StudioCardState extends State<StudioCard> {
               BoxShadow(
                 color: Colors.grey.withOpacity(0.2),
                 spreadRadius: 1,
-                blurRadius: 5,
+                blurRadius: 3,
                 offset: const Offset(0, 3),
               ),
             ],
@@ -94,11 +94,14 @@ class _StudioCardState extends State<StudioCard> {
           child: Row(
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(12),
+                  bottomLeft: Radius.circular(12),
+                ),
                 child: Image.network(
                   widget.imageUrl,
-                  height: 100,
-                  width: 100,
+                  height: double.infinity,
+                  width: 110,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -131,8 +134,9 @@ class _StudioCardState extends State<StudioCard> {
                           child: Text(
                             widget.status == true ? 'Active' : 'Close',
                             style: const TextStyle(
-                              fontSize: 12,
+                              fontSize: 10,
                               color: Colors.white,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),

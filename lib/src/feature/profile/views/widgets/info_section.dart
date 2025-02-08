@@ -38,7 +38,7 @@ class InfoSection extends StatelessWidget {
           Text(
             businessName,
             style: GoogleFonts.lato(
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w500,
               fontSize: 16,
             ),
           ),
@@ -59,7 +59,7 @@ class InfoSection extends StatelessWidget {
               pincode,
             }.join(', '),
             style: GoogleFonts.lato(
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w500,
               fontSize: 16,
             ),
           ),

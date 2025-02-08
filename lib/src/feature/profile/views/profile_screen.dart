@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
 import 'package:studio_partner_app/src/feature/auth/controllers/auth_controller.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/custom_edit_profile.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/membership_card.dart';
@@ -18,6 +19,7 @@ class ProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
+    final status = ref.watch(statusProvider);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -33,11 +35,11 @@ class ProfileScreen extends ConsumerWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Stack(
                 children: [
                   CircleAvatar(
@@ -48,27 +50,33 @@ class ProfileScreen extends ConsumerWidget {
                               ImageAssets.profile,
                             )
                           : NetworkImage(currentUser.avatar!)),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryBackgroundColor,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.white, width: 2),
-                      ),
-                      child: const Icon(
-                        Icons.check_circle,
-                        color: Colors.white,
-                        size: 24,
+                  if (status?.kycStatus == 'Verified' ||
+                      status?.membershipStatus == "Completed")
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: status?.kycStatus == 'Verified'
+                              ? AppColors.primaryBackgroundColor
+                              : Colors.blue,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white, width: 2),
+                        ),
+                        child: const Icon(
+                          Icons.check_circle,
+                          color: Colors.white,
+                          size: 24,
+                        ),
                       ),
                     ),
-                  ),
                 ],
               ),
-              const SizedBox(height: 10),
-              const MembershipCard(),
-              const SizedBox(height: 10),
+              status?.membershipStatus != "Completed"
+                  ? const MembershipCard()
+                  : const SizedBox(
+                      height: 20,
+                    ),
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(12),
@@ -104,7 +112,7 @@ class ProfileScreen extends ConsumerWidget {
               const SizedBox(height: 10),
               InfoSection(
                 businessName: currentUser.businessName ?? '',
-                pincode : currentUser.pincode ?? '',
+                pincode: currentUser.pincode ?? '',
                 city: currentUser.city ?? '',
                 address: currentUser.address ?? '',
               ),

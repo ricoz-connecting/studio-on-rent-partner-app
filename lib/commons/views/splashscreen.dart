@@ -55,12 +55,6 @@ class _SplashscreenState extends ConsumerState<Splashscreen> {
                 child: Container(
                   decoration: const BoxDecoration(
                     color: AppColors.splashScreenBackgroundColor,
-                    // gradient: LinearGradient(
-                    //   begin: Alignment.topCenter,
-                    //   end: Alignment.bottomCenter,
-                    //   colors: <Color>[Color(0xFFBCB1F0), Color(0xFF6F54EF)],
-                    //   stops: <double>[0, 1],
-                    // ),
                   ),
                 ),
               ),

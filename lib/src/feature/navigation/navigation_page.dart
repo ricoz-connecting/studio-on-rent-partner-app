@@ -11,25 +11,27 @@ import 'package:studio_partner_app/src/res/colors.dart';
 
 class BottomNavBar extends ConsumerStatefulWidget {
   const BottomNavBar({super.key});
+  static const routePath = '/bottomNavBar';
 
   @override
   ConsumerState<BottomNavBar> createState() => _BottomNavBarState();
 }
 
 class _BottomNavBarState extends ConsumerState<BottomNavBar> {
+  @override
+  void initState() {
+    super.initState();
+    ref.read(statusControllerProvider.notifier).getStatus(context: context);
+  }
+
   int _selectedIndex = 0;
+
   static const List<Widget> _widgetOptions = <Widget>[
     Bookings(),
     ChatScreen(),
     StoreScreen(),
     EarningsPage(),
   ];
-
-  @override
-  void initState() {
-    ref.read(statusControllerProvider.notifier).getStatus(context: context);
-    super.initState();
-  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -41,62 +43,63 @@ class _BottomNavBarState extends ConsumerState<BottomNavBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body:  _widgetOptions.elementAt(_selectedIndex),
-      bottomNavigationBar: BottomAppBar(
-        height: MediaQuery.of(context).size.height * 0.1,
-        color: Colors.white,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _buildNavItem(IconAssets.bookings, 'Bookings', 0),
-            _buildNavItem(IconAssets.chat, 'Chat', 1),
-            _buildNavItem(IconAssets.studio, 'Studio', 2),
-            _buildNavItem(IconAssets.earnings, 'Earnings', 3),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildNavItem(String icon, String label, int index) {
-    final bool isSelected = _selectedIndex == index;
-    return GestureDetector(
-      onTap: () => _onItemTapped(index),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          AnimatedContainer(
-            curve: Curves.easeOutSine,
-            duration: const Duration(milliseconds: 500),
-            height: 3,
-            width: 30,
-            decoration: BoxDecoration(
-              color: isSelected
-                  ? AppColors.primaryBackgroundColor
-                  : Colors.transparent,
-              borderRadius: BorderRadius.circular(2),
-            ),
+      body: _widgetOptions.elementAt(_selectedIndex),
+      bottomNavigationBar: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: AppColors.textBackgroundColor,
+            currentIndex: _selectedIndex,
+            items: <BottomNavigationBarItem>[
+              _buildBottomNavigationItem('Bookings', IconAssets.bookings, 0),
+              _buildBottomNavigationItem('Chat', IconAssets.chat, 1),
+              _buildBottomNavigationItem('Studio', IconAssets.studio, 2),
+              _buildBottomNavigationItem('Earnings', IconAssets.earnings, 3),
+            ],
+            selectedItemColor: AppColors.primaryBackgroundColor,
+            unselectedItemColor: const Color(0xFF7D8588),
+            showUnselectedLabels: true,
+            selectedFontSize: 14,
+            showSelectedLabels: true,
+            elevation: 5,
+            onTap: _onItemTapped,
           ),
-          const SizedBox(height: 5),
-          SvgPicture.asset(
-            icon,
-            colorFilter: isSelected
-                ? const ColorFilter.mode(
-                    AppColors.primaryBackgroundColor, BlendMode.srcIn)
-                : const ColorFilter.mode(Colors.grey, BlendMode.srcIn),
-          ),
-          const SizedBox(height: 5),
-          Text(
-            label,
-            style: TextStyle(
-              color:
-                  isSelected ? AppColors.primaryBackgroundColor : Colors.grey,
-              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+          Positioned(
+            top: 0,
+            left: MediaQuery.of(context).size.width / 4 * _selectedIndex + 15,
+            child: Container(
+              height: 3,
+              width: 70,
+              color: AppColors.primaryBackgroundColor,
             ),
           ),
         ],
       ),
+    );
+  }
+
+  BottomNavigationBarItem _buildBottomNavigationItem(
+      String label, String assetPath, int index) {
+    return BottomNavigationBarItem(
+      icon: Column(
+        children: [
+          ColorFiltered(
+            colorFilter: ColorFilter.mode(
+              _selectedIndex == index
+                  ? AppColors.primaryBackgroundColor
+                  : const Color(0xFF7D8588),
+              BlendMode.srcIn,
+            ),
+            child: SvgPicture.asset(
+              assetPath,
+              width: 20,
+              height: 20,
+            ),
+          ),
+        ],
+      ),
+      label: label,
     );
   }
 }

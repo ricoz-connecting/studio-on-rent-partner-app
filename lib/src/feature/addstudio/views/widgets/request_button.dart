@@ -14,9 +14,8 @@ class AddStudioRequestButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.07,
-        margin: const EdgeInsets.all(5),
-        padding: const EdgeInsets.all(15),
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: const EdgeInsets.all(10),
         width: double.infinity,
         decoration: BoxDecoration(
           color: AppColors.primaryBackgroundColor,
@@ -24,7 +23,7 @@ class AddStudioRequestButton extends StatelessWidget {
         ),
         child: Text(
           textAlign: TextAlign.center,
-          'Post Add Studio Request',
+          'Add Studio',
           style: GoogleFonts.inter(
             fontSize: 16,
             color: Colors.white,

@@ -28,6 +28,7 @@ class CustomEditProfile extends StatelessWidget {
           borderRadius: BorderRadius.circular(14),
         ),
         child: ListTile(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 12),
           leading: Icon(
             color: color ?? Colors.black,
             icon,

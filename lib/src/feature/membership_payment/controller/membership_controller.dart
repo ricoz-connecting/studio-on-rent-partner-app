@@ -2,14 +2,21 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:studio_partner_app/commons/controllers/status_controller.dart';
 import 'package:studio_partner_app/src/feature/membership_payment/repo/membership_repo.dart';
+import 'package:studio_partner_app/utils/config.dart';
+import 'package:studio_partner_app/utils/snackbar_service.dart';
 
 class RazorpayController {
   final OrderRepository repository;
   late Razorpay _razorpay;
+  WidgetRef? _ref;
   String? _currentOrderId;
+  BuildContext? _context;
   String? _partnerDocId;
+  String? _membershipDocId;
 
   RazorpayController({required this.repository}) {
     _razorpay = Razorpay();
@@ -18,21 +25,21 @@ class RazorpayController {
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   }
 
-  Future<void> createAndProcessOrder(
-      BuildContext context, Map<String, dynamic> orderData) async {
+  Future<void> createAndProcessOrder(BuildContext context,
+      Map<String, dynamic> orderData, WidgetRef ref) async {
+    _context = context;
+    _ref = ref;
     try {
       final orderResponse = await repository.createOrder(orderData);
 
       if (orderResponse != null) {
         log("Order Response: $orderResponse");
 
-        // Fixing how the response is accessed
         _currentOrderId = orderResponse["order"]["id"];
-        _partnerDocId = orderData['partnerDocId'];
+        _membershipDocId = orderResponse['data']['_id'];
 
         Map<String, dynamic> updatedOrderResponse = {
           ...orderResponse,
-          'partnerDocId': orderData['partnerDocId'],
         };
 
         context.mounted
@@ -53,7 +60,7 @@ class RazorpayController {
       'currency': 'INR',
       'name': 'BookMyStudio',
       'description': 'Purchase Description',
-      'theme': {'color': '#62B179'}
+      'theme': {'color': '#6D52EF'}
     };
 
     try {
@@ -68,44 +75,70 @@ class RazorpayController {
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
     try {
-      log("Payment successful: $response");
-      log("Order ID: ${response.orderId}");
-      log("Payment ID: ${response.paymentId}");
-      log("Signature: ${response.signature}");
+      if (AppConfig.logHttp) {
+        log("Payment successful: $response");
+        log("Order ID: ${response.orderId}");
+        log("Payment ID: ${response.paymentId}");
+        log("Signature: ${response.signature}");
+      }
+
       final verificationResponse = await repository.verifyPayment({
-        "partnerDocId": _partnerDocId,
+        "partnerMembershipDocId": _membershipDocId,
         "razorpay_order_id": response.orderId,
         "razorpay_payment_id": response.paymentId,
         "razorpay_signature": response.signature,
       });
       if (verificationResponse["success"] == true) {
         log("Payment verified successfully");
-        // _context!.push(ProfileScreen.routePath);
+        final status = _ref
+            ?.read(statusControllerProvider.notifier)
+            .getStatus(context: _context!);
+
+        GoRouter.of(_context!).pop();
       } else {
-        log("Payment verification failed");
+        if (AppConfig.logHttp) {
+          log("Payment verification failed");
+        }
+        SnackBarService.showSnackBar(
+          context: _context!,
+          message: 'Payment Verifications Failed',
+          backgroundColor: Colors.red,
+        );
       }
     } catch (e) {
-      log("Error verifying payment: $e");
+      if (AppConfig.logHttp) {
+        log("Error verifying payment: $e");
+      }
     }
   }
 
   void _handlePaymentError(PaymentFailureResponse response) async {
-    log("Payment failed: ${response.message}");
+    if (AppConfig.logHttp) {
+      log("Payment failed: ${response.message}");
+    }
+
     try {
       final failureResponse = await repository.paymentFailed({
-        "partnerDocId": _partnerDocId,
-        "razorpay_order_id": _currentOrderId,
-        "error_code": response.code,
-        "error_message": response.message,
-        "error_description": response.error
+        "partnerMembershipDocId": _membershipDocId,
       });
       if (failureResponse["success"] == true) {
-        log("Payment failure logged successfully");
+        final status = _ref
+            ?.read(statusControllerProvider.notifier)
+            .getStatus(context: _context!);
+        SnackBarService.showSnackBar(
+          context: _context!,
+          message: 'Payment Failed',
+          backgroundColor: Colors.red,
+        );
       } else {
-        log("Payment failure logging failed");
+        if (AppConfig.logHttp) {
+          log("Payment failure logging failed");
+        }
       }
     } catch (e) {
-      log("Error logging payment failure: $e");
+      if (AppConfig.logHttp) {
+        log("Error logging payment failure: $e");
+      }
     }
   }
 

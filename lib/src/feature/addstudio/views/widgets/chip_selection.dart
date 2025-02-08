@@ -7,7 +7,8 @@ class ChipSelection extends StatelessWidget {
   final List<String> categories;
   final ValueChanged<String> onCategorySelected;
   final String? selectedCategory;
-  ChipSelection({
+
+  const ChipSelection({
     super.key,
     this.selectedCategory,
     required this.categories,
@@ -16,25 +17,27 @@ class ChipSelection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Wrap(
-        spacing: 2,
+        alignment: WrapAlignment.start,
+        spacing: 8,
+        runSpacing: 8,
         children: categories.map((category) {
           return ChoiceChip(
             showCheckmark: false,
             label: Text(
               category,
               style: TextStyle(
+                fontSize: 14,
                 color: selectedCategory == category
                     ? AppColors.primaryBackgroundColor
-                    : Colors.grey,
+                    : Colors.black,
               ),
             ),
             selected: selectedCategory == category,
-            onSelected: (selected) {
-              onCategorySelected(category);
-            },
-            selectedColor: Colors.transparent,
+            onSelected: (selected) => onCategorySelected(category),
+            selectedColor: AppColors.primaryBackgroundColor.withOpacity(0.2),
             side: BorderSide(
               color: selectedCategory == category
                   ? AppColors.primaryBackgroundColor
@@ -42,7 +45,7 @@ class ChipSelection extends StatelessWidget {
               width: 1.5,
             ),
             shape: const StadiumBorder(),
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.white,
           );
         }).toList(),
       ),

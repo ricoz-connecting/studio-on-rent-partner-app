@@ -17,7 +17,7 @@ class ServiceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: const Color(0xFFF4F6F9),
-      elevation: 10,
+      elevation: 1,
       shadowColor: Colors.black.withOpacity(0.1),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),

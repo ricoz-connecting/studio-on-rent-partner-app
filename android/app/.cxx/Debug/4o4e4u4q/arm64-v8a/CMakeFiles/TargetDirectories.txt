@@ -1,0 +1,2 @@
+E:/bookmystudio/studio-on-rent-partner-app/android/app/.cxx/Debug/4o4e4u4q/arm64-v8a/CMakeFiles/edit_cache.dir
+E:/bookmystudio/studio-on-rent-partner-app/android/app/.cxx/Debug/4o4e4u4q/arm64-v8a/CMakeFiles/rebuild_cache.dir

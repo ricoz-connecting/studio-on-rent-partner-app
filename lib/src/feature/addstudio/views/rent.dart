@@ -33,10 +33,9 @@ class Rent extends ConsumerStatefulWidget {
 
 class _RentState extends ConsumerState<Rent> {
   final List<String> categories = [
-    'Recording',
+    'Videography',
     'Photography',
-    'Misc.',
-    'Luxury',
+    'Music',
   ];
   late TextEditingController _studioNameController,
       _aboutStudioController,
@@ -153,7 +152,7 @@ class _RentState extends ConsumerState<Rent> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
           child: SizedBox(
             height: widget.disableTextField!
                 ? MediaQuery.of(context).size.height
@@ -183,18 +182,21 @@ class _RentState extends ConsumerState<Rent> {
                             style: GoogleFonts.inter(fontSize: 16),
                           ),
                         ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   CustomTextField(
                     disableTextField: widget.disableTextField!,
                     controller: _studioNameController,
                     hintText: 'Studio Name*',
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   Row(
                     children: [
                       Text(
                         'Type',
-                        style: GoogleFonts.inter(fontSize: 16),
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       const Spacer(),
                       widget.disableTextField!
@@ -225,7 +227,10 @@ class _RentState extends ConsumerState<Rent> {
                   const SizedBox(height: 20),
                   Text(
                     'Category',
-                    style: GoogleFonts.inter(fontSize: 16),
+                    style: GoogleFonts.inter(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 10),
                   ChipSelection(
@@ -243,7 +248,7 @@ class _RentState extends ConsumerState<Rent> {
                   CustomTextField(
                     disableTextField: widget.disableTextField!,
                     controller: _aboutStudioController,
-                    height: 100,
+                    maxLines: 6,
                     hintText: 'About Studio',
                     keyboardType: TextInputType.multiline,
                   ),
@@ -358,7 +363,10 @@ class _RentState extends ConsumerState<Rent> {
                   const SizedBox(height: 10),
                   Text(
                     'Property Facilities',
-                    style: GoogleFonts.inter(fontSize: 16),
+                    style: GoogleFonts.inter(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   Wrap(
                     spacing: 10,
@@ -550,7 +558,10 @@ class _RentState extends ConsumerState<Rent> {
                   const SizedBox(height: 10),
                   Text(
                     'Pricing',
-                    style: GoogleFonts.inter(fontSize: 16),
+                    style: GoogleFonts.inter(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 10),
                   const RentalWidget(

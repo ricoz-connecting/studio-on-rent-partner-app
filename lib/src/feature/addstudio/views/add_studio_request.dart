@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:studio_partner_app/commons/views/widgets/custom_appbar.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
 import 'rent.dart';
@@ -27,13 +28,7 @@ class _AddStudioRequestState extends State<AddStudioRequest>
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(
-          'Add Studio Request',
-          style: GoogleFonts.inter(fontWeight: FontWeight.w500),
-        ),
-      ),
+      appBar: const CustomAppBar(title: 'Add Studio Request'),
       body: DefaultTabController(
         length: 2,
         child: Column(

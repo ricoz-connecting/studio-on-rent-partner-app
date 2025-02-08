@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class CustomTextField extends StatelessWidget {
   final IconData? icon;
   final String? suffixLabel;
+  final int? maxLines;
   final String? hintText;
   final double? height;
   final TextInputType? keyboardType;
@@ -14,6 +15,7 @@ class CustomTextField extends StatelessWidget {
     this.controller,
     this.onChanged,
     this.height,
+    this.maxLines,
     this.suffixLabel,
     this.icon,
     this.keyboardType,
@@ -24,11 +26,11 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: height ?? 50,
+      // height: height ?? 50,
       child: TextField(
         enabled: !disableTextField,
         controller: controller,
-        maxLines: 3,
+        maxLines: maxLines ?? 1,
         keyboardType: keyboardType,
         onChanged: onChanged,
         onTapOutside: (event) => FocusScope.of(context).unfocus(),

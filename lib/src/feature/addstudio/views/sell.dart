@@ -35,10 +35,9 @@ class Sell extends ConsumerStatefulWidget {
 
 class _SellState extends ConsumerState<Sell> {
   final List<String> categories = [
-    'Recording',
+    'Videography',
     'Photography',
-    'Misc.',
-    'Luxury',
+    'Music.',
   ];
   LatLng? selectedLocation;
   List<String>? facilities = List<String>.empty(growable: true);
@@ -47,7 +46,7 @@ class _SellState extends ConsumerState<Sell> {
   List<Price>? _price = [];
   List<File> _multipleFiles = [];
   String _selectedType = 'Commercial';
-  String _selectedCategory = 'Recording';
+  String _selectedCategory = 'Music.';
   bool isAnySelected = false,
       isWifiSelected = false,
       isSelfCheckInSelected = false,
@@ -136,7 +135,7 @@ class _SellState extends ConsumerState<Sell> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
           child: SizedBox(
             height: widget.disableTextField!
                 ? MediaQuery.of(context).size.height
@@ -177,7 +176,10 @@ class _SellState extends ConsumerState<Sell> {
                     children: [
                       Text(
                         'Type',
-                        style: GoogleFonts.inter(fontSize: 16),
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       const Spacer(),
                       widget.disableTextField!
@@ -208,7 +210,10 @@ class _SellState extends ConsumerState<Sell> {
                   const SizedBox(height: 20),
                   Text(
                     'Category',
-                    style: GoogleFonts.inter(fontSize: 16),
+                    style: GoogleFonts.inter(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 10),
                   ChipSelection(
@@ -226,8 +231,8 @@ class _SellState extends ConsumerState<Sell> {
                   CustomTextField(
                     disableTextField: widget.disableTextField!,
                     controller: _aboutStudioController,
-                    height: 100,
                     hintText: 'About Studio',
+                    maxLines: 6,
                     keyboardType: TextInputType.multiline,
                   ),
                   const SizedBox(height: 10),
@@ -253,6 +258,12 @@ class _SellState extends ConsumerState<Sell> {
                           },
                           child: const Row(
                             children: [
+                              Text(
+                                'Address',
+                                style: TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.bold),
+                              ),
+                              Spacer(),
                               Icon(
                                 Icons.location_on_outlined,
                                 color: AppColors.primaryBackgroundColor,

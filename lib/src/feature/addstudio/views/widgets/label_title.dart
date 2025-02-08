@@ -12,7 +12,8 @@ class CustomLabelTitle extends StatelessWidget {
       child: Text(
         title,
         style: GoogleFonts.inter(
-          fontSize: 16,
+          fontSize: 14,
+          fontWeight: FontWeight.bold,
           color: Colors.black,
         ),
       ),

@@ -60,7 +60,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   style: TextStyle(fontSize: 16, color: Colors.black),
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 5),
               AuthTextField(
                 hintText: 'Enter your Email',
                 onChanged: (value) => setState(() {
@@ -75,7 +75,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   style: TextStyle(fontSize: 16, color: Colors.black),
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 5),
               AuthTextField(
                 obscureText: _obscureText,
                 hintText: 'Enter your Password',
@@ -92,21 +92,21 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   password = value;
                 }),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 5),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Switch(
-                      value: _rememberMe,
-                      onChanged: (value) {
-                        setState(() {
-                          _rememberMe = value;
-                        });
-                      }),
-                  const Text(
-                    'Remember Me',
-                    style: TextStyle(color: Color(0xFF939393)),
-                  ),
+                  // Switch(
+                  //     value: _rememberMe,
+                  //     onChanged: (value) {
+                  //       setState(() {
+                  //         _rememberMe = value;
+                  //       });
+                  //     }),
+                  // const Text(
+                  //   'Remember Me',
+                  //   style: TextStyle(color: Color(0xFF939393)),
+                  // ),
                   const Spacer(),
                   TextButton(
                     onPressed: () {

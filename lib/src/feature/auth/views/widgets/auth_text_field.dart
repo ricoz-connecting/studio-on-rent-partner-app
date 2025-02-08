@@ -26,12 +26,15 @@ class AuthTextField extends StatelessWidget {
         ),
         suffixIcon: child,
         filled: true,
-        fillColor: Colors.grey.shade300,
+        fillColor: const Color(0XFFF4F6F9),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide.none,
         ),
         hintText: hintText,
+        hintStyle: TextStyle(
+          color: Colors.grey.shade500,
+        ),
       ),
     );
   }

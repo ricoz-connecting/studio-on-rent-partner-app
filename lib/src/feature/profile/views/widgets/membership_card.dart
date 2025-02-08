@@ -13,8 +13,9 @@ class MembershipCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(
         vertical: size.height * 0.01,
-        horizontal: size.width * 0.05,
+        horizontal: size.width * 0.02,
       ),
+      margin: const EdgeInsets.symmetric(vertical: 15),
       decoration: BoxDecoration(
         color: const Color(0xFFFFF8E1),
         borderRadius: BorderRadius.circular(12),
@@ -50,29 +51,43 @@ class MembershipCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 5),
-          const Row(
-            children: [
-              PremiumFeatureText(
-                label: 'Unlock Full potential',
-              ),
-              SizedBox(width: 5),
-              PremiumFeatureText(
-                label: 'Commsission free Booking',
-              ),
+          GridView.count(
+            shrinkWrap: true,
+            crossAxisCount: 2,
+            crossAxisSpacing: 0,
+            mainAxisSpacing: 0,
+            childAspectRatio: 10,
+            physics: NeverScrollableScrollPhysics(),
+            children: const [
+              PremiumFeatureText(label: 'Unlock Full potential'),
+              PremiumFeatureText(label: 'Commission-free Booking'),
+              PremiumFeatureText(label: 'Unlimited Studio Listing'),
+              PremiumFeatureText(label: 'Open for 1000+ Indian Users'),
             ],
           ),
-          const SizedBox(height: 5),
-          const Row(
-            children: [
-              PremiumFeatureText(
-                label: 'Unlimited Studio Listing',
-              ),
-              SizedBox(width: 5),
-              PremiumFeatureText(
-                label: 'Open for 1000+ Indian Users',
-              ),
-            ],
-          ),
+          // const Row(
+          //   children: [
+          //     PremiumFeatureText(
+          //       label: 'Unlock Full potential',
+          //     ),
+          //     SizedBox(width: 5),
+          //     PremiumFeatureText(
+          //       label: 'Commsission free Booking',
+          //     ),
+          //   ],
+          // ),
+          // const SizedBox(height: 5),
+          // const Row(
+          //   children: [
+          //     PremiumFeatureText(
+          //       label: 'Unlimited Studio Listing',
+          //     ),
+          //     SizedBox(width: 5),
+          //     PremiumFeatureText(
+          //       label: 'Open for 1000+ Indian Users',
+          //     ),
+          //   ],
+          // ),
           const SizedBox(height: 5),
           ElevatedButton(
             style: ElevatedButton.styleFrom(

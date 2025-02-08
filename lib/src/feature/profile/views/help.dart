@@ -1,6 +1,8 @@
 import 'package:studio_partner_app/src/feature/complains/views/complain.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:studio_partner_app/src/feature/profile/views/widgets/contact_us_section.dart';
+import 'package:studio_partner_app/src/feature/profile/views/widgets/custom_expension_tile.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
 class HelpPage extends StatelessWidget {
@@ -25,50 +27,38 @@ class HelpPage extends StatelessWidget {
         children: [
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(10.0),
               child: ListView(
-                children: [
-                  _buildHelpOption(
-                    context,
+                children: const [
+                  CustomExpansionTile(
                     title: 'Services we offer',
-                    navigateTo: const ServicesScreen(),
+                    content: 'Details about services we offer...',
                   ),
-                  _buildHelpOption(
-                    context,
+                  CustomExpansionTile(
                     title: 'How to get started with our services',
-                    navigateTo: const GettingStartedScreen(),
+                    content: 'Details on how to get started...',
                   ),
-                  // _buildHelpOption(
-                  //   context,
-                  //   title: 'My Profile',
-                  //   navigateTo: const ProfileScreen(),
-                  // ),
-                  _buildHelpOption(
-                    context,
+                  CustomExpansionTile(
+                    title: 'My Profile',
+                    content: 'Details about your profile...',
+                  ),
+                  CustomExpansionTile(
                     title: 'Changes to project scope',
-                    navigateTo: const ProjectScopeScreen(),
+                    content: 'Information on project scope changes...',
                   ),
-                  _buildHelpOption(
-                    context,
+                  CustomExpansionTile(
                     title: 'Report & Invoices',
-                    navigateTo: const ReportsScreen(),
+                    content: 'Details about reports and invoices...',
                   ),
-                  _buildHelpOption(
-                    context,
+                  CustomExpansionTile(
                     title: 'Support after the project completion',
-                    navigateTo: const SupportScreen(),
+                    content: 'Support information after project completion...',
                   ),
-                  _buildHelpOption(
-                    context,
+                  CustomExpansionTile(
                     title: 'Others',
-                    navigateTo: const OthersScreen(),
+                    content: 'Additional help topics...',
                   ),
-                  _buildHelpOption(
-                    context,
-                    title: 'Contact Us',
-                    navigateTo: const ContactUsScreen(),
-                    isLast: true,
-                  ),
+                  ContactUsSection(),
                 ],
               ),
             ),
@@ -116,6 +106,7 @@ class HelpPage extends StatelessWidget {
     bool isLast = false,
   }) {
     return ListTile(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 10),
       title: Text(
         title,
         style: GoogleFonts.lato(

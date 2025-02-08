@@ -17,32 +17,40 @@ class OnboardingOne extends StatelessWidget {
             image: AssetImage(ImageAssets.onboardingOne),
           ),
           const SizedBox(height: 20),
-          Text.rich(
-            textAlign: TextAlign.center,
-            TextSpan(
-              text: 'Discover Studios ',
-              style: GoogleFonts.inter(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-              children: [
-                TextSpan(
-                  text: 'Using The Map',
-                  style: GoogleFonts.inter(
-                    fontSize: 24,
-                    color: AppColors.primaryBackgroundColor,
-                    fontWeight: FontWeight.bold,
-                  ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Text.rich(
+              textAlign: TextAlign.center,
+              TextSpan(
+                text: 'Discover Studios ',
+                style: GoogleFonts.inter(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
                 ),
-              ],
+                children: [
+                  TextSpan(
+                    text: 'Using The Map',
+                    style: GoogleFonts.inter(
+                      fontSize: 24,
+                      color: AppColors.primaryBackgroundColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-          const SizedBox(height: 20),
-          Text(
-            textAlign: TextAlign.center,
-            'Browse through a variety of studio categories tailored to your creative needs.',
-            style: GoogleFonts.inter(
-              color: Colors.grey,
+          const SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Text(
+              textAlign: TextAlign.center,
+              'Browse through a variety of studio categories tailored to your creative needs.',
+              style: GoogleFonts.inter(
+                color: Colors.grey,
+                fontWeight: FontWeight.w500,
+                fontSize: 14,
+              ),
             ),
           )
         ],

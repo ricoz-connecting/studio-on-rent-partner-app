@@ -44,7 +44,7 @@ class ResetButton extends StatelessWidget {
                 ),
                 const Text(
                   'If you have number linked to account',
-                  style: TextStyle(color: Colors.grey),
+                  style: TextStyle(color: Colors.grey, fontSize: 12),
                 ),
               ],
             ),
