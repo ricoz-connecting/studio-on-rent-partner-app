@@ -34,6 +34,7 @@ class Sell extends ConsumerStatefulWidget {
 }
 
 class _SellState extends ConsumerState<Sell> {
+  final bool isCommingSoon = true;
   final List<String> categories = [
     'Videography',
     'Photography',
@@ -134,482 +135,509 @@ class _SellState extends ConsumerState<Sell> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: SizedBox(
-            height: widget.disableTextField!
-                ? MediaQuery.of(context).size.height
-                : widget.isEdit!
-                    ? MediaQuery.of(context).size.height * 0.87
-                    : MediaQuery.of(context).size.height * 0.72,
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: AddImage(
-                      imageUrl: widget.isEdit! || widget.disableTextField!
-                          ? widget.studio!.thumbnail!
-                          : null,
-                      onTap: () {
-                        widget.disableTextField! ? null : _pickThumbnail();
-                      },
-                      image: _thumbnailFile,
-                    ),
-                  ),
-                  widget.disableTextField! || widget.isEdit!
-                      ? const SizedBox()
-                      : Center(
-                          child: Text(
-                            'Add Thumbnail',
-                            style: GoogleFonts.inter(fontSize: 16),
+        child: isCommingSoon
+            ? const Center(
+                child: Text('Comming Soon'),
+              )
+            : Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: SizedBox(
+                  height: widget.disableTextField!
+                      ? MediaQuery.of(context).size.height
+                      : widget.isEdit!
+                          ? MediaQuery.of(context).size.height * 0.87
+                          : MediaQuery.of(context).size.height * 0.72,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(
+                          child: AddImage(
+                            imageUrl: widget.isEdit! || widget.disableTextField!
+                                ? widget.studio!.thumbnail!
+                                : null,
+                            onTap: () {
+                              widget.disableTextField!
+                                  ? null
+                                  : _pickThumbnail();
+                            },
+                            image: _thumbnailFile,
                           ),
                         ),
-                  const SizedBox(height: 20),
-                  CustomTextField(
-                    disableTextField: widget.disableTextField!,
-                    controller: _studioNameController,
-                    hintText: 'Studio Name*',
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Text(
-                        'Type',
-                        style: GoogleFonts.inter(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const Spacer(),
-                      widget.disableTextField!
-                          ? Text(
-                              _selectedType,
-                              style: GoogleFonts.inter(
-                                fontSize: 16,
-                              ),
-                            )
-                          : DropdownButton<String>(
-                              value: _selectedType,
-                              items: <String>['Commercial', 'Residential']
-                                  .map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
-                              onChanged: (value) {
-                                setState(() {
-                                  _selectedType = value!;
-                                });
-                              },
-                              hint: const Text('Select Type'),
-                            ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    'Category',
-                    style: GoogleFonts.inter(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  ChipSelection(
-                    categories: categories,
-                    onCategorySelected: (category) {
-                      widget.disableTextField!
-                          ? null
-                          : setState(() {
-                              _selectedCategory = category;
-                            });
-                    },
-                    selectedCategory: _selectedCategory,
-                  ),
-                  const SizedBox(height: 20),
-                  CustomTextField(
-                    disableTextField: widget.disableTextField!,
-                    controller: _aboutStudioController,
-                    hintText: 'About Studio',
-                    maxLines: 6,
-                    keyboardType: TextInputType.multiline,
-                  ),
-                  const SizedBox(height: 10),
-                  widget.disableTextField!
-                      ? const SizedBox()
-                      : GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              selectedLocation = null;
-                            });
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const GoogleMapFlutter(),
-                              ),
-                            ).then((value) {
-                              if (value != null) {
-                                setState(() {
-                                  selectedLocation = value;
-                                });
-                              }
-                            });
-                          },
-                          child: const Row(
-                            children: [
-                              Text(
-                                'Address',
-                                style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.bold),
-                              ),
-                              Spacer(),
-                              Icon(
-                                Icons.location_on_outlined,
-                                color: AppColors.primaryBackgroundColor,
-                              ),
-                              Text(
-                                'Select From Maps',
-                                style: TextStyle(
-                                    color: AppColors.primaryBackgroundColor),
-                              ),
-                            ],
-                          ),
-                        ),
-                  selectedLocation != null
-                      ? Center(
-                          child: Container(
-                            height: MediaQuery.of(context).size.height * 0.2,
-                            width: MediaQuery.of(context).size.width * 0.9,
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFF4F6F9),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: GoogleMap(
-                                initialCameraPosition: CameraPosition(
-                              target: selectedLocation!,
-                              zoom: 14,
-                            )),
-                          ),
-                        )
-                      : const SizedBox(),
-                  const SizedBox(height: 10),
-                  CustomTextField(
-                    disableTextField: widget.disableTextField!,
-                    controller: _addressLine1Controller,
-                    icon: Icons.location_on_outlined,
-                    hintText: 'Address Line 1',
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: CustomTextField(
-                          disableTextField: widget.disableTextField!,
-                          controller: _cityController,
-                          icon: Icons.location_on_outlined,
-                          hintText: 'City',
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: CustomTextField(
-                          disableTextField: widget.disableTextField!,
-                          controller: _stateController,
-                          icon: Icons.location_on_outlined,
-                          hintText: 'State',
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  CustomTextField(
-                    disableTextField: widget.disableTextField!,
-                    controller: _pincodeController,
-                    icon: Icons.location_on_outlined,
-                    hintText: 'Pincode',
-                  ),
-                  const SizedBox(height: 10),
-                  CustomTextField(
-                    disableTextField: widget.disableTextField!,
-                    controller: _areaSqFtController,
-                    icon: Icons.location_on_outlined,
-                    hintText: 'Area(Sq. Ft)',
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'Property Facilities',
-                    style: GoogleFonts.inter(fontSize: 16),
-                  ),
-                  Wrap(
-                    spacing: 10,
-                    children: [
-                      FacilitiesChip(
-                        isSelected: isAnySelected,
-                        onTap: () {
-                          widget.disableTextField!
-                              ? null
-                              : setState(() {
-                                  isAnySelected = !isAnySelected;
-                                  isAnySelected
-                                      ? facilities?.add('Any')
-                                      : facilities?.remove('Any');
-                                });
-                        },
-                        label: 'Any',
-                      ),
-                      FacilitiesChip(
-                        isSelected: isWifiSelected,
-                        onTap: () {
-                          widget.disableTextField!
-                              ? null
-                              : setState(() {
-                                  isWifiSelected = !isWifiSelected;
-                                  isWifiSelected
-                                      ? facilities?.add('WiFi')
-                                      : facilities?.remove('WiFi');
-                                });
-                        },
-                        label: 'WiFi',
-                      ),
-                      FacilitiesChip(
-                        isSelected: isSelfCheckInSelected,
-                        onTap: () {
-                          widget.disableTextField!
-                              ? null
-                              : setState(() {
-                                  isSelfCheckInSelected =
-                                      !isSelfCheckInSelected;
-                                  isSelfCheckInSelected
-                                      ? facilities?.add('Self check-in')
-                                      : facilities?.remove('Self check-in');
-                                });
-                        },
-                        label: 'Self check-in',
-                      ),
-                      FacilitiesChip(
-                        isSelected: isTimeSelected,
-                        onTap: () {
-                          widget.disableTextField!
-                              ? null
-                              : setState(() {
-                                  isTimeSelected = !isTimeSelected;
-                                  isTimeSelected
-                                      ? facilities?.add('time')
-                                      : facilities?.remove('time');
-                                });
-                        },
-                        label: 'time',
-                      ),
-                      FacilitiesChip(
-                        isSelected: isFreeCancelSelected,
-                        onTap: () {
-                          widget.disableTextField!
-                              ? null
-                              : setState(() {
-                                  isFreeCancelSelected = !isFreeCancelSelected;
-                                  isFreeCancelSelected
-                                      ? facilities?.add('Free cancel')
-                                      : facilities?.remove('Free cancel');
-                                });
-                        },
-                        label: 'Free cancel',
-                      ),
-                      FacilitiesChip(
-                        isSelected: isSecuritySelected,
-                        onTap: () {
-                          widget.disableTextField!
-                              ? null
-                              : setState(() {
-                                  isSecuritySelected = !isSecuritySelected;
-                                  isSecuritySelected
-                                      ? facilities?.add('Security')
-                                      : facilities?.remove('Security');
-                                });
-                        },
-                        label: 'Security',
-                      ),
-                      FacilitiesChip(
-                        isSelected: isMembersSelected,
-                        onTap: () {
-                          widget.disableTextField!
-                              ? null
-                              : setState(() {
-                                  isMembersSelected = !isMembersSelected;
-                                  isMembersSelected
-                                      ? facilities?.add('Members')
-                                      : facilities?.remove('Members');
-                                });
-                        },
-                        label: 'Members',
-                      ),
-                      FacilitiesChip(
-                        isSelected: isFreeParkingSelected,
-                        onTap: () {
-                          widget.disableTextField!
-                              ? null
-                              : setState(() {
-                                  isFreeParkingSelected =
-                                      !isFreeParkingSelected;
-                                  isFreeParkingSelected
-                                      ? facilities?.add('Free Parking')
-                                      : facilities?.remove('Free Parking');
-                                });
-                        },
-                        label: 'Free Parking',
-                      ),
-                      FacilitiesChip(
-                        isSelected: isAirConditionerSelected,
-                        onTap: () {
-                          widget.disableTextField!
-                              ? null
-                              : setState(() {
-                                  isAirConditionerSelected =
-                                      !isAirConditionerSelected;
-                                  isAirConditionerSelected
-                                      ? facilities?.add('Air Conditioner')
-                                      : facilities?.remove('Air Conditioner');
-                                });
-                        },
-                        label: 'Air Conditioner',
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      widget.disableTextField! || widget.isEdit!
-                          ? const CustomLabelTitle(title: "Images")
-                          : _multipleFiles.isEmpty
-                              ? const CustomLabelTitle(title: "Add Images")
-                              : const CustomLabelTitle(title: "Images"),
-                      const Spacer(),
-                      if (_multipleFiles.isNotEmpty || widget.isEdit!)
-                        TextButton(
-                          onPressed: _pickMultipleImages,
-                          child: const Text(
-                            'Add More Images',
-                            style: TextStyle(
-                                color: AppColors.primaryBackgroundColor),
-                          ),
-                        ),
-                    ],
-                  ),
-                  (widget.disableTextField! || widget.isEdit!) &&
-                          _multipleFiles.isNotEmpty
-                      ? MultipleImagesDisplay(
-                          imageFiles: _multipleFiles,
-                          imageUrls: widget.studio!.images,
-                        )
-                      : widget.disableTextField! || widget.isEdit!
-                          ? MultipleImagesDisplay(
-                              imageUrls: widget.studio!.images,
-                            )
-                          : _multipleFiles.isNotEmpty
-                              ? MultipleImagesDisplay(
-                                  imageFiles: _multipleFiles)
-                              : InkWell(
-                                  onTap: () {
-                                    _pickMultipleImages();
-                                  },
-                                  child: Container(
-                                    height: 84,
-                                    width: 84,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
-                                      border: Border.all(
-                                        color: const Color.fromRGBO(
-                                            130, 130, 130, 1),
-                                      ),
-                                    ),
-                                    child: const Image(
-                                      image: AssetImage(
-                                          "assets/images/add_image.png"),
-                                    ),
-                                  ),
+                        widget.disableTextField! || widget.isEdit!
+                            ? const SizedBox()
+                            : Center(
+                                child: Text(
+                                  'Add Thumbnail',
+                                  style: GoogleFonts.inter(fontSize: 16),
                                 ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'Pricing',
-                    style: GoogleFonts.inter(fontSize: 16),
-                  ),
-                  const SizedBox(height: 10),
-                  const RentalWidget(
-                    label: "Sell",
-                  ),
-                  const SizedBox(height: 10),
-                  CustomTextField(
-                    disableTextField: widget.disableTextField!,
-                    controller: _priceController,
-                    icon: Icons.price_change_outlined,
-                    hintText: 'Final Price',
-                  ),
-                  const SizedBox(height: 10),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-      bottomSheet: widget.disableTextField!
-          ? null
-          : AddStudioRequestButton(
-              onTap: () {
-                Location locationFromLatLng(LatLng? selectedLocation) {
-                  if (selectedLocation != null) {
-                    return Location(
-                      type: 'Point',
-                      coordinates: [
-                        selectedLocation.longitude,
-                        selectedLocation.latitude
-                      ],
-                    );
-                  }
-                  return Location(type: 'Point', coordinates: []);
-                }
+                              ),
+                        const SizedBox(height: 20),
+                        CustomTextField(
+                          disableTextField: widget.disableTextField!,
+                          controller: _studioNameController,
+                          hintText: 'Studio Name*',
+                        ),
+                        const SizedBox(height: 20),
+                        Row(
+                          children: [
+                            Text(
+                              'Type',
+                              style: GoogleFonts.inter(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const Spacer(),
+                            widget.disableTextField!
+                                ? Text(
+                                    _selectedType,
+                                    style: GoogleFonts.inter(
+                                      fontSize: 16,
+                                    ),
+                                  )
+                                : DropdownButton<String>(
+                                    value: _selectedType,
+                                    items: <String>['Commercial', 'Residential']
+                                        .map((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _selectedType = value!;
+                                      });
+                                    },
+                                    hint: const Text('Select Type'),
+                                  ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        Text(
+                          'Category',
+                          style: GoogleFonts.inter(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        ChipSelection(
+                          categories: categories,
+                          onCategorySelected: (category) {
+                            widget.disableTextField!
+                                ? null
+                                : setState(() {
+                                    _selectedCategory = category;
+                                  });
+                          },
+                          selectedCategory: _selectedCategory,
+                        ),
+                        const SizedBox(height: 20),
+                        CustomTextField(
+                          disableTextField: widget.disableTextField!,
+                          controller: _aboutStudioController,
+                          hintText: 'About Studio',
+                          maxLines: 6,
+                          keyboardType: TextInputType.multiline,
+                        ),
+                        const SizedBox(height: 10),
+                        widget.disableTextField!
+                            ? const SizedBox()
+                            : GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    selectedLocation = null;
+                                  });
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const GoogleMapFlutter(),
+                                    ),
+                                  ).then((value) {
+                                    if (value != null) {
+                                      setState(() {
+                                        selectedLocation = value;
+                                      });
+                                    }
+                                  });
+                                },
+                                child: const Row(
+                                  children: [
+                                    Text(
+                                      'Address',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Spacer(),
+                                    Icon(
+                                      Icons.location_on_outlined,
+                                      color: AppColors.primaryBackgroundColor,
+                                    ),
+                                    Text(
+                                      'Select From Maps',
+                                      style: TextStyle(
+                                          color:
+                                              AppColors.primaryBackgroundColor),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                        selectedLocation != null
+                            ? Center(
+                                child: Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.2,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.9,
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFF4F6F9),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: GoogleMap(
+                                      initialCameraPosition: CameraPosition(
+                                    target: selectedLocation!,
+                                    zoom: 14,
+                                  )),
+                                ),
+                              )
+                            : const SizedBox(),
+                        const SizedBox(height: 10),
+                        CustomTextField(
+                          disableTextField: widget.disableTextField!,
+                          controller: _addressLine1Controller,
+                          icon: Icons.location_on_outlined,
+                          hintText: 'Address Line 1',
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: CustomTextField(
+                                disableTextField: widget.disableTextField!,
+                                controller: _cityController,
+                                icon: Icons.location_on_outlined,
+                                hintText: 'City',
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: CustomTextField(
+                                disableTextField: widget.disableTextField!,
+                                controller: _stateController,
+                                icon: Icons.location_on_outlined,
+                                hintText: 'State',
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        CustomTextField(
+                          disableTextField: widget.disableTextField!,
+                          controller: _pincodeController,
+                          icon: Icons.location_on_outlined,
+                          hintText: 'Pincode',
+                        ),
+                        const SizedBox(height: 10),
+                        CustomTextField(
+                          disableTextField: widget.disableTextField!,
+                          controller: _areaSqFtController,
+                          icon: Icons.location_on_outlined,
+                          hintText: 'Area(Sq. Ft)',
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          'Property Facilities',
+                          style: GoogleFonts.inter(fontSize: 16),
+                        ),
+                        Wrap(
+                          spacing: 10,
+                          children: [
+                            FacilitiesChip(
+                              isSelected: isAnySelected,
+                              onTap: () {
+                                widget.disableTextField!
+                                    ? null
+                                    : setState(() {
+                                        isAnySelected = !isAnySelected;
+                                        isAnySelected
+                                            ? facilities?.add('Any')
+                                            : facilities?.remove('Any');
+                                      });
+                              },
+                              label: 'Any',
+                            ),
+                            FacilitiesChip(
+                              isSelected: isWifiSelected,
+                              onTap: () {
+                                widget.disableTextField!
+                                    ? null
+                                    : setState(() {
+                                        isWifiSelected = !isWifiSelected;
+                                        isWifiSelected
+                                            ? facilities?.add('WiFi')
+                                            : facilities?.remove('WiFi');
+                                      });
+                              },
+                              label: 'WiFi',
+                            ),
+                            FacilitiesChip(
+                              isSelected: isSelfCheckInSelected,
+                              onTap: () {
+                                widget.disableTextField!
+                                    ? null
+                                    : setState(() {
+                                        isSelfCheckInSelected =
+                                            !isSelfCheckInSelected;
+                                        isSelfCheckInSelected
+                                            ? facilities?.add('Self check-in')
+                                            : facilities
+                                                ?.remove('Self check-in');
+                                      });
+                              },
+                              label: 'Self check-in',
+                            ),
+                            FacilitiesChip(
+                              isSelected: isTimeSelected,
+                              onTap: () {
+                                widget.disableTextField!
+                                    ? null
+                                    : setState(() {
+                                        isTimeSelected = !isTimeSelected;
+                                        isTimeSelected
+                                            ? facilities?.add('time')
+                                            : facilities?.remove('time');
+                                      });
+                              },
+                              label: 'time',
+                            ),
+                            FacilitiesChip(
+                              isSelected: isFreeCancelSelected,
+                              onTap: () {
+                                widget.disableTextField!
+                                    ? null
+                                    : setState(() {
+                                        isFreeCancelSelected =
+                                            !isFreeCancelSelected;
+                                        isFreeCancelSelected
+                                            ? facilities?.add('Free cancel')
+                                            : facilities?.remove('Free cancel');
+                                      });
+                              },
+                              label: 'Free cancel',
+                            ),
+                            FacilitiesChip(
+                              isSelected: isSecuritySelected,
+                              onTap: () {
+                                widget.disableTextField!
+                                    ? null
+                                    : setState(() {
+                                        isSecuritySelected =
+                                            !isSecuritySelected;
+                                        isSecuritySelected
+                                            ? facilities?.add('Security')
+                                            : facilities?.remove('Security');
+                                      });
+                              },
+                              label: 'Security',
+                            ),
+                            FacilitiesChip(
+                              isSelected: isMembersSelected,
+                              onTap: () {
+                                widget.disableTextField!
+                                    ? null
+                                    : setState(() {
+                                        isMembersSelected = !isMembersSelected;
+                                        isMembersSelected
+                                            ? facilities?.add('Members')
+                                            : facilities?.remove('Members');
+                                      });
+                              },
+                              label: 'Members',
+                            ),
+                            FacilitiesChip(
+                              isSelected: isFreeParkingSelected,
+                              onTap: () {
+                                widget.disableTextField!
+                                    ? null
+                                    : setState(() {
+                                        isFreeParkingSelected =
+                                            !isFreeParkingSelected;
+                                        isFreeParkingSelected
+                                            ? facilities?.add('Free Parking')
+                                            : facilities
+                                                ?.remove('Free Parking');
+                                      });
+                              },
+                              label: 'Free Parking',
+                            ),
+                            FacilitiesChip(
+                              isSelected: isAirConditionerSelected,
+                              onTap: () {
+                                widget.disableTextField!
+                                    ? null
+                                    : setState(() {
+                                        isAirConditionerSelected =
+                                            !isAirConditionerSelected;
+                                        isAirConditionerSelected
+                                            ? facilities?.add('Air Conditioner')
+                                            : facilities
+                                                ?.remove('Air Conditioner');
+                                      });
+                              },
+                              label: 'Air Conditioner',
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          children: [
+                            widget.disableTextField! || widget.isEdit!
+                                ? const CustomLabelTitle(title: "Images")
+                                : _multipleFiles.isEmpty
+                                    ? const CustomLabelTitle(
+                                        title: "Add Images")
+                                    : const CustomLabelTitle(title: "Images"),
+                            const Spacer(),
+                            if (_multipleFiles.isNotEmpty || widget.isEdit!)
+                              TextButton(
+                                onPressed: _pickMultipleImages,
+                                child: const Text(
+                                  'Add More Images',
+                                  style: TextStyle(
+                                      color: AppColors.primaryBackgroundColor),
+                                ),
+                              ),
+                          ],
+                        ),
+                        (widget.disableTextField! || widget.isEdit!) &&
+                                _multipleFiles.isNotEmpty
+                            ? MultipleImagesDisplay(
+                                imageFiles: _multipleFiles,
+                                imageUrls: widget.studio!.images,
+                              )
+                            : widget.disableTextField! || widget.isEdit!
+                                ? MultipleImagesDisplay(
+                                    imageUrls: widget.studio!.images,
+                                  )
+                                : _multipleFiles.isNotEmpty
+                                    ? MultipleImagesDisplay(
+                                        imageFiles: _multipleFiles)
+                                    : InkWell(
+                                        onTap: () {
+                                          _pickMultipleImages();
+                                        },
+                                        child: Container(
+                                          height: 84,
+                                          width: 84,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            border: Border.all(
+                                              color: const Color.fromRGBO(
+                                                  130, 130, 130, 1),
+                                            ),
+                                          ),
+                                          child: const Image(
+                                            image: AssetImage(
+                                                "assets/images/add_image.png"),
+                                          ),
+                                        ),
+                                      ),
+                        const SizedBox(height: 10),
+                        Text(
+                          'Pricing',
+                          style: GoogleFonts.inter(fontSize: 16),
+                        ),
+                        const SizedBox(height: 10),
+                        const RentalWidget(
+                          label: "Sell",
+                        ),
+                        const SizedBox(height: 10),
+                        CustomTextField(
+                          disableTextField: widget.disableTextField!,
+                          controller: _priceController,
+                          icon: Icons.price_change_outlined,
+                          hintText: 'Final Price',
+                        ),
+                        const SizedBox(height: 10),
 
-                if (_priceController.text.isNotEmpty) {
-                  _price ??= [];
-                  _price!.add(Price(
-                    title: 'Final Price',
-                    amount: int.parse(_priceController.text),
-                    discount: 0,
-                  ));
-                }
-                final updatedProfile = Studio(
-                  name: _studioNameController.text,
-                  about: _aboutStudioController.text,
-                  address: _addressLine1Controller.text,
-                  city: _cityController.text,
-                  state: _stateController.text,
-                  pincode: _pincodeController.text,
-                  areaSqFt: _areaSqFtController.text,
-                  country: "india",
-                  location: locationFromLatLng(selectedLocation),
-                  category: _selectedCategory,
-                  facility: facilities,
-                  rentOrSell: 'Sell',
-                  price: _price,
-                );
-                widget.studio != null
-                    ? ref
-                        .read(studioListControllerProvider.notifier)
-                        .updateStudio(
-                          studioId: widget.studio!.id!,
-                          studio: updatedProfile,
-                          context: context,
-                          thumbnailFile: _thumbnailFile,
-                          imageFiles: _multipleFiles,
-                        )
-                    : ref.read(studioControllerProvider.notifier).addNewStudio(
-                          context: context,
-                          studio: updatedProfile,
-                          thumbnail: _thumbnailFile,
-                          images: _multipleFiles,
-                        );
-              },
-            ),
+                        // -----------------------------------
+                        //             Button Code
+                        // -----------------------------------
+                        if (!widget.disableTextField!)
+                          AddStudioRequestButton(
+                            label:
+                                widget.isEdit! ? 'Update Studio' : 'Add Studio',
+                            onTap: () {
+                              Location locationFromLatLng(
+                                  LatLng? selectedLocation) {
+                                if (selectedLocation != null) {
+                                  return Location(
+                                    type: 'Point',
+                                    coordinates: [
+                                      selectedLocation.longitude,
+                                      selectedLocation.latitude
+                                    ],
+                                  );
+                                }
+                                return Location(type: 'Point', coordinates: []);
+                              }
+
+                              if (_priceController.text.isNotEmpty) {
+                                _price ??= [];
+                                _price!.add(Price(
+                                  title: 'Final Price',
+                                  amount: int.parse(_priceController.text),
+                                  discount: 0,
+                                ));
+                              }
+                              final updatedProfile = Studio(
+                                name: _studioNameController.text,
+                                about: _aboutStudioController.text,
+                                address: _addressLine1Controller.text,
+                                city: _cityController.text,
+                                state: _stateController.text,
+                                pincode: _pincodeController.text,
+                                areaSqFt: _areaSqFtController.text,
+                                country: "india",
+                                location: locationFromLatLng(selectedLocation),
+                                category: _selectedCategory,
+                                facility: facilities,
+                                rentOrSell: 'Sell',
+                                price: _price,
+                              );
+                              widget.studio != null
+                                  ? ref
+                                      .read(
+                                          studioListControllerProvider.notifier)
+                                      .updateStudio(
+                                        studioId: widget.studio!.id!,
+                                        studio: updatedProfile,
+                                        context: context,
+                                        thumbnailFile: _thumbnailFile,
+                                        imageFiles: _multipleFiles,
+                                      )
+                                  : ref
+                                      .read(studioControllerProvider.notifier)
+                                      .addNewStudio(
+                                        context: context,
+                                        studio: updatedProfile,
+                                        thumbnail: _thumbnailFile,
+                                        images: _multipleFiles,
+                                      );
+                            },
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+      ),
     );
   }
 }

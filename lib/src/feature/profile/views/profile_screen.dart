@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
 import 'package:studio_partner_app/src/feature/auth/controllers/auth_controller.dart';
+import 'package:studio_partner_app/src/feature/profile/views/widgets/availability.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/custom_edit_profile.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/membership_card.dart';
 import 'package:studio_partner_app/src/feature/profile/views/widgets/info_section.dart';
@@ -176,8 +177,21 @@ class ProfileScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 10),
               CustomEditProfile(
+                label: 'Booking Availability',
+                icon: Icons.calendar_today_outlined,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const WeeklyAvailabilityPage(),
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(height: 10),
+              CustomEditProfile(
                 label: 'KYC',
-                icon: Icons.event_note_outlined,
+                icon: Icons.book_outlined,
                 onTap: () {
                   GoRouter.of(context).push(StudioRoutes.kycPage);
                 },

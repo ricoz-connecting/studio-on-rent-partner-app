@@ -5,23 +5,79 @@ import 'package:studio_partner_app/commons/views/appbar.dart';
 import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
 import 'package:studio_partner_app/src/feature/Home/views/empty_chat.dart';
 import 'package:studio_partner_app/src/feature/chat/views/chatroom.dart';
+import 'package:studio_partner_app/src/feature/chat_screen/controller/chat_user_id.dart';
+import 'package:studio_partner_app/src/feature/chat_screen/views/list_person.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-class ChatScreen extends ConsumerWidget {
+// class ChatScreen extends ConsumerWidget {
+//   const ChatScreen({super.key});
+
+//   void initState() {
+//     super.initState();
+//     ref.read(chatUserControllerProvider.notifier).updateChatUser(
+//           avatar: user?.avatar ?? '',
+//           email: user?.email ?? '',
+//           name: user?.name ?? '',
+//           phone: user?.phone ?? '',
+//           context: context,
+//         );
+//   }
+
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final status = ref.watch(statusProvider);
+//     final user = ref.watch(currentUserProvider);
+
+//     final chatUserId = ref.watch(chatUserDocIdProvider);
+//     return Scaffold(
+//       backgroundColor: Colors.white,
+//       appBar: Appbar.buildAppBar(context, ref),
+//       body: status?.kycStatus == 'Success'
+//           ? const EmptyChat()
+//           : ListOfChatsViews(
+//               // userId: "678f7024f8389c9944f10fc8",
+//               userId: chatUserId!,
+//             ),
+//     );
+//   }
+// }
+class ChatScreen extends ConsumerStatefulWidget {
   const ChatScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ChatScreen> createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends ConsumerState<ChatScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      final user = ref.read(currentUserProvider);
+      ref.read(chatUserControllerProvider.notifier).updateChatUser(
+            avatar: user?.avatar ?? '',
+            email: user?.email ?? '',
+            name: user?.name ?? '',
+            phone: user?.phone ?? '',
+            context: context,
+          );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final status = ref.watch(statusProvider);
+    final chatUserId = ref.watch(chatUserDocIdProvider);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: Appbar.buildAppBar(context, ref),
-      body: status?.kycStatus != 'Success'
+      body: status?.kycStatus == 'Success' || chatUserId == null
           ? const EmptyChat()
-          : const ChatScreenBody(),
+          : ListOfChatsViews(userId: chatUserId),
     );
   }
 }

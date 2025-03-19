@@ -1,84 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
 import 'package:studio_partner_app/commons/views/widgets/custom_appbar.dart';
-import 'package:studio_partner_app/src/res/colors.dart';
-
+import 'package:studio_partner_app/src/feature/addstudio/views/widgets/custom_rent_sell_toggel.dart';
+import 'package:studio_partner_app/src/feature/bookings/views/widgets/active_completed.dart';
 import 'rent.dart';
 import 'sell.dart';
 
-class AddStudioRequest extends StatefulWidget {
+class AddStudioRequest extends ConsumerStatefulWidget {
   const AddStudioRequest({super.key});
 
   @override
-  State<AddStudioRequest> createState() => _AddStudioRequestState();
+  ConsumerState<AddStudioRequest> createState() => _AddStudioRequestState();
 }
 
-class _AddStudioRequestState extends State<AddStudioRequest>
+class _AddStudioRequestState extends ConsumerState<AddStudioRequest>
     with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
   }
 
   @override
   Widget build(BuildContext context) {
+    final isRent = ref.watch(isRentProvider);
     return Scaffold(
       backgroundColor: Colors.white,
-      resizeToAvoidBottomInset: false,
       appBar: const CustomAppBar(title: 'Add Studio Request'),
-      body: DefaultTabController(
-        length: 2,
-        child: Column(
-          children: [
-            Container(
-              margin: const EdgeInsets.symmetric(
-                horizontal: 10,
-              ),
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(30),
-                border: Border.all(color: Colors.grey.shade300),
-              ),
-              child: TabBar(
-                controller: _tabController,
-                indicatorPadding: const EdgeInsets.all(5),
-                indicatorSize: TabBarIndicatorSize.tab,
-                indicator: BoxDecoration(
-                  color: AppColors.primaryBackgroundColor,
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                labelColor: Colors.white,
-                unselectedLabelColor: Colors.grey,
-                labelStyle: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-                unselectedLabelStyle: const TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 16,
-                ),
-                tabs: const [
-                  Tab(text: 'Rent'),
-                  Tab(text: 'Sell'),
-                ],
-              ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: CustomRentSellToggle(
+              initialValue: isRent,
+              onChanged: (value) {
+                ref.read(isRentProvider.notifier).state = value;
+              },
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.83,
-              width: double.infinity,
-              child: TabBarView(
-                controller: _tabController,
-                children: const <Widget>[
-                  Rent(),
-                  Sell(),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+          Expanded(
+            child: isRent ? const Rent() : const Sell(),
+          ),
+        ],
       ),
     );
   }

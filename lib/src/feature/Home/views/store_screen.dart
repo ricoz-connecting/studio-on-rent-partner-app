@@ -68,27 +68,24 @@ class _HomeScreenState extends ConsumerState<StoreScreen> {
                       itemBuilder: (context, index) {
                         return StudioCard(
                           onCardTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) {
-                                      return studioList[index].rentOrSell == 'Rent' ? Rent(
-                                          studio: studioList[index],
-                                          disableTextField: true,
-                                          isEdit: false,
-                                        ):
-                                        Sell(
-                                          studio: studioList[index],
-                                          disableTextField: true,
-                                          isEdit: false,
-                                        );
-                                        }));
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return studioList[index].rentOrSell == 'Rent'
+                                  ? Rent(
+                                      studio: studioList[index],
+                                      disableTextField: true,
+                                      isEdit: false,
+                                    )
+                                  : Sell(
+                                      studio: studioList[index],
+                                      disableTextField: true,
+                                      isEdit: false,
+                                    );
+                            }));
                           },
                           onTapEdit: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context)  {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
                               return studioList[index].rentOrSell == 'Rent'
                                   ? Rent(
                                       studio: studioList[index],
@@ -125,6 +122,8 @@ class _HomeScreenState extends ConsumerState<StoreScreen> {
                           status: studioList[index].isActive!,
                           title: studioList[index].name!,
                           price: studioList[index].price!,
+                          basePricePerHour: studioList[index].basePricePerHour!,
+                          fullDayPrice: studioList[index].fullPricePerDay!,
                           street: studioList[index].address!,
                           city: studioList[index].city!,
                           state: studioList[index].state!,

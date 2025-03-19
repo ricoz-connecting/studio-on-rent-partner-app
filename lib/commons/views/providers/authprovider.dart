@@ -6,3 +6,5 @@ final authTokenProvider = StateProvider<String?>((ref) => null);
 final currentUserProvider = StateProvider<User?>((ref) => null);
 final statusProvider = StateProvider<Status?>((ref) => null);
 final activeProvider = StateProvider<bool>((ref) => true);
+final isRentProvider = StateProvider<bool>((ref) => true);
+final chatUserDocIdProvider = StateProvider<String?>((ref) => null);

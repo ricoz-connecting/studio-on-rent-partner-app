@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:studio_partner_app/src/feature/file/repository/studio_file_repo.dart';
 
 final studioFileControllerProvider = Provider((ref) => StudiofileController());
 
@@ -20,11 +21,11 @@ class StudiofileController {
     }
   }
 
-  Future<List<File>?> selectMultipleFiles() async {
+  Future<List<File>?> selectMultipleFiles({bool allowVideo = false}) async {
     try {
       final result = await FilePicker.platform.pickFiles(
-        type: FileType.image,
-        allowMultiple: true,
+        type: allowVideo ? FileType.video : FileType.image,
+        allowMultiple: allowVideo ? false : true,
       );
       if (result != null) {
         final List<File> files =
@@ -33,6 +34,21 @@ class StudiofileController {
       }
     } catch (e) {
       log("Failed to pick images: $e");
+    }
+    return null;
+  }
+
+  Future<String?> uploadStudioVideos(
+      {required File videos, required WidgetRef ref}) async {
+    try {
+      final videoinfo = await ref
+          .read(studioFileRepoProvider)
+          .uploadFile(file: videos, type: UploadFileType.VIDEOS);
+      if (videoinfo != null) {
+        return videoinfo.downloadUrl;
+      }
+    } catch (e) {
+      log("Failed to upload video: $e");
     }
     return null;
   }

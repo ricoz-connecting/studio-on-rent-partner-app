@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:studio_partner_app/src/feature/Home/views/chat_screen.dart';
+import 'package:studio_partner_app/src/feature/chat/views/chat.dart';
+import 'package:studio_partner_app/src/feature/chat/views/chat_demo.dart';
+import 'package:studio_partner_app/src/feature/chat/views/chatuser.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
 class Chatroom extends StatelessWidget {
@@ -20,12 +24,41 @@ class Chatroom extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        centerTitle: true,
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ChatScreenUser(
+                    userId: '66cdfa88aec3730b74382069',
+                    partnerId: '66d5b71d4e38b24f988e6e25',
+                  ),
+                ),
+              );
+            },
             child: Text(
-              'View Details',
+              'P1_User',
+              style: GoogleFonts.lato(
+                color: AppColors.primaryBackgroundColor,
+                fontSize: 14,
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ChatScreenPartner(
+                    userId: '66cdfa88aec3730b74382069',
+                    partnerId: '66d5b71d4e38b24f988e6e25',
+                  ),
+                ),
+              );
+            },
+            child: Text(
+              'P2',
               style: GoogleFonts.lato(
                 color: AppColors.primaryBackgroundColor,
                 fontSize: 14,

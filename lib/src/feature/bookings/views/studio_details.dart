@@ -18,66 +18,72 @@ class _StudioDetailState extends State<StudioDetail> {
   String? pdfPath;
   @override
   Widget build(BuildContext context) {
+    final w = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: Text(
           'ID: ${widget.booking.orderId}',
-          style: GoogleFonts.inter(),
+          style: GoogleFonts.inter(
+            color: Colors.black,
+            fontWeight: FontWeight.w500,
+            fontSize: 16,
+          ),
         ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Row(
-              children: [
-                Container(
-                  height: 40,
-                  width: 40,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage(
-                        widget.booking.studioDetails.thumbnail,
-                      ),
-                      fit: BoxFit.cover,
-                    ),
-                    borderRadius: BorderRadius.circular(8),
+            Container(
+              height: 200,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(
+                    widget.booking.studioDetails.thumbnail,
                   ),
+                  fit: BoxFit.cover,
                 ),
-                const SizedBox(width: 10),
-                Text(widget.booking.studioDetails.studioName,
-                    style: GoogleFonts.inter()),
-                const Spacer(),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.25,
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF4F6F9),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Active',
-                      style: GoogleFonts.openSans(
-                        color: const Color(0xFF6D52EF),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+                borderRadius: BorderRadius.circular(8),
+              ),
             ),
             const SizedBox(height: 15),
             CustomContainer(
               child: Row(
                 children: [
                   Text(
+                    'Studio Name',
+                    style: GoogleFonts.inter(
+                      color: const Color(0xFF5D5D5D),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Spacer(),
+                  Text(
+                    widget.booking.studioDetails.studioName,
+                    style: GoogleFonts.inter(color: Colors.black),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 10),
+            CustomContainer(
+              child: Row(
+                children: [
+                  Text(
                     'Customer Name',
-                    style: GoogleFonts.inter(color: const Color(0xFF5A5A5A)),
+                    style: GoogleFonts.inter(
+                      color: const Color(0xFF5D5D5D),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const Spacer(),
                   Text(
                     widget.booking.customerDetails.name,
-                    style: GoogleFonts.inter(color: Colors.black),
+                    style: GoogleFonts.inter(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ],
               ),
@@ -115,13 +121,19 @@ class _StudioDetailState extends State<StudioDetail> {
             const SizedBox(height: 15),
             CustomContainer(
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Address',
-                    style: GoogleFonts.inter(color: const Color(0xFF5D5D5D)),
+                  SizedBox(
+                    width: w * 0.25,
+                    child: Text(
+                      'Address',
+                      style: GoogleFonts.inter(
+                        color: const Color(0xFF5D5D5D),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
-                  const Spacer(),
-                  Flexible(
+                  Expanded(
                     child: Text(
                       textAlign: TextAlign.end,
                       widget.booking.studioDetails.address,
@@ -140,6 +152,7 @@ class _StudioDetailState extends State<StudioDetail> {
                     'Contact Details',
                     style: GoogleFonts.inter(
                       color: const Color(0xFF5D5D5D),
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -153,8 +166,10 @@ class _StudioDetailState extends State<StudioDetail> {
                       const Spacer(),
                       Text(
                         'Call Customer',
-                        style:
-                            GoogleFonts.inter(color: const Color(0xFF6D52EF)),
+                        style: GoogleFonts.inter(
+                          color: const Color(0xFF6D52EF),
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ],
                   ),
@@ -210,9 +225,8 @@ class _StudioDetailState extends State<StudioDetail> {
                       Text(
                         'Total Amount (Paid)',
                         style: GoogleFonts.inter(
-                          color: const Color(
-                            0xFF444444,
-                          ),
+                          color: const Color(0xFF5D5D5D),
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       const Spacer(),
@@ -224,7 +238,7 @@ class _StudioDetailState extends State<StudioDetail> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 20),
                   ReusableButton(
                     radius: 10,
                     label: 'Download Invoice',

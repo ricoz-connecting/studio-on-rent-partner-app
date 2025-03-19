@@ -44,6 +44,7 @@ class CustomEditProfile extends StatelessWidget {
               ? requireLeadingIcon == true
                   ? const Icon(
                       Icons.arrow_forward_ios,
+                      size: 16,
                     )
                   : null
               : null,

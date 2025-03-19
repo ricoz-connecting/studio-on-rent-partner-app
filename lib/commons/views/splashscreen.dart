@@ -44,17 +44,18 @@ class _SplashscreenState extends ConsumerState<Splashscreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.appbarColor,
       body: SafeArea(
         child: Container(
           decoration: const BoxDecoration(
-            color: Color(0xFFFFFFFF),
+            color: AppColors.appbarColor,
           ),
           child: Stack(
             children: [
               Positioned.fill(
                 child: Container(
                   decoration: const BoxDecoration(
-                    color: AppColors.splashScreenBackgroundColor,
+                    color: AppColors.appbarColor,
                   ),
                 ),
               ),

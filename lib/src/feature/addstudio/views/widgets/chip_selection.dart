@@ -17,38 +17,35 @@ class ChipSelection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Wrap(
-        alignment: WrapAlignment.start,
-        spacing: 8,
-        runSpacing: 8,
-        children: categories.map((category) {
-          return ChoiceChip(
-            showCheckmark: false,
-            label: Text(
-              category,
-              style: TextStyle(
-                fontSize: 14,
-                color: selectedCategory == category
-                    ? AppColors.primaryBackgroundColor
-                    : Colors.black,
-              ),
-            ),
-            selected: selectedCategory == category,
-            onSelected: (selected) => onCategorySelected(category),
-            selectedColor: AppColors.primaryBackgroundColor.withOpacity(0.2),
-            side: BorderSide(
+    return Wrap(
+      alignment: WrapAlignment.start,
+      spacing: 8,
+      runSpacing: 0,
+      children: categories.map((category) {
+        return ChoiceChip(
+          showCheckmark: false,
+          label: Text(
+            category,
+            style: TextStyle(
+              fontSize: 12,
               color: selectedCategory == category
                   ? AppColors.primaryBackgroundColor
-                  : Colors.grey,
-              width: 1.5,
+                  : Colors.black54,
             ),
-            shape: const StadiumBorder(),
-            backgroundColor: Colors.white,
-          );
-        }).toList(),
-      ),
+          ),
+          selected: selectedCategory == category,
+          onSelected: (selected) => onCategorySelected(category),
+          selectedColor: AppColors.primaryBackgroundColor.withOpacity(0.2),
+          side: BorderSide(
+            color: selectedCategory == category
+                ? AppColors.primaryBackgroundColor
+                : Colors.grey,
+            width: 1,
+          ),
+          shape: const StadiumBorder(),
+          backgroundColor: Colors.white,
+        );
+      }).toList(),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/feature/bookings/views/studio_details.dart';
 import 'package:studio_partner_app/src/models/bookings.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
@@ -28,6 +29,7 @@ class ServiceCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CircleAvatar(
                   backgroundImage: NetworkImage(booking!.partnerDetails.avatar),
@@ -60,76 +62,60 @@ class ServiceCard extends StatelessWidget {
                       );
                     }));
                   },
-                  child: const Text(
+                  child: Text(
                     'View Details',
-                    style: TextStyle(
+                    style: GoogleFonts.poppins(
                       color: AppColors.primaryBackgroundColor,
-                      decoration: TextDecoration.underline,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 12,
                     ),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 5),
+            const Divider(height: 5),
+            const SizedBox(height: 10),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Day's Left",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    Text(
-                      '(19/30 Days)',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.primaryBackgroundColor,
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      isComingFromActive ? 'Next Billings on' : 'Total Paid',
-                      style: const TextStyle(color: Colors.grey),
-                    ),
-                    const Text(
-                      '04/11/2023',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const Divider(height: 32),
-            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Image.network(
                   booking!.studioDetails.thumbnail,
-                  width: 40,
-                  height: 40,
+                  width: 100,
+                  height: 100,
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      const SizedBox(height: 4),
                       Text(
                         booking!.studioDetails.studioName,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w600,
                           fontSize: 16,
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      const SizedBox(height: 4),
+                      Text(
+                        textAlign: TextAlign.start,
+                        booking!.studioDetails.category,
+                        style: const TextStyle(fontWeight: FontWeight.w500),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        textAlign: TextAlign.start,
+                        booking!.studioDetails.address,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black54,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ],
                   ),
                 ),
@@ -142,52 +128,72 @@ class ServiceCard extends StatelessWidget {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'Booking Details',
-                          style: TextStyle(
+                          style: GoogleFonts.poppins(
                             color: Colors.black,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
                           ),
                         ),
-                        const SizedBox(height: 8),
                         Row(
                           children: [
-                            const Text('Booking Starts on: '),
-                            const Spacer(),
-                            Text(booking!.bookingDetails.startTime),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            const Text('Booking Ends on: '),
-                            const Spacer(),
-                            Text(booking!.bookingDetails.endTime),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            const Text('Duration: '),
+                            Text(
+                              'Booking Starts on: ',
+                              style: GoogleFonts.poppins(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
                             const Spacer(),
                             Text(
-                                "${booking!.paymentDetails.duration.value} ${booking!.paymentDetails.duration.title}"),
+                              booking!.bookingDetails.startTime,
+                              style: GoogleFonts.poppins(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'Booking Ends on: ',
+                              style: GoogleFonts.poppins(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const Spacer(),
+                            Text(
+                              booking!.bookingDetails.endTime,
+                              style: GoogleFonts.poppins(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'Duration: ',
+                              style: GoogleFonts.poppins(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const Spacer(),
+                            Text(
+                              "${booking!.paymentDetails.duration.value} ${booking!.paymentDetails.duration.title}",
+                              style: GoogleFonts.poppins(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
                           ],
                         ),
                       ]),
-                ),
-              ],
-            ),
-            const Divider(height: 32),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                const Text(
-                  'Address',
-                  style: TextStyle(color: Colors.grey),
-                ),
-                Text(
-                  textAlign: TextAlign.end,
-                  booking!.studioDetails.address,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -203,19 +209,22 @@ class ServiceCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              child: const Padding(
+              child: Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.chat_bubble_outline,
                       color: Colors.white,
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Text(
                       'Chat with Customer',
-                      style: TextStyle(color: Colors.white),
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ],
                 ),

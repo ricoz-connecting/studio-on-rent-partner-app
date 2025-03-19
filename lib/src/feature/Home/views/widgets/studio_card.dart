@@ -1,11 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/models/studio_model.dart';
 
 class StudioCard extends StatefulWidget {
   final String title;
   final List<Price> price;
+  final int basePricePerHour;
+  final int fullDayPrice;
   final String street;
   final String city;
   final String state;
@@ -24,6 +27,8 @@ class StudioCard extends StatefulWidget {
     required this.status,
     required this.title,
     required this.price,
+    required this.basePricePerHour,
+    required this.fullDayPrice,
     required this.street,
     required this.city,
     required this.state,
@@ -73,25 +78,20 @@ class _StudioCardState extends State<StudioCard> {
 
   @override
   Widget build(BuildContext context) {
+    final h = MediaQuery.of(context).size.height;
+    final w = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
       child: GestureDetector(
         onTap: widget.onCardTap,
         child: Container(
-          height: 140,
+          height: h * 0.15,
           decoration: BoxDecoration(
             color: const Color(0xFFF4F6F9),
             borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
-                spreadRadius: 1,
-                blurRadius: 3,
-                offset: const Offset(0, 3),
-              ),
-            ],
           ),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ClipRRect(
                 borderRadius: const BorderRadius.only(
@@ -101,7 +101,7 @@ class _StudioCardState extends State<StudioCard> {
                 child: Image.network(
                   widget.imageUrl,
                   height: double.infinity,
-                  width: 110,
+                  width: w * 0.3,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -109,88 +109,102 @@ class _StudioCardState extends State<StudioCard> {
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Text(
-                          widget.title,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                        const Spacer(),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            color: widget.status == true
-                                ? const Color(0xFF2B9721)
-                                : const Color(0xFFA71414),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Text(
-                            widget.status == true ? 'Active' : 'Close',
-                            style: const TextStyle(
-                              fontSize: 10,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        PopupMenuButton(
-                            color: Colors.white,
-                            itemBuilder: (context) {
-                              return [
-                                PopupMenuItem(
-                                  onTap: widget.onTapEdit,
-                                  child: const Text('Edit'),
-                                ),
-                                PopupMenuItem(
-                                  onTap: widget.setStatus,
-                                  child: Text(
-                                      'Set ${widget.status ? 'Close' : 'Active'}'),
-                                ),
-                                PopupMenuItem(
-                                  onTap: widget.onTap,
-                                  child: const Text('Delete'),
-                                ),
-                              ];
-                            }),
-                      ],
+                    SizedBox(height: h * 0.01),
+                    Text(
+                      widget.title,
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: 4),
-                    AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 1),
-                      switchInCurve: Curves.easeInOut,
-                      switchOutCurve: Curves.easeInOut,
-                      transitionBuilder: (child, animation) {
-                        return FadeTransition(
-                          opacity: animation,
-                          child: child,
-                        );
-                      },
+                    const SizedBox(height: 2),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15,
+                        vertical: 1,
+                      ),
+                      decoration: BoxDecoration(
+                        color: widget.status == true
+                            ? const Color(0xFF2B9721)
+                            : const Color(0xFFA71414),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                       child: Text(
-                        '₹${widget.price[_currentIndex].amount}/- ${convertPeriod(widget.price[_currentIndex].title!)}',
-                        key: ValueKey<int>(_currentIndex),
+                        widget.status == true ? 'Active' : 'Close',
                         style: const TextStyle(
-                          color: Colors.black54,
-                          fontSize: 14,
+                          fontSize: 8,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      '${widget.street}, ${widget.city}, ${widget.state}, ${widget.pincode}',
-                      style: const TextStyle(
-                        color: Colors.black45,
-                        fontSize: 14,
+                      "₹ ${widget.basePricePerHour.toStringAsFixed(2)} Per Hour",
+                      style: GoogleFonts.poppins(
+                        fontSize: 12,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
                       ),
+                    ),
+                    // AnimatedSwitcher(
+                    //   duration: const Duration(milliseconds: 1),
+                    //   switchInCurve: Curves.easeInOut,
+                    //   switchOutCurve: Curves.easeInOut,
+                    //   transitionBuilder: (child, animation) {
+                    //     return FadeTransition(
+                    //       opacity: animation,
+                    //       child: child,
+                    //     );
+                    //   },
+                    //   child: Text(
+                    //     '₹${widget.price[_currentIndex].amount}/- ${convertPeriod(widget.price[_currentIndex].title!)}',
+                    //     key: ValueKey<int>(_currentIndex),
+                    //     style: GoogleFonts.poppins(
+                    //       color: Colors.black54,
+                    //       fontSize: 12,
+                    //       fontWeight: FontWeight.w500,
+                    //     ),
+                    //   ),
+                    // ),
+                    const SizedBox(height: 4),
+                    Text(
+                      '${widget.street}, ${widget.city}, ${widget.state}, ${widget.pincode}',
+                      style: GoogleFonts.poppins(
+                        color: Colors.black54,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
+              ),
+              PopupMenuButton(
+                color: Colors.white,
+                padding: EdgeInsets.zero,
+                offset: const Offset(0, 40),
+                itemBuilder: (context) {
+                  return [
+                    PopupMenuItem(
+                      onTap: widget.onTapEdit,
+                      child: const Text('Edit'),
+                    ),
+                    PopupMenuItem(
+                      onTap: widget.setStatus,
+                      child: Text('Set ${widget.status ? 'Close' : 'Active'}'),
+                    ),
+                    PopupMenuItem(
+                      onTap: widget.onTap,
+                      child: const Text('Delete'),
+                    ),
+                  ];
+                },
               ),
             ],
           ),

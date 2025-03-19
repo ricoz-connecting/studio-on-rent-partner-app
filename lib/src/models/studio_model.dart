@@ -8,22 +8,26 @@ class Studio {
   final String? type;
   final String? about;
   final List<Price>? price;
+  final int? basePricePerHour;
+  final int? fullPricePerDay;
+  final int? equipmentCharges;
+  final int? securityDeposit;
+  final int? cleaningCharges;
   final Location? location;
   final String? address;
   final String? city;
   final String? pincode;
   final String? state;
   final String? country;
-  // final List<Room>? rooms;
   final List<String>? images;
   final List<File>? imagesFiles;
+  final List<String>? videos;
+  final List<File>? videosFiles;
   final File? thumbnailFile;
   final String? thumbnail;
   final List<String>? facility;
-  // final List<NearestFacility>? nearestFacility;
   final String? areaSqFt;
   final String? rentOrSell;
-  // final bool? isCouponApplicable;
   bool? isActive;
 
   Studio({
@@ -33,22 +37,26 @@ class Studio {
     this.category,
     this.about,
     this.price,
+    this.basePricePerHour,
+    this.fullPricePerDay,
+    this.equipmentCharges,
+    this.securityDeposit,
+    this.cleaningCharges,
     this.location,
     this.address,
     this.city,
     this.pincode,
     this.state,
     this.country,
-    // this.rooms,
     this.images,
     this.imagesFiles,
+    this.videos,
+    this.videosFiles,
     this.thumbnailFile,
     this.thumbnail,
     this.facility,
-    // this.nearestFacility,
     this.areaSqFt,
     this.rentOrSell,
-    // this.isCouponApplicable,
     this.isActive,
   });
 
@@ -61,6 +69,11 @@ class Studio {
         price: json['price'] != null
             ? List<Price>.from(json['price'].map((x) => Price.fromJson(x)))
             : null,
+        basePricePerHour: json['basePricePerHour'],
+        fullPricePerDay: json['fullPricePerDay'],
+        equipmentCharges: json['equipmentCharges'],
+        securityDeposit: json['securityDeposit'],
+        cleaningCharges: json['cleaningCharges'],
         location: json['location'] != null
             ? Location.fromJson(json['location'])
             : null,
@@ -69,23 +82,18 @@ class Studio {
         pincode: json['pincode'],
         state: json['state'],
         country: json['country'],
-        // rooms: json['rooms'] != null
-        //     ? List<Room>.from(json['rooms'].map((x) => Room.fromJson(x)))
-        //     : null,
         images: json['images'] != null
             ? List<String>.from(json['images'].map((x) => x))
+            : null,
+        videos: json['videos'] != null
+            ? List<String>.from(json['videos'].map((x) => x))
             : null,
         thumbnail: json['thumbnail'],
         facility: json['facility'] != null
             ? List<String>.from(json['facility'].map((x) => x))
             : null,
-        // nearestFacility: json['nearestFacility'] != null
-        //     ? List<NearestFacility>.from(
-        //         json['nearestFacility'].map((x) => NearestFacility.fromJson(x)))
-        //     : null,
         areaSqFt: json['areaSqFt'],
         rentOrSell: json['rentOrSell'],
-        // isCouponApplicable: json['isCouponApplicable'] ?? false,
         isActive: json['isActive'] ?? true,
       );
 
@@ -99,34 +107,30 @@ class Studio {
           'price': price != null
               ? List<dynamic>.from(price!.map((x) => x.toJson()))
               : null,
+        if (basePricePerHour != null) 'basePricePerHour': basePricePerHour,
+        if (fullPricePerDay != null) 'fullPricePerDay': fullPricePerDay,
+        if (equipmentCharges != null) 'equipmentCharges': equipmentCharges,
+        if (securityDeposit != null) 'securityDeposit': securityDeposit,
+        if (cleaningCharges != null) 'cleaningCharges': cleaningCharges,
         if (location!.coordinates!.isNotEmpty) 'location': location?.toJson(),
         if (address != null) 'address': address,
         if (city != null) 'city': city,
         if (pincode != null) 'pincode': pincode,
         if (state != null) 'state': state,
         if (country != null) 'country': country,
-        // 'rooms': rooms != null
-        //     ? List<dynamic>.from(rooms!.map((x) => x.toJson()))
-        //     : null,
         if (images != null)
           'images':
               images != null ? List<dynamic>.from(images!.map((x) => x)) : null,
+        if (videos != null)
+          'videos':
+              videos != null ? List<dynamic>.from(videos!.map((x) => x)) : null,
         if (thumbnail != null) 'thumbnail': thumbnail,
         if (facility != null) 'facility': facility,
-
-        // facility != null
-        //     ? List<String>.from(facility!.map((x) => x.toJson()))
-        //     : null,
-        // 'nearestFacility': nearestFacility != null
-        //     ? List<dynamic>.from(nearestFacility!.map((x) => x.toJson()))
-        //     : null,
         if (areaSqFt != null) 'areaSqFt': areaSqFt,
         if (rentOrSell != null) 'rentOrSell': rentOrSell,
-        // 'isCouponApplicable': isCouponApplicable,
         if (isActive != null) 'isActive': isActive,
       };
 
-  // copyWith method to create a new instance with updated values
   Studio copyWith({
     String? id,
     String? name,
@@ -134,22 +138,26 @@ class Studio {
     String? category,
     String? about,
     List<Price>? price,
+    int? basePricePerHour,
+    int? fullPricePerDay,
+    int? equipmentCharges,
+    int? securityDeposit,
+    int? cleaningCharges,
     Location? location,
     String? address,
     String? city,
     String? pincode,
     String? state,
     String? country,
-    // List<Room>? rooms,
     List<String>? images,
     List<File>? imagesFiles,
+    List<String>? videos,
+    List<File>? videosFiles,
     File? thumbnailFile,
     String? thumbnail,
     List<String>? facility,
-    // List<NearestFacility>? nearestFacility,
     String? areaSqFt,
     String? rentOrSell,
-    // bool? isCouponApplicable,
     bool? isActive,
   }) {
     return Studio(
@@ -159,22 +167,26 @@ class Studio {
       category: category ?? this.category,
       about: about ?? this.about,
       price: price ?? this.price,
+      basePricePerHour: basePricePerHour ?? this.basePricePerHour,
+      fullPricePerDay: fullPricePerDay ?? this.fullPricePerDay,
+      equipmentCharges: equipmentCharges ?? this.equipmentCharges,
+      securityDeposit: securityDeposit ?? this.securityDeposit,
+      cleaningCharges: cleaningCharges ?? this.cleaningCharges,
       location: location ?? this.location,
       address: address ?? this.address,
       city: city ?? this.city,
       pincode: pincode ?? this.pincode,
       state: state ?? this.state,
       country: country ?? this.country,
-      // rooms: rooms ?? this.rooms,
       images: images ?? this.images,
       imagesFiles: imagesFiles ?? this.imagesFiles,
       thumbnailFile: thumbnailFile ?? this.thumbnailFile,
+      videos: videos ?? this.videos,
+      videosFiles: videosFiles ?? this.videosFiles,
       thumbnail: thumbnail ?? this.thumbnail,
       facility: facility ?? this.facility,
-      // nearestFacility: nearestFacility ?? this.nearestFacility,
       areaSqFt: areaSqFt ?? this.areaSqFt,
       rentOrSell: rentOrSell ?? this.rentOrSell,
-      // isCouponApplicable: isCouponApplicable ?? this.isCouponApplicable,
       isActive: isActive ?? this.isActive,
     );
   }
@@ -221,65 +233,6 @@ class Location {
       };
 }
 
-// class Room {
-//   final String? name;
-//   int? units;
-
-//   Room({this.name, this.units});
-
-//   factory Room.fromJson(Map<String, dynamic> json) => Room(
-//         name: json['name'],
-//         units: json['units'],
-//       );
-
-//   Map<String, dynamic> toJson() => {
-//         'name': name,
-//         'units': units,
-//       };
-// }
-
-// class Facility {
-//   final String? icon;
-//   final String? name;
-//   final String? value;
-
-//   Facility({this.icon, this.name, this.value});
-
-//   factory Facility.fromJson(Map<String, dynamic> json) => Facility(
-//         icon: json['icon'],
-//         name: json['name'],
-//         value: json['value'],
-//       );
-
-//   Map<String, dynamic> toJson() => {
-//         'icon': icon,
-//         'name': name,
-//         'value': value,
-//       };
-// }
-
-// class NearestFacility {
-//   final String? icon;
-//   final String? name;
-//   final String? value;
-
-//   NearestFacility({this.icon, this.name, this.value});
-
-//   factory NearestFacility.fromJson(Map<String, dynamic> json) =>
-//       NearestFacility(
-//         icon: json['icon'],
-//         name: json['name'],
-//         value: json['value'],
-//       );
-
-//   Map<String, dynamic> toJson() => {
-//         'icon': icon,
-//         'name': name,
-//         'value': value,
-//       };
-// }
-
-// Functions to use the fromJson and toJson methods
 Studio userFromJson(String str) => Studio.fromJson(json.decode(str));
 
 String userToJson(Studio data) => json.encode(data.toJson());

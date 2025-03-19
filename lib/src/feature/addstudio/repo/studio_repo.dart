@@ -13,7 +13,7 @@ class StudioRepo {
   final Ref _ref;
   StudioRepo({required API api, required Ref ref})
       : _api = api,
-       _ref = ref;
+        _ref = ref;
   FutureEither<Response?> createStudio(
       {required Map<String, dynamic> body,
       required File thumbnail,
@@ -24,10 +24,8 @@ class StudioRepo {
           .read(studioFileRepoProvider)
           .uploadFile(file: thumbnail, type: UploadFileType.THUMBNAIL);
       if (thumbnailinfo != null) {
-        body['thumbnail'] = "${BasePaths.storageURL}${thumbnailinfo.key}";
+        body['thumbnail'] = thumbnailinfo.downloadUrl;
       }
-
-      // Upload the images
       if (images.isNotEmpty) {
         List<String> imageUrls = [];
         for (File? image in images) {
@@ -37,7 +35,7 @@ class StudioRepo {
                 .uploadFile(file: image, type: UploadFileType.IMAGE);
 
             if (imageInfo != null) {
-              imageUrls.add("${BasePaths.storageURL}${imageInfo.key}");
+              imageUrls.add(imageInfo.downloadUrl);
             }
           }
         }

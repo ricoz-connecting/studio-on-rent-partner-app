@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:studio_partner_app/src/res/colors.dart';
 
-// Main widget for displaying Google Map
 class GoogleMapFlutter extends StatefulWidget {
   const GoogleMapFlutter({super.key});
 
@@ -16,6 +16,9 @@ class GoogleMapFlutter extends StatefulWidget {
 
 class _GoogleMapFlutterState extends State<GoogleMapFlutter> {
   LatLng myCurrentLocation = const LatLng(0, 0);
+  bool isLoadingAddress = false;
+  String? fetchedAddress;
+  Placemark? selectedPlacemark;
   final Completer<GoogleMapController> _controller = Completer();
   Set<Marker> markers = {};
   LatLng? selectedLocation;
@@ -23,8 +26,40 @@ class _GoogleMapFlutterState extends State<GoogleMapFlutter> {
   @override
   void initState() {
     super.initState();
-    // Fetch the current position when the widget is initialized
     fetchCurrentLocation();
+  }
+
+  Future<void> _getAddressFromLatLng(LatLng position) async {
+    try {
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        position.latitude,
+        position.longitude,
+      );
+
+      if (placemarks.isNotEmpty) {
+        Placemark place = placemarks.first;
+        String address = '''${place.street ?? ''},
+${place.locality ?? ''}, ${place.administrativeArea ?? ''}, ${place.country ?? ''}, ${place.postalCode ?? ''}
+''';
+        setState(() {
+          fetchedAddress = address;
+          selectedPlacemark = place;
+          isLoadingAddress = false;
+        });
+        log('Fetched Address: $address');
+      } else {
+        setState(() {
+          fetchedAddress = 'No address found';
+          isLoadingAddress = false;
+        });
+      }
+    } catch (e) {
+      setState(() {
+        fetchedAddress = 'Error fetching address';
+        isLoadingAddress = false;
+      });
+      log('Error in address fetch: $e');
+    }
   }
 
   @override
@@ -58,6 +93,34 @@ class _GoogleMapFlutterState extends State<GoogleMapFlutter> {
             },
           ),
           Positioned(
+            bottom: 100,
+            left: 20,
+            right: 20,
+            child: Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    blurRadius: 5,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: isLoadingAddress
+                  ? const Center(child: CircularProgressIndicator())
+                  : Text(
+                      fetchedAddress ?? 'Tap on the map to select a location',
+                      style: GoogleFonts.lato(
+                        fontSize: 14,
+                        color: Colors.black87,
+                      ),
+                    ),
+            ),
+          ),
+          Positioned(
             top: 16.0,
             right: 16.0,
             child: FloatingActionButton(
@@ -82,30 +145,41 @@ class _GoogleMapFlutterState extends State<GoogleMapFlutter> {
               },
             ),
           ),
-          Positioned(
-            top: 16.0,
-            left: 16.0,
-            child: FloatingActionButton(
-              heroTag: 'confirmLocation',
-              backgroundColor: Colors.white,
-              child: const Icon(
-                Icons.check,
-                size: 25,
-              ),
-              onPressed: () {
-                if (selectedLocation != null) {
-                  Navigator.pop(context, selectedLocation);
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Please select a location on the map."),
-                    ),
-                  );
-                }
-              },
+        ],
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        child: FloatingActionButton(
+          heroTag: 'confirmLocation',
+          backgroundColor: AppColors.primaryBackgroundColor,
+          child: Text(
+            'Select Address ',
+            style: GoogleFonts.poppins(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
             ),
           ),
-        ],
+          onPressed: () {
+            if (selectedLocation != null && selectedPlacemark != null) {
+              Navigator.pop(context, {
+                'location': selectedLocation,
+                'street': selectedPlacemark!.street!,
+                'area': selectedPlacemark!.subLocality!,
+                'state': selectedPlacemark!.administrativeArea!,
+                'city': selectedPlacemark!.locality!,
+                'pincode': selectedPlacemark!.postalCode!,
+                'country': selectedPlacemark!.country!,
+              });
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Please select a location on the map."),
+                ),
+              );
+            }
+          },
+        ),
       ),
     );
   }
@@ -120,9 +194,12 @@ class _GoogleMapFlutterState extends State<GoogleMapFlutter> {
         ),
       );
       selectedLocation = latLng;
+      isLoadingAddress = true;
 
       log('Selected location: Latitude: ${latLng.latitude}, Longitude: ${latLng.longitude}');
+      // Fetch and display the address
     });
+    _getAddressFromLatLng(latLng);
   }
 
   Future<Position> currentPosition() async {
@@ -151,8 +228,24 @@ class _GoogleMapFlutterState extends State<GoogleMapFlutter> {
   Future<void> fetchCurrentLocation() async {
     try {
       Position position = await currentPosition();
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        position.latitude,
+        position.longitude,
+      );
+      if (placemarks.isNotEmpty) {
+        Placemark place = placemarks.first;
+        String address = '''${place.street ?? ''},
+${place.locality ?? ''}, ${place.administrativeArea ?? ''}, ${place.country ?? ''}, ${place.postalCode ?? ''}
+''';
+        setState(() {
+          selectedPlacemark = place;
+          fetchedAddress = address;
+          isLoadingAddress = false;
+        });
+      }
       setState(() {
         myCurrentLocation = LatLng(position.latitude, position.longitude);
+
         selectedLocation = myCurrentLocation;
         markers.add(
           Marker(
@@ -175,19 +268,3 @@ class _GoogleMapFlutterState extends State<GoogleMapFlutter> {
     }
   }
 }
-
-//   void _addMarker(LatLng latLng) {
-//     setState(() {
-//       markers.clear();
-//       markers.add(
-//         Marker(
-//           markerId: const MarkerId('selectedLocation'),
-//           position: latLng,
-//         ),
-//       );
-//       selectedLocation = latLng;
-
-//       log('Selected location: Latitude: ${latLng.latitude}, Longitude: ${latLng.longitude}');
-//     });
-//   }
-// }

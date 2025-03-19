@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:studio_partner_app/src/res/colors.dart';
 
 class CustomTextField extends StatelessWidget {
   final IconData? icon;
@@ -26,7 +28,6 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      // height: height ?? 50,
       child: TextField(
         enabled: !disableTextField,
         controller: controller,
@@ -39,21 +40,58 @@ class CustomTextField extends StatelessWidget {
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(suffixLabel!),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: Text(
+                        suffixLabel!,
+                        style: GoogleFonts.poppins(
+                          fontSize: 12,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
                   ],
                 )
               : null,
-          prefixIcon: icon != null ? Icon(icon) : null,
-          contentPadding: const EdgeInsets.all(
-            14,
+          prefixIcon: icon != null
+              ? Icon(
+                  icon,
+                  color: Colors.grey,
+                  size: 18,
+                )
+              : null,
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 5,
           ),
           filled: true,
           fillColor: const Color(0xFFF4F6F9),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide.none,
+            borderSide: const BorderSide(
+              color: Colors.grey,
+              width: 0.5,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(
+              color: Colors.grey,
+              width: 0.5,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(
+              color: AppColors.primaryBackgroundColor,
+              width: 1,
+            ),
           ),
           hintText: hintText,
+          hintStyle: GoogleFonts.poppins(
+            fontSize: 14,
+            color: Colors.grey,
+          ),
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
 class FacilitiesChip extends StatelessWidget {
@@ -19,17 +20,23 @@ class FacilitiesChip extends StatelessWidget {
       onTap: onTap,
       child: Chip(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50),
+          borderRadius: BorderRadius.circular(15),
         ),
         color: WidgetStatePropertyAll(
           isSelected
               ? AppColors.primaryBackgroundColor
-              : const Color(0xFFF4F6F9),
+              : const Color(0xFFF2F2F3),
         ),
         side: BorderSide.none,
-        label: Text(label!,
-            style: TextStyle(color: isSelected ? Colors.white : Colors.black)),
-        backgroundColor: const Color(0xFFF4F6F9),
+        label: Text(
+          label!,
+          style: GoogleFonts.poppins(
+            color: isSelected ? Colors.white : const Color(0XFF7D7F88),
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        backgroundColor: const Color(0xFFF2F2F3),
       ),
     );
   }

@@ -71,7 +71,7 @@ class StudioListRepo {
           .read(studioFileRepoProvider)
           .uploadFile(file: thumbnail, type: UploadFileType.THUMBNAIL);
       if (thumbnailinfo != null) {
-        body['thumbnail'] = "${BasePaths.storageURL}${thumbnailinfo.key}";
+        body['thumbnail'] = thumbnailinfo.downloadUrl;
       }
       // Upload the images
     }
@@ -86,7 +86,7 @@ class StudioListRepo {
               .read(studioFileRepoProvider)
               .uploadFile(file: image, type: UploadFileType.IMAGE);
           if (imageInfo != null) {
-            imageUrls.add("${BasePaths.storageURL}${imageInfo.key}");
+            imageUrls.add(imageInfo.downloadUrl);
           }
         }
       }

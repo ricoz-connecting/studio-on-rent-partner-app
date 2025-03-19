@@ -94,8 +94,9 @@ class SrudioFile {
 }
 
 enum UploadFileType {
-  THUMBNAIL('THUMBNAIL'), // Thumbnail
-  IMAGE('IMAGE'); // For general images
+  THUMBNAIL('THUMBNAIL'),
+  IMAGE('IMAGE'),
+  VIDEOS('VIDEOS');
 
   final String text;
   const UploadFileType(this.text);
@@ -106,6 +107,8 @@ enum UploadFileType {
         return UploadFileType.THUMBNAIL;
       case 'IMAGE':
         return UploadFileType.IMAGE;
+      case 'VIDEOS':
+        return UploadFileType.VIDEOS;
       default:
         throw Exception('Invalid UploadFileType: $text');
     }
