@@ -43,6 +43,7 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                const SizedBox(height: 10),
                 Row(
                   children: [
                     Text(
@@ -55,13 +56,19 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
                     ),
                     const Spacer(),
                     TextButton(
-                        onPressed: () {
-                          GoRouter.of(context).go(StudioRoutes.bottomNavBar);
-                        },
-                        child: const Text('Skip')),
+                      onPressed: () {
+                        GoRouter.of(context).go(StudioRoutes.bottomNavBar);
+                      },
+                      child: Text('Skip ',
+                          style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.primaryBackgroundColor,
+                          )),
+                    ),
                   ],
                 ),
-                const SizedBox(height: 10),
+                // const SizedBox(height: 10),
                 const Text(
                   "Don't worry, only you can see your personal data. No one else will be able to see it.",
                   textAlign: TextAlign.center,
@@ -88,8 +95,8 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
                           child: GlobalImageBuilder(
                             src: userProfile?.avatar,
                             file: selectedImageFile,
-                            height: 110,
-                            width: 110,
+                            height: 100,
+                            width: 100,
                             icon: Icons.person,
                           ),
                         ),
@@ -97,15 +104,18 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
                     },
                   ),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 20),
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Name',
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black),
                   ),
                 ),
-                const SizedBox(height: 10),
+
                 TextField(
                   controller: _nameController,
                   onChanged: (value) {
@@ -132,10 +142,13 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Business Name',
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black),
                   ),
                 ),
-                const SizedBox(height: 10),
+
                 TextField(
                   controller: _bussinessNameController,
                   onChanged: (value) {
@@ -154,18 +167,22 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide.none,
                     ),
-                    hintText: 'ABC Enterprises',
+                    hintText: 'Enter your Business Name',
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Gender',
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
-                const SizedBox(height: 10),
+
                 DropdownButtonFormField<String>(
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(
@@ -191,23 +208,25 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
                     });
                   },
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Phone Number',
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black),
                   ),
                 ),
-                const SizedBox(height: 10),
+
                 Row(
                   children: [
                     Expanded(
                       flex: 1,
                       child: Container(
                         padding: const EdgeInsets.symmetric(
-                          vertical: 14,
-                          horizontal: 14,
+                          vertical: 15,
                         ),
                         decoration: BoxDecoration(
                           color: Colors.grey.shade200,
@@ -220,7 +239,7 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 10),
+                    const SizedBox(width: 5),
                     Expanded(
                       flex: 3,
                       child: TextField(
@@ -242,7 +261,7 @@ class _CompleteProfileScreenState extends ConsumerState<CompleteProfileScreen> {
                             borderRadius: BorderRadius.circular(10),
                             borderSide: BorderSide.none,
                           ),
-                          hintText: '9534525555',
+                          hintText: 'Enter your phone number',
                         ),
                       ),
                     ),

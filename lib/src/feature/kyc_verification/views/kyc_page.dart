@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/commons/controllers/status_controller.dart';
 import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
+import 'package:studio_partner_app/commons/views/widgets/custom_appbar.dart';
 import 'package:studio_partner_app/src/feature/auth/views/widgets/reusable_button.dart';
 import 'package:studio_partner_app/src/feature/kyc_verification/controller/kyc_controller.dart';
 import 'package:studio_partner_app/src/feature/kyc_verification/views/kyc_verified.dart';
@@ -27,7 +28,6 @@ class _KYCscreenState extends ConsumerState<KYCscreen> {
     final kyc = ref.read(kycControllerProvider);
     _documentController.text = kyc.documentNumber ?? "";
     _nameController.text = kyc.nameOnDocument ?? "";
-    
   }
 
   @override
@@ -43,16 +43,10 @@ class _KYCscreenState extends ConsumerState<KYCscreen> {
     final status = ref.watch(statusProvider);
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(
-          'KYC',
-          style: GoogleFonts.lato(),
-        ),
-      ),
+      appBar: const CustomAppBar(title: 'Upload KYC'),
       body: status?.kycStatus == "Pending"
           ? const Verification()
-          : status?.kycStatus == "Success"
+          : status?.kycStatus == "Verified"
               ? const KycVerified()
               : Column(
                   children: [
@@ -87,12 +81,17 @@ class _KYCscreenState extends ConsumerState<KYCscreen> {
                                 hint: const Text('Select document'),
                                 items: const [
                                   DropdownMenuItem(
-                                      value: 'ID', child: Text('ID')),
+                                    value: 'Aadhar',
+                                    child: Text('Aadhar'),
+                                  ),
                                   DropdownMenuItem(
-                                      value: 'Passport',
-                                      child: Text('Passport')),
+                                    value: 'Passport',
+                                    child: Text('Passport'),
+                                  ),
                                   DropdownMenuItem(
-                                      value: 'License', child: Text('License')),
+                                    value: 'Driving Licence',
+                                    child: Text('Driving Licence'),
+                                  ),
                                 ],
                                 onChanged: (value) {
                                   ref
@@ -189,7 +188,7 @@ class _KYCscreenState extends ConsumerState<KYCscreen> {
                                         ),
                                       ),
                                       Text(
-                                        'Front',
+                                        'Front*',
                                         style: GoogleFonts.lato(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w500,
@@ -220,7 +219,7 @@ class _KYCscreenState extends ConsumerState<KYCscreen> {
                                         ),
                                       ),
                                       Text(
-                                        'Back',
+                                        'Back*',
                                         style: GoogleFonts.lato(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w500,

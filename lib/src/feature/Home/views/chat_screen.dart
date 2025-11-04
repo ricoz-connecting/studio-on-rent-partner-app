@@ -12,38 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-// class ChatScreen extends ConsumerWidget {
-//   const ChatScreen({super.key});
-
-//   void initState() {
-//     super.initState();
-//     ref.read(chatUserControllerProvider.notifier).updateChatUser(
-//           avatar: user?.avatar ?? '',
-//           email: user?.email ?? '',
-//           name: user?.name ?? '',
-//           phone: user?.phone ?? '',
-//           context: context,
-//         );
-//   }
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final status = ref.watch(statusProvider);
-//     final user = ref.watch(currentUserProvider);
-
-//     final chatUserId = ref.watch(chatUserDocIdProvider);
-//     return Scaffold(
-//       backgroundColor: Colors.white,
-//       appBar: Appbar.buildAppBar(context, ref),
-//       body: status?.kycStatus == 'Success'
-//           ? const EmptyChat()
-//           : ListOfChatsViews(
-//               // userId: "678f7024f8389c9944f10fc8",
-//               userId: chatUserId!,
-//             ),
-//     );
-//   }
-// }
 class ChatScreen extends ConsumerStatefulWidget {
   const ChatScreen({super.key});
 
@@ -57,13 +25,16 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     super.initState();
     Future.microtask(() {
       final user = ref.read(currentUserProvider);
-      ref.read(chatUserControllerProvider.notifier).updateChatUser(
-            avatar: user?.avatar ?? '',
-            email: user?.email ?? '',
-            name: user?.name ?? '',
-            phone: user?.phone ?? '',
-            context: context,
-          );
+      final chatUserId = ref.watch(chatUserDocIdProvider);
+      if (chatUserId == null) {
+        ref.read(chatUserControllerProvider.notifier).updateChatUser(
+              avatar: user?.avatar ?? '',
+              email: user?.email ?? '',
+              name: user?.name ?? '',
+              phone: user?.phone ?? '',
+              context: context,
+            );
+      }
     });
   }
 
@@ -77,7 +48,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
       appBar: Appbar.buildAppBar(context, ref),
       body: status?.kycStatus == 'Success' || chatUserId == null
           ? const EmptyChat()
-          : ListOfChatsViews(userId: chatUserId),
+          : ListOfChatsViews(userId: chatUserId ?? ''),
     );
   }
 }

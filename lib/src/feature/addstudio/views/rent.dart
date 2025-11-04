@@ -12,6 +12,7 @@ import 'package:studio_partner_app/src/feature/addstudio/views/widgets/add_image
 import 'package:studio_partner_app/src/feature/addstudio/views/widgets/chip_selection.dart';
 import 'package:studio_partner_app/src/feature/addstudio/views/widgets/label_title.dart';
 import 'package:studio_partner_app/src/feature/file/controller/studiofile.dart';
+import 'package:studio_partner_app/src/feature/studioSchedule/views/studioAvailability.dart';
 import 'package:studio_partner_app/src/models/studio_model.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 import '../controller/studio_controller.dart';
@@ -290,7 +291,39 @@ class _RentState extends ConsumerState<Rent> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: (widget.disableTextField! || widget.isEdit!)
-          ? const CustomAppBar(title: 'Studio')
+          ? AppBar(
+              backgroundColor: Colors.white,
+              title: Text(
+                widget.isEdit! ? 'Edit Studio' : 'Studio',
+                style: GoogleFonts.poppins(
+                  color: Colors.black,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              actions: [
+                widget.isEdit!
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(
+                              builder: (context) {
+                                return StudioAvailabilityPage(
+                                  studioDocId: widget.studio!.id!,
+                                );
+                              },
+                            ));
+                          },
+                          icon: const Icon(
+                            Icons.edit_calendar_outlined,
+                            color: Colors.black,
+                          ),
+                        ),
+                      )
+                    : Container(),
+              ],
+            )
           : null,
       body: SafeArea(
         child: SingleChildScrollView(

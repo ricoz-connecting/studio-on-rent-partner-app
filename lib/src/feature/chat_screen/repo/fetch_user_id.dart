@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
 import 'package:studio_partner_app/src/core/core.dart';
+import 'package:studio_partner_app/src/res/base.dart';
 import 'package:studio_partner_app/src/res/endpoints.dart';
 
 class ChatUserRepo {
@@ -16,6 +17,7 @@ class ChatUserRepo {
   FutureEither<Response> updateProfile({
     required String phone,
     required String email,
+    required String userType,
     required String name,
     required String avatar,
   }) async {
@@ -23,13 +25,13 @@ class ChatUserRepo {
       "projectName": "Bookmystudio",
       "phone": phone,
       "email": email,
+      "userType": userType,
       "name": name,
       "avatar": avatar,
     };
 
     final response = await _api.postRequest(
-        url: 'https://chat-server-qrl9.onrender.com/api/create-connection',
-        body: body);
+        url: "${BasePaths.baseSocketUrl}/api/create-connection", body: body);
     log(response.toString());
     return response;
   }

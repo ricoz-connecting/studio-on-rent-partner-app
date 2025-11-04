@@ -34,9 +34,6 @@ class _MessageListViewState extends ConsumerState<MessageListView> {
   void initState() {
     super.initState();
 
-    // if (!_socketService.isConnected) {
-    //   _socketService.connect(widget.sender);
-    // }
     if (!_socketService.isConnected) {
       _socketService.connect(widget.sender, (updatedChatList) {
         ref
@@ -55,7 +52,13 @@ class _MessageListViewState extends ConsumerState<MessageListView> {
 
     _socketService.onMessageReceived((data) {
       if (mounted) {
-        ref.read(messageControllerProvider.notifier).addMessage(data);
+        print('📩 Received message: $data');
+
+        ref.read(messageControllerProvider.notifier).addMessage(
+              senderDocId: data['senderDocId'],
+              receiverDocId: data['receiverDocId'],
+              msg: data['message'],
+            );
         _scrollToBottom();
       }
     });
@@ -64,6 +67,7 @@ class _MessageListViewState extends ConsumerState<MessageListView> {
       ref.read(messageControllerProvider.notifier).getMessage(
           senderDocId: widget.sender, receiverDocId: widget.receiver);
     });
+    _scrollToBottom();
   }
 
   void _scrollToBottom() {
@@ -85,17 +89,16 @@ class _MessageListViewState extends ConsumerState<MessageListView> {
       _socketService.sendMessage(
           widget.sender, widget.receiver, _controller.text);
 
-      ref.read(messageControllerProvider.notifier).addMessage(message);
-
       _controller.clear();
+
       _scrollToBottom();
     }
   }
 
-  String _formatTime(String? timestamp) {
-    if (timestamp == null) return ''; // Handle null timestamps
-    DateTime dateTime = DateTime.parse(timestamp);
-    return DateFormat.jm().format(dateTime); // Converts to 12-hour format
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -110,10 +113,15 @@ class _MessageListViewState extends ConsumerState<MessageListView> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CircleAvatar(
-              radius: 20,
-              backgroundImage: NetworkImage(widget.avatar),
-            ),
+            widget.avatar.isEmpty
+                ? CircleAvatar(
+                    backgroundColor: Colors.grey.shade300,
+                    child: const Icon(Icons.person_outline),
+                  )
+                : CircleAvatar(
+                    radius: 20,
+                    backgroundImage: NetworkImage(widget.avatar),
+                  ),
             const SizedBox(
               width: 5,
             ),
@@ -225,7 +233,7 @@ class _MessageListViewState extends ConsumerState<MessageListView> {
                                     children: [
                                       Text(
                                         DateFormat('hh:mm a')
-                                            .format(messageDate), // ✅ Show Time
+                                            .format(messageDate),
                                         style: TextStyle(
                                           color: isMe
                                               ? Colors.white70
@@ -235,7 +243,7 @@ class _MessageListViewState extends ConsumerState<MessageListView> {
                                       ),
                                       if (isMe) SizedBox(width: 4),
                                       if (isMe)
-                                        Icon(
+                                        const Icon(
                                           Icons.done_all,
                                           size: 14,
                                           color: Colors.white70,
@@ -259,15 +267,32 @@ class _MessageListViewState extends ConsumerState<MessageListView> {
                   child: TextField(
                     controller: _controller,
                     decoration: InputDecoration(
-                      hintText: 'Type a message',
-                      border: OutlineInputBorder(),
+                      hintText: 'Type a message...',
+                      hintStyle: TextStyle(color: Colors.grey.shade500),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 12, horizontal: 16),
+                      filled: true,
+                      fillColor: Colors.grey.shade100,
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.send, color: Colors.blueAccent),
+                        onPressed: _sendMessage,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide(color: Colors.grey.shade300),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: const BorderSide(
+                            color: Colors.blueAccent, width: 1.5),
+                      ),
                     ),
                   ),
                 ),
-                IconButton(
-                  icon: Icon(Icons.send),
-                  onPressed: _sendMessage,
-                ),
+                // IconButton(
+                //   icon: const Icon(Icons.send),
+                //   onPressed: _sendMessage,
+                // ),
               ],
             ),
           ),

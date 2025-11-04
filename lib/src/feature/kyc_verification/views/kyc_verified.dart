@@ -26,7 +26,10 @@ class KycVerified extends ConsumerWidget {
           ),
           const Text(
             'Your Verification is Complete',
-            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 16,
+            ),
           ),
         ],
       ),

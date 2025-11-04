@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
 import 'package:studio_partner_app/commons/views/widgets/custom_appbar.dart';
 import 'package:studio_partner_app/src/feature/addstudio/views/widgets/availability_card.dart';
+import 'package:studio_partner_app/src/feature/profile/controllers/availabilityController.dart';
+import 'package:studio_partner_app/src/models/partnerAvailability.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
-class WeeklyAvailabilityPage extends StatefulWidget {
+class WeeklyAvailabilityPage extends ConsumerStatefulWidget {
   const WeeklyAvailabilityPage({super.key});
 
   @override
   WeeklyAvailabilityPageState createState() => WeeklyAvailabilityPageState();
 }
 
-class WeeklyAvailabilityPageState extends State<WeeklyAvailabilityPage> {
+class WeeklyAvailabilityPageState
+    extends ConsumerState<WeeklyAvailabilityPage> {
   Map<String, bool> isDayOff = {
     "Monday": false,
     "Tuesday": false,
@@ -21,40 +26,112 @@ class WeeklyAvailabilityPageState extends State<WeeklyAvailabilityPage> {
     "Sunday": true,
   };
 
-  Map<String, TimeOfDay?> morningStartTimes = {};
-  Map<String, TimeOfDay?> morningEndTimes = {};
-  Map<String, TimeOfDay?> eveningStartTimes = {};
-  Map<String, TimeOfDay?> eveningEndTimes = {};
+  Map<String, String?> morningStartTimes = {};
+  Map<String, String?> morningEndTimes = {};
+  Map<String, String?> eveningStartTimes = {};
+  Map<String, String?> eveningEndTimes = {};
 
+  // void _pickTime(String day, bool isMorning, bool isStart) async {
+  //   TimeOfDay? picked = await showTimePicker(
+  //     context: context,
+  //     initialTime: TimeOfDay.now(),
+  //   );
+  //   if (picked != null) {
+  //     setState(() {
+  //       if (isMorning) {
+  //         if (isStart) {
+  //           morningStartTimes[day] = picked.format(context);
+  //         } else {
+  //           morningEndTimes[day] = picked.format(context);
+  //         }
+  //       } else {
+  //         if (isStart) {
+  //           eveningStartTimes[day] = picked.format(context);
+  //         } else {
+  //           eveningEndTimes[day] = picked.format(context);
+  //         }
+  //       }
+  //     });
+  //   }
+  // }
   void _pickTime(String day, bool isMorning, bool isStart) async {
     TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
     );
+
     if (picked != null) {
+      final formattedTime = picked.format(context);
+
       setState(() {
+        // Update local maps if needed (optional)
         if (isMorning) {
           if (isStart) {
-            morningStartTimes[day] = picked;
+            morningStartTimes[day] = formattedTime;
           } else {
-            morningEndTimes[day] = picked;
+            morningEndTimes[day] = formattedTime;
           }
         } else {
           if (isStart) {
-            eveningStartTimes[day] = picked;
+            eveningStartTimes[day] = formattedTime;
           } else {
-            eveningEndTimes[day] = picked;
+            eveningEndTimes[day] = formattedTime;
           }
         }
       });
+
+      // Call updateDayAvailability to update state
+      ref.read(availabilityControllerProvider.notifier).updateDayAvailability(
+            day: day,
+            isAvailable: true,
+            morningStart: isMorning && isStart ? formattedTime : null,
+            morningEnd: isMorning && !isStart ? formattedTime : null,
+            eveningStart: !isMorning && isStart ? formattedTime : null,
+            eveningEnd: !isMorning && !isStart ? formattedTime : null,
+          );
     }
   }
 
-  void _openUnavailabilityPage() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => UnavailabilityPickerPage()),
-    );
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() async {
+      final user = ref.read(currentUserProvider);
+      final controller = ref.read(availabilityControllerProvider.notifier);
+
+      await controller.getAvailability(
+        partnerDocId: user!.id,
+        context: context,
+      );
+
+      final data = ref.read(availabilityControllerProvider);
+
+      if (data != null) {
+        final dayMap = {
+          'Monday': data.monday,
+          'Tuesday': data.tuesday,
+          'Wednesday': data.wednesday,
+          'Thursday': data.thursday,
+          'Friday': data.friday,
+          'Saturday': data.saturday,
+          'Sunday': data.sunday,
+        };
+
+        dayMap.forEach((day, dayData) {
+          if (dayData != null) {
+            isDayOff[day] = !(dayData.isAvailable ?? false);
+            // Morning Shift
+            morningStartTimes[day] = dayData.morningShift?.startTime;
+            morningEndTimes[day] = dayData.morningShift?.endTime;
+            // Evening Shift
+            eveningStartTimes[day] = dayData.eveningShift?.startTime;
+            eveningEndTimes[day] = (dayData.eveningShift?.endTime);
+          }
+        });
+
+        setState(() {});
+      }
+    });
   }
 
   @override
@@ -78,6 +155,12 @@ class WeeklyAvailabilityPageState extends State<WeeklyAvailabilityPage> {
                     eveningEndTimes.remove(day);
                   }
                 });
+                ref
+                    .read(availabilityControllerProvider.notifier)
+                    .updateDayAvailability(
+                      day: day,
+                      isAvailable: !value,
+                    );
               },
               morningStartTime: morningStartTimes[day],
               morningEndTime: morningEndTimes[day],
@@ -90,157 +173,21 @@ class WeeklyAvailabilityPageState extends State<WeeklyAvailabilityPage> {
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primaryBackgroundColor,
             ),
-            onPressed: _openUnavailabilityPage,
+            onPressed: () {
+              final user = ref.read(currentUserProvider);
+
+              ref
+                  .read(availabilityControllerProvider.notifier)
+                  .updateAvailability(context: context, partnerDocId: user!.id);
+            },
             child: const Text(
-              "Manage Unavailability",
+              "Update",
               style: TextStyle(
                 color: Colors.white,
               ),
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildShiftRow(String day, String shift, bool isMorning) {
-    return Column(
-      children: [
-        Text("$shift Shift",
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue)),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            ElevatedButton(
-              onPressed: () => _pickTime(day, isMorning, true),
-              child: Text(
-                isMorning
-                    ? (morningStartTimes[day]?.format(context) ?? "Start Time")
-                    : (eveningStartTimes[day]?.format(context) ?? "Start Time"),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () => _pickTime(day, isMorning, false),
-              child: Text(
-                isMorning
-                    ? (morningEndTimes[day]?.format(context) ?? "End Time")
-                    : (eveningEndTimes[day]?.format(context) ?? "End Time"),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-// ────────────────────────────────────────────────────────────────────────────────────────
-// Unavailability Picker Page
-// ────────────────────────────────────────────────────────────────────────────────────────
-
-class UnavailabilityPickerPage extends StatefulWidget {
-  @override
-  _UnavailabilityPickerPageState createState() =>
-      _UnavailabilityPickerPageState();
-}
-
-class _UnavailabilityPickerPageState extends State<UnavailabilityPickerPage> {
-  List<DateTime> unavailableDates = [];
-  TimeOfDay? startTime;
-  TimeOfDay? endTime;
-  TimeOfDay? autoResumeTime;
-
-  void _pickDate() async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2024),
-      lastDate: DateTime(2030),
-    );
-
-    if (picked != null && !unavailableDates.contains(picked)) {
-      setState(() {
-        unavailableDates.add(picked);
-      });
-    }
-  }
-
-  void _pickTime(Function(TimeOfDay) onTimePicked) async {
-    final TimeOfDay? picked = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    );
-
-    if (picked != null) {
-      setState(() {
-        onTimePicked(picked);
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Manage Unavailability")),
-      body: Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          children: [
-            ElevatedButton(
-              onPressed: _pickDate,
-              child: Text("Select Date(s)"),
-            ),
-            Wrap(
-              children: unavailableDates.map((date) {
-                return Chip(
-                  label: Text("${date.day}/${date.month}/${date.year}"),
-                  onDeleted: () {
-                    setState(() {
-                      unavailableDates.remove(date);
-                    });
-                  },
-                );
-              }).toList(),
-            ),
-            SizedBox(height: 10),
-            Text("Choose Unavailable Time Slot",
-                style: TextStyle(fontWeight: FontWeight.bold)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () => _pickTime((t) => startTime = t),
-                  child: Text(startTime == null
-                      ? "Start Time"
-                      : startTime!.format(context)),
-                ),
-                SizedBox(width: 20),
-                ElevatedButton(
-                  onPressed: () => _pickTime((t) => endTime = t),
-                  child: Text(
-                      endTime == null ? "End Time" : endTime!.format(context)),
-                ),
-              ],
-            ),
-            SizedBox(height: 10),
-            Text("Set Auto-Resume Time",
-                style: TextStyle(fontWeight: FontWeight.bold)),
-            ElevatedButton(
-              onPressed: () => _pickTime((t) => autoResumeTime = t),
-              child: Text(autoResumeTime == null
-                  ? "Auto-Resume Time"
-                  : autoResumeTime!.format(context)),
-            ),
-            SizedBox(height: 10),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text("Save & Back", style: TextStyle(color: Colors.white)),
-            ),
-          ],
-        ),
       ),
     );
   }

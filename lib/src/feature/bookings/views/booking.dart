@@ -1,44 +1,3 @@
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
-// import 'package:studio_partner_app/src/feature/bookings/views/active.dart';
-// import 'package:studio_partner_app/src/feature/bookings/views/completed.dart';
-// import 'package:flutter/material.dart';
-// import 'package:studio_partner_app/src/feature/bookings/views/widgets/active_completed.dart';
-// import 'package:studio_partner_app/src/res/colors.dart';
-
-// import '../../../../commons/views/appbar.dart';
-
-// class Bookings extends ConsumerWidget {
-//   const Bookings({super.key});
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final status = ref.watch(statusProvider);
-//     final isActive = ref.watch(activeProvider);
-//     return Scaffold(
-//       backgroundColor: Colors.white,
-//       appBar: Appbar.buildAppBar(context, ref),
-//       body: Column(
-//         children: [
-//           Padding(
-//             padding: const EdgeInsets.symmetric(vertical: 10),
-//             child: CustomActiveCompletedToggle(
-//               initialValue: isActive,
-//               onChanged: (value) {
-//                 ref.read(activeProvider.notifier).state = value;
-//               },
-//             ),
-//           ),
-//           Expanded(
-//             child:
-//                 isActive ? const ActiveRequests() : const CompletedRequests(),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -122,11 +81,12 @@ class _BookingsState extends ConsumerState<Bookings> {
       onTap: () => _onTabTapped(index),
       child: Column(
         children: [
+          const SizedBox(height: 5),
           Text(
             title,
             style: GoogleFonts.poppins(
               fontSize: 16,
-              fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+              fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
               color:
                   isSelected ? AppColors.primaryBackgroundColor : Colors.black,
             ),
@@ -138,6 +98,7 @@ class _BookingsState extends ConsumerState<Bookings> {
               width: title.length * 12.0,
               color: AppColors.primaryBackgroundColor,
             ),
+          const SizedBox(height: 5),
         ],
       ),
     );
@@ -155,7 +116,7 @@ class _ComingSoonPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text(
         "Coming Soon",
         style: TextStyle(

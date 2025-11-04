@@ -48,7 +48,7 @@ class ComplaintRepo {
 
   FutureEither<Response> getComplaintDetails(String id) async {
     final result = await _api.getRequest(
-      url: "${Endpoints.getComplaintDetails}$id",
+      url: "${Endpoints.getComplaintDetails}/$id",
       requireAuth: true,
     );
     return result;

@@ -21,7 +21,7 @@ class PreviousComplaintController
 
   Future<void> getComplaintDetails(String id) async {
     try {
-      final result = await _repo.getComplaintDetails(id);
+      final result = await _repo.getComplaints();
       result.fold(
         (failure) {
           log('Failure: $failure');

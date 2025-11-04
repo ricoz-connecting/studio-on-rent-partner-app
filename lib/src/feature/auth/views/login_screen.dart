@@ -67,7 +67,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   email = value;
                 }),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               const Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -92,7 +92,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   password = value;
                 }),
               ),
-              const SizedBox(height: 5),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -121,7 +120,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       'Forgot Password',
                       style: TextStyle(
                         color: Color(0xFF939393),
-                        decoration: TextDecoration.underline,
+                        fontSize: 12,
                       ),
                     ),
                   ),

@@ -3,6 +3,11 @@ class AppString {
   static const splashTitleName = "Studio On Rent\n Partner";
 }
 
+class Complaint {
+  static const disclaimer =
+      "Please enter the details of your request. A member of support staff will respond as soon as possible.";
+}
+
 class FailureMessage {
   static const getRequestMessage = "GET REQUEST FAILED";
   static const postRequestMessage = "POST REQUEST FAILED";

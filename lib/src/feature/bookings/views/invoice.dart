@@ -189,10 +189,10 @@ class CreateInvoice {
       ),
     );
     final directory = await getExternalStorageDirectories();
-    if (directory == null) {
+    if (directory == null || directory.isEmpty) {
       throw Exception("Downloads directory not available");
     }
-    final filePath = '${directory[1].path}/invoice.pdf';
+    final filePath = '${directory.first.path}/invoice.pdf';
     final file = File(filePath);
     await file.writeAsBytes(await pdf.save());
     log('PDF saved at: $filePath');

@@ -40,7 +40,9 @@ class YourEarningsWidget extends StatelessWidget {
           ),
           Text(
             label,
-            style: GoogleFonts.lato(
+            style: GoogleFonts.inter(
+              fontWeight: FontWeight.w500,
+              fontSize: 13,
               color: const Color(0xFF5F5F5F),
             ),
           ),

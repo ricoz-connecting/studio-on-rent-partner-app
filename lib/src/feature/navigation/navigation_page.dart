@@ -49,7 +49,7 @@ class _BottomNavBarState extends ConsumerState<BottomNavBar> {
         children: [
           BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
-            backgroundColor: AppColors.textBackgroundColor,
+            backgroundColor: AppColors.appbarColor,
             currentIndex: _selectedIndex,
             items: <BottomNavigationBarItem>[
               _buildBottomNavigationItem('Bookings', IconAssets.bookings, 0),

@@ -8,8 +8,11 @@ import 'package:studio_partner_app/src/feature/profile/views/widgets/membership_
 import 'package:studio_partner_app/src/feature/profile/views/widgets/info_section.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:studio_partner_app/src/feature/studioSchedule/views/showAllStudio.dart';
+import 'package:studio_partner_app/src/feature/transactions/controllers/earning_history_controller.dart';
 import 'package:studio_partner_app/src/res/assets.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
+import 'package:studio_partner_app/utils/notification.dart';
 import 'package:studio_partner_app/utils/router.dart';
 import '../../../models/user_model.dart';
 
@@ -160,7 +163,12 @@ class ProfileScreen extends ConsumerWidget {
                         label: "History",
                         icon: Icons.history,
                         onTap: () {
-                          GoRouter.of(context).push(StudioRoutes.historyScreen);
+                          final earnigsHistory =
+                              ref.watch(earningsHistoryControllerProvider);
+                          GoRouter.of(context).push(
+                            StudioRoutes.transactionHistory,
+                            extra: earnigsHistory,
+                          );
                         }),
                   ),
                   const SizedBox(width: 10),
@@ -177,15 +185,14 @@ class ProfileScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 10),
               CustomEditProfile(
-                label: 'Booking Availability',
+                label: 'Schedule Studio Availability',
                 icon: Icons.calendar_today_outlined,
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const WeeklyAvailabilityPage(),
-                    ),
-                  );
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return const StudioSelectionScreen();
+                    },
+                  ));
                 },
               ),
               const SizedBox(height: 10),
@@ -193,6 +200,11 @@ class ProfileScreen extends ConsumerWidget {
                 label: 'KYC',
                 icon: Icons.book_outlined,
                 onTap: () {
+                  NotificationService().sendNotification(
+                    title: "Title",
+                    desc: "Description",
+                    playerId: "3503c9c4-90c2-4c06-882f-08adc2051201",
+                  );
                   GoRouter.of(context).push(StudioRoutes.kycPage);
                 },
               ),
@@ -201,6 +213,9 @@ class ProfileScreen extends ConsumerWidget {
                 label: 'Logout',
                 icon: Icons.logout,
                 onTap: () async {
+                  ref
+                      .read(chatUserDocIdProvider.notifier)
+                      .update((state) => null);
                   await ref
                       .read(authControllerProvider.notifier)
                       .signOut(context);

@@ -15,9 +15,9 @@ class Appbar {
       elevation: 0,
       title: Container(
         padding: const EdgeInsets.only(top: 20.0),
-        width: MediaQuery.of(context).size.width * 0.45,
+        width: MediaQuery.of(context).size.width * 0.35,
         child: Image.asset(
-          ImageAssets.appbarImage,
+          ImageAssets.appLogo,
         ),
       ),
       actions: [

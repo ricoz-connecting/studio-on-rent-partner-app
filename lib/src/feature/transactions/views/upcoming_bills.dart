@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:studio_partner_app/commons/views/widgets/custom_appbar.dart';
 import 'package:studio_partner_app/src/feature/transactions/views/widgets/upcoming_bills.dart';
 
 import '../../../res/assets.dart';
@@ -16,13 +17,7 @@ class UpcomingBills extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          title: Text(
-            'Upcoming Bills',
-            style: GoogleFonts.lato(),
-          ),
-        ),
+        appBar: const CustomAppBar(title: 'Upcoming Bills'),
         body: Center(
           child: Lottie.asset(
             AnimationAssets.noDataFound,
@@ -30,7 +25,7 @@ class UpcomingBills extends StatelessWidget {
             height: 200,
           ),
         )
-        // ListView.builder(
+        // body:ListView.builder(
         //     itemCount: upcomingBills.length,
         //     itemBuilder: (context, index) {
         //       return upcomingBills[index];

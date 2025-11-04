@@ -7,7 +7,8 @@ import 'package:studio_partner_app/src/feature/Home/views/widgets/onboarding_car
 import 'package:studio_partner_app/utils/router.dart';
 
 class EmptyStudio extends ConsumerWidget {
-  const EmptyStudio({super.key});
+  final String kycStatus;
+  const EmptyStudio({super.key, required this.kycStatus});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -37,18 +38,27 @@ class EmptyStudio extends ConsumerWidget {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(height: 10),
-                    Text(
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Text(
                         textAlign: TextAlign.center,
-                        'A group easily allows you to share content,Inputs & templates.',
-                        style: GoogleFonts.inter()),
+                        'A group easily allows you to share content, Inputs & templates.',
+                        style: GoogleFonts.inter(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
-              Positioned(
+              if (kycStatus == 'Pending' || kycStatus == 'Not Found')
+                Positioned(
                   bottom: MediaQuery.of(context).size.height * 0.09,
-                  child:
-                      OnboardingCard(width: MediaQuery.of(context).size.width)),
+                  child: OnboardingCard(
+                    width: MediaQuery.of(context).size.width,
+                  ),
+                ),
             ],
           ),
         ),

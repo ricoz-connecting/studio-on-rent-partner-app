@@ -30,13 +30,14 @@ class _CompletedRequestsState extends ConsumerState<CompletedRequests> {
   @override
   Widget build(BuildContext context) {
     final bookings = ref.watch(bookingsControllerProvider);
+    final w = MediaQuery.of(context).size.width;
     return isLoading
         ? const Center(child: CircularProgressIndicator())
         : bookings.isEmpty
             ? Center(
                 child: SizedBox(
-                  width: 300,
-                  height: 300,
+                  width: w * 0.5,
+                  height: w * 0.5,
                   child: Lottie.asset(AnimationAssets.noDataFound),
                 ),
               )

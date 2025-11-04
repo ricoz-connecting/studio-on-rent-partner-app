@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/feature/auth/views/widgets/reusable_button.dart';
 import 'package:studio_partner_app/src/feature/banks/controller/bank_controller.dart';
 import 'package:studio_partner_app/src/feature/banks/controller/search_details.dart';
+import 'package:studio_partner_app/src/feature/banks/views/widgets/yesorno.dart';
 import 'package:studio_partner_app/src/models/bank_details_model.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
@@ -23,6 +24,7 @@ class _BankDetailssState extends ConsumerState<AddBankdetails> {
   TextEditingController accountNoController = TextEditingController();
   TextEditingController accountHolderController = TextEditingController();
   TextEditingController bankNameController = TextEditingController();
+  bool isPrimary = false;
   @override
   void initState() {
     if (widget.bankDetails != null) {
@@ -31,6 +33,7 @@ class _BankDetailssState extends ConsumerState<AddBankdetails> {
       accountNoController.text = widget.bankDetails!.accountNumber;
       accountHolderController.text = widget.bankDetails!.accountHolderName;
       bankNameController.text = widget.bankDetails!.bankName;
+      isPrimary = widget.bankDetails!.primary;
     }
     super.initState();
   }
@@ -82,26 +85,46 @@ class _BankDetailssState extends ConsumerState<AddBankdetails> {
                 }
               },
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             BankDetailsField(
               enabled: false,
               controller: bankNameController,
               label: 'Bank Name',
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             BankDetailsField(
               controller: branchController,
               enabled: false,
               label: 'Branch Name',
             ),
+            const SizedBox(height: 10),
             BankDetailsField(
               controller: accountNoController,
               label: 'Enter Account No.',
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             BankDetailsField(
               controller: accountHolderController,
               label: 'Account Holder’s Name',
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 15, bottom: 4),
+              child: Text(
+                'Set as primary?',
+                style: GoogleFonts.poppins(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            YesNoDropdown(
+              initialValue: isPrimary == true ? "Yes" : "No",
+              onChanged: (value) {
+                print("Selected: $value");
+                setState(() {
+                  isPrimary = value == "Yes" ? true : false;
+                });
+              },
             ),
             const Spacer(),
             ReusableButton(
@@ -117,14 +140,16 @@ class _BankDetailssState extends ConsumerState<AddBankdetails> {
                           accountHolderName: accountHolderController.text,
                           accountNumber: accountNoController.text,
                           ifscCode: ifscController.text,
+                          primary: isPrimary,
                         )
                     : ref.read(bankControllerProvider.notifier).addBankDetail(
-                        context: context,
-                        bankName: bankNameController.text,
-                        accountHolderName: accountHolderController.text,
-                        accountNumber: accountNoController.text,
-                        ifscCode: ifscController.text,
-                        primary: true);
+                          context: context,
+                          bankName: bankNameController.text,
+                          accountHolderName: accountHolderController.text,
+                          accountNumber: accountNoController.text,
+                          ifscCode: ifscController.text,
+                          primary: isPrimary,
+                        );
               },
               radius: 8,
             )

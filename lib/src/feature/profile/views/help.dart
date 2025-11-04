@@ -31,32 +31,39 @@ class HelpPage extends StatelessWidget {
               child: ListView(
                 children: const [
                   CustomExpansionTile(
-                    title: 'Services we offer',
-                    content: 'Details about services we offer...',
+                    title: 'Studios We Offer',
+                    content:
+                        'Explore various types of studios available for rent, including photography studios, podcast rooms, event spaces, and more. Each studio is equipped with top-notch amenities to meet your needs.',
                   ),
                   CustomExpansionTile(
-                    title: 'How to get started with our services',
-                    content: 'Details on how to get started...',
+                    title: 'How to Book a Studio',
+                    content:
+                        'Browse available studios, check availability, and easily book a studio through our platform. You can also filter by location, size, and amenities to find the perfect fit.',
                   ),
                   CustomExpansionTile(
-                    title: 'My Profile',
-                    content: 'Details about your profile...',
+                    title: 'My Profile & Booking History',
+                    content:
+                        'View and edit your personal profile, manage saved payment methods, and keep track of all your past and upcoming studio bookings.',
                   ),
                   CustomExpansionTile(
-                    title: 'Changes to project scope',
-                    content: 'Information on project scope changes...',
+                    title: 'Rescheduling or Cancelling Bookings',
+                    content:
+                        'Need to change your booking? Learn how to reschedule or cancel a studio booking as per our flexible cancellation policies.',
                   ),
                   CustomExpansionTile(
-                    title: 'Report & Invoices',
-                    content: 'Details about reports and invoices...',
+                    title: 'Invoices & Payment Details',
+                    content:
+                        'Access invoices, transaction details, and payment history. Download invoices for accounting or business needs.',
                   ),
                   CustomExpansionTile(
-                    title: 'Support after the project completion',
-                    content: 'Support information after project completion...',
+                    title: 'Post-Booking Support',
+                    content:
+                        'Facing issues after booking? Get support regarding studio access, equipment usage, or any concerns post-booking.',
                   ),
                   CustomExpansionTile(
-                    title: 'Others',
-                    content: 'Additional help topics...',
+                    title: 'Other FAQs',
+                    content:
+                        'Find answers to commonly asked questions regarding platform usage, account settings, referral programs, and more.',
                   ),
                   ContactUsSection(),
                 ],

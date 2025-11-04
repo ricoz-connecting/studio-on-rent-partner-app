@@ -151,26 +151,6 @@ class _StudioCardState extends State<StudioCard> {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    // AnimatedSwitcher(
-                    //   duration: const Duration(milliseconds: 1),
-                    //   switchInCurve: Curves.easeInOut,
-                    //   switchOutCurve: Curves.easeInOut,
-                    //   transitionBuilder: (child, animation) {
-                    //     return FadeTransition(
-                    //       opacity: animation,
-                    //       child: child,
-                    //     );
-                    //   },
-                    //   child: Text(
-                    //     '₹${widget.price[_currentIndex].amount}/- ${convertPeriod(widget.price[_currentIndex].title!)}',
-                    //     key: ValueKey<int>(_currentIndex),
-                    //     style: GoogleFonts.poppins(
-                    //       color: Colors.black54,
-                    //       fontSize: 12,
-                    //       fontWeight: FontWeight.w500,
-                    //     ),
-                    //   ),
-                    // ),
                     const SizedBox(height: 4),
                     Text(
                       '${widget.street}, ${widget.city}, ${widget.state}, ${widget.pincode}',
@@ -193,15 +173,34 @@ class _StudioCardState extends State<StudioCard> {
                   return [
                     PopupMenuItem(
                       onTap: widget.onTapEdit,
-                      child: const Text('Edit'),
+                      child: Text(
+                        'Edit',
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12,
+                        ),
+                      ),
                     ),
                     PopupMenuItem(
                       onTap: widget.setStatus,
-                      child: Text('Set ${widget.status ? 'Close' : 'Active'}'),
+                      child: Text(
+                        'Set ${widget.status ? 'Close' : 'Active'}',
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12,
+                        ),
+                      ),
                     ),
                     PopupMenuItem(
                       onTap: widget.onTap,
-                      child: const Text('Delete'),
+                      child: Text(
+                        'Delete',
+                        style: GoogleFonts.poppins(
+                          color: Colors.red,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12,
+                        ),
+                      ),
                     ),
                   ];
                 },

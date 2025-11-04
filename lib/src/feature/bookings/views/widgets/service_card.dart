@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
 import 'package:studio_partner_app/src/feature/bookings/views/studio_details.dart';
+import 'package:studio_partner_app/src/feature/chat_screen/controller/chat_user_id.dart';
+import 'package:studio_partner_app/src/feature/chat_screen/views/message_screen.dart';
 import 'package:studio_partner_app/src/models/bookings.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 
@@ -147,7 +151,7 @@ class ServiceCard extends StatelessWidget {
                             ),
                             const Spacer(),
                             Text(
-                              booking!.bookingDetails.startTime,
+                              booking?.bookingDetails.startTime ?? '',
                               style: GoogleFonts.poppins(
                                 color: Colors.grey,
                                 fontWeight: FontWeight.w500,
@@ -166,7 +170,7 @@ class ServiceCard extends StatelessWidget {
                             ),
                             const Spacer(),
                             Text(
-                              booking!.bookingDetails.endTime,
+                              booking?.bookingDetails.endTime ?? '',
                               style: GoogleFonts.poppins(
                                 color: Colors.grey,
                                 fontWeight: FontWeight.w500,
@@ -185,7 +189,7 @@ class ServiceCard extends StatelessWidget {
                             ),
                             const Spacer(),
                             Text(
-                              "${booking!.paymentDetails.duration.value} ${booking!.paymentDetails.duration.title}",
+                              "${booking!.paymentDetails.duration?.value} ${booking!.paymentDetails.duration?.title}",
                               style: GoogleFonts.poppins(
                                 color: Colors.grey,
                                 fontWeight: FontWeight.w500,
@@ -198,38 +202,140 @@ class ServiceCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: (AppColors.primaryBackgroundColor),
-                minimumSize: const Size(double.infinity, 36),
-                shadowColor: Colors.black.withOpacity(0.2),
-                elevation: 8,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+            Consumer(builder: (context, ref, child) {
+              return ElevatedButton(
+                // onPressed: () async {
+                //   final user = ref.read(currentUserProvider);
+                //   final id = ref.watch(chatUserDocIdProvider);
+                //   if (id == null) {
+                //     ref
+                //         .read(chatUserControllerProvider.notifier)
+                //         .updateChatUser(
+                //           avatar: user?.avatar ?? '',
+                //           email: user?.email ?? '',
+                //           name: user?.name ?? '',
+                //           phone: user?.phone ?? '',
+                //           context: context,
+                //         );
+                //   }
+                //   final result = await ref
+                //       .read(chatUserControllerProvider.notifier)
+                //       .createConnection(
+                //         avatar: '',
+                //         email: booking!.customerDetails.email,
+                //         name: booking!.customerDetails.name,
+                //         phone: booking!.customerDetails.phone,
+                //         context: context,
+                //       );
+
+                //   print("####################################################");
+                //   result.fold(
+                //     (failure) {
+                //       print('Failure: ${failure.message}');
+                //     },
+                //     (connectionId) {
+                //       Navigator.push(
+                //         context,
+                //         MaterialPageRoute(
+                //           builder: (context) => MessageListView(
+                //             personName: booking!.customerDetails.name,
+                //             sender: id!,
+                //             receiver: connectionId,
+                //             avatar: '',
+                //           ),
+                //         ),
+                //       );
+                //       print('Connection with: $id');
+                //       print('Connection Created: $connectionId');
+                //     },
+                //   );
+                onPressed: () async {
+                  final user = ref.read(currentUserProvider);
+                  var id = ref.watch(chatUserDocIdProvider);
+
+                  if (id == null) {
+                    await ref
+                        .read(chatUserControllerProvider.notifier)
+                        .updateChatUser(
+                          avatar: user?.avatar ?? '',
+                          email: user?.email ?? '',
+                          name: user?.name ?? '',
+                          phone: user?.phone ?? '',
+                          context: context,
+                        );
+
+                    // Re-read the updated ID after updating chat user
+                    id = ref.watch(chatUserDocIdProvider);
+                  }
+
+                  if (id == null) {
+                    print("Error: Chat User ID is still null after updating.");
+                    return;
+                  }
+
+                  final result = await ref
+                      .read(chatUserControllerProvider.notifier)
+                      .createConnection(
+                        avatar: '',
+                        email: booking!.customerDetails.email,
+                        name: booking!.customerDetails.name,
+                        phone: booking!.customerDetails.phone,
+                        context: context,
+                      );
+
+                  print("####################################################");
+                  result.fold(
+                    (failure) {
+                      print('Failure: ${failure.message}');
+                    },
+                    (connectionId) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MessageListView(
+                            personName: booking!.customerDetails.name,
+                            sender: id!,
+                            receiver: connectionId,
+                            avatar: '',
+                          ),
+                        ),
+                      );
+                      print('Connection with: $id');
+                      print('Connection Created: $connectionId');
+                    },
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: (AppColors.primaryBackgroundColor),
+                  minimumSize: const Size(double.infinity, 36),
+                  shadowColor: Colors.black.withOpacity(0.2),
+                  elevation: 8,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                 ),
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.chat_bubble_outline,
-                      color: Colors.white,
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      'Chat with Customer',
-                      style: GoogleFonts.poppins(
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.chat_bubble_outline,
                         color: Colors.white,
-                        fontWeight: FontWeight.w500,
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 10),
+                      Text(
+                        'Chat with Customer',
+                        style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ),
+              );
+            }),
           ],
         ),
       ),

@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/commons/views/appbar.dart';
 import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
+import 'package:studio_partner_app/src/feature/Home/views/empty_studio.dart';
 import 'package:studio_partner_app/src/feature/Home/views/widgets/custom_fab.dart';
 import 'package:flutter/material.dart';
 import 'package:studio_partner_app/src/feature/addstudio/views/rent.dart';
@@ -52,90 +53,98 @@ class _HomeScreenState extends ConsumerState<StoreScreen> {
         : Scaffold(
             backgroundColor: Colors.white,
             appBar: Appbar.buildAppBar(context, ref),
-            body:
-                // status?.kycStatus != 'Success'
-                //     ? const EmptyStudio()
-                //     :
-                Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: height * 0.02),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: studioList.length,
-                      itemBuilder: (context, index) {
-                        return StudioCard(
-                          onCardTap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return studioList[index].rentOrSell == 'Rent'
-                                  ? Rent(
-                                      studio: studioList[index],
-                                      disableTextField: true,
-                                      isEdit: false,
-                                    )
-                                  : Sell(
-                                      studio: studioList[index],
-                                      disableTextField: true,
-                                      isEdit: false,
-                                    );
-                            }));
-                          },
-                          onTapEdit: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return studioList[index].rentOrSell == 'Rent'
-                                  ? Rent(
-                                      studio: studioList[index],
-                                      disableTextField: false,
-                                      isEdit: true,
-                                    )
-                                  : Sell(
-                                      studio: studioList[index],
-                                      disableTextField: false,
-                                      isEdit: true,
-                                    );
-                            }));
-                          },
-                          setStatus: () {
-                            ref
-                                .read(studioListControllerProvider.notifier)
-                                .updatestudioStatus(
-                                  studioList[index].id!,
-                                  !studioList[index].isActive!,
-                                );
-                            setState(() {
-                              studioList[index].isActive =
-                                  !studioList[index].isActive!;
-                            });
-                          },
-                          onTap: () {
-                            ref
-                                .read(studioListControllerProvider.notifier)
-                                .deleteStudio(
-                                  context: context,
-                                  studioId: studioList[index].id!,
-                                );
-                          },
-                          status: studioList[index].isActive!,
-                          title: studioList[index].name!,
-                          price: studioList[index].price!,
-                          basePricePerHour: studioList[index].basePricePerHour!,
-                          fullDayPrice: studioList[index].fullPricePerDay!,
-                          street: studioList[index].address!,
-                          city: studioList[index].city!,
-                          state: studioList[index].state!,
-                          pincode: studioList[index].pincode!,
-                          imageUrl: studioList[index].thumbnail!,
-                        );
-                      },
+            body: (status?.kycStatus == 'Verified' || studioList.isEmpty)
+                ? EmptyStudio(kycStatus: status!.kycStatus)
+                : Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: height * 0.02),
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: studioList.length,
+                            itemBuilder: (context, index) {
+                              return StudioCard(
+                                onCardTap: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return studioList[index].rentOrSell ==
+                                            'Rent'
+                                        ? Rent(
+                                            studio: studioList[index],
+                                            disableTextField: true,
+                                            isEdit: false,
+                                          )
+                                        : Sell(
+                                            studio: studioList[index],
+                                            disableTextField: true,
+                                            isEdit: false,
+                                          );
+                                  }));
+                                },
+                                onTapEdit: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return studioList[index].rentOrSell ==
+                                                'Rent'
+                                            ? Rent(
+                                                studio: studioList[index],
+                                                disableTextField: false,
+                                                isEdit: true,
+                                              )
+                                            : Sell(
+                                                studio: studioList[index],
+                                                disableTextField: false,
+                                                isEdit: true,
+                                              );
+                                      },
+                                    ),
+                                  );
+                                },
+                                setStatus: () {
+                                  ref
+                                      .read(
+                                          studioListControllerProvider.notifier)
+                                      .updatestudioStatus(
+                                        studioList[index].id!,
+                                        !studioList[index].isActive!,
+                                      );
+                                  setState(() {
+                                    studioList[index].isActive =
+                                        !studioList[index].isActive!;
+                                  });
+                                },
+                                onTap: () {
+                                  ref
+                                      .read(
+                                          studioListControllerProvider.notifier)
+                                      .deleteStudio(
+                                        context: context,
+                                        studioId: studioList[index].id!,
+                                      );
+                                },
+                                status: studioList[index].isActive!,
+                                title: studioList[index].name!,
+                                price: studioList[index].price!,
+                                basePricePerHour:
+                                    studioList[index].basePricePerHour!,
+                                fullDayPrice:
+                                    studioList[index].fullPricePerDay!,
+                                street: studioList[index].address!,
+                                city: studioList[index].city!,
+                                state: studioList[index].state!,
+                                pincode: studioList[index].pincode!,
+                                imageUrl: studioList[index].thumbnail!,
+                              );
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-            ),
             floatingActionButton: CustomFAB(
               onPressed: () {
                 GoRouter.of(context).push(StudioRoutes.addStudioRequest);

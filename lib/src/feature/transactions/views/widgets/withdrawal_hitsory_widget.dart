@@ -24,15 +24,16 @@ class WithdrawalHistoryWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Studio Service',
-                style: GoogleFonts.lato(
+                'Withdrawal To A/C',
+                style: GoogleFonts.inter(
                   fontSize: 16,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
               Text(
                 'Txn ID : ${withdrawalHistory.transactionId}',
-                style: GoogleFonts.lato(
+                style: GoogleFonts.inter(
+                  fontSize: 14,
                   color: const Color(0xFF656565),
                 ),
               ),
@@ -52,6 +53,8 @@ class WithdrawalHistoryWidget extends StatelessWidget {
               Text(
                 '${withdrawalHistory.date.day}/${withdrawalHistory.date.month}/${withdrawalHistory.date.year}',
                 style: GoogleFonts.lato(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
                   color: const Color(0xFF656565),
                 ),
               ),

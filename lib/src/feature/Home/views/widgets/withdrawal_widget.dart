@@ -18,7 +18,7 @@ class WithdrawalWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       decoration: BoxDecoration(
         color: const Color(0xFFF4F6F9),
         borderRadius: BorderRadius.circular(10),
@@ -30,7 +30,7 @@ class WithdrawalWidget extends StatelessWidget {
               Text(
                 '₹ $totalWithdrawal',
                 style: GoogleFonts.inter(
-                  fontSize: 25,
+                  fontSize: 24,
                   fontWeight: FontWeight.w600,
                   color: AppColors.primaryBackgroundColor,
                 ),
@@ -39,7 +39,7 @@ class WithdrawalWidget extends StatelessWidget {
               Text(
                 '₹ $availableWithdrawal',
                 style: GoogleFonts.inter(
-                  fontSize: 25,
+                  fontSize: 24,
                   fontWeight: FontWeight.w600,
                   color: AppColors.primaryBackgroundColor,
                 ),
@@ -49,18 +49,20 @@ class WithdrawalWidget extends StatelessWidget {
           Row(
             children: [
               Text(
-                'Total\nWithdrawable',
+                'Total Amount \nTransfered to A/C',
                 style: GoogleFonts.inter(
-                  fontSize: 16,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
                   color: const Color(0xFF5F5F5F),
                 ),
               ),
               const Spacer(),
               Text(
                 textAlign: TextAlign.right,
-                'Available to\nWithdraw',
+                'Available to \nWithdraw',
                 style: GoogleFonts.inter(
-                  fontSize: 16,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
                   color: const Color(0xFF5F5F5F),
                 ),
               ),
@@ -92,7 +94,9 @@ class WithdrawalWidget extends StatelessWidget {
             },
             child: Text(
               'Withdrawal History',
-              style: GoogleFonts.lato(
+              style: GoogleFonts.poppins(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
                 color: const Color(0xFF5F5F5F),
               ),
             ),

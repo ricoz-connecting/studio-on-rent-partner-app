@@ -7,6 +7,8 @@ import 'package:studio_partner_app/utils/snackbar_service.dart';
 
 import '../repo/bank_repo.dart';
 
+final selectedBankProvider = StateProvider<Banks?>((ref) => null);
+
 final bankControllerProvider =
     StateNotifierProvider<BankController, List<Banks>>((ref) {
   final bankRepo = ref.read(bankRepoProvider);
@@ -33,11 +35,23 @@ class BankController extends StateNotifier<List<Banks>> {
         (response) {
           final data = jsonDecode(response.body);
           if (data['success'] == false) {
-            return state = [];
+            state = [];
+            _ref.read(selectedBankProvider.notifier).state = null;
+            return;
           }
+
           final bankList = data['data'] as List;
           final bankDetails =
               bankList.map((bank) => Banks.fromJson(bank)).toList();
+
+          // Find primary bank
+          final primaryBanks =
+              bankDetails.where((bank) => bank.primary == true);
+          if (primaryBanks.isNotEmpty) {
+            _ref.read(selectedBankProvider.notifier).state = primaryBanks.first;
+          } else {
+            _ref.read(selectedBankProvider.notifier).state = null;
+          }
           state = bankDetails;
         },
       );
@@ -88,7 +102,7 @@ class BankController extends StateNotifier<List<Banks>> {
 
           if (success) {
             Navigator.of(context).pop();
-            getBankDetails(); // Refresh the list after adding
+            getBankDetails();
           }
         },
       );

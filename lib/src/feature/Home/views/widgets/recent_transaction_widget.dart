@@ -14,13 +14,13 @@ class RecentTransactionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 10, left: 5, right: 5),
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: const Color(0xFFF4F6F9),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             height: 50,
@@ -31,34 +31,44 @@ class RecentTransactionWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 10),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                recentTransaction.title,
-                style: GoogleFonts.lato(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  recentTransaction.title,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: GoogleFonts.inter(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-              ),
-              Text(
-                recentTransaction.orderId,
-                style: GoogleFonts.lato(
-                  color: const Color(0xFF656565),
+                const SizedBox(height: 4),
+                Text(
+                  recentTransaction.orderId.isEmpty
+                      ? "OrderId not available"
+                      : recentTransaction.orderId,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: GoogleFonts.lato(
+                    color: const Color(0xFF656565),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-          const Spacer(),
+          const SizedBox(width: 8),
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
                 '+ ₹${recentTransaction.amount}',
                 style: GoogleFonts.lato(
-                    color: const Color(0xFF16BF27),
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold),
+                  color: const Color(0xFF16BF27),
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               Text(
                 '${recentTransaction.date.day}/${recentTransaction.date.month}/${recentTransaction.date.year}',

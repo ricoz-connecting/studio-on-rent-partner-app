@@ -33,11 +33,14 @@ class MessageController extends StateNotifier<List<Message>> {
     }
   }
 
-  void addMessage(dynamic data) {
+  void addMessage(
+      {required String senderDocId,
+      required String receiverDocId,
+      required String msg}) {
     final message = Message(
-      senderDocId: data['senderDocId'],
-      receiverDocId: data['receiverDocId'],
-      message: data['message'],
+      senderDocId: senderDocId,
+      receiverDocId: receiverDocId,
+      message: msg,
       createdAt: DateTime.now(),
     );
     state = [...state, message];

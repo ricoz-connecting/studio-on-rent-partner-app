@@ -1,10 +1,16 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/feature/auth/views/widgets/reusable_button.dart';
 import 'package:studio_partner_app/src/feature/bookings/views/invoice.dart';
 import 'package:studio_partner_app/src/feature/bookings/views/pdfVIewer.dart';
 import 'package:studio_partner_app/src/feature/bookings/views/widgets/customContainer.dart';
+import 'package:studio_partner_app/src/feature/complains/views/complain.dart';
 import 'package:studio_partner_app/src/models/bookings.dart';
+import 'package:studio_partner_app/utils/router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class StudioDetail extends StatefulWidget {
   final Booking booking;
@@ -16,13 +22,22 @@ class StudioDetail extends StatefulWidget {
 
 class _StudioDetailState extends State<StudioDetail> {
   String? pdfPath;
+  Future<void> _launchDialer({required String phoneNumber}) async {
+    final Uri uri = Uri(scheme: 'tel', path: phoneNumber);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      throw 'Could not launch dialer';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final w = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'ID: ${widget.booking.orderId}',
+          'Order Id: ${widget.booking.orderId}',
           style: GoogleFonts.inter(
             color: Colors.black,
             fontWeight: FontWeight.w500,
@@ -110,7 +125,7 @@ class _StudioDetailState extends State<StudioDetail> {
                       ),
                       const Spacer(),
                       Text(
-                        '${widget.booking.paymentDetails.duration.value} ${widget.booking.paymentDetails.duration.title}',
+                        '${widget.booking.paymentDetails.duration?.value} ${widget.booking.paymentDetails.duration?.title}',
                         style: GoogleFonts.inter(color: Colors.black),
                       ),
                     ],
@@ -164,11 +179,16 @@ class _StudioDetailState extends State<StudioDetail> {
                             GoogleFonts.inter(color: const Color(0xFF414141)),
                       ),
                       const Spacer(),
-                      Text(
-                        'Call Customer',
-                        style: GoogleFonts.inter(
-                          color: const Color(0xFF6D52EF),
-                          fontWeight: FontWeight.w600,
+                      GestureDetector(
+                        onTap: () => _launchDialer(
+                          phoneNumber: widget.booking.customerDetails.phone,
+                        ),
+                        child: Text(
+                          'Call Customer',
+                          style: GoogleFonts.inter(
+                            color: const Color(0xFF6D52EF),
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ],
@@ -262,15 +282,20 @@ class _StudioDetailState extends State<StudioDetail> {
               ),
             ),
             const SizedBox(height: 15),
-            const CustomContainer(
-              child: Row(
-                children: [
-                  Icon(Icons.help),
-                  SizedBox(width: 10),
-                  Text('Need Help?'),
-                  Spacer(),
-                  Icon(Icons.arrow_forward_ios),
-                ],
+            GestureDetector(
+              onTap: () {
+                context.push(ComplaintScreen.routeName);
+              },
+              child: const CustomContainer(
+                child: Row(
+                  children: [
+                    Icon(Icons.help),
+                    SizedBox(width: 10),
+                    Text('Need Help?'),
+                    Spacer(),
+                    Icon(Icons.arrow_forward_ios),
+                  ],
+                ),
               ),
             )
           ],

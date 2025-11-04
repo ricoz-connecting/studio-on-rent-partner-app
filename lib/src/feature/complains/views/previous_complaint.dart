@@ -20,6 +20,7 @@ class _PreviousComplaintState extends ConsumerState<PreviousComplaint> {
   @override
   Widget build(BuildContext context) {
     final previousComplaints = ref.watch(previousComplaintControllerProvider);
+    final w = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -36,8 +37,8 @@ class _PreviousComplaintState extends ConsumerState<PreviousComplaint> {
       body: previousComplaints.isEmpty
           ? Center(
               child: SizedBox(
-                width: 300,
-                height: 300,
+                width: w * 0.5,
+                height: w * 0.5,
                 child: Lottie.asset(AnimationAssets.noDataFound),
               ),
             )
@@ -46,14 +47,10 @@ class _PreviousComplaintState extends ConsumerState<PreviousComplaint> {
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
-                    GoRouter.of(context)
-                        .push(StudioRoutes.complaintDescription, extra: {
-                      'subject': previousComplaints[index].subject!,
-                      'description': previousComplaints[index].description!,
-                      'images': previousComplaints[index].image!,
-                      'isoDate': previousComplaints[index].createdAt!,
-                      'sno': (index + 1).toString()
-                    });
+                    GoRouter.of(context).push(
+                      StudioRoutes.complaintDescription,
+                      extra: previousComplaints[index].id,
+                    );
                   },
                   child: StatusWidget(
                     isoDate: previousComplaints[index].createdAt!,

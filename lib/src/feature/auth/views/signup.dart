@@ -23,6 +23,9 @@ class _SignupState extends State<Signup> {
   String confirmPassword = '';
   bool _obscureText = true;
   bool _obscureTextConfirm = true;
+  String phoneNumber = '';
+  String selectedCountryCode = '+91';
+  List<String> countryCodes = ['+91', '+1', '+44', '+61'];
 
   @override
   Widget build(BuildContext context) {
@@ -60,17 +63,55 @@ class _SignupState extends State<Signup> {
                 ),
                 const SizedBox(height: 30),
                 const Text(
-                  'Name',
+                  'Phone Number',
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.black,
                   ),
                 ),
-                const SizedBox(height: 10),
-                const AuthTextField(
-                  hintText: 'Enter your Username',
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  decoration: BoxDecoration(
+                    color: const Color(0XFFF4F6F9),
+                    border: Border.all(color: Colors.grey.shade500, width: 0.4),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    children: [
+                      DropdownButton<String>(
+                        value: selectedCountryCode,
+                        underline: const SizedBox(),
+                        items: countryCodes.map((String code) {
+                          return DropdownMenuItem<String>(
+                            value: code,
+                            child: Text(code),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedCountryCode = newValue!;
+                          });
+                        },
+                      ),
+                      const SizedBox(width: 5),
+                      Expanded(
+                        child: TextField(
+                          onChanged: (value) {
+                            setState(() {
+                              phoneNumber = value;
+                            });
+                          },
+                          keyboardType: TextInputType.phone,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Enter your phone number',
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 const Text(
                   'Email',
                   style: TextStyle(
@@ -78,7 +119,6 @@ class _SignupState extends State<Signup> {
                     color: Colors.black,
                   ),
                 ),
-                const SizedBox(height: 10),
                 AuthTextField(
                   hintText: "Enter Your Email",
                   onChanged: (value) {
@@ -87,7 +127,7 @@ class _SignupState extends State<Signup> {
                     });
                   },
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 const Text(
                   'Password',
                   style: TextStyle(
@@ -95,7 +135,6 @@ class _SignupState extends State<Signup> {
                     color: Colors.black,
                   ),
                 ),
-                const SizedBox(height: 10),
                 AuthTextField(
                   obscureText: _obscureText,
                   hintText: 'Enter your Password',
@@ -113,7 +152,7 @@ class _SignupState extends State<Signup> {
                         : const Icon(Icons.visibility),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 const Text(
                   'Confirm Password',
                   style: TextStyle(
@@ -121,7 +160,6 @@ class _SignupState extends State<Signup> {
                     color: Colors.black,
                   ),
                 ),
-                const SizedBox(height: 10),
                 AuthTextField(
                   obscureText: _obscureTextConfirm,
                   hintText: 'Enter your Password',
@@ -150,14 +188,9 @@ class _SignupState extends State<Signup> {
                             .signUpUsingEmailPass(
                               context: context,
                               email: email,
+                              phone: "$selectedCountryCode$phoneNumber",
                               password: password,
                             );
-                        // SignupEmail(
-                        //         context: context,
-                        //         email: email,
-                        //         password: password,
-                        //         confirmPassword: confirmPassword)
-                        //     .signUpEmail();
                       },
                     );
                   },

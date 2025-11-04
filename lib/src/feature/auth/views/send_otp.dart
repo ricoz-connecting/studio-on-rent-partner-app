@@ -30,16 +30,18 @@ class _SendOtpState extends ConsumerState<SendOtp> {
             children: [
               Text(
                 'Verification Code',
-                style: GoogleFonts.plusJakartaSans(
-                  fontSize: 28,
+                style: GoogleFonts.poppins(
+                  fontSize: 20,
                   fontWeight: FontWeight.w600,
                   color: Colors.black,
                 ),
               ),
-              const SizedBox(height: 10),
               Text(
-                'We have sent the verification code to your mobile number',
-                style: GoogleFonts.poppins(fontSize: 16, color: Colors.grey),
+                'We have sent the verification code to your mobile number +91${widget.phoneNumber}',
+                style: GoogleFonts.poppins(
+                  fontSize: 14,
+                  color: Colors.grey,
+                ),
               ),
               const SizedBox(height: 40),
               const Center(child: OtpTextField()),
@@ -57,16 +59,12 @@ class _SendOtpState extends ConsumerState<SendOtp> {
                           phone: widget.phoneNumber,
                           context: context,
                         );
-                    // VerifyOtp(
-                    //         context: context,
-                    //         phoneNumber: widget.phoneNumber,
-                    //         otp: otp)
-                    //     .verifyOtp(ref);
                   },
                   child: Text('Confirm',
-                      style: GoogleFonts.plusJakartaSans(
+                      style: GoogleFonts.poppins(
                         fontSize: 16,
                         color: Colors.white,
+                        fontWeight: FontWeight.w600,
                       )),
                 ),
               ),

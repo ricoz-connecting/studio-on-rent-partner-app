@@ -11,10 +11,10 @@ class ListMessageRepo {
       : _api = api,
         _ref = ref;
 
-  FutureEither<Response> listOfMessage() async {
+  FutureEither<Response> listOfMessage({required String chatUserDocId}) async {
     final result = await _api.getRequest(
       url:
-          "${BasePaths.baseSocketUrl}/api/get-chats-for-user?userDocId=678f7024f8389c9944f10fc8",
+          "${BasePaths.baseSocketUrl}/api/get-chats-for-user?userDocId=$chatUserDocId",
     );
     return result;
   }

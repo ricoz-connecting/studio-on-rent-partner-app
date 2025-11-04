@@ -6,6 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'package:studio_partner_app/commons/controllers/shared_prefs_controller.dart';
 import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
 import 'package:studio_partner_app/src/feature/auth/repo/auth_repo.dart';
+import 'package:studio_partner_app/src/feature/chat/sockets/chat_socket.dart';
+import 'package:studio_partner_app/src/feature/chat_screen/controller/chat_user_id.dart';
 import 'package:studio_partner_app/src/models/user_model.dart';
 import 'package:studio_partner_app/src/res/strings.dart';
 import 'package:studio_partner_app/utils/router.dart';
@@ -101,10 +103,25 @@ class AuthController extends StateNotifier<bool> {
             _ref.read(authTokenProvider.notifier).update((state) => token);
           }
           final user = User.fromJson(partnerDetails);
+
+          final chatUserId = _ref.watch(chatUserDocIdProvider);
+          if (chatUserId == null) {
+            _ref.read(chatUserControllerProvider.notifier).updateChatUser(
+                  avatar: user.avatar ?? '',
+                  email: user.email ?? '',
+                  name: user.name ?? '',
+                  phone: user.phone ?? '',
+                  context: context,
+                );
+          }
+
           state = false;
           _ref.read(sharedPrefsControllerPovider).setUser(user: user);
           _ref.read(currentUserProvider.notifier).update((state) => user);
-          context.mounted ? context.go(StudioRoutes.createProfileScreen) : null;
+          // context.mounted ? context.go(StudioRoutes.createProfileScreen) : null;
+          context.mounted ? context.go(StudioRoutes.bottomNavBar) : null;
+
+          // GoRouter.of(context).go(StudioRoutes.bottomNavBar);
         } catch (e, stacktrace) {
           log('$e');
           log('$stacktrace');
@@ -123,6 +140,7 @@ class AuthController extends StateNotifier<bool> {
   Future<void> signUpUsingEmailPass(
       {required String email,
       required String password,
+      required String phone,
       required BuildContext context}) async {
     if (!state) {
       showDialog(
@@ -133,7 +151,7 @@ class AuthController extends StateNotifier<bool> {
               ));
       state = true;
       _authRepo
-          .signUpUsingEmailPass(email: email, password: password)
+          .signUpUsingEmailPass(email: email, phone: phone, password: password)
           .then((response) {
         if (response != null) {
           try {
@@ -209,10 +227,22 @@ class AuthController extends StateNotifier<bool> {
             _ref.read(authTokenProvider.notifier).update((state) => token);
           }
           final user = User.fromJson(partnerDetails);
+
+          final chatUserId = _ref.watch(chatUserDocIdProvider);
+          if (chatUserId == null) {
+            _ref.read(chatUserControllerProvider.notifier).updateChatUser(
+                  avatar: user.avatar ?? '',
+                  email: user.email ?? '',
+                  name: user.name ?? '',
+                  phone: user.phone ?? '',
+                  context: context,
+                );
+          }
           state = false;
           _ref.read(sharedPrefsControllerPovider).setUser(user: user);
           _ref.read(currentUserProvider.notifier).update((state) => user);
-          context.mounted ? context.go(StudioRoutes.createProfileScreen) : null;
+          // context.mounted ? context.go(StudioRoutes.createProfileScreen) : null;
+          context.mounted ? context.go(StudioRoutes.bottomNavBar) : null;
         } catch (e, stacktrace) {
           context.mounted ? context.pop() : null;
           log('$e');

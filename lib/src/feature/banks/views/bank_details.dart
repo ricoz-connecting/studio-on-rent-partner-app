@@ -28,6 +28,7 @@ class _BankDetailsState extends ConsumerState<BankDetails> {
   @override
   Widget build(BuildContext context) {
     final banks = ref.watch(bankControllerProvider);
+
     return isLoading == true
         ? const Scaffold(
             backgroundColor: Colors.white,
@@ -90,35 +91,39 @@ class _BankDetailsState extends ConsumerState<BankDetails> {
                                 context,
                                 bankName: banks[index].bankName,
                                 accountNumber: banks[index].accountNumber,
-                                icon: Icons.check_circle,
-                                bankLogo: 'assets/images/hdfc.png',
+                                icon: Icons.verified,
+                                bankLogo: 'assets/images/bank.png',
                                 selected: banks[index].primary,
                               );
                             },
                           ),
                         ),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(15.0),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF4F6F9),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Center(
-                      child: IconButton(
-                        iconSize: 30,
-                        icon: Icon(
-                          Icons.add,
-                          color: Colors.grey.shade700,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const AddBankdetails(),
                         ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const AddBankdetails(),
-                            ),
-                          );
-                        },
+                      );
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF4F6F9),
+                        border: Border.all(color: Colors.grey.shade400),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: Icon(
+                            Icons.add,
+                            color: Colors.grey.shade700,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -144,53 +149,101 @@ class _BankDetailsState extends ConsumerState<BankDetails> {
         borderRadius: BorderRadius.circular(15),
       ),
       elevation: selected ? 4 : 0,
-      child: ListTile(
-        leading: CircleAvatar(
-          radius: 25,
-          backgroundImage: AssetImage(bankLogo),
-          backgroundColor: Colors.transparent,
-        ),
-        title: Text(
-          bankName,
-          style: GoogleFonts.lato(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: Colors.black,
-          ),
-        ),
-        subtitle: Text(
-          'A/c No. $accountNumber',
-          style: GoogleFonts.lato(
-            fontSize: 14,
-            color: Colors.grey.shade600,
-          ),
-        ),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(
-              icon,
-              color: selected
-                  ? AppColors.primaryBackgroundColor
-                  : Colors.grey.shade600,
+            // Circle Avatar
+            CircleAvatar(
+              radius: 25,
+              backgroundColor: Colors.transparent,
+              child: ClipOval(
+                child: Image.asset(
+                  bankLogo,
+                  width: 50,
+                  height: 50,
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
+            const SizedBox(width: 12),
+
+            // Bank Name & Account Number
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        icon,
+                        size: 18,
+                        color: selected
+                            ? AppColors.primaryBackgroundColor
+                            : Colors.grey.shade600,
+                      ),
+                      const SizedBox(width: 6),
+                      Expanded(
+                        child: Text(
+                          bankName,
+                          style: GoogleFonts.lato(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'A/c No. $accountNumber',
+                    style: GoogleFonts.lato(
+                      fontSize: 14,
+                      color: Colors.grey.shade600,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+
+            // Trailing Popup Menu
             PopupMenuButton(
-                color: Colors.white,
-                itemBuilder: (context) {
-                  return [
-                    PopupMenuItem(
-                      onTap: onEditTap,
-                      child: const Text('Edit'),
+              color: Colors.white,
+              itemBuilder: (context) {
+                return [
+                  PopupMenuItem(
+                    onTap: onEditTap,
+                    child: Text(
+                      'Edit',
+                      style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                    PopupMenuItem(
-                      onTap: onTap,
-                      child: const Text('Delete'),
+                  ),
+                  PopupMenuItem(
+                    onTap: onTap,
+                    child: Text(
+                      'Delete',
+                      style: GoogleFonts.poppins(
+                        color: Colors.red,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                  ];
-                }),
+                  ),
+                ];
+              },
+            ),
           ],
         ),
-        onTap: () {},
       ),
     );
   }

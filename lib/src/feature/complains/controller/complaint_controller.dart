@@ -9,37 +9,33 @@ import 'package:studio_partner_app/utils/snackbar_service.dart';
 import '../../../models/complaint_model.dart';
 
 final complaintControllerProvider =
-    StateNotifierProvider<ComplaintController, List<Complaint>>((ref) {
+    StateNotifierProvider<ComplaintController, Complaint>((ref) {
   final complaintRepo = ref.read(complaintRepoProvider);
   return ComplaintController(
       complaint: Complaint(), repo: complaintRepo, ref: ref);
 });
 
-class ComplaintController extends StateNotifier<List<Complaint>> {
+class ComplaintController extends StateNotifier<Complaint> {
   final ComplaintRepo _repo;
-  // final Ref _ref;
 
   ComplaintController(
       {required Complaint complaint,
       required ComplaintRepo repo,
       required Ref ref})
-      : //_ref = ref,
-        _repo = repo,
-        super([]);
-  Future<void> getComplaints() async {
+      : _repo = repo,
+        super(Complaint());
+  Future<void> getComplaintsDetails(String complaintDocId) async {
     try {
-      final result = await _repo.getComplaints();
+      final result = await _repo.getComplaintDetails(complaintDocId);
       result.fold(
         (failure) {
           log('Failure: $failure');
         },
         (response) {
           final data = jsonDecode(response.body);
-          final complaintList = data['data'] as List;
-          final complaints = complaintList
-              .map((complaint) => Complaint.fromJson(complaint))
-              .toList();
-          state = complaints;
+          final complaintData = data['data'];
+          final complaint = Complaint.fromJson(complaintData);
+          state = complaint;
         },
       );
     } catch (e, stacktrace) {
@@ -99,6 +95,4 @@ class ComplaintController extends StateNotifier<List<Complaint>> {
           : null;
     }
   }
-
-  
 }

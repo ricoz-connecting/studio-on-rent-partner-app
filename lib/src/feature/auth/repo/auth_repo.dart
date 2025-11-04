@@ -69,11 +69,11 @@ class AuthRepo {
 
   Future<Response?> signUpUsingEmailPass(
       {required String email,
-      // required String phone,
+      required String phone,
       required String password}) async {
     final body = {
       "email": email,
-      "phone": "+919999999999",
+      "phone": phone,
       "password": password,
     };
     final result = await _api.postRequest(

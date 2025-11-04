@@ -21,7 +21,7 @@ class Endpoints {
   // Complaints
   static const String getComplaints = "${baseUrl}partner/complaints";
   static const String createComplaint = "${baseUrl}partner/complaints";
-  static const String getComplaintDetails = "${baseUrl}partner/complaints/";
+  static const String getComplaintDetails = "${baseUrl}partner/complaint";
 
   //Customer Reviews
   static const String getReviews = "${baseUrl}ratings/partner-studio";
@@ -64,4 +64,13 @@ class Endpoints {
       "${baseUrl}partner/reset/verify-otp";
   static const String updatePassword = "${baseUrl}partner/reset-password-sms";
   static const String resetLinkOnEmail = "${baseUrl}partner/reset-link-email";
+  // Availability
+  static const String updateAvailability = "${baseUrl}partner-availability";
+  static const String getAvailability = "${baseUrl}partner-get-availability";
+
+  //Studio Availability
+  static const String studioUpdateAvailability =
+      "${baseUrl}studio-availability";
+  static const String studioGetAvailability =
+      "${baseUrl}studio-get-availability";
 }

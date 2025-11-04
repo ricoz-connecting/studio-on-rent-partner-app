@@ -20,8 +20,8 @@ class StatusWidget extends StatelessWidget {
     DateTime parsedDate = isoDate;
     String formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(parsedDate);
     return Container(
-      margin: const EdgeInsets.all(5),
-      padding: const EdgeInsets.all(10.0),
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
       decoration: BoxDecoration(
         color: Colors.grey.shade200,
         borderRadius: BorderRadius.circular(10),
@@ -30,28 +30,47 @@ class StatusWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(sno),
+              Text(
+                "$sno. ",
+                style: GoogleFonts.poppins(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
               const SizedBox(width: 20),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     subject,
-                    style: GoogleFonts.lato(fontSize: 18),
+                    style: GoogleFonts.poppins(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                  Text(formattedDate),
+                  Text(
+                    formattedDate,
+                    style: GoogleFonts.poppins(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ],
               ),
               const Spacer(),
               Text(
                 status,
-                style: GoogleFonts.lato(
-                    color: status == 'Pending'
-                        ? Colors.red
-                        : status == 'Unsolved'
-                            ? Colors.blue
-                            : Colors.green),
+                style: GoogleFonts.poppins(
+                  color: status == 'Pending'
+                      ? Colors.red
+                      : status == 'Unsolved'
+                          ? Colors.blue
+                          : Colors.green,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14,
+                ),
               ),
             ],
           )

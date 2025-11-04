@@ -1,0 +1,2 @@
+E:/bookmystudio/studio-on-rent-partner-app/android/app/.cxx/RelWithDebInfo/31e5i6u6/armeabi-v7a/CMakeFiles/edit_cache.dir
+E:/bookmystudio/studio-on-rent-partner-app/android/app/.cxx/RelWithDebInfo/31e5i6u6/armeabi-v7a/CMakeFiles/rebuild_cache.dir

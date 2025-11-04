@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:studio_partner_app/src/feature/banks/controller/bank_controller.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
+import 'package:studio_partner_app/utils/router.dart';
 
-class WithdrawMoneyWidget extends StatelessWidget {
+class WithdrawMoneyWidget extends ConsumerWidget {
   const WithdrawMoneyWidget({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.read(bankControllerProvider.notifier).getBankDetails();
+    final selectedBank = ref.watch(selectedBankProvider);
     return Container(
       padding: const EdgeInsets.all(20),
       color: Colors.white,
@@ -16,30 +22,106 @@ class WithdrawMoneyWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            'Withdraw Money',
-            style: GoogleFonts.inter(
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Container(
-            padding: const EdgeInsets.all(10),
-            color: const Color(0xFFF7F7F7),
-            child: Row(
-              children: [
-                Text(
-                  'Account number:5500 xxx 05050',
-                  style: GoogleFonts.inter(
-                    color: const Color(0xFF7D7D7D),
-                  ),
+          Row(
+            children: [
+              Text(
+                'Withdraw Money',
+                style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 18,
                 ),
-                const Spacer(),
-                Text(
+              ),
+              const Spacer(),
+              TextButton(
+                onPressed: () {
+                  GoRouter.of(context).push(StudioRoutes.bankDetails);
+                },
+                child: Text(
                   'Change',
                   style: GoogleFonts.inter(
                     color: AppColors.primaryBackgroundColor,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: 'A/C Holder\'s Name: ',
+                  style: GoogleFonts.inter(
+                    color: const Color(0xFF7D7D7D),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                TextSpan(
+                  text: selectedBank?.accountHolderName ?? 'Not Selected',
+                  style: GoogleFonts.inter(
+                    color: const Color(0xFF7D7D7D),
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: 'Bank Name: ',
+                  style: GoogleFonts.inter(
+                    color: const Color(0xFF7D7D7D),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                TextSpan(
+                  text: selectedBank?.bankName ?? 'Not Selected',
+                  style: GoogleFonts.inter(
+                    color: const Color(0xFF7D7D7D),
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: 'Account number: ',
+                  style: GoogleFonts.inter(
+                    color: const Color(0xFF7D7D7D),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                TextSpan(
+                  text: selectedBank?.accountNumber ?? 'Not Selected',
+                  style: GoogleFonts.inter(
+                    color: const Color(0xFF7D7D7D),
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: 'IFSC code: ',
+                  style: GoogleFonts.inter(
+                    color: const Color(0xFF7D7D7D),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                TextSpan(
+                  text: selectedBank?.ifscCode ?? 'Not Selected',
+                  style: GoogleFonts.inter(
+                    color: const Color(0xFF7D7D7D),
+                    fontWeight: FontWeight.normal,
                   ),
                 ),
               ],
@@ -47,12 +129,14 @@ class WithdrawMoneyWidget extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Container(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 15,
+            ),
             decoration: BoxDecoration(
               border: Border.all(
                 color: const Color(0xFFD9D9D9),
               ),
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(10),
             ),
             child: Row(
               children: [
@@ -83,8 +167,13 @@ class WithdrawMoneyWidget extends StatelessWidget {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {},
-                  child: const Icon(Icons.send),
+                  onTap: () {
+                    context.pop();
+                  },
+                  child: const Icon(
+                    Icons.send,
+                    color: AppColors.primaryBackgroundColor,
+                  ),
                 ),
               ],
             ),

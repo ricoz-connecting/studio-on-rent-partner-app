@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/commons/controllers/init_controller.dart';
 import 'package:studio_partner_app/commons/views/providers/authprovider.dart';
+import 'package:studio_partner_app/src/feature/chat/sockets/chat_socket.dart';
+import 'package:studio_partner_app/src/feature/chat_screen/controller/chat_user_id.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
 import 'package:studio_partner_app/utils/router.dart';
 
@@ -33,6 +35,18 @@ class _SplashscreenState extends ConsumerState<Splashscreen> {
                 if (!mounted) {
                   return;
                 } else {
+                  final chatUserId = ref.watch(chatUserDocIdProvider);
+                  if (chatUserId == null) {
+                    ref
+                        .read(chatUserControllerProvider.notifier)
+                        .updateChatUser(
+                          avatar: user.avatar ?? '',
+                          email: user.email ?? '',
+                          name: user.name ?? '',
+                          phone: user.phone ?? '',
+                          context: context,
+                        );
+                  }
                   mounted ? context.go(StudioRoutes.bottomNavBar) : null;
                 }
               }

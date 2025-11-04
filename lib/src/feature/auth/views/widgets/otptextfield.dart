@@ -28,11 +28,11 @@ class _OtpTextFieldState extends ConsumerState<OtpTextField> {
   @override
   Widget build(BuildContext context) {
     final defaultPinTheme = PinTheme(
-      width: 56,
-      height: 56,
+      width: 50,
+      height: 50,
       textStyle: const TextStyle(fontSize: 22, color: Colors.black),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(8),
         border: Border.all(color: borderColor),
       ),
     );
@@ -60,8 +60,8 @@ class _OtpTextFieldState extends ConsumerState<OtpTextField> {
                   Container(
                     margin: const EdgeInsets.only(bottom: 9),
                     width: 24,
-                    height: 2,
-                    color: Colors.black,
+                    height: 1,
+                    color: Colors.black54,
                   ),
                 ],
               ),

@@ -9,11 +9,12 @@ import 'package:studio_partner_app/src/feature/addstudio/views/widgets/add_image
 import 'package:studio_partner_app/src/feature/auth/views/widgets/reusable_button.dart';
 import 'package:studio_partner_app/src/feature/complains/controller/complaint_controller.dart';
 import 'package:studio_partner_app/src/feature/complains/controller/previous_complaint_controller.dart';
-import 'package:studio_partner_app/src/feature/complains/views/widgets/previous_complaint.dart';
 import 'package:studio_partner_app/src/feature/file/controller/file_controller.dart';
+import 'package:studio_partner_app/src/res/strings.dart';
 import 'package:studio_partner_app/utils/router.dart';
 
 class ComplaintScreen extends ConsumerStatefulWidget {
+  static const routeName = '/create-complaint';
   const ComplaintScreen({super.key});
 
   @override
@@ -38,6 +39,18 @@ class _ComplaintScreenState extends ConsumerState<ComplaintScreen> {
             fontWeight: FontWeight.bold,
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              final currentUser = ref.watch(currentUserProvider);
+              ref
+                  .read(previousComplaintControllerProvider.notifier)
+                  .getComplaintDetails(currentUser!.id);
+              GoRouter.of(context).push(StudioRoutes.previousComplaint);
+            },
+            icon: const Icon(Icons.history_rounded),
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -56,7 +69,7 @@ class _ComplaintScreenState extends ConsumerState<ComplaintScreen> {
                   const Text(
                     'Subject',
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 5),
                   DropdownButtonFormField<String>(
                     value: subject,
                     decoration: InputDecoration(
@@ -71,8 +84,13 @@ class _ComplaintScreenState extends ConsumerState<ComplaintScreen> {
                     ),
                     items: const [
                       DropdownMenuItem(
-                          value: 'Studio Service',
-                          child: Text('Studio Service')),
+                        value: 'Order Issue',
+                        child: Text('Order Issue'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Refund Issue',
+                        child: Text('Refund Issue'),
+                      ),
                       DropdownMenuItem(value: 'Other', child: Text('Other')),
                     ],
                     onChanged: (value) {
@@ -89,10 +107,10 @@ class _ComplaintScreenState extends ConsumerState<ComplaintScreen> {
                   const Text(
                     'Description',
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 5),
                   TextField(
                     controller: _complaintController,
-                    maxLines: 1,
+                    maxLines: 4,
                     keyboardType: TextInputType.multiline,
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.symmetric(
@@ -117,7 +135,7 @@ class _ComplaintScreenState extends ConsumerState<ComplaintScreen> {
                   const Text(
                     'Add Image (Optional)',
                   ),
-                  const SizedBox(height: 10),
+
                   AddImage(
                     onTap: () async {
                       final file =
@@ -129,6 +147,15 @@ class _ComplaintScreenState extends ConsumerState<ComplaintScreen> {
                     image: _selectedFile,
                   ),
                   const SizedBox(height: 10),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 10),
+                    child: Text(
+                      Complaint.disclaimer,
+                      style: TextStyle(fontSize: 12),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+
                   ReusableButton(
                     label: 'Submit Request',
                     onPressed: () {
@@ -143,21 +170,17 @@ class _ComplaintScreenState extends ConsumerState<ComplaintScreen> {
                     },
                     radius: 12,
                   ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    'Please enter the details of your request. A member of support staff will respond as soon as possible.',
-                    style: TextStyle(fontSize: 12),
-                  ),
+
                   const SizedBox(height: 20),
-                  PreviousCompaintWidget(
-                    onTap: () {
-                      final currentUser = ref.watch(currentUserProvider);
-                      ref
-                          .read(previousComplaintControllerProvider.notifier)
-                          .getComplaintDetails(currentUser!.id);
-                      GoRouter.of(context).push(StudioRoutes.previousComplaint);
-                    },
-                  ),
+                  // PreviousCompaintWidget(
+                  //   onTap: () {
+                  //     final currentUser = ref.watch(currentUserProvider);
+                  //     ref
+                  //         .read(previousComplaintControllerProvider.notifier)
+                  //         .getComplaintDetails(currentUser!.id);
+                  //     GoRouter.of(context).push(StudioRoutes.previousComplaint);
+                  //   },
+                  // ),
                 ],
               ),
             ),

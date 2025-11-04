@@ -8,7 +8,7 @@ class ImageAssets {
   static const home = "assets/images/home.png";
   static const facebook = "assets/images/facebook.png";
   static const iconCheckMark = 'assets/images/icon_checkmark.png';
-  static const profile = 'assets/images/profile.png';
+  static const profile = 'assets/images/user.png';
   static const studiohome = 'assets/images/studio_home.png';
   static const appbarImage = 'assets/images/appbar_title.png';
   static const onboardingOne = 'assets/images/landing_one.png';
@@ -17,7 +17,7 @@ class ImageAssets {
   static const diamond = 'assets/images/diamond.png';
   static const studioExample = 'assets/images/studio_example.png';
   static const membershipImage = 'assets/images/membership_image.png';
-  static const appLogo = 'assets/images/app_logo.png';
+  static const appLogo = 'assets/images/app_logo1.png';
   static const kycVerified = 'assets/images/kyc_verified.png';
   //example
   static const sampleImagePath = "$_base/image.png";

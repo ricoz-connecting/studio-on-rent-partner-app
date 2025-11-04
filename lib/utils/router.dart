@@ -5,6 +5,7 @@ import 'package:studio_partner_app/src/feature/addstudio/views/add_studio_reques
 import 'package:studio_partner_app/src/feature/auth/views/login_screen.dart';
 import 'package:studio_partner_app/src/feature/auth/views/send_otp.dart';
 import 'package:studio_partner_app/src/feature/auth/views/signin_with_phone.dart';
+import 'package:studio_partner_app/src/feature/complains/views/complain.dart';
 import 'package:studio_partner_app/src/feature/complains/views/complaint_description.dart';
 import 'package:studio_partner_app/src/feature/complains/views/previous_complaint.dart';
 import 'package:studio_partner_app/src/feature/customer_reviews.dart/views/customer_review.dart';
@@ -175,9 +176,8 @@ class StudioRouter {
       GoRoute(
           path: StudioRoutes.complaintDescription,
           builder: (context, state) {
-            final complaint = state.extra as Map<String, dynamic>;
             return ComplaintDescription(
-              complaint: complaint,
+              complaintDocId: state.extra as String,
             );
           }),
       GoRoute(
@@ -192,8 +192,13 @@ class StudioRouter {
           path: StudioRoutes.withdrawalHistory,
           builder: (context, state) => const WithdrawalHistoryPage()),
       GoRoute(
-          path: StudioRoutes.upcomingBills,
-          builder: (context, state) => UpcomingBills()),
+        path: StudioRoutes.upcomingBills,
+        builder: (context, state) => UpcomingBills(),
+      ),
+      GoRoute(
+        path: ComplaintScreen.routeName,
+        builder: (context, state) => const ComplaintScreen(),
+      ),
     ],
   );
 }

@@ -7,8 +7,8 @@ class ShiftTimePickerRow extends StatelessWidget {
   final String shift;
   final String day;
   final bool isMorning;
-  final TimeOfDay? startTime;
-  final TimeOfDay? endTime;
+  final String? startTime;
+  final String? endTime;
   final Function(String, bool, bool) pickTime;
 
   const ShiftTimePickerRow({
@@ -48,16 +48,24 @@ class ShiftTimePickerRow extends StatelessWidget {
                 onTap: () => pickTime(day, isMorning, true),
                 child: Container(
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
+                    border: Border.all(
+                      color: (startTime != null && startTime!.isNotEmpty)
+                          ? AppColors.black
+                          : Colors.grey,
+                    ),
                     borderRadius: BorderRadius.circular(5),
                   ),
                   width: 100,
                   height: 30,
                   child: Center(
                     child: Text(
-                      startTime?.format(context) ?? "Start Time",
+                      (startTime != null && startTime!.isNotEmpty)
+                          ? startTime!
+                          : "Start Time",
                       style: GoogleFonts.poppins(
-                        color: Colors.grey,
+                        color: (startTime != null && startTime!.isNotEmpty)
+                            ? AppColors.black
+                            : Colors.grey,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -69,16 +77,24 @@ class ShiftTimePickerRow extends StatelessWidget {
                 onTap: () => pickTime(day, isMorning, false),
                 child: Container(
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
+                    border: Border.all(
+                      color: (endTime != null && endTime!.isNotEmpty)
+                          ? AppColors.black
+                          : Colors.grey,
+                    ),
                     borderRadius: BorderRadius.circular(5),
                   ),
                   width: 100,
                   height: 30,
                   child: Center(
                     child: Text(
-                      endTime?.format(context) ?? "End Time",
+                      (endTime != null && endTime!.isNotEmpty)
+                          ? endTime!
+                          : "End Time",
                       style: GoogleFonts.poppins(
-                        color: Colors.grey,
+                        color: (endTime != null && endTime!.isNotEmpty)
+                            ? AppColors.black
+                            : Colors.grey,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -97,10 +113,10 @@ class AvailabilityCard extends StatelessWidget {
   final String day;
   final bool isDayOff;
   final ValueChanged<bool> onToggle;
-  final TimeOfDay? morningStartTime;
-  final TimeOfDay? morningEndTime;
-  final TimeOfDay? eveningStartTime;
-  final TimeOfDay? eveningEndTime;
+  final String? morningStartTime;
+  final String? morningEndTime;
+  final String? eveningStartTime;
+  final String? eveningEndTime;
   final Function(String, bool, bool) pickTime;
 
   const AvailabilityCard({
@@ -144,7 +160,7 @@ class AvailabilityCard extends StatelessWidget {
                 ? Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(
-                      "Day Off",
+                      "Day Off ",
                       style: GoogleFonts.poppins(
                         color: Colors.red,
                         fontWeight: FontWeight.w600,

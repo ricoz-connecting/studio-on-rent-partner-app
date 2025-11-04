@@ -22,9 +22,9 @@ class ListMessageController extends StateNotifier<List<ListOfMessage>> {
   })  : _ref = ref,
         _repo = repo,
         super([]);
-  Future<void> getListOfMessage() async {
+  Future<void> getListOfMessage({required String chatUserDocId}) async {
     try {
-      final result = await _repo.listOfMessage();
+      final result = await _repo.listOfMessage(chatUserDocId: chatUserDocId);
       result.fold(
         (failure) {
           log('Failure: $failure');

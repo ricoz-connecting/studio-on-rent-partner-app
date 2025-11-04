@@ -73,7 +73,7 @@ class _EarningsPageState extends ConsumerState<EarningsPage> {
                     totalWithdrawal: earnings!.todayWithdrawal.toString(),
                     availableWithdrawal: earnings.availableBalance.toString(),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 15),
                   Text(
                     'Your Earnings',
                     style: GoogleFonts.lato(
@@ -81,7 +81,7 @@ class _EarningsPageState extends ConsumerState<EarningsPage> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 5),
                   YourEarningsWidget(
                     label: 'All time Earning',
                     earningLabel: '₹ ${earnings.totalEarning}',
@@ -92,12 +92,12 @@ class _EarningsPageState extends ConsumerState<EarningsPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       YourEarningsWidget(
-                        width: MediaQuery.of(context).size.width * 0.4,
+                        width: MediaQuery.of(context).size.width * 0.43,
                         label: 'Today’s\nEarning',
                         earningLabel: '₹ ${earnings.todayEarning}',
                       ),
                       YourEarningsWidget(
-                        width: MediaQuery.of(context).size.width * 0.4,
+                        width: MediaQuery.of(context).size.width * 0.43,
                         earningLabel: '₹ ${earnings.thisMonthEarning}',
                         label: 'This Month’s\nEarning',
                       ),
@@ -112,31 +112,38 @@ class _EarningsPageState extends ConsumerState<EarningsPage> {
                     radius: 10,
                   ),
                   const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Recent Transactions',
-                        style: GoogleFonts.lato(
-                          fontSize: 16,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          GoRouter.of(context).push(
-                              StudioRoutes.transactionHistory,
-                              extra: earnigsHistory);
-                        },
-                        child: Text(
-                          'See All',
-                          style: GoogleFonts.lato(
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.primaryBackgroundColor),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
+                  earnigsHistory.isNotEmpty
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Recent Transactions',
+                              style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                GoRouter.of(context).push(
+                                    StudioRoutes.transactionHistory,
+                                    extra: earnigsHistory);
+                              },
+                              child: Text(
+                                'See All',
+                                style: GoogleFonts.lato(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14,
+                                  color: AppColors.primaryBackgroundColor,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      : Container(),
+                  earnigsHistory.isNotEmpty
+                      ? const SizedBox(height: 10)
+                      : const SizedBox(),
                   earnigsHistory.isNotEmpty
                       ? RecentTransactionWidget(
                           recentTransaction: earnigsHistory[0],

@@ -1,9 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_partner_app/src/res/colors.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContactUsSection extends StatelessWidget {
   const ContactUsSection({super.key});
+  Future<void> _launchDialer({required String phoneNumber}) async {
+    final Uri uri = Uri(scheme: 'tel', path: phoneNumber);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      throw 'Could not launch dialer';
+    }
+  }
+
+  Future<void> _handleMail({required String email}) async {
+    final Uri uri = Uri(
+      scheme: 'mailto',
+      path: email,
+    );
+
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      print("Could not launch mail client");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,30 +53,25 @@ class ContactUsSection extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: const [
+            children: [
               ContactOptionButton(
                 icon: Icons.mail,
                 label: 'Mail Us',
-                onPressed: _handleMail,
+                onPressed: () => _handleMail(email: "care@bookmystudio.app"),
               ),
-              ContactOptionButton(
-                icon: Icons.phone,
-                label: 'Call Us',
-                onPressed: _handleCall,
+              GestureDetector(
+                onTap: () => _launchDialer(phoneNumber: '1234567890'),
+                child: ContactOptionButton(
+                  icon: Icons.phone,
+                  label: 'Call Us',
+                  onPressed: () => _launchDialer(phoneNumber: '1234567890'),
+                ),
               ),
             ],
           ),
         ),
       ],
     );
-  }
-
-  static void _handleMail() {
-    // TODO: Implement mail functionality
-  }
-
-  static void _handleCall() {
-    // TODO: Implement call functionality
   }
 }
 

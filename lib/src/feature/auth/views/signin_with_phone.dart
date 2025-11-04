@@ -50,13 +50,13 @@ class _SigninWithPhoneState extends ConsumerState<SigninWithPhone> {
                   fontSize: 16,
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 5),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  border: Border.all(color: Colors.grey.shade400),
-                  borderRadius: BorderRadius.circular(30),
+                  color: const Color(0XFFF4F6F9),
+                  border: Border.all(color: Colors.grey.shade400, width: 0.4),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 child: Row(
                   children: [
@@ -93,12 +93,12 @@ class _SigninWithPhoneState extends ConsumerState<SigninWithPhone> {
                   ],
                 ),
               ),
-              const SizedBox(height: 50),
+              const SizedBox(height: 30),
               Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: AppColors.primaryBackgroundColor,
-                  borderRadius: BorderRadius.circular(50),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 child: TextButton(
                   onPressed: () {
@@ -115,6 +115,7 @@ class _SigninWithPhoneState extends ConsumerState<SigninWithPhone> {
                     style: GoogleFonts.plusJakartaSans(
                       fontSize: 16,
                       color: Colors.white,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
